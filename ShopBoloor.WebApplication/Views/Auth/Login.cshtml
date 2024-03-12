@@ -1,0 +1,36 @@
+﻿@model Users.Application.Contract.UserApplication.Command.RegisterUser
+@{
+    ViewData["Title"] = "ورود به سایت";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    var SuccessLogout = TempData["SuccessLogout"] != null;
+}
+<div class="auth-form-title">
+    ورود به همتا
+</div>
+<form method="post">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="form-element-row">
+        <label for="phone-number" class="label-element">شماره موبایل</label>
+        <div class="form-element-with-icon">
+            <input type="text" class="input-element" asp-for="Mobile"
+            onkeypress="return isNumber(event)">
+            <i class="fad fa-mobile-alt"></i>
+        </div>
+        <span class="text-danger" asp-validation-for="Mobile"></span>
+    </div>
+    <div class="form-element-row text-left">
+        <button type="submit" class="btn-element btn-info-element">
+            <i class="fad fa-sign-in-alt"></i>
+            ورود به همتا
+        </button>
+    </div>
+
+</form>
+@section Scripts{
+    @if (SuccessLogout)
+    {
+        <script>
+            SuccessJquery("عملیات موفق", "شما با موفقیت از حساب کاربری خارج شدید .");
+        </script>
+    }
+}

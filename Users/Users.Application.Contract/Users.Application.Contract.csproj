@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="UserAddressApplication\Query\**" />
+    <Compile Remove="UserApplication\Query\**" />
+    <EmbeddedResource Remove="UserAddressApplication\Query\**" />
+    <EmbeddedResource Remove="UserApplication\Query\**" />
+    <None Remove="UserAddressApplication\Query\**" />
+    <None Remove="UserApplication\Query\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utility\Shared\Shared.csproj" />
+  </ItemGroup>
+
+</Project>

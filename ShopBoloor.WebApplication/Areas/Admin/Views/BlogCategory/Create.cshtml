@@ -1,0 +1,51 @@
+﻿@model Blogs.Application.Contract.BlogCategoryApplication.Command.CreateBlogCategory
+@{
+    ViewData["Title"] = "افزودن دسته بندی مقاله ";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Parent">
+                <div class="box-body">
+                    <div class="col-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input class="form-control" asp-for="Title" onchange="makeSlug('Title','Slug')">
+                                <span class="text-danger" asp-validation-for="Title"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Slug"></label>
+                                <input class="form-control" asp-for="Slug">
+                                <span class="text-danger" asp-validation-for="Slug"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ImageAlt"></label>
+                                <input class="form-control" asp-for="ImageAlt">
+                                <span class="text-danger" asp-validation-for="ImageAlt"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>
+                                تصویر مربوطه
+                            </h3>
+                            <img width="300px" id="destinationImage" class="img-thumbnail" src="" />
+                            <div class="form-group">
+                                <input type="file" id="chooseImage" class="form-control" asp-for="ImageFile">
+                                <span class="text-danger" asp-validation-for="ImageFile"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

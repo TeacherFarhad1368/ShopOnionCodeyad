@@ -1,0 +1,52 @@
+﻿@model Users.Application.Contract.RoleApplication.Command.EditRole
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "ویرایش نقش ";
+    var permissions = ViewData["permissions"] as List<Users.Application.Contract.RoleApplication.Command.RolePermissionQueryModel >;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form">
+                <input type="hidden" asp-for="Id">
+                <div class="box-body">
+                    <div class="col-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input class="form-control" asp-for="Title">
+                                <span class="text-danger" asp-validation-for="Title"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>
+                                انتخاب سطح دسترسی
+                            </h3>
+                            <div class="form-group">
+                                
+                            @foreach(var item in Enum.GetValues(typeof(UserPermission)).Cast<UserPermission>())
+                            {
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="permissions" value="@item" 
+                                                checked="@(permissions.Any(p=>p.UserPermission == item) ? "checked" : false)">
+                                            @item.ToString().Replace("_"," ")
+                                        </label>
+                                    </div>
+                            }
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-warning">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

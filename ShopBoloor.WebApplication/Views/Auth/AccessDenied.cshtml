@@ -1,0 +1,22 @@
+﻿@model Users.Application.Contract.UserApplication.Command.RegisterUser
+@{
+    ViewData["Title"] = "خطای دسترسی";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<div class="auth-form-title">
+    @ViewData["Title"]
+</div>
+<div class="alert alert-danger text-center">
+    <h2>
+        کاربر گرامی !!!
+    </h2>
+    <hr />
+    <hr />
+    <p>
+        شما به این صفحه دسترسی ندارید ..
+    </p>
+    <br />
+    <a class="btn btn-info" href="/">
+       صفحه اصلی
+    </a>
+</div>

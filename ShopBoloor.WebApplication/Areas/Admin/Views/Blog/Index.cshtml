@@ -1,0 +1,120 @@
+﻿@model Blogs.Application.Contract.BlogApplication.Query.AdminBlogsPageQueryModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <hr />
+                <a class="btn btn-success" asp-action="Create">
+                    <i class=" fa fa-plus mx-2"></i> مقاله جدید
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> عنوان</th>
+                            <th> نویسنده</th>
+                            <th> تعداد ویزیت مقاله</th>
+                            <th> دسته بندی</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ ویرایش</th>
+                            <th>فعال</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Blogs.Count() > 0)
+                        {
+                            foreach (var item in Model.Blogs)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        <img width="100px" src="@item.ImageName" />
+                                    </td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.Writer
+                                    </td>
+                                    <td>
+                                        @item.VisitCount
+                                    </td>
+                                    <td>
+                                        @item.CategoryTitle
+                                    </td>
+                                    <td>
+                                        @item.CreationDate
+                                    </td>
+                                    <td>
+                                        @item.UpdateDate
+                                    </td>
+                                    <td>
+                                        @{
+                                            string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این مقاله نمایش داده نمیشود ." : "بعد از فعال شدن این مقاله نمایش داده میشود";
+                                            string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
+                                            string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
+                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/Blog/Active/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="pie_@item.Id" id="pie-@item.Id"
+                                                @(item.Active ? "checked" : "") type="checkbox" />
+                                                <label for="pie-@item.Id"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                           
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> عنوان</th>
+                            <th> نویسنده</th>
+                            <th> تعداد ویزیت مقاله</th>
+                            <th> دسته بندی</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ ویرایش</th>
+                            <th>فعال</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}

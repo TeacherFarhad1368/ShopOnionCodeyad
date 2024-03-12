@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <partial name="_Css" />
+</head>
+<body>
+    <div class="page-wrapper auth-page-wrapper">
+        <main class="page-content">
+            <div class="container">
+                <div class="auth-wrapper">
+                    <div class="auth-form shadow-around">
+                        <div class="site-logo">
+                            <a href="#">
+                                <img src="/Assets/images/logo.png" alt="logo">
+                            </a>
+                        </div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </main>
+        <partial name="_AuthFooter" />
+    </div>
+    <partial name="_Js" />
+    @RenderSection("Scripts",false)
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <partial name="_Css" />
+</head>
+<body>
+    <div class="page-wrapper">
+    <partial name="_Header" />
+    <partial name="_HeaderResponsive" />
+    @RenderBody()
+    <partial name="_Colors" />
+    <partial name="_Loading" />
+    <partial name="_Footer" />
+    </div>
+     <partial name="_Js" />
+     @RenderSection("Scripts",false)
+</body>
+</html>

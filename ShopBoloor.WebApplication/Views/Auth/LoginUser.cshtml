@@ -1,0 +1,36 @@
+﻿@model Users.Application.Contract.UserApplication.Command.LoginUser
+@{
+    ViewData["Title"] = "ورود به سایت";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<div class="auth-form-title">
+    ورود  
+</div>
+<form method="post" asp-action="LoginUser">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="form-element-row">
+        <label for="phone-number" class="label-element">شماره موبایل</label>
+        <div class="form-element-with-icon">
+            <input type="text" class="input-element" asp-for="Mobile"
+            readonly>
+            <i class="fad fa-mobile-alt"></i>
+        </div>
+        <span class="text-danger" asp-validation-for="Mobile"></span>
+    </div>
+    <div class="form-element-row">
+        <span class="text-success">کلمه عبور برای شما ارسال شد .</span>
+        <label for="phone-number" class="label-element">کلمه عبور</label>
+        <div class="form-element-with-icon">
+            <input type="password" class="input-element" asp-for="Password" >
+            <i class="fad fa-key"></i>
+        </div>
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+    <div class="form-element-row text-left">
+        <button type="submit" class="btn-element btn-info-element">
+            <i class="fad fa-sign-in-alt"></i>
+            ورود  
+        </button>
+    </div>
+
+</form>

@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+    <partial name="_AdminHead" />
+<body class="hold-transition skin-blue sidebar-mini">
+    @{
+        var ok = TempData["ok"] != null;
+    }
+    <div class="wrapper">
+       <partial name="_AdminHeader" />
+       <partial name="_AdminSidebar" />
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                  @ViewData["Title"]
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/Admin"><i class="fa fa-dashboard"></i> داشبرد</a></li>
+                    <li class="active">@ViewData["Title"]</li>
+                </ol>
+            </section>
+            <section class="content">
+                @RenderBody()
+            </section>
+        </div>
+          <partial name="_AdminFooter" />
+    </div>
+    <partial name="_AdminJs" />
+    @if (ok)
+    {
+        <script>
+            AlertSweetTimer("عملیا ت با موفقیت انجام شد", "success", 4000);
+        </script>
+    }
+    @RenderSection("Scripts",false)
+</body>
+</html>

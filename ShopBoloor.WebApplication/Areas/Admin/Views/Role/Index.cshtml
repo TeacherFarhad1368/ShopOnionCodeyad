@@ -1,0 +1,84 @@
+﻿@model List<Users.Application.Contract.RoleApplication.Query.RoleQueryModel>
+@using Shared.Application;
+@{
+    ViewData["Title"] = "مدیریت نقش ها";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <hr />
+                <a class="btn btn-success" asp-action="Create" >
+                    <i class=" fa fa-plus mx-2"></i> نقش جدید
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> عنوان</th>
+                            <th>کاربران</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Count() > 0)
+                        {
+                            foreach(var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @if(item.UserRoles.Count() > 0)
+                                        {
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                @foreach(var user in item.UserRoles)
+                                                {
+                                                <div class="p-2 d-flex flex-column align-items-center justify-content-center">
+                                                    <img width="70px" src="@FileDirectories.UserImageDirectory100@user.UserAvatar" />
+                                                    <a class="btn-link">
+                                                        @user.UserName
+                                                    </a>
+                                                </div>
+                                                }
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class=" fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> عنوان</th>
+                            <th>کاربران</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}
