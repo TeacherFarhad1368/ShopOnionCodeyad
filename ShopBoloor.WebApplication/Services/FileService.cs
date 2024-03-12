@@ -1,4 +1,6 @@
 ﻿using Shared.Application.Services;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace ShopBoloor.WebApplication.Services
 {

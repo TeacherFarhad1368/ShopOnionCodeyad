@@ -1,4 +1,5 @@
-﻿using Shared.Application;
+﻿using Microsoft.AspNetCore.Http;
+using Shared.Application;
 using Shared.Domain.Enum;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,7 +21,7 @@ namespace Site.Application.Contract.MenuApplication.Command
         [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
         public MenuStatus Status { get; set; }
         [Display(Name = "تصویر (برای سر منو های صفحه اصلی که زیر منو دارند و دراپ داون طور هستند و در منو های وبلاگی که زیر منو دارن میتوانید برای زیر منو هاش عکس وارد کنید .)")]
-        public string? ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
         [Display(Name = "Alt تصویر")]
         [MaxLength(250, ErrorMessage = ValidationMessages.MaxLengthMessage)]
         public string? ImageAlt { get; set; }

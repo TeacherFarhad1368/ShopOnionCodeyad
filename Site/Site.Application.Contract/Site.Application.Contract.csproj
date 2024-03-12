@@ -10,8 +10,4 @@
     <ProjectReference Include="..\..\Utility\Shared\Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SiteSettingApplication\Query\" />
-  </ItemGroup>
-
 </Project>

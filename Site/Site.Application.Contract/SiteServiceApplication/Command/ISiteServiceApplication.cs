@@ -9,7 +9,9 @@ namespace Site.Application.Contract.SiteServiceApplication.Command
 {
     public interface ISiteServiceApplication
     {
-        OperationResult Ubsert(UbsertSiteSetting command);
-        UbsertSiteSetting GetForUbsert();
+        OperationResult Create(CreateSiteService commmand);
+        OperationResult Edit(EditSiteService commmand);
+        bool ActivationChange(int id);
+        EditSiteService GetForEdit(int id);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Site.Application.Contract.SiteServiceApplication.Query
+﻿namespace Site.Application.Contract.SiteSettingApplication.Query
 {
     public class LogoForUiQueryModel
     {

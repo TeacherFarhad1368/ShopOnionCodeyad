@@ -1,4 +1,11 @@
-﻿namespace Site.Domain.SiteSettingAgg
+﻿using Site.Application.Contract.SiteSettingApplication.Command;
+
+namespace Site.Domain.SiteSettingAgg
 {
-    public interface ISiteSettingRepository { }
+    public interface ISiteSettingRepository
+    {
+        UbsertSiteSetting GetForUbsert();
+        SiteSetting GetSingle();
+        bool Save();
+    }
 }
