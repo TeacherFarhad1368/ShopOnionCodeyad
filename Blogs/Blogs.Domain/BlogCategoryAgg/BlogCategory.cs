@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blogs.Domain.BlogCategoryAgg
 {
-    public class BlogCategory : BaseEntity<int>
+    public class BlogCategory : BaseEntityCreateActive<int>
     {
         public string Title { get; private set; }
         public string Slug { get; private set; }
@@ -15,7 +15,6 @@ namespace Blogs.Domain.BlogCategoryAgg
         public string ImageAlt { get; private set; }
         public int Parent { get; private set; }
         public DateTime UpdateDate { get; private set; }
-        public bool Active { get; private set; }
 
         public BlogCategory(string title, string slug, string imageName, string imageAlt,
             int parent)
@@ -26,7 +25,6 @@ namespace Blogs.Domain.BlogCategoryAgg
             ImageAlt = imageAlt;
             Parent = parent;
             UpdateDate = DateTime.Now;
-            Active = true;
         }
 
         public void Edit(string title, string slug, string imageName, string imageAlt)
@@ -36,11 +34,6 @@ namespace Blogs.Domain.BlogCategoryAgg
             ImageName = imageName;
             ImageAlt = imageAlt;
             UpdateDate = DateTime.Now;
-        }
-        public void ActivationChange()
-        {
-            if (Active) Active = false;
-            else Active = true;
         }
     }
 }

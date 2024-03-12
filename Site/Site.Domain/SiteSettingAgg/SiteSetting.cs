@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Site.Domain.SiteSettingAgg
 {
-    public class SiteSetting
+    public class SiteSetting : BaseEntity<int>
     {
         public SiteSetting()
         {

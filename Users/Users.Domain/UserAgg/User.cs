@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace Users.Domain.UserAgg
 {
-    public class User : BaseEntity<int>
+    public class User : BaseEntityCreateActive<int>
     {
         public string FullName { get; private set; }
         public string Mobile { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
         public string Avatar { get; private set; }
-        public bool Active { get; private set; }
         public bool IsDelete { get; private set; }
         public Gender UserGender { get; private set; }
         public List<UserAddress> UserAddresses { get; private set; }
@@ -32,7 +31,6 @@ namespace Users.Domain.UserAgg
             Email = email;
             Password = password;
             Avatar = avatar;
-            Active = active;
             IsDelete = delete;
             UserGender = gender;
         }
@@ -48,11 +46,6 @@ namespace Users.Domain.UserAgg
 
             Avatar = avatar;
             UserGender = gender;
-        }
-        public void ActivationChange()
-        {
-            if (Active) Active = false;
-            else Active = true;
         }
         public void DeleteChange()
         {

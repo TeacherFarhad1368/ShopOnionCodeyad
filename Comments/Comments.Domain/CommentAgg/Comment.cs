@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Comments.Domain.CommentAgg
 {
-    public class Comment : BaseEntity<long>
+    public class Comment : BaseEntityCreate<long>
     {
         public Comment(int userId,int ownerId, CommentFor commentFor, 
             string? fullName, string? email, string? subject, string text, long? parentId)

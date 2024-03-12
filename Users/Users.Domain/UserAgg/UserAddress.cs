@@ -2,7 +2,7 @@
 
 namespace Users.Domain.UserAgg
 {
-    public class UserAddress : BaseEntity<int>
+    public class UserAddress : BaseEntityCreate<int>
     {
         public int StateId { get; private set; }
         public int CityId { get; private set; }

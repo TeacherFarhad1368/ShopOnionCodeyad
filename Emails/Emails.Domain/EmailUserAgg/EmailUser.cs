@@ -2,15 +2,13 @@
 
 namespace Emails.Domain.EmailUserAgg
 {
-    public class EmailUser : BaseEntity<int>
+    public class EmailUser : BaseEntityCreateActive<int>
     {
         public int UserId { get; private set; }
         public string Email { get; private set; }
-        public bool Active { get; private set; }
         public EmailUser(string email, int userId = 0)
         {
             UserId = userId;
-            Active = true;
             Email = email;
         }
         public void AddUserId(int userId)
@@ -20,11 +18,6 @@ namespace Emails.Domain.EmailUserAgg
         public void EditEmail(string email)
         {
             Email = email;
-        }
-        public void ActivationChange()
-        {
-            if (Active) Active = false;
-            else Active = true;
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Site.Domain.MenuAgg
 {
-    public class Menu : BaseEntity<int>
+    public class Menu : BaseEntityCreateActive<int>
     {
         public Menu(int number, string title, string url, MenuStatus status,
              string? imageName, string? imageAlt, int? parentId)

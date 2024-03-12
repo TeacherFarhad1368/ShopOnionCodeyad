@@ -3,7 +3,7 @@ using Shared.Domain.Enum;
 
 namespace Emails.Domain.MessageUserAgg
 {
-    public class MessageUser : BaseEntity<int>
+    public class MessageUser : BaseEntityCreate<int>
     {
         public int UserId { get;private set; }
         public MessageStatus Status { get; private set; }

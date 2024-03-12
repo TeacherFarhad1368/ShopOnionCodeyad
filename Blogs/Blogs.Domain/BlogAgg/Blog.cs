@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blogs.Domain.BlogAgg
 {
-    public class Blog : BaseEntity<int>
+    public class Blog : BaseEntityCreateUpdateActive<int>
     {
         public string Title { get; private set; }
         public string Slug { get; private set; }
@@ -20,8 +20,6 @@ namespace Blogs.Domain.BlogAgg
         public int VisitCount { get; private set; }
         public long UserId { get; private set; }
         public string Writer { get; private set; }
-        public DateTime UpdateDate { get; private set; }
-        public bool Active { get; private set; }
 
         public Blog(string title, string slug, string shortDescription,string text,
             string imageName, string imageAlt, int categoryId,
@@ -38,8 +36,6 @@ namespace Blogs.Domain.BlogAgg
             VisitCount = 0;
             UserId = userId;
             Writer = writer;
-            UpdateDate = DateTime.Now;
-            Active = true;
         }
         public void Edit(string title, string slug, string shortDescription,string text,
             string imageName, string imageAlt, int categoryId,
@@ -54,12 +50,7 @@ namespace Blogs.Domain.BlogAgg
             CategoryId = categoryId;
             SubCategoryId = subCategoryId;
             Writer = writer;
-            UpdateDate = DateTime.Now;
-        }
-        public void ActivationChange()
-        {
-            if (Active) Active = false;
-            else Active = true;
+            UpdateEntity();
         }
         public void VisitPlus()
         {

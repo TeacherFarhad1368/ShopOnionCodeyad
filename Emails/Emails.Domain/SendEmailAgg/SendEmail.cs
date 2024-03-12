@@ -2,7 +2,7 @@
 
 namespace Emails.Domain.SendEmailAgg
 {
-    public class SendEmail : BaseEntity<int>
+    public class SendEmail : BaseEntityCreate<int>
     {
         public string Title { get; private set; }
         public string Text { get; private set; }

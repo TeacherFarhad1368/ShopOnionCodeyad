@@ -3,7 +3,7 @@ using Shared.Domain.Enum;
 
 namespace Users.Domain.UserAgg
 {
-    public class Permission : BaseEntity<int>
+    public class Permission : BaseEntityCreate<int>
     {
         public int RoleId { get;private set; }
         public UserPermission UserPermission { get; private set; }

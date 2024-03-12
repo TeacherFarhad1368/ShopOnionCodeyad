@@ -2,7 +2,7 @@
 
 namespace Users.Domain.UserAgg
 {
-    public class Role : BaseEntity<int>
+    public class Role : BaseEntityCreate<int>
     {
         public string Title { get; private set; }
         public List<Permission> Permissions { get; private set; }
