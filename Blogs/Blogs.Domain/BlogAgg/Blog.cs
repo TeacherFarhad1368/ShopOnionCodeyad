@@ -24,37 +24,35 @@ namespace Blogs.Domain.BlogAgg
         public Blog(string title, string slug, string shortDescription,string text,
             string imageName, string imageAlt, int categoryId,
             int subCategoryId, long userId, string writer)
-        {
-            Title = title;
-            Slug = slug;
-            ShortDescription = shortDescription;
-            Text = text;    
-            ImageName = imageName;
-            ImageAlt = imageAlt;
-            CategoryId = categoryId;
-            SubCategoryId = subCategoryId;
-            VisitCount = 0;
-            UserId = userId;
-            Writer = writer;
-        }
+		{
+			SetValus(title, slug, shortDescription, text, imageName, imageAlt, categoryId, subCategoryId, writer);
+			VisitCount = 0;
+			UserId = userId;
+		}
         public void Edit(string title, string slug, string shortDescription,string text,
             string imageName, string imageAlt, int categoryId,
            int subCategoryId, string writer)
         {
-            Title = title;
-            Slug = slug;
-            ShortDescription = shortDescription;
-            Text = text;    
-            ImageName = imageName;
-            ImageAlt = imageAlt;
-            CategoryId = categoryId;
-            SubCategoryId = subCategoryId;
-            Writer = writer;
+            SetValus(title, slug, shortDescription, text, imageName, imageAlt, categoryId, subCategoryId, writer);
             UpdateEntity();
         }
         public void VisitPlus()
         {
             VisitCount = VisitCount + 1;
         }
+        private void SetValus(string title, string slug, string shortDescription, string text,
+			string imageName, string imageAlt, int categoryId,
+		   int subCategoryId, string writer)
+        {
+			Title = title;
+			Slug = slug;
+			ShortDescription = shortDescription;
+			Text = text;
+			ImageName = imageName;
+			ImageAlt = imageAlt;
+			CategoryId = categoryId;
+			SubCategoryId = subCategoryId;
+			Writer = writer;
+		}
     }
 }

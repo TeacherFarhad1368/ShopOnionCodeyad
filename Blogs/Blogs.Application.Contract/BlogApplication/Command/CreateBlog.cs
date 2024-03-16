@@ -1,32 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Shared.Application;
+using Shared.Application.BaseCommands;
 using System.ComponentModel.DataAnnotations;
 
 namespace Blogs.Application.Contract.BlogApplication.Command
 {
-    public class CreateBlog
-    {
-        [Display(Name = "عنوان")]
-        [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
-        [MaxLength(250, ErrorMessage = ValidationMessages.MaxLengthMessage)]
-        public string Title { get; set; }
-        [Display(Name = "لینک سربرگ")]
-        [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
-        [MaxLength(300, ErrorMessage = ValidationMessages.MaxLengthMessage)]
-        public string Slug { get; set; }
-        [Display(Name = "توضیح مختصر")]
-        [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
-        [MaxLength(600, ErrorMessage = ValidationMessages.MaxLengthMessage)]
-        public string ShortDescription { get; set; }
-        [Display(Name = "توضیح")]
-        [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
-        public string Text { get; set; }
-        [Display(Name = "تصویر")]
-        public IFormFile? ImageFile { get; set; }
-        [Display(Name = "Alt تصویر")]
-        [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
-        [MaxLength(150, ErrorMessage = ValidationMessages.MaxLengthMessage)]
-        public string ImageAlt { get; set; }
+    public class CreateBlog : Text_ShortDescription_Title_Slug_Image_ImageAlt
+	{  
         [Display(Name = "سر گروه")]
         [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
         public int CategoryId { get; set; }
