@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Site.Domain.BanerAgg;
 using Site.Domain.MenuAgg;
+using Site.Domain.SiteImageAgg;
+using Site.Domain.SitePageAgg;
 using Site.Domain.SiteServiceAgg;
 using Site.Domain.SiteSettingAgg;
 using Site.Domain.SliderAgg;
@@ -24,6 +26,8 @@ namespace Site.Infrastructure
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
         public DbSet<SiteService> SiteServices { get; set; }
+        public DbSet<SitePage> SitePages { get; set; }
+        public DbSet<SiteImage> Images { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BanerConfig).Assembly);

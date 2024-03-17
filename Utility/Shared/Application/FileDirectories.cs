@@ -44,5 +44,9 @@ namespace Shared.Application
         public const string MenuImageFolder = "Menu";
         public const string MenuImageDirectory = "/Images/Menu/";
         public const string MenuImageDirectory100 = "/Images/Menu/100/";
-    }
+
+		public const string ImageFolder = "Image";
+		public const string ImageDirectory = "/Images/Image/";
+		public const string ImageDirectory100 = "/Images/Image/100/";
+	}
 }

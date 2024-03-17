@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Site.Application.Contract.BanerApplication.Command;
+using Site.Application.Contract.ImageSiteApplication.Command;
 using Site.Application.Contract.MenuApplication.Command;
+using Site.Application.Contract.SitePageApplication.Command;
 using Site.Application.Contract.SiteServiceApplication.Command;
 using Site.Application.Contract.SiteSettingApplication.Command;
 using Site.Application.Contract.SliderApplication.Command;
@@ -22,6 +24,8 @@ namespace Site.Application
             services.AddTransient<ISiteServiceApplication, SiteServiceApplication>();
             services.AddTransient<ISiteSettingApplication, SiteSettingApplication>();
             services.AddTransient<ISliderApplication, SliderApplication>();
+            services.AddTransient<ISitePageApplication, SitePageApplication>();
+            services.AddTransient<IImageSiteApplication, ImageSiteApplication>();
         }
     }
 }

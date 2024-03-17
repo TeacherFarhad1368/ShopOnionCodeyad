@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Site.Application;
 using Site.Domain.BanerAgg;
 using Site.Domain.MenuAgg;
+using Site.Domain.SiteImageAgg;
+using Site.Domain.SitePageAgg;
 using Site.Domain.SiteServiceAgg;
 using Site.Domain.SiteSettingAgg;
 using Site.Domain.SliderAgg;
@@ -29,6 +31,8 @@ namespace Site.Infrastructure
             services.AddTransient<IBanerRepository, BanerRepository>();
             services.AddTransient<IMenuRepository, MenuRepository>();
             services.AddTransient<ISliderRepository,SliderRepository>();
+            services.AddTransient<IImageSiteRepository,ImageSiteRepository>();
+            services.AddTransient<ISitePageRepository, SitePageRepository>();
 
             SiteApplicationBootstraper.Config(services);    
         }

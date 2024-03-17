@@ -59,15 +59,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Site.Query", "Site\Site.Que
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emails", "Emails", "{EE152FF9-3040-42CF-969E-C65D2888ADA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emails.Application.Contract", "Emails\Emails.Application.Contract\Emails.Application.Contract.csproj", "{67FDBB8B-2C24-40E9-B00E-D2AA52CBD2E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emails.Application.Contract", "Emails\Emails.Application.Contract\Emails.Application.Contract.csproj", "{67FDBB8B-2C24-40E9-B00E-D2AA52CBD2E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emails.Domain", "Emails\Emails.Domain\Emails.Domain.csproj", "{F12FDC66-5F75-4328-B678-C56370E8A07B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emails.Domain", "Emails\Emails.Domain\Emails.Domain.csproj", "{F12FDC66-5F75-4328-B678-C56370E8A07B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emails.Application", "Emails\Emails.Application\Emails.Application.csproj", "{771A06CE-6EA0-4D0E-879D-1B2241DE2802}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emails.Application", "Emails\Emails.Application\Emails.Application.csproj", "{771A06CE-6EA0-4D0E-879D-1B2241DE2802}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emails.Infrastructure", "Emails\Emails.Infrastructure\Emails.Infrastructure.csproj", "{924B2788-49F0-4B48-9254-A02D3666C59B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emails.Infrastructure", "Emails\Emails.Infrastructure\Emails.Infrastructure.csproj", "{924B2788-49F0-4B48-9254-A02D3666C59B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emails.Query", "Emails\Emails.Query\Emails.Query.csproj", "{E639DB0A-4285-4A2B-9696-27CF7DC27ADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emails.Query", "Emails\Emails.Query\Emails.Query.csproj", "{E639DB0A-4285-4A2B-9696-27CF7DC27ADE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seos", "Seos", "{C623E591-672E-4DC9-8D68-1E0E378BEEDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seos.Application.Contract", "Seos\Seos.Application.Contract\Seos.Application.Contract.csproj", "{0B516745-F04F-4CAB-9529-CAC32470DB52}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seos.Domain", "Seos\Seos.Domain\Seos.Domain.csproj", "{7C3FCD7D-CF67-4E18-9EE7-9F677308B3E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seos.Application", "Seos\Seos.Application\Seos.Application.csproj", "{071AC081-0FC0-42B8-AEC4-05622F05064E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seos.Infrastructure", "Seos\Seos.Infrastructure\Seos.Infrastructure.csproj", "{3B8A382A-4897-4164-AAFC-0D559FBFB9BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seos.Query", "Seos\Seos.Query\Seos.Query.csproj", "{94DDA736-641B-4BB9-9E44-E0FDB0E57C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -183,6 +195,26 @@ Global
 		{E639DB0A-4285-4A2B-9696-27CF7DC27ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E639DB0A-4285-4A2B-9696-27CF7DC27ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E639DB0A-4285-4A2B-9696-27CF7DC27ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B516745-F04F-4CAB-9529-CAC32470DB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B516745-F04F-4CAB-9529-CAC32470DB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B516745-F04F-4CAB-9529-CAC32470DB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B516745-F04F-4CAB-9529-CAC32470DB52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C3FCD7D-CF67-4E18-9EE7-9F677308B3E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C3FCD7D-CF67-4E18-9EE7-9F677308B3E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C3FCD7D-CF67-4E18-9EE7-9F677308B3E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C3FCD7D-CF67-4E18-9EE7-9F677308B3E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{071AC081-0FC0-42B8-AEC4-05622F05064E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{071AC081-0FC0-42B8-AEC4-05622F05064E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{071AC081-0FC0-42B8-AEC4-05622F05064E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{071AC081-0FC0-42B8-AEC4-05622F05064E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B8A382A-4897-4164-AAFC-0D559FBFB9BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B8A382A-4897-4164-AAFC-0D559FBFB9BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B8A382A-4897-4164-AAFC-0D559FBFB9BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B8A382A-4897-4164-AAFC-0D559FBFB9BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94DDA736-641B-4BB9-9E44-E0FDB0E57C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94DDA736-641B-4BB9-9E44-E0FDB0E57C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94DDA736-641B-4BB9-9E44-E0FDB0E57C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94DDA736-641B-4BB9-9E44-E0FDB0E57C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +246,11 @@ Global
 		{771A06CE-6EA0-4D0E-879D-1B2241DE2802} = {EE152FF9-3040-42CF-969E-C65D2888ADA9}
 		{924B2788-49F0-4B48-9254-A02D3666C59B} = {EE152FF9-3040-42CF-969E-C65D2888ADA9}
 		{E639DB0A-4285-4A2B-9696-27CF7DC27ADE} = {EE152FF9-3040-42CF-969E-C65D2888ADA9}
+		{0B516745-F04F-4CAB-9529-CAC32470DB52} = {C623E591-672E-4DC9-8D68-1E0E378BEEDD}
+		{7C3FCD7D-CF67-4E18-9EE7-9F677308B3E4} = {C623E591-672E-4DC9-8D68-1E0E378BEEDD}
+		{071AC081-0FC0-42B8-AEC4-05622F05064E} = {C623E591-672E-4DC9-8D68-1E0E378BEEDD}
+		{3B8A382A-4897-4164-AAFC-0D559FBFB9BB} = {C623E591-672E-4DC9-8D68-1E0E378BEEDD}
+		{94DDA736-641B-4BB9-9E44-E0FDB0E57C24} = {C623E591-672E-4DC9-8D68-1E0E378BEEDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3DA88AD8-881E-404B-85F0-27D93DF9FE30}
