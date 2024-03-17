@@ -1,6 +1,7 @@
 ﻿using Blogs.Query;
 using Comments.Query;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using PostModule.Query;
 using Seos.Query;
 using Shared.Application.Services;
 using Shared.Application.Services.Auth;
@@ -36,6 +37,7 @@ namespace ShopBoloor.WebApplication.Utility
             Comment_Bootstrapper.Config(services1, connection);
             Site_Bootstrapper.Config(services1, connection);
 			Seo_Bootstrapper.Config(services1, connection);
+			Post_Bootstrapper.Config(services1, connection);
 
             services1.AddTransient<IFileService, FileService>();
             services1.AddTransient<IAuthService, AuthService>();
