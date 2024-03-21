@@ -26,25 +26,45 @@ namespace Emails.Application.Services
 
         public OperationResult AnsweredByEmail(int id, string mailMessage)
         {
-            var messageUser = _messageUserRepository.GetById(id);
-            //
-            // send email
-            //
-            return new(false);
-        }
+			try
+			{
+				var messageUser = _messageUserRepository.GetById(id);
+				messageUser.AnswerEmailSend(mailMessage);
+				_messageUserRepository.Save();
+				//
+				// send sms
+				//
+				return new(true);
+			}
+			catch (Exception)
+			{
+				return new(false);
+			}
+		}
 
         public OperationResult AnsweredBySMS(int id, string message)
         {
-            var messageUser = _messageUserRepository.GetById(id);
-            //
-            // send sms
-            //
-            return new(false);
+
+            try
+            {
+				var messageUser = _messageUserRepository.GetById(id);
+				messageUser.AnswerSmsSend(message);
+				_messageUserRepository.Save();
+				//
+				// send sms
+				//
+				return new(true);
+			}
+            catch (Exception)
+            {
+                return new(false);
+            }
         }
 
         public OperationResult Create(CreateMessageUser command)
         {
-            MessageUser messageUser = new(command.UserId, command.FullName, command.Subject, command.PhoneNumber, command.Email, command.Message);
+            MessageUser messageUser = new(command.UserId, command.FullName, command.Subject, 
+                command.PhoneNumber, command.Email, command.Message);
             if (_messageUserRepository.Create(messageUser))
                 return new(true);
             return new(false,ValidationMessages.SystemErrorMessage);  

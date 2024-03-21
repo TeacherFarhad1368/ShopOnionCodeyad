@@ -5,8 +5,7 @@ namespace Emails.Domain.EmailUserAgg
 {
     public interface IEmailUserRepository : IRepository<int,EmailUser>
     {
-        void CreateList(List<EmailUser> emailUsers);
-        //List<EmailUserViewModel> GatAllForAdmin();
+        bool CreateList(List<EmailUser> emailUsers);
         EmailUser GetByEmail(string email);
     }
 }

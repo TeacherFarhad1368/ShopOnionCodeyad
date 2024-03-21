@@ -1,5 +1,6 @@
 ﻿using Blogs.Query;
 using Comments.Query;
+using Emails.Query;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PostModule.Query;
 using Seos.Query;
@@ -38,6 +39,7 @@ namespace ShopBoloor.WebApplication.Utility
             Site_Bootstrapper.Config(services1, connection);
 			Seo_Bootstrapper.Config(services1, connection);
 			Post_Bootstrapper.Config(services1, connection);
+			Email_Bootstrapper.Config(services1, connection);
 
             services1.AddTransient<IFileService, FileService>();
             services1.AddTransient<IAuthService, AuthService>();

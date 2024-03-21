@@ -1,5 +1,6 @@
 ﻿using Emails.Application.Contract.SensEmailApplication.Command;
 using Emails.Domain.SendEmailAgg;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using Shared.Application;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,9 @@ namespace Emails.Application.Services
         }
         public OperationResult Create(CreateSendEmail commmand)
         {
-            // sendEmail and save
-            throw new NotImplementedException();
+            SendEmail email = new(commmand.Title, commmand.Text);
+            if (_sendEmailRepository.Create(email)) return new(true);
+            return new(false, ValidationMessages.SystemErrorMessage, nameof(commmand.Title));
         }
     }
 }
