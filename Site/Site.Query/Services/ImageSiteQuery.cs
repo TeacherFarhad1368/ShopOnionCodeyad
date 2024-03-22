@@ -18,13 +18,28 @@ namespace Site.Query.Services
 			_imageSiteRepository = imageSiteRepository;
 		}
 
-		public List<ImageSiteAdminQueryModel> GetAllForAdmin() =>
-			_imageSiteRepository.GetAllQuery().Select(s => new ImageSiteAdminQueryModel
-			{
-				CreateDate = s.CreateDate.ToPersainDate(),
-				Id = s.Id,
-				ImageName = s.ImageName,
-				Title = s.Title
-			}).ToList();
+		public ImageAdminPaging GetAllForAdmin(int pageId, int take, string filter)
+		{
+			IQueryable<SiteImage> result;
+			if (!string.IsNullOrEmpty(filter))
+				result = _imageSiteRepository.GetAllByQuery(c => c.Title.Contains(filter));
+			else
+				result = _imageSiteRepository.GetAllQuery();
+
+			ImageAdminPaging model = new();
+			model.GetData(result, pageId, take, 5);
+			model.Filter = filter;
+			model.Images = new();
+			if(result.Count() > 0)
+				model.Images =  result.Skip(model.Skip).Take(model.Take).Select(s => new ImageSiteAdminQueryModel
+				{
+					CreateDate = s.CreateDate.ToPersainDate(),
+					Id = s.Id,
+					ImageName = s.ImageName,
+					Title = s.Title
+				}).ToList();
+
+			return model;
+		}
 	}
 }

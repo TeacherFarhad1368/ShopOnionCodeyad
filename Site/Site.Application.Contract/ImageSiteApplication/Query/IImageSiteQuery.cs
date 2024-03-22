@@ -8,6 +8,6 @@ namespace Site.Application.Contract.ImageSiteApplication.Query
 {
 	public interface IImageSiteQuery
 	{
-		List<ImageSiteAdminQueryModel> GetAllForAdmin();
+		ImageAdminPaging GetAllForAdmin(int pageId,int take,string filter);
 	}
 }

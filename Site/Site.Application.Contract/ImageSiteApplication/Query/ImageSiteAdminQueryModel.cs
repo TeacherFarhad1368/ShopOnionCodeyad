@@ -1,4 +1,6 @@
-﻿namespace Site.Application.Contract.ImageSiteApplication.Query
+﻿using Shared;
+
+namespace Site.Application.Contract.ImageSiteApplication.Query
 {
 	public class ImageSiteAdminQueryModel
 	{
@@ -7,4 +9,9 @@
         public string Title { get; set; }
         public string CreateDate { get; set; }
     }
+    public class ImageAdminPaging : BasePaging
+    {
+        public string Filter { get; set; }
+        public List<ImageSiteAdminQueryModel> Images { get; set; }
+	}
 }
