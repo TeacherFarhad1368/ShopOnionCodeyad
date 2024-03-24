@@ -1,24 +1,17 @@
 ﻿using Shared.Domain;
 using Shared.Domain.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Comments.Domain.CommentAgg
 {
     public class Comment : BaseEntityCreate<long>
     {
         public Comment(int userId,int ownerId, CommentFor commentFor, 
-            string? fullName, string? email, string? subject, string text, long? parentId)
+            string? fullName, string? email, string text, long? parentId)
         {
             UserId = userId;
             OwnerId = ownerId;
             CommentFor = commentFor;
             FullName = fullName;
             Email = email;
-            Subject = subject;
             Text = text;
             ParentId = parentId;
             Status = CommentStatus.خوانده_نشده;
@@ -27,6 +20,7 @@ namespace Comments.Domain.CommentAgg
         public Comment()
         {
             Childs = new();
+            Parent = null;
         }
         public void RejectedComment(string why)
         {
@@ -44,7 +38,6 @@ namespace Comments.Domain.CommentAgg
         public string? WhyRejected { get; private set; }
         public string? FullName { get; private set; }
         public string? Email { get; private set; }
-        public string? Subject { get; private set; }
         public string Text { get; private set; }
         public long? ParentId { get; private set; }
         public Comment? Parent { get; private set; }

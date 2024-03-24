@@ -21,17 +21,9 @@ namespace PostModule.Domain.CityEntity
             Title = title;
             Status = status;
         }
-        public void IsTehran()
-        {
-            Status = CityStatus.تهران;
-        }
-        public void IsCenter()
-        {
-            Status = CityStatus.مرکز_استان;
-        }
-        public void INotCenterOrTehran()
-        {
-            Status = CityStatus.شهرستان_معمولی;
-        }
-    }
+		public void ChangeStatus(CityStatus status)
+		{
+            Status = status;
+		}
+	}
 }

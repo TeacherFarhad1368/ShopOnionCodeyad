@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blogs\Blogs.Query\Blogs.Query.csproj" />
+    <ProjectReference Include="..\..\Comments\Comments.Query\Comments.Query.csproj" />
+    <ProjectReference Include="..\..\Emails\Emails.Query\Emails.Query.csproj" />
+    <ProjectReference Include="..\..\PostModule\PostModule.Query\PostModule.Query.csproj" />
+    <ProjectReference Include="..\..\Seos\Seos.Query\Seos.Query.csproj" />
+    <ProjectReference Include="..\..\Site\Site.Query\Site.Query.csproj" />
+    <ProjectReference Include="..\..\Users\Users.Query\Users.Query.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UI\" />
+  </ItemGroup>
+
+</Project>

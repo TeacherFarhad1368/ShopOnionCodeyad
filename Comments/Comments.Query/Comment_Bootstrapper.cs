@@ -1,4 +1,5 @@
-﻿using Comments.Infrastructure;
+﻿using Comments.Application.Contract.CommentApplication.Query;
+using Comments.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Comments.Query
         public static void Config(IServiceCollection services, string connection)
         {
             CommentInfrastryctureBootstrapper.Config(services, connection);
+            services.AddTransient<ICommentQuery, CommentQuery>();
         }
     }
 }

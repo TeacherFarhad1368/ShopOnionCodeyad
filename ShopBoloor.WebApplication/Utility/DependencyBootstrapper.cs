@@ -3,6 +3,7 @@ using Comments.Query;
 using Emails.Query;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PostModule.Query;
+using Query.Services;
 using Seos.Query;
 using Shared.Application.Services;
 using Shared.Application.Services.Auth;
@@ -32,16 +33,11 @@ namespace ShopBoloor.WebApplication.Utility
                     x.AccessDeniedPath = "/Auth/AccessDenied";
                 });
 
-           
-            Blog_Bootstrapper.Config(services1, connection);
-            User_Bootstrapper.Config(services1, connection);
-            Comment_Bootstrapper.Config(services1, connection);
-            Site_Bootstrapper.Config(services1, connection);
-			Seo_Bootstrapper.Config(services1, connection);
-			Post_Bootstrapper.Config(services1, connection);
-			Email_Bootstrapper.Config(services1, connection);
 
-            services1.AddTransient<IFileService, FileService>();
+            Modules_Bootstrapper.Config(services1, connection);
+
+
+			services1.AddTransient<IFileService, FileService>();
             services1.AddTransient<IAuthService, AuthService>();
         }
     }

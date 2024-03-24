@@ -2305,16 +2305,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blogs\Blogs.Query\Blogs.Query.csproj" />
-    <ProjectReference Include="..\Comments\Comments.Query\Comments.Query.csproj" />
-    <ProjectReference Include="..\Emails\Emails.Query\Emails.Query.csproj" />
-    <ProjectReference Include="..\PostModule\PostModule.Query\PostModule.Query.csproj" />
-    <ProjectReference Include="..\Seos\Seos.Query\Seos.Query.csproj" />
-    <ProjectReference Include="..\Site\Site.Query\Site.Query.csproj" />
-    <ProjectReference Include="..\Users\Users.Query\Users.Query.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\AdminAssets\bower_components\.DS_Store" />
     <None Include="wwwroot\AdminAssets\bower_components\bootstrap-colorpicker\CONTRIBUTING.md" />
     <None Include="wwwroot\AdminAssets\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
@@ -7640,6 +7630,10 @@
     <None Include="wwwroot\AdminAssets\bower_components\tinymce\themes\inlite\theme.min.js" />
     <None Include="wwwroot\AdminAssets\bower_components\tinymce\themes\modern\theme.min.js" />
     <None Include="wwwroot\AdminAssets\bower_components\tinymce\tinymce.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Query\Query.Services\Query.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

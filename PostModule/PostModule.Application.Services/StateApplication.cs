@@ -1,6 +1,7 @@
 ﻿using PostModule.Application.Contract.StateApplication;
 using PostModule.Domain.Services;
 using PostModule.Domain.StateEntity;
+using Shared.Application;
 
 namespace PostModule.Application.Services
 {
@@ -11,18 +12,24 @@ namespace PostModule.Application.Services
         {
             _stateRepository = stateRepository;
         }
-        public bool Create(CreateStateModel command)
+        public OperationResult Create(CreateStateModel command)
         {
+            if (_stateRepository.ExistBy(s => s.Title == command.Title))
+                return new(false, ValidationMessages.DuplicatedMessage, nameof(command.Title));
             State state = new(command.Title);
-            return _stateRepository.Create(state);
+            if (_stateRepository.Create(state)) return new(true);
+            return new(false,ValidationMessages.SystemErrorMessage, nameof(command.Title)); 
         }
 
-        public bool Edit(EditStateModel command)
+        public OperationResult Edit(EditStateModel command)
         {
-            var state = _stateRepository.GetById(command.Id);
+			if (_stateRepository.ExistBy(s => s.Title == command.Title && s.Id != command.Id))
+				return new(false, ValidationMessages.DuplicatedMessage, nameof(command.Title));
+            State state = _stateRepository.GetById(command.Id);
             state.Edit(command.Title);
-            return _stateRepository.Save();
-        }
+			if (_stateRepository.Save()) return new(true);
+			return new(false, ValidationMessages.SystemErrorMessage, nameof(command.Title));
+		}
 
         public bool ExistTitleForCreate(string title) =>
             _stateRepository.ExistBy(s => s.Title == title);

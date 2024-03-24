@@ -7,12 +7,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Domain.Enum;
 
 namespace PostModule.Domain.Services
 {
     public interface ICityRepository : IRepository<int, City>
     {
-        List<CityViewModel> GetAllForState(int stateId);
+		bool ChangeStatus(int id, CityStatus status);
+		List<CityViewModel> GetAllForState(int stateId);
         EditCityModel GetCityForEdit(int id);
     }
 }

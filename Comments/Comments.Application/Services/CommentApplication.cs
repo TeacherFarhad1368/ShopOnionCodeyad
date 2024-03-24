@@ -29,7 +29,7 @@ namespace Comments.Application.Services
         public OperationResult Create(CreateComment command)
         {
             Comment comment = new(command.UserId, command.OwnerId, command.For,
-                command.FullName, command.Email, command.Subject, command.Text, command.ParentId);
+                command.FullName, command.Email, command.Text, command.ParentId);
             if (_commentRepository.Create(comment)) return new(true);
             return new(false,ValidationMessages.SystemErrorMessage);
         }
