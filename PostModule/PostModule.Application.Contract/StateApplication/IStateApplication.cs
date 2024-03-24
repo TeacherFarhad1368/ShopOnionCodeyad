@@ -15,5 +15,6 @@ namespace PostModule.Application.Contract.StateApplication
         EditStateModel GetStateForEdit(int id);
         bool ExistTitleForCreate(string title);
         bool ExistTitleForEdit(string title , int id);
-    }
+		bool ChangeStateClose(int id, List<int> stateCloses);
+	}
 }

@@ -36,10 +36,10 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 			return View(model);
 		}
 		[HttpPost]
-		public IActionResult Edit(int id, EditStateModel model)
+		public IActionResult Edit(int id, EditCityModel model)
 		{
 			if (!ModelState.IsValid) return View(model);
-			var res = _stateApplication.Edit(model);
+			var res = _cityApplication.Edit(model);
 			if (res.Success)
 			{
 				TempData["ok"] = true;

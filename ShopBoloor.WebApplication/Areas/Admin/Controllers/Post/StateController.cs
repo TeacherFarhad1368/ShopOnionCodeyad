@@ -53,5 +53,23 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 			ModelState.AddModelError(res.ModelName, res.Message);
 			return View(model);
 		}
+		public IActionResult ChangeClose(int id,List<int>? stateCloses)
+		{
+			if(stateCloses.Count() < 1)
+			{
+				TempData["ChooseState"] = true;
+				return Redirect($"/Admin/City/Index/{id}");
+			}
+			if(_stateApplication.ChangeStateClose(id,stateCloses))
+			{
+				TempData["ok"] = true;
+				return Redirect($"/Admin/City/Index/{id}");
+			}
+			else
+			{
+                TempData["faild"] = true;
+				return Redirect($"/Admin/City/Index/{id}");
+			}
+		}
 	}
 }

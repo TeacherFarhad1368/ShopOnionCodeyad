@@ -4,6 +4,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
     @{
         var ok = TempData["ok"] != null;
+        var faild = TempData["faild"] != null;
     }
     <div class="wrapper">
        <partial name="_AdminHeader" />
@@ -29,6 +30,12 @@
     {
         <script>
             AlertSweetTimer("عملیا ت با موفقیت انجام شد", "success", 4000);
+        </script>
+    }
+    @if (faild)
+    {
+        <script>
+            AlertSweetTimer("عملیات نا موفق !!!", "error", 4000);
         </script>
     }
     @RenderSection("Scripts",false)

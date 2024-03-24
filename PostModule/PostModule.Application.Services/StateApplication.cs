@@ -12,7 +12,15 @@ namespace PostModule.Application.Services
         {
             _stateRepository = stateRepository;
         }
-        public OperationResult Create(CreateStateModel command)
+
+		public bool ChangeStateClose(int id, List<int> stateCloses)
+		{
+            var state = _stateRepository.GetById(id);
+            state.ChangeCloseStates(stateCloses);
+            return _stateRepository.Save();
+		}
+
+		public OperationResult Create(CreateStateModel command)
         {
             if (_stateRepository.ExistBy(s => s.Title == command.Title))
                 return new(false, ValidationMessages.DuplicatedMessage, nameof(command.Title));
