@@ -1,6 +1,6 @@
-﻿namespace PostModule.Application.Contract.PostPriceApplication
+﻿namespace PostModule.Application.Contract.PostQuery
 {
-    public class PostPriceModel
+    public class PostPriceAdminQueryModel
     {
         public int Id { get; set; }
         public int Start { get; set; }

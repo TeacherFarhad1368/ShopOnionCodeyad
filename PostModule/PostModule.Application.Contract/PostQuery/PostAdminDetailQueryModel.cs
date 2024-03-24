@@ -1,6 +1,6 @@
-﻿namespace PostModule.Application.Contract.PostApplication
+﻿namespace PostModule.Application.Contract.PostQuery
 {
-    public class PostModel
+    public class PostAdminDetailQueryModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -16,5 +16,6 @@
         public bool Active { get; set; }
         public bool InsideCity { get; set; }
         public bool OutsideCity { get; set; }
+        public List<PostPriceAdminQueryModel> PostPrices { get; set; }
     }
 }

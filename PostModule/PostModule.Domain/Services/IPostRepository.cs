@@ -11,7 +11,6 @@ namespace PostModule.Domain.Services
 {
     public interface IPostRepository : IRepository<int, Post>
     {
-        List<PostModel> GetAllPosts();
         EditPost GetForEdit(int id);
     }
 }

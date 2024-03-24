@@ -11,7 +11,6 @@ namespace PostModule.Application.Contract.PostPriceApplication
     {
         OperationResult Create(CreatePostPrice command);
         OperationResult Edit(EditPostPrice command);
-        List<PostPriceModel> GetAllForPost(int postId);
         EditPostPrice GetForEdit(int id);
     }
 }

@@ -11,7 +11,6 @@ namespace PostModule.Domain.Services
 {
     public interface IPostPriceRepository : IRepository<int, PostPrice>
     {
-        List<PostPriceModel> GetAllForPost(int postId);
         EditPostPrice GetForEdit(int id);
     }
 }

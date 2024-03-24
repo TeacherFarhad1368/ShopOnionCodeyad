@@ -41,11 +41,6 @@ namespace PostModule.Application.Services
             return new(false, ValidationMessages.SystemErrorMessage, "Start");
         }
 
-        public List<PostPriceModel> GetAllForPost(int postId)
-        {
-            return _postPriceRepository.GetAllForPost(postId);
-        }
-
         public EditPostPrice GetForEdit(int id)
         {
             return _postPriceRepository.GetForEdit(id);

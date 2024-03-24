@@ -19,7 +19,6 @@ namespace PostModule.Infrastracture.EF.Mapping
             builder.Property(b => b.Title).IsRequired().HasMaxLength(250);
             builder.Property(b => b.Status).IsRequired(false).HasMaxLength(450);
             builder.Property(b => b.Description).IsRequired(false);
-
             builder.HasMany(b => b.PostPrices).
                 WithOne(p => p.Post).
                 HasForeignKey(p => p.PostId);

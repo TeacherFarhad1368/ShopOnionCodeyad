@@ -52,11 +52,6 @@ namespace PostModule.Application.Services
             return new OperationResult(false, ValidationMessages.SystemErrorMessage, "Title");
         }
 
-        public List<PostModel> GetAll()
-        {
-            return _postRepository.GetAllPosts();
-        }
-
         public EditPost GetForEdit(int id)
         {
             return _postRepository.GetForEdit(id);

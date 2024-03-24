@@ -19,27 +19,6 @@ namespace PostModule.Infrastracture.EF.Repositories
             _context = context;
         }
 
-        public List<PostModel> GetAllPosts()
-        {
-            return GetAllQuery().Select(p => new PostModel
-            {
-                CityPricePlus=p.CityPricePlus,
-                CreationDate=p.CreateDate.ToPersainDate(),
-                Id=p.Id,
-                InsideStatePricePlus = p.InsideStatePricePlus,
-                StateCenterPricePlus = p.StateCenterPricePlus,
-                StateClosePricePlus=p.StateClosePricePlus,
-                StateNonClosePricePlus=p.StateNonClosePricePlus,
-                Status=p.Status,
-                TehranPricePlus=p.TehranPricePlus,
-                Title=p.Title,
-                Description = p.Description,
-                Active=p.Active,
-                InsideCity=p.InsideCity,
-                OutsideCity=p.OutSideCity
-            }).ToList();
-        }
-
         public EditPost GetForEdit(int id)
         {
             return _context.Posts.Select(p => new EditPost
