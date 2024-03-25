@@ -1,4 +1,5 @@
 ﻿@model Blogs.Application.Contract.BlogCategoryApplication.Query.BlogCategoryAsminPageQueryModel
+@using Shared.Domain.Enum;
 @{
     ViewData["Title"] = Model.PageTitle;
 }
@@ -19,7 +20,9 @@
                         <i class=" fa fa-plus mx-2"></i> سرگروه جدید
                     </a>
                 }
-               
+                <a class="btn btn-info" href="/Admin/Seo/0/@WhereSeo.BlogCategory" target="_blank">
+                    Seo همه دسته بندی ها
+                </a>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -81,6 +84,9 @@
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         }
+                                        <a class="btn btn-info" href="/Admin/Seo/@item.Id/@WhereSeo.BlogCategory" target="_blank">
+                                            Seo
+                                        </a>
                                         <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>

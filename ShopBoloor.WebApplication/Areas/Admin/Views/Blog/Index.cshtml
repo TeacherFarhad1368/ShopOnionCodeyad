@@ -1,4 +1,5 @@
 ﻿@model Blogs.Application.Contract.BlogApplication.Query.AdminBlogsPageQueryModel
+@using Shared.Domain.Enum;
 @{
     ViewData["Title"] = Model.PageTitle;
 }
@@ -77,7 +78,9 @@
                                         </div>
                                     </td>
                                     <td>
-                                           
+                                        <a class="btn btn-info" href="/Admin/Seo/@item.Id/@WhereSeo.Blog" target="_blank">
+                                           Seo
+                                        </a>
                                         <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>

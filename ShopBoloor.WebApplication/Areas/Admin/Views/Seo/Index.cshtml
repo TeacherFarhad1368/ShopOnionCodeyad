@@ -1,0 +1,61 @@
+﻿@model Seos.Application.Contract.CreateSeo
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form">
+                <input type="hidden" asp-for="Where">
+                <input type="hidden" asp-for="OwnerId">
+                <div class="box-body">
+                    <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="MetaTitle"></label>
+                                <input class="form-control" asp-for="MetaTitle">
+                                <span class="text-danger" asp-validation-for="MetaTitle"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="IndexPage"></label>
+                                <input type="checkbox" asp-for="IndexPage">
+                                <span class="text-danger" asp-validation-for="IndexPage"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MetaDescription"></label>
+                                <textarea class="form-control" rows="5" asp-for="MetaDescription">
+                                
+                                </textarea>
+                                <span class="text-danger" asp-validation-for="MetaDescription"></span>
+                            </div>
+                        <div class="form-group">
+                            <label asp-for="Canonical"></label>
+                            <textarea class="form-control" rows="5" asp-for="Canonical">
+
+                                </textarea>
+                            <span class="text-danger" asp-validation-for="Canonical"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MetaKeyWords"></label>
+                            <textarea class="form-control" rows="5" asp-for="MetaKeyWords">
+
+                                </textarea>
+                            <span class="text-danger" asp-validation-for="MetaKeyWords"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Schema"></label>
+                            <textarea class="form-control" rows="5" asp-for="Schema">
+
+                                </textarea>
+                            <span class="text-danger" asp-validation-for="Schema"></span>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
