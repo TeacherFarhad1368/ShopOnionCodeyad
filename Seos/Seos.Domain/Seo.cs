@@ -8,11 +8,11 @@ namespace Seos.Domain
         public WhereSeo Where { get; private set; }
         public int OwnerId { get; private set; }
         public string MetaTitle { get; private set; }
-        public string MetaDescription { get; private set; }
-        public string MetaKeyWords { get; private set; }
+        public string? MetaDescription { get; private set; }
+        public string? MetaKeyWords { get; private set; }
         public bool IndexPage { get; private set; }
-        public string Canonical { get; private set; }
-        public string Schema { get; private set; }
+        public string? Canonical { get; private set; }
+        public string? Schema { get; private set; }
         private Seo()
         {
 
@@ -30,8 +30,8 @@ namespace Seos.Domain
            SetValues(metaTitle, metaDescription, metaKeyWords,indexPage,canonical, schema); 
             UpdateEntity();
         }
-        private void SetValues(string metaTitle, string metaDescription, string metaKeyWords,
-			bool indexPage, string canonical, string schema)
+        private void SetValues(string metaTitle, string? metaDescription, string? metaKeyWords,
+			bool indexPage, string? canonical, string? schema)
         {
 			MetaTitle = metaTitle;
 			MetaDescription = metaDescription;

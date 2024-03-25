@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PostModule.Query;
 using Query.Contract.Admin.Comment;
 using Query.Contract.Admin.Email;
+using Query.Contract.Admin.Seo;
 using Query.Services.Admin;
 using Seos.Query;
 using Site.Query;
@@ -29,6 +30,7 @@ namespace Query.Services
 
 			services.AddTransient<ICommentAdminQuery, CommentAdminQuery>();
 			services.AddTransient<IEmailAdminQuery, EmailAdminQuery>();
+			services.AddTransient<ISeoAdminQuery, SeoAdminQuery>();
 		}
 	}
 }

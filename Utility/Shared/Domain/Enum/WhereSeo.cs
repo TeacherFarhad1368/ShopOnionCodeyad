@@ -9,9 +9,12 @@ namespace Shared.Domain.Enum
 	public enum WhereSeo
 	{
 		Product,
+		ProductCategory,
 		Blog,
-		Home,
+		BlogCategory,
+        Home,
 		About,
-		Contact
+		Contact,
+		Page
 	}
 }

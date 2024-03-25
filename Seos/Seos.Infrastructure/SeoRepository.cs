@@ -20,12 +20,12 @@ namespace Seos.Infrastructure
        
         public Seo GetSeo(int ownerId, WhereSeo where)
         {
-            return _context.Seos.FirstOrDefault(s => s.OwnerId == ownerId && s.Where == where);
+            return _context.Seos.SingleOrDefault(s => s.OwnerId == ownerId && s.Where == where);
         }
 
         public CreateSeo GetSeoForUbsert(int ownerId, WhereSeo where)
         {
-            var seo = _context.Seos.FirstOrDefault(s => s.OwnerId == ownerId && s.Where == where);
+            var seo = _context.Seos.SingleOrDefault(s => s.OwnerId == ownerId && s.Where == where);
             if (seo == null)
                 return new()
                 {
