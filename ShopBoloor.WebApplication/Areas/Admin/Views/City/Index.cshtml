@@ -1,0 +1,113 @@
+﻿@model PostModule.Application.Contract.StateQuery.StateDetailQueryModel
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "شهر های استان " + Model.Name;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <hr />
+                <a class="btn btn-success" asp-action="Create" asp-route-id="@Model.Id">
+                    <i class=" fa fa-plus mx-2"></i> شهر جدید برای @Model.Name
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th> شهر  </th>
+                            <th>وضعیت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Cities.Count() > 0)
+                        {
+                            foreach(var item in Model.Cities)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        @item.Id
+                                    </td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.Status
+                                    </td>
+                                    <td>
+                                        @item.CreationDate
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> </th>
+                            <th> شهر  </th>
+                            <th>وضعیت</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                استان های هم جوار
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th> استان  </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.States.Count() > 0)
+                        {
+                            List<string> states = new List<string>();
+                            if (string.IsNullOrEmpty(Model.CloseStates))
+                                states = Model.CloseStates.Split("-").ToList();
+                            foreach (var item in Model.States)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        @item.Id
+                                    </td>
+                                    <td>
+                                        @item.title
+                                    </td>
+                                    <td>
+                                       <input type="checkbox" checked=@(states.Any(s=> s == item.Id.ToString()) ? "checked" : false) />
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+    </script>
+}

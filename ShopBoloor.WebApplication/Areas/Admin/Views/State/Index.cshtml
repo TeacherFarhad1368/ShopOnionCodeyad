@@ -1,0 +1,79 @@
+﻿@model List<PostModule.Application.Contract.StateQuery.StateAdminQueryModel>
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "لیست استان ها";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <hr />
+                <a class="btn btn-success" asp-action="Create">
+                    <i class=" fa fa-plus mx-2"></i> استان جدید
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> استان</th>
+                            <th>تعداد شهر  </th>
+                            <th>تاریخ ثبت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Count() > 0)
+                        {
+                            foreach(var item in Model)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.CityCount
+                                    </td>
+                                    <td>
+                                        @item.CreateDate
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-info" title="جزییات @item.Title" asp-controller="City" asp-action="Index" asp-route-id="@item.Id">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> استان</th>
+                            <th>تعداد شهر  </th>
+                            <th>تاریخ ثبت</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}

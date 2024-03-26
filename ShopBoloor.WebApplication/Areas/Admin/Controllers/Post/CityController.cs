@@ -12,9 +12,17 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 		private readonly IStateQuery _stateQuery;
 		private readonly ICityApplication _cityApplication;
 		private readonly IStateApplication _stateApplication;
-		public IActionResult Index(int id)
+
+        public CityController(IStateQuery stateQuery, ICityApplication cityApplication, IStateApplication stateApplication)
+        {
+            _stateQuery = stateQuery;
+            _cityApplication = cityApplication;
+            _stateApplication = stateApplication;
+        }
+
+        public IActionResult Index(int id)
 		{
-			return View(_stateQuery.GetStateDetail(id));
+			return View( _stateQuery.GetStateDetail(id));
 		}
 		public IActionResult Create() => View();
 		[HttpPost]
@@ -25,7 +33,7 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 			if (res.Success)
 			{
 				TempData["ok"] = true;
-				return RedirectToAction("Index");
+				return Redirect($"/Admin/City/Index/{model.StateId}");
 			}
 			ModelState.AddModelError(res.ModelName, res.Message);
 			return View(model);

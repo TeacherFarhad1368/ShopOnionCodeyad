@@ -48,3 +48,15 @@ function readURL(input) {
 $("input#chooseImage").change(function () {
     readURL(this);
 });
+function readURL1(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('img#destinationImage1').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("input#chooseImage1").change(function () {
+    readURL1(this);
+});

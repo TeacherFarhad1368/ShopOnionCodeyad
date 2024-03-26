@@ -24,6 +24,7 @@ namespace PostModule.Query.Services
             StateDetailQueryModel model = new()
             {
                 Name = state.Title,
+                Id =state.Id,
                 CloseStates = state.CloseStates,
                 States = new(),
                 Cities = new(),

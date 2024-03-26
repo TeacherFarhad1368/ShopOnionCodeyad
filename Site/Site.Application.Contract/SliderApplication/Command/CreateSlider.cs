@@ -12,5 +12,9 @@ namespace Site.Application.Contract.SliderApplication.Command
         [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
         [MaxLength(250, ErrorMessage = ValidationMessages.MaxLengthMessage)]
         public string ImageAlt { get; set; }
+        [Display(Name = "لینک مقصد")]
+        [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
+        [MaxLength(900, ErrorMessage = ValidationMessages.MaxLengthMessage)]
+        public string Url { get; set; }
     } 
 }

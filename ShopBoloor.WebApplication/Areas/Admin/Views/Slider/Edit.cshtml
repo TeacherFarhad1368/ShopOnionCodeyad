@@ -1,0 +1,49 @@
+﻿@model Site.Application.Contract.SliderApplication.Command.EditSlider
+@using Shared.Domain.Enum;
+@using Shared.Application;
+@{
+    ViewData["Title"] = "ویرایش اسلاید ";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ImageName" />
+                <div class="box-body">
+                    <div class="col-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ImageAlt"></label>
+                                <input class="form-control" asp-for="ImageAlt">
+                                <span class="text-danger" asp-validation-for="ImageAlt"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Url"></label>
+                                <input class="form-control" asp-for="Url">
+                                <span class="text-danger" asp-validation-for="Url"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>
+                                تصویر مربوطه
+                            </h3>
+                            <img width="300px" id="destinationImage" class="img-thumbnail" src="@FileDirectories.SliderImageDirectory@Model.ImageName" />
+                            <div class="form-group">
+                                <input type="file" id="chooseImage" class="form-control" asp-for="ImageFile">
+                                <span class="text-danger" asp-validation-for="ImageFile"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-warning">ویرایش</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

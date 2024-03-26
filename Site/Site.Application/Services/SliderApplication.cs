@@ -33,8 +33,8 @@ namespace Site.Application.Services
             if (imageName == "")
                 return new(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
 
-            _fileService.ResizeImage(imageName, FileDirectories.SliderImageDirectory100, 100);
-            Slider slider = new(imageName, command.ImageAlt);
+            _fileService.ResizeImage(imageName, FileDirectories.SliderImageFolder, 100);
+            Slider slider = new(imageName, command.ImageAlt,command.Url);
             if (_sliderRepository.Create(slider)) return new(true);
             _fileService.DeleteImage($"{FileDirectories.SliderImageDirectory}{imageName}");
             _fileService.DeleteImage($"{FileDirectories.SliderImageDirectory100}{imageName}");
@@ -52,9 +52,9 @@ namespace Site.Application.Services
                 imageName = _fileService.UploadImage(command.ImageFile, FileDirectories.SliderImageFolder);
                 if (imageName == "")
                     return new(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
-                _fileService.ResizeImage(imageName, FileDirectories.SliderImageDirectory100, 100);
+                _fileService.ResizeImage(imageName, FileDirectories.SliderImageFolder, 100);
             }
-            slider.Edit(imageName, command.ImageAlt);
+            slider.Edit(imageName, command.ImageAlt,command.Url);
             if (_sliderRepository.Save())
             {
                 if (command.ImageFile != null)

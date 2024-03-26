@@ -1,0 +1,176 @@
+﻿@model Site.Application.Contract.SiteSettingApplication.Command.UbsertSiteSetting
+@using Shared.Application;
+@{
+    ViewData["Title"] = "تنظیمات سایت";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Instagram"></label>
+                                    <input class="form-control" asp-for="Instagram">
+                                    <span class="text-danger" asp-validation-for="Instagram"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Telegram"></label>
+                                    <input class="form-control" asp-for="Telegram">
+                                    <span class="text-danger" asp-validation-for="Telegram"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="WhatsApp"></label>
+                                    <input class="form-control" asp-for="WhatsApp">
+                                    <span class="text-danger" asp-validation-for="WhatsApp"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Youtube"></label>
+                                    <input class="form-control" asp-for="Youtube">
+                                    <span class="text-danger" asp-validation-for="Youtube"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Android"></label>
+                                    <input class="form-control" asp-for="Android">
+                                    <span class="text-danger" asp-validation-for="Android"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="IOS"></label>
+                                    <input class="form-control" asp-for="IOS">
+                                    <span class="text-danger" asp-validation-for="IOS"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="FooterTitle"></label>
+                                    <input class="form-control" asp-for="FooterTitle">
+                                    <span class="text-danger" asp-validation-for="FooterTitle"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="FooterDescription"></label>
+                                    <textarea class="form-control" asp-for="FooterDescription">
+
+                                </textarea>
+                                    <span class="text-danger" asp-validation-for="FooterDescription"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img width="300px" id="destinationImage" class="img-thumbnail" 
+                                src="@(string.IsNullOrEmpty(Model.LogoName) ? "" : $"{FileDirectories.SiteImageDirectory}{Model.LogoName}")" />
+                                <div class="form-group">
+                                    <label asp-for="LogoFile"></label>
+                                    <input type="file" id="chooseImage" class="form-control" asp-for="LogoFile">
+                                    <span class="text-danger" asp-validation-for="LogoFile"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="LogoAlt"></label>
+                                    <input class="form-control" asp-for="LogoAlt">
+                                    <span class="text-danger" asp-validation-for="LogoAlt"></span>
+                                </div>
+                                <img width="300px" id="destinationImage1" class="img-thumbnail"
+                                     src="@(string.IsNullOrEmpty(Model.LogoName) ? "" : $"{FileDirectories.SiteImageDirectory}{Model.FavIcon}")" />
+                                <div class="form-group">
+                                    <label asp-for="FavIconFile"></label>
+                                    <input type="file" id="chooseImage1" class="form-control" asp-for="FavIconFile">
+                                    <span class="text-danger" asp-validation-for="FavIconFile"></span>
+                                </div>>
+                                <div class="form-group">
+                                    <label asp-for="Phone1"></label>
+                                    <input class="form-control" asp-for="Phone1">
+                                    <span class="text-danger" asp-validation-for="Phone1"></span>
+                                </div>>
+                                <div class="form-group">
+                                    <label asp-for="Phone2"></label>
+                                    <input class="form-control" asp-for="Phone2">
+                                    <span class="text-danger" asp-validation-for="Phone2"></span>
+                                </div>>
+                                <div class="form-group">
+                                    <label asp-for="Email1"></label>
+                                    <input class="form-control" asp-for="Email1">
+                                    <span class="text-danger" asp-validation-for="Email1"></span>
+                                </div>>
+                                <div class="form-group">
+                                    <label asp-for="Email2"></label>
+                                    <input class="form-control" asp-for="Email2">
+                                    <span class="text-danger" asp-validation-for="Email2"></span>
+                                </div>>
+                                <div class="form-group">
+                                    <label asp-for="Address"></label>
+                                    <input class="form-control" asp-for="Address">
+                                    <span class="text-danger" asp-validation-for="Address"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="ContactDescription"></label>
+                                <textarea id="editor4" asp-for="ContactDescription" rows="10"
+                                          cols="80">
+
+                                  </textarea>
+                                <span class="text-danger" asp-validation-for="ContactDescription"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SamanDehi"></label>
+                                <textarea id="editor1" asp-for="SamanDehi" rows="7"
+                                          cols="80">
+
+                                  </textarea>
+                                <span class="text-danger" asp-validation-for="SamanDehi"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Enamad"></label>
+                                <textarea id="editor2" asp-for="Enamad" rows="7"
+                                          cols="80">
+
+                                  </textarea>
+                                <span class="text-danger" asp-validation-for="Enamad"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SeoBox"></label>
+                                <textarea id="editor3" asp-for="SeoBox" rows="7"
+                                          cols="80">
+
+                                  </textarea>
+                                <span class="text-danger" asp-validation-for="SeoBox"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AboutTitle"></label>
+                                <input class="form-control" asp-for="AboutTitle">
+                                <span class="text-danger" asp-validation-for="AboutTitle"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AboutDescription"></label>
+                                <textarea id="editor5" asp-for="AboutDescription" rows="10"
+                                          cols="80">
+
+                                  </textarea>
+                                <span class="text-danger" asp-validation-for="AboutDescription"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            CKEDITOR.replace('editor1')
+            CKEDITOR.replace('editor2')
+            CKEDITOR.replace('editor3')
+            CKEDITOR.replace('editor4')
+            CKEDITOR.replace('editor5')
+            $('.textarea').wysihtml5()
+        })
+    </script>
+}

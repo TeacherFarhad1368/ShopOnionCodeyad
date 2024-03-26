@@ -1,7 +1,7 @@
-﻿@model List<Site.Application.Contract.BanerApplication.Query.BanerForAdminQueryModel>
+﻿@model List<Site.Application.Contract.SitePageApplication.Query.SitePageAdminQueryModel>
 @using Shared.Domain.Enum;
 @{
-    ViewData["Title"] = "لیست بنر ها";
+    ViewData["Title"] = "لیست صفحات";
 }
 <div class="row">
     <div class="col-xs-12">
@@ -9,7 +9,7 @@
             <div class="box-header">
                 <hr />
                 <a class="btn btn-success" asp-action="Create">
-                    <i class=" fa fa-plus mx-2"></i> بنر جدید
+                    <i class=" fa fa-plus mx-2"></i> صفحه جدید
                 </a>
             </div>
             <!-- /.box-header -->
@@ -17,10 +17,10 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th> تصویر</th>
-                            <th>Alt تصویر</th>
+                            <th> عنوان</th>
+                            <th>لینک سربرگ</th>
                             <th>تاریخ ثبت</th>
-                            <th>مکان</th>
+                            <th>تاریخ ویرایش</th>
                             <th>فعال</th>
                             <th></th>
                         </tr>
@@ -28,25 +28,26 @@
                     <tbody>
                         @if(Model.Count() > 0)
                         {
-                            foreach(var item in Model)
+                            foreach (var item in Model)
                             {
                                 <tr id="Deleted_@item.Id">
                                     <td>
-                                        <img width="100px" src="@item.ImageName" />
+                                        @item.Title
                                     </td>
                                     <td>
-                                        @item.ImageAlt
+                                        @item.Slug
                                     </td>
                                     <td>
-                                        @item.CreationDate
+                                        @item.CreateDate
                                     </td>
                                     <td>
-                                        @item.State.ToString().Replace("_"," ")
+                                        @item.UpdateDate
                                     </td>
                                     <td>
                                         @{
                                             string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
-                                            string text = item.Active ? "بعد از غیر فعال شدن این بنر داده نمیشود ." : "بعد از فعال شدن این بنر نمایش داده میشود";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این صفحه به 404  ری دایرکت میشود ." 
+                                            : "بعد از فعال شدن این صفحه نمایش داده میشود";
                                             string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
                                             string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
                                         }
@@ -57,7 +58,7 @@
                                  'question',
                                  '@confirm',
                                   '@cancel',
-                                   '/Admin/Baner/Active/@item.Id')">
+                                   '/Admin/SitePage/Active/@item.Id')">
                                             <div class="block">
                                                 <input data-index="pie_@item.Id" id="pie-@item.Id"
                                                 @(item.Active ? "checked" : "") type="checkbox" />
@@ -66,7 +67,10 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a class="btn btn-warning" title="ویرایش این بنر" asp-action="Edit" asp-route-id="@item.Id">
+                                        <a class="btn btn-info" href="/Admin/Seo/@item.Id/@WhereSeo.Page" target="_blank">
+                                           Seo
+                                        </a>
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </td>
@@ -76,10 +80,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th> تصویر</th>
-                            <th>Alt تصویر</th>
+                            <th> عنوان</th>
+                            <th>لینک سربرگ</th>
                             <th>تاریخ ثبت</th>
-                            <th>مکان</th>
+                            <th>تاریخ ویرایش</th>
                             <th>فعال</th>
                             <th></th>
                         </tr>

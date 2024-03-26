@@ -19,6 +19,7 @@ internal class SliderRepository : Repository<int, Slider>, ISliderRepository
             ImageAlt = s.ImageAlt,
             Id = s.Id,
             ImageFile = null,
-            ImageName = s.ImageName
+            ImageName = s.ImageName,
+            Url = s.Url
         }).SingleOrDefault(s => s.Id == id);
 }

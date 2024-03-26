@@ -1,7 +1,7 @@
-﻿@model List<Site.Application.Contract.BanerApplication.Query.BanerForAdminQueryModel>
+﻿@model List<Site.Application.Contract.SiteServiceApplication.Query.SiteServiceAdminQueryModel>
 @using Shared.Domain.Enum;
 @{
-    ViewData["Title"] = "لیست بنر ها";
+    ViewData["Title"] = "لیست خدمات";
 }
 <div class="row">
     <div class="col-xs-12">
@@ -9,7 +9,7 @@
             <div class="box-header">
                 <hr />
                 <a class="btn btn-success" asp-action="Create">
-                    <i class=" fa fa-plus mx-2"></i> بنر جدید
+                    <i class=" fa fa-plus mx-2"></i> خدمات جدید
                 </a>
             </div>
             <!-- /.box-header -->
@@ -19,8 +19,8 @@
                         <tr>
                             <th> تصویر</th>
                             <th>Alt تصویر</th>
+                            <th>عنوان</th>
                             <th>تاریخ ثبت</th>
-                            <th>مکان</th>
                             <th>فعال</th>
                             <th></th>
                         </tr>
@@ -38,15 +38,16 @@
                                         @item.ImageAlt
                                     </td>
                                     <td>
-                                        @item.CreationDate
+                                        @item.Title
                                     </td>
                                     <td>
-                                        @item.State.ToString().Replace("_"," ")
+                                        @item.CreationDate
                                     </td>
                                     <td>
                                         @{
                                             string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
-                                            string text = item.Active ? "بعد از غیر فعال شدن این بنر داده نمیشود ." : "بعد از فعال شدن این بنر نمایش داده میشود";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این خدمات داده نمیشود ." 
+                                            : "بعد از فعال شدن این خدمات نمایش داده میشود";
                                             string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
                                             string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
                                         }
@@ -57,7 +58,7 @@
                                  'question',
                                  '@confirm',
                                   '@cancel',
-                                   '/Admin/Baner/Active/@item.Id')">
+                                   '/Admin/SiteService/Active/@item.Id')">
                                             <div class="block">
                                                 <input data-index="pie_@item.Id" id="pie-@item.Id"
                                                 @(item.Active ? "checked" : "") type="checkbox" />
@@ -66,7 +67,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a class="btn btn-warning" title="ویرایش این بنر" asp-action="Edit" asp-route-id="@item.Id">
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </td>

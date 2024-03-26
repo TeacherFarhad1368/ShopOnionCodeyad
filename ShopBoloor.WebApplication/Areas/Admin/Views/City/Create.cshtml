@@ -1,0 +1,26 @@
+﻿@model PostModule.Application.Contract.CityApplication.CreateCityModel
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "افزودن شهر ";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form">
+                <input type="hidden" asp-for="StateId" />
+                <div class="box-body">
+                    <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input class="form-control" asp-for="Title">
+                                <span class="text-danger" asp-validation-for="Title"></span>
+                            </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

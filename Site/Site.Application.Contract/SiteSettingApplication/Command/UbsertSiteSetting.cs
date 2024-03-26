@@ -6,7 +6,7 @@ namespace Site.Application.Contract.SiteSettingApplication.Command
 {
     public class UbsertSiteSetting
     {
-        [Display(Name = "لینک پیج اینستاگرام")]
+        [Display(Name = "لینک پیج اینستاگرام")] 
         [MaxLength(600, ErrorMessage = ValidationMessages.MaxLengthMessage)]
         public string? Instagram { get; set; }
         [Display(Name = "لینک واتس اپ")]
