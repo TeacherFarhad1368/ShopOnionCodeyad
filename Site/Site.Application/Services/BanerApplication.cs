@@ -38,7 +38,7 @@ namespace Site.Application.Services
             if (imageName == "")
                 return new(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
 
-            _fileService.ResizeImage(imageName, FileDirectories.BanerImageDirectory100, 100);
+            _fileService.ResizeImage(imageName, FileDirectories.BanerImageFolder, 100);
             Baner baner = new(imageName, command.ImageAlt, command.Url, command.State);
             if (_banerRepository.Create(baner))
                 return new(true);
@@ -58,7 +58,7 @@ namespace Site.Application.Services
                 imageName = _fileService.UploadImage(command.ImageFile, FileDirectories.BanerImageFolder);
                 if (imageName == "")
                     return new(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
-                _fileService.ResizeImage(imageName, FileDirectories.BanerImageDirectory100, 100);
+                _fileService.ResizeImage(imageName, FileDirectories.BanerImageFolder, 100);
             }
                 baner.Edit(imageName, command.ImageAlt, command.Url);
                 if (_banerRepository.Save())

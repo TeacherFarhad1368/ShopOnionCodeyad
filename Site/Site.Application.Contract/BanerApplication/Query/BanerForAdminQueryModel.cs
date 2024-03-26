@@ -6,9 +6,9 @@ namespace Site.Application.Contract.BanerApplication.Query
     {
         public int Id { get; set; }
         public string ImageName { get; set; }
-        public string Url { get; set; }
+        public string ImageAlt { get; set; }
         public BanerState State { get; set; }
-        public bool ActivationChange { get; set; }
+        public bool Active { get; set; }
         public string CreationDate { get; set; }
     }
 }
