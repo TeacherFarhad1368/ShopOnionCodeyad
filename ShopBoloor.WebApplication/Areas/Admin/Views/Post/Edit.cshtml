@@ -1,0 +1,67 @@
+﻿@model PostModule.Application.Contract.PostApplication.EditPost
+@using Shared.Application
+@{
+    ViewData["Title"] = "ویرایش پست ";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form" >
+                <input type="hidden" asp-for="Id">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input class="form-control" asp-for="Title">
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StateNonClosePricePlus"></label>
+                        <input class="form-control" asp-for="StateNonClosePricePlus">
+                        <span class="text-danger" asp-validation-for="StateNonClosePricePlus"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="InsideStatePricePlus"></label>
+                        <input class="form-control" asp-for="InsideStatePricePlus">
+                        <span class="text-danger" asp-validation-for="InsideStatePricePlus"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StateClosePricePlus"></label>
+                        <input class="form-control" asp-for="StateCenterPricePlus">
+                        <span class="text-danger" asp-validation-for="StateClosePricePlus"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StateCenterPricePlus"></label>
+                        <input class="form-control" asp-for="StateCenterPricePlus">
+                        <span class="text-danger" asp-validation-for="StateCenterPricePlus"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TehranPricePlus"></label>
+                        <input class="form-control" asp-for="TehranPricePlus">
+                        <span class="text-danger" asp-validation-for="TehranPricePlus"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CityPricePlus"></label>
+                        <input class="form-control" asp-for="CityPricePlus">
+                        <span class="text-danger" asp-validation-for="CityPricePlus"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status"></label>
+                        <input class="form-control" asp-for="Status">
+                        <span class="text-danger" asp-validation-for="Status"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea class="form-control" asp-for="Description" rows="7">
+
+                                </textarea>
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                    </div>
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-warning">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

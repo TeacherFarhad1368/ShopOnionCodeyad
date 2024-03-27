@@ -48,7 +48,7 @@
                                         </a>
                                         @if(item.Status != CityStatus.شهرستان_معمولی)
                                         {
-                                            <a class="btn btn-primary" onclick="AjaxSweetRefresh(
+                                            <a class="btn btn-info" onclick="AjaxSweetRefresh(
                                  'شهرستان معمولی شود',
                                  'شهرستان معمولی شود',
                                  'question',
@@ -58,11 +58,11 @@
                                                 شهرستان معمولی
                                             </a>
                                         }
-                                        @if (item.Status != CityStatus.تهران)
+                                        @if (item.Status != CityStatus.تهران && Model.Name.Trim() == "تهران")
                                         {
-                                            <a class="btn btn-primary" onclick="AjaxSweetRefresh(
+                                            <a class="btn btn-default" onclick="AjaxSweetRefresh(
                                  'تهران شود',
-                                 'تهران شود',
+                                 'اگر این شهرستان به عنوان تهران معرفی شود . هر شهرستان دیگری که تهران باشد به وضعیت شهرستان معمولی باز میگردد',
                                  'question',
                                  'تهران شود',
                                   'انصراف',
@@ -70,11 +70,11 @@
                                                 تهران ؟
                                             </a>
                                         }
-                                        @if (item.Status != CityStatus.مرکز_استان)
+                                        @if (item.Status != CityStatus.مرکز_استان && Model.Name.Trim() != "تهران")
                                         {
                                             <a class="btn btn-primary" onclick="AjaxSweetRefresh(
                                  'مرکز استان شود',
-                                 'مرکز استان شود',
+                                 'اگر این شهرستان به عنوان مرکز @Model.Name معرفی شود . هر شهرستان دیگری که مرکز @Model.Name  باشد به وضعیت شهرستان معمولی باز میگردد',
                                  'question',
                                  'مرکز استان  شود',
                                   'انصراف',

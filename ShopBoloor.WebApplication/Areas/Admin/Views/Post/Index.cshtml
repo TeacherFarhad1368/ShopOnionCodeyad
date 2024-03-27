@@ -1,0 +1,147 @@
+﻿@model List<PostModule.Application.Contract.PostQuery.PostAdminQueryModel>
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "لیست پست ها";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <hr />
+                <a class="btn btn-success" asp-action="Create">
+                    <i class=" fa fa-plus mx-2"></i> پست جدید
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> عنوان</th>
+                            <th>تاریخ ثبت</th>
+                            <th>فعال ؟</th>
+                            <th>درون شهری ؟</th>
+                            <th>برون شهری ؟</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.CreationDate
+                                    </td>
+                                    <td>
+                                        @{
+                                            string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این پست قیمت ها را محاسبه نمیکند ." : "بعد از فعال شدن این پست قیمت ها را محاسبه میکند";
+                                            string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
+                                            string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
+                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/Post/Active/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="pie_@item.Id" id="pie-@item.Id"
+                                                @(item.Active ? "checked" : "") type="checkbox" />
+                                                <label for="pie-@item.Id"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @{
+                                            string inSidetitle = item.InsideCity ? "درون شهری ندارد ؟؟؟" : "درون شهری دارد ؟؟؟";
+                                            string inSidetext = item.InsideCity ? 
+                                            "بعد از غیر فعال شدن برای درون شهری قیمت محاسبه نمیشود ." 
+                                            : "بعد از فعال شدن برای درون شهری قیمت محاسبه  میشود و شما باید قیمت ها را تایین کنید";
+                                            string inSidecancel = item.InsideCity ? "درون شهری بماند" : "درون شهری نباشد";
+                                            string inSideconfirm = item.InsideCity ? "از حالت درون شهری خارج شود" : "درون شهری شود";
+                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@inSidetitle',
+                                 '@inSidetext',
+                                 'question',
+                                 '@inSideconfirm',
+                                  '@inSidecancel',
+                                   '/Admin/Post/Inside/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="in_@item.Id" id="in-@item.Id"
+                                                @(item.InsideCity ? "checked" : "") type="checkbox" />
+                                                <label for="in-@item.Id"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @{
+                                            string outSidetitle = item.OutsideCity ? "برون شهری ندارد ؟؟؟" : "برون شهری دارد ؟؟؟";
+                                            string outSidetext = item.OutsideCity ? 
+                                            "بعد از غیر فعال شدن برای برون شهری قیمت محاسبه نمیشود ." 
+                                            : "بعد از فعال شدن برای برون شهری قیمت محاسبه  میشود و شما باید قیمت ها را تایین کنید";
+                                            string outSidecancel = item.OutsideCity ? "برون شهری بماند" : "برون شهری نباشد";
+                                            string outSideconfirm = item.OutsideCity ?  "از حالت برون شهری خارج شود" : "برون شهری شود";
+                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@outSidetitle',
+                                 '@outSidetext',
+                                 'question',
+                                 '@outSideconfirm',
+                                  '@outSidecancel',
+                                   '/Admin/Post/Outside/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="out_@item.Id" id="out-@item.Id"
+                                                @(item.OutsideCity ? "checked" : "") type="checkbox" />
+                                                <label for="out-@item.Id"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                                <th> عنوان</th>
+                            <th>تاریخ ثبت</th>
+                            <th>فعال</th>
+                            <th>درون شهری ؟</th>
+                            <th>برون شهری ؟</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}
