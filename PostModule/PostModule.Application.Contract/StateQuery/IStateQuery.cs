@@ -12,5 +12,6 @@ namespace PostModule.Application.Contract.StateQuery
         List<StateQueryModel> GetStatesWithCity();
         List<StateAdminQueryModel> GetStatesForAdmin();
 		StateDetailQueryModel GetStateDetail(int id);
-	}
+        string GetStateTitle(int id);
+    }
 }

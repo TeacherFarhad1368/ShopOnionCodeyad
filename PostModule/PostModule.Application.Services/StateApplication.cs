@@ -15,6 +15,7 @@ namespace PostModule.Application.Services
 
 		public bool ChangeStateClose(int id, List<int> stateCloses)
 		{
+            if (stateCloses.Count() < 1) return false;
             var state = _stateRepository.GetById(id);
             state.ChangeCloseStates(stateCloses);
             return _stateRepository.Save();

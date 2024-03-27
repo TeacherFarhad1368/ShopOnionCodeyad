@@ -71,6 +71,10 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+                <form method="post" href="/Admin/State/Close/@Model.Id">
+                    <button type="submit" class="btn btn-success">
+                        تغییر استان های هم جوار
+                    </button>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -95,13 +99,15 @@
                                         @item.title
                                     </td>
                                     <td>
-                                       <input type="checkbox" checked=@(states.Any(s=> s == item.Id.ToString()) ? "checked" : false) />
+                                       <input type="checkbox" name="states" value="@item.Id"
+                                           checked=@(states.Any(s=> s == item.Id.ToString()) ? "checked" : false) />
                                     </td>
                                 </tr>
                             }
                         }
                     </tbody>
-                </table>
+                    </table>
+                </form>
             </div>
         </div>
     </div>

@@ -24,11 +24,17 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 		{
 			return View( _stateQuery.GetStateDetail(id));
 		}
-		public IActionResult Create() => View();
-		[HttpPost]
-		public IActionResult Create(CreateCityModel model)
+		public IActionResult Create(int id)
 		{
-			if (!ModelState.IsValid) return View(model);
+			ViewData["Title"] = "افزودن شهر به " + _stateQuery.GetStateTitle(id);
+			return View(new CreateCityModel { StateId = id });
+        }
+		[HttpPost]
+		public IActionResult Create(int id,CreateCityModel model)
+		{
+			if (id != model.StateId) return NotFound();
+            ViewData["Title"] = "افزودن شهر به " + _stateQuery.GetStateTitle(id);
+            if (!ModelState.IsValid) return View(model);
 			var res = _cityApplication.Create(model);
 			if (res.Success)
 			{
@@ -40,7 +46,7 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 		}
 		public IActionResult Edit(int id)
 		{
-			var model = _stateApplication.GetStateForEdit(id);
+			var model = _cityApplication.GetCityForEdit(id);
 			return View(model);
 		}
 		[HttpPost]
@@ -51,7 +57,7 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 			if (res.Success)
 			{
 				TempData["ok"] = true;
-				return RedirectToAction("Imdex");
+				return Redirect($"/Admin/City/Edit/{id}");
 			}
 			ModelState.AddModelError(res.ModelName, res.Message);
 			return View(model);

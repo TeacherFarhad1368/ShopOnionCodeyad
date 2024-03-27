@@ -64,5 +64,11 @@ namespace PostModule.Query.Services
                     Name = c.Title,
                 }).ToList()
             }).ToList();
+
+        public string GetStateTitle(int id)
+        {
+            var state = _post_Context.States.Find(id);
+            return state.Title;
+        }
     }
 }
