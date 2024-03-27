@@ -2,6 +2,7 @@
 @using Shared.Domain.Enum;
 @{
     ViewData["Title"] = "شهر های استان " + Model.Name;
+    var ChooseState = TempData["ChooseState"] != null;
 }
 <div class="row">
     <div class="col-xs-12">
@@ -45,6 +46,42 @@
                                         <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>
+                                        @if(item.Status != CityStatus.شهرستان_معمولی)
+                                        {
+                                            <a class="btn btn-primary" onclick="AjaxSweetRefresh(
+                                 'شهرستان معمولی شود',
+                                 'شهرستان معمولی شود',
+                                 'question',
+                                 'شهرستان معمولی شود',
+                                  'انصراف',
+                                   '/Admin/City/Status/@item.Id?status=@CityStatus.شهرستان_معمولی')" >
+                                                شهرستان معمولی
+                                            </a>
+                                        }
+                                        @if (item.Status != CityStatus.تهران)
+                                        {
+                                            <a class="btn btn-primary" onclick="AjaxSweetRefresh(
+                                 'تهران شود',
+                                 'تهران شود',
+                                 'question',
+                                 'تهران شود',
+                                  'انصراف',
+                                   '/Admin/City/Status/@item.Id?status=@CityStatus.تهران')">
+                                                تهران ؟
+                                            </a>
+                                        }
+                                        @if (item.Status != CityStatus.مرکز_استان)
+                                        {
+                                            <a class="btn btn-primary" onclick="AjaxSweetRefresh(
+                                 'مرکز استان شود',
+                                 'مرکز استان شود',
+                                 'question',
+                                 'مرکز استان  شود',
+                                  'انصراف',
+                                   '/Admin/City/Status/@item.Id?status=@CityStatus.مرکز_استان')">
+                                                مرکز استان
+                                            </a>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -71,7 +108,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <form method="post" href="/Admin/State/Close/@Model.Id">
+                <form method="post" action="/Admin/State/ChangeClose/@Model.Id">
                     <button type="submit" class="btn btn-success">
                         تغییر استان های هم جوار
                     </button>
@@ -87,22 +124,25 @@
                         @if (Model.States.Count() > 0)
                         {
                             List<string> states = new List<string>();
-                            if (string.IsNullOrEmpty(Model.CloseStates))
+                            if (string.IsNullOrEmpty(Model.CloseStates) == false)
                                 states = Model.CloseStates.Split("-").ToList();
                             foreach (var item in Model.States)
                             {
-                                <tr id="Deleted_@item.Id">
-                                    <td>
-                                        @item.Id
-                                    </td>
-                                    <td>
-                                        @item.title
-                                    </td>
-                                    <td>
-                                       <input type="checkbox" name="states" value="@item.Id"
-                                           checked=@(states.Any(s=> s == item.Id.ToString()) ? "checked" : false) />
-                                    </td>
-                                </tr>
+                                    if(item.Id != Model.Id)
+                                    {
+                                        <tr id="Deleted_@item.Id">
+                                            <td>
+                                                @item.Id
+                                            </td>
+                                            <td>
+                                                @item.title
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" name="stateCloses" value="@item.Id"
+                                                       checked=@(states.Any(s=> s == item.Id.ToString()) ? "checked" : false) />
+                                            </td>
+                                        </tr>
+                                    }
                             }
                         }
                     </tbody>
@@ -113,7 +153,10 @@
     </div>
 </div>
 @section Scripts{
-    <script>
-
-    </script>
+    @if (ChooseState)
+    {
+        <script>
+            AlertSweetTimer(" لطفا استان های هم جوار را انتخاب کنید   !!!", "error", 4000);
+        </script>
+    }
 }

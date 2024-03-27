@@ -71,18 +71,5 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 				return Redirect($"/Admin/City/Index/{id}");
 			}
 		}
-		[HttpPost]
-		public IActionResult Close(int id,List<int> states)
-		{
-			var res = _stateApplication.ChangeStateClose(id,states);
-			if (res)
-			{
-				TempData["ok"] = true;
-				return Redirect($"/Admin/City/Index/{id}");
-            }
-            TempData["faild"] = true;
-            return Redirect($"/Admin/City/Index/{id}");
-        }
-
     }
 }
