@@ -7,6 +7,28 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
+                <div class="col-12">
+                    <form>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>جست و جو بر اساس عنوان</label>
+                            <input type="text" class="form-control" name="filter" value="@Model.Filter">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>تعداد نمایش در هر صفحه</label>
+                            <input type="number" id="chooseImage" class="form-control" name="take" value="@Model.Take">
+                        </div>
+                        </div>
+                        <div class="vol-md-2">
+                            <label></label>
+                            <button type="submit" class="btn btn-info">
+                                جست و جو
+                            </button>
+                        </div>
+                    </form>
+                </div>
                 <hr />
                 <a class="btn btn-success" asp-action="CreateImage">
                     <i class=" fa fa-plus mx-2"></i> عکس جدید
@@ -54,15 +76,38 @@
                             }
                         }
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th> تصویر</th>
-                            <th> عنوان</th>
-                            <th>تاریخ ثبت</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
+
                 </table>
+                <div class="col-12 text-center">
+                    @if (Model.PageCount > 1)
+                    {
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            @if (Model.PageId > 1)
+                            {
+                                <li><a href="/Admin/Site/Images?pageid=@(Model.PageId - 1)&take=@Model.Take&filter=@Model.Filter">«</a></li>
+                            }
+                            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                            {
+                                if (i == Model.PageId)
+                                {
+                                    <li class="bg-info"><a>@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="/Admin/Site/Images?pageid=@i&take=@Model.Take&filter=@Model.Filter">@i</a></li>
+                                }
+                            }
+                            @if (Model.PageId < Model.PageCount)
+                            {
+                                <li><a href="/Admin/Site/Images?pageid=@(Model.PageId + 1)&take=@Model.Take&filter=@Model.Filter">»</a></li>
+                            }
+                            @if (Model.PageCount > Model.EndPage)
+                            {
+                                <li><a href="/Admin/Site/Images?pageid=@Model.PageCount&take=@Model.Take&filter=@Model.Filter">@Model.PageCount</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
             </div>
         </div>
     </div>

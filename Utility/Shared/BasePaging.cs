@@ -10,15 +10,16 @@ namespace Shared
 	{
         public void GetData(IQueryable<object> data,int pageId , int take, int showPageCount)
         {
+            PageCount = data.Count() / take;
+            if (data.Count() % take > 0) PageCount++;
             if (pageId < 1) pageId = 1;
+            if (pageId > PageCount) pageId = PageCount;
             PageId = pageId;
             Take = take;
             DataCount = data.Count();
             if(take < 1) take = 10;
             Take = take;
             Skip = (pageId - 1) * take;
-            PageCount = data.Count() / take;
-            if (data.Count() % take > 0) PageCount++;
             if(showPageCount < 1) showPageCount = 2;
             StartPage = pageId > showPageCount ? pageId - showPageCount : 1 ;
             EndPage = PageCount - pageId > showPageCount ? pageId + showPageCount : PageCount ; 
