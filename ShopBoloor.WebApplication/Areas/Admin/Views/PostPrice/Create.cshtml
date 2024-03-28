@@ -1,0 +1,60 @@
+﻿@model PostModule.Application.Contract.PostPriceApplication.CreatePostPrice
+@{
+    ViewData["Title"] = "افزودن قیمت برای پست ";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form">
+                <input type="hidden" asp-for="PostId">
+                <div class="box-body">
+                            <div class="form-group">
+                                <label asp-for="Start"></label>
+                        <input class="form-control" asp-for="Start">
+                        <span class="text-danger" asp-validation-for="Start"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="End"></label>
+                        <input class="form-control" asp-for="End">
+                        <span class="text-danger" asp-validation-for="End"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="InsideStatePrice"></label>
+                        <input class="form-control" asp-for="InsideStatePrice">
+                        <span class="text-danger" asp-validation-for="InsideStatePrice"></span>
+                            </div>
+                            <div class="form-group">
+                                    <label asp-for="StateClosePrice"></label>
+                        <input class="form-control" asp-for="StateClosePrice">
+                        <span class="text-danger" asp-validation-for="StateClosePrice"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StateNonClosePrice"></label>
+                        <input class="form-control" asp-for="StateNonClosePrice">
+                        <span class="text-danger" asp-validation-for="StateNonClosePrice"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TehranPrice"></label>
+                        <input class="form-control" asp-for="TehranPrice">
+                        <span class="text-danger" asp-validation-for="TehranPrice"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StateCenterPrice"></label>
+                        <input class="form-control" asp-for="StateCenterPrice">
+                        <span class="text-danger" asp-validation-for="StateCenterPrice"></span>
+                    </div>
+                            <div class="form-group">
+                                <label asp-for="CityPrice"></label>
+                        <input class="form-control" asp-for="CityPrice">
+                        <span class="text-danger" asp-validation-for="CityPrice"></span>
+                            </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

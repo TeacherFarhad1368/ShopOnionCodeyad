@@ -31,7 +31,7 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
             if (res.Success)
             {
                 TempData["ok"] = true;
-                return RedirectToAction("Index");
+                return Redirect($"/Admin/PostPrice/Index/{id}");
             }
             ModelState.AddModelError(res.ModelName, res.Message);
             return View(model);

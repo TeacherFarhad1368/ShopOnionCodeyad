@@ -1,0 +1,185 @@
+﻿@model PostModule.Application.Contract.PostQuery.PostAdminDetailQueryModel
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = " جزییات " + Model.Title;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <h3>
+                    @ViewData["Title"]
+                </h3>
+                <hr />
+                <a class="btn btn-warning" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">
+                    <i class=" fa fa-info mx-2"></i>  ویرایش این پست
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <h4>عنوان : @Model.Title</h4>
+                <h4> تحویل : @Model.Status</h4>
+                <h4>قیمت اضافه بر هر کیلوگرم و کسر آن درون شهری تهران : @Model.TehranPricePlus</h4>
+                <h4> قیمت اضافه بر هر کیلوگرم و کسر آن درون شهری شهرستان ها : @Model.CityPricePlus</h4>
+                <h4> قیمت اضافه بر هر کیلوگرم و کسر آن درون شهری  مراکز استان ها :@Model.StateCenterPricePlus</h4>
+                <h4>قیمت اضافه بر هر کیلوگرم و کسر آن درون استانس=ی :@Model.InsideStatePricePlus </h4>
+                <h4> قیمت اضافه بر هر کیلوگرم و کسر آن برون استانی هم جوار : @Model.StateClosePricePlus</h4>
+                <h4> قیمت اضافه بر هر کیلوگرم و کسر آن برون استانی غیر هم جوار :@Model.StateNonClosePricePlus</h4>
+                <h4> تاریخ ایجاد : @Model.CreationDate</h4>
+                <h4> توضیحات : @Model.Description</h4>
+                <h4> فعال :
+                    @{
+                        string title = Model.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
+                        string text = Model.Active ? "بعد از غیر فعال شدن این پست قیمت ها را محاسبه نمیکند ." : "بعد از فعال شدن این پست قیمت ها را محاسبه میکند";
+                        string cancel = Model.Active ? "فعال بماند" : "غیر فعال بماند";
+                        string confirm = Model.Active ? "غیر فعال شود" : "فعال شود";
+                    }
+                    <div class="checkbox-wrapper-49"
+                         onclick="AjaxSweetNotDelete(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/Post/Active/@Model.Id')">
+                        <div class="block">
+                            <input data-index="pie_@Model.Id" id="pie-@Model.Id"
+                            @(Model.Active ? "checked" : "") type="checkbox" />
+                            <label for="pie-@Model.Id"></label>
+                        </div>
+                    </div>
+                </h4>
+                <h4> درون شهری :
+                    @{
+                        string inSidetitle = Model.InsideCity ? "درون شهری ندارد ؟؟؟" : "درون شهری دارد ؟؟؟";
+                        string inSidetext = Model.InsideCity ?
+                        "بعد از غیر فعال شدن برای درون شهری قیمت محاسبه نمیشود ."
+                        : "بعد از فعال شدن برای درون شهری قیمت محاسبه  میشود و شما باید قیمت ها را تایین کنید";
+                        string inSidecancel = Model.InsideCity ? "درون شهری بماند" : "درون شهری نباشد";
+                        string inSideconfirm = Model.InsideCity ? "از حالت درون شهری خارج شود" : "درون شهری شود";
+                    }
+                    <div class="checkbox-wrapper-49"
+                         onclick="AjaxSweetNotDelete(
+                                 '@inSidetitle',
+                                 '@inSidetext',
+                                 'question',
+                                 '@inSideconfirm',
+                                  '@inSidecancel',
+                                   '/Admin/Post/Inside/@Model.Id')">
+                        <div class="block">
+                            <input data-index="in_@Model.Id" id="in-@Model.Id"
+                            @(Model.InsideCity ? "checked" : "") type="checkbox" />
+                            <label for="in-@Model.Id"></label>
+                        </div>
+                    </div>
+                </h4>
+                <h4> برون شهری :
+                    @{
+                        string outSidetitle = Model.OutsideCity ? "برون شهری ندارد ؟؟؟" : "برون شهری دارد ؟؟؟";
+                        string outSidetext = Model.OutsideCity ?
+                        "بعد از غیر فعال شدن برای برون شهری قیمت محاسبه نمیشود ."
+                        : "بعد از فعال شدن برای برون شهری قیمت محاسبه  میشود و شما باید قیمت ها را تایین کنید";
+                        string outSidecancel = Model.OutsideCity ? "برون شهری بماند" : "برون شهری نباشد";
+                        string outSideconfirm = Model.OutsideCity ? "از حالت برون شهری خارج شود" : "برون شهری شود";
+                    }
+                    <div class="checkbox-wrapper-49"
+                         onclick="AjaxSweetNotDelete(
+                                 '@outSidetitle',
+                                 '@outSidetext',
+                                 'question',
+                                 '@outSideconfirm',
+                                  '@outSidecancel',
+                                   '/Admin/Post/Outside/@Model.Id')">
+                        <div class="block">
+                            <input data-index="out_@Model.Id" id="out-@Model.Id"
+                            @(Model.OutsideCity ? "checked" : "") type="checkbox" />
+                            <label for="out-@Model.Id"></label>
+                        </div>
+                    </div>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3>
+                    لیست قیمت ها
+                </h3>
+                <hr />
+                <a class="btn btn-success" asp-action="Create" asp-route-id="@Model.Id">
+                    <i class=" fa fa-plus mx-2"></i> قیمت جدید برای @Model.Title 
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> وزن از</th>
+                            <th>وزن تا</th>
+                            <th>درون شهری</th>
+                            <th>درون شهری  مرکز استان</th>
+                            <th>درون شهری تهران</th>
+                            <th>درون استانی</th>
+                            <th>برون استانی هم جوار</th>
+                            <th>برون استانی غیر هم جوار</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.PostPrices.Count() > 0)
+                        {
+                            foreach (var item in Model.PostPrices)
+                            {
+                                <tr>
+                                    <td> @item.Start </td>
+                                    <td> @item.End</td>
+                                    <td> @item.CityPrice</td>
+                                    <td> @item.StateCenterPrice</td>
+                                    <td> @item.TehranPrice</td>
+                                    <td> @item.InsideStatePrice</td>
+                                    <td> @item.StateClosePrice</td>
+                                    <td> @item.StateNonClosePrice</td>
+                                    <td>
+                                        <a class="btn btn-warning" title="ویرایش این قیمت" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> وزن از</th>
+                            <th>وزن تا</th>
+                            <th>درون شهری</th>
+                            <th>درون شهری  مرکز استان</th>
+                            <th>درون شهری تهران</th>
+                            <th>درون استانی</th>
+                            <th>برون استانی هم جوار</th>
+                            <th>برون استانی غیر هم جوار</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}
