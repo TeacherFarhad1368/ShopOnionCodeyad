@@ -143,8 +143,8 @@
                     <li class=@(route.ToString().ToLower().Trim().Contains("/admin/slider/") ? "active" : "")>
                         <a href="/Admin/Slider/Index"><i class="fa fa-user-secret"></i>  مدیریت اسلایدر</a>
                     </li>
-                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/service/") ? "active" : "")>
-                        <a href="/Admin/Service/Index"><i class="fa fa-user-secret"></i>  مدیریت خدمات</a>
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/siteservice/") ? "active" : "")>
+                        <a href="/Admin/SiteService/Index"><i class="fa fa-user-secret"></i>  مدیریت خدمات</a>
                     </li>
                     <li class=@(route.ToString().ToLower().Trim().Contains("/admin/menu/") ? "active" : "")>
                         <a href="/Admin/Menu/Index"><i class="fa fa-user-secret"></i>  مدیریت منو</a>
@@ -152,10 +152,10 @@
                 </ul>
             </li>
             <li class=@(route.ToString().ToLower().Trim().Contains("/admin/image") ? "active" : "")>
-                <a href="/Admin/Image/Index"><i class="fa fa-book"></i> <span>عکس های آپلود شده</span></a>
+                <a href="/Admin/Site/Images"><i class="fa fa-book"></i> <span>عکس های آپلود شده</span></a>
                 </li>
-            <li class=@(route.ToString().ToLower().Trim().Contains("/admin/page") ? "active" : "")>
-                <a href="/Admin/Page/Index"><i class="fa fa-book"></i> <span>مدیریت صفحات</span></a>
+            <li class=@(route.ToString().ToLower().Trim().Contains("/admin/sitepage") ? "active" : "")>
+                <a href="/Admin/SitePage/Index"><i class="fa fa-book"></i> <span>مدیریت صفحات</span></a>
             </li>
         </ul>
     </section>

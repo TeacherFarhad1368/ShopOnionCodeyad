@@ -1,7 +1,7 @@
-﻿@model Site.Application.Contract.BanerApplication.Command.CreateBaner
+﻿@model Site.Application.Contract.SiteServiceApplication.Command.CreateSiteService
 @using Shared.Domain.Enum;
 @{
-    ViewData["Title"] = "افزودن بنر ";
+    ViewData["Title"] = "افزودن خدمات ";
 }
 <div class="row">
     <div class="col-xs-12">
@@ -9,27 +9,16 @@
             <form method="post" role="form" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="col-12">
-                        <div class="col-md-6">
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input class="form-control" asp-for="Title">
+                                <span class="text-danger" asp-validation-for="Title"></span>
+                            </div>
                             <div class="form-group">
                                 <label asp-for="ImageAlt"></label>
                                 <input class="form-control" asp-for="ImageAlt">
                                 <span class="text-danger" asp-validation-for="ImageAlt"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Url"></label>
-                                <input class="form-control" asp-for="Url">
-                                <span class="text-danger" asp-validation-for="Url"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="State"></label>
-                                <select class="form-control" asp-for="State" >
-                                    @foreach (var item in Enum.GetValues(typeof(BanerState)).Cast<BanerState>())
-                                    {
-                                       <option value="@item" >@item.ToString().Replace("_"," ")</option>
-                                    }
-
-                                </select>
-                                <span class="text-danger" asp-validation-for="State"></span>
                             </div>
                         </div>
                         <div class="col-md-6">

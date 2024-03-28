@@ -49,7 +49,7 @@ internal class SitePageApplication : ISitePageApplication
 			return new(false, ValidationMessages.DuplicatedMessage, nameof(command.Slug));
 
 		 page.Edit(command.Title.Trim(), slug, command.Text);
-		if (_sitePageRepository.Create(page)) return new(true);
+		if (_sitePageRepository.Save()) return new(true);
 		return new(false, ValidationMessages.SystemErrorMessage, nameof(command.Title));
 	}
 

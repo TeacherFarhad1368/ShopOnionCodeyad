@@ -39,32 +39,21 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 
 		public IActionResult Images(int pageId = 1, int take = 10, string filter = "") =>
 			   View(_imageSiteQuery.GetAllForAdmin(pageId, take, filter));
-
+		public IActionResult CreateImage() => View();
 		[HttpPost]
-		public IActionResult CreateImage(IFormFile image,string title)
+		public IActionResult CreateImage(CreateImageSite model)
 		{
-			if(image == null || image.IsImage() == false)
-			{
-				ViewBag.message = ValidationMessages.ImageErrorMessage; ;
-				return RedirectToAction("Images");
-			}
-			if (string.IsNullOrEmpty(title))
-			{
-				ViewBag.message = "عنوان اجباری است";
-				return RedirectToAction("Images");
-			}
-			var res = _imageSiteApplication.Create(new CreateImageSite()
-			{
-				ImageFile = image,
-				Title = title
-			});
+			if (!ModelState.IsValid) return View(model);
+			var res = _imageSiteApplication.Create(model);
 			if (res.Success)
 			{
 				TempData["ok"] = true;
 				return RedirectToAction("Images");
 			}
-			ViewBag.message = res.Message;
-			return RedirectToAction("Images");
-		}
-	}
+			ModelState.AddModelError(res.ModelName, res.Message);
+			return View(model);
+        }
+		public bool DeleteImage(int id) => _imageSiteApplication.DeleteFromDataBase(id);
+
+    }
 }

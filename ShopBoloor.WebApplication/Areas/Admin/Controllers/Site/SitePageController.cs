@@ -50,7 +50,7 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 			if (res.Success)
 			{
 				TempData["ok"] = true;
-				return RedirectToAction("Index");
+				return Redirect($"/Admin/SitePage/Edit/{id}");
 			}
 			ModelState.AddModelError(res.ModelName, res.Message);
 			return View(model);

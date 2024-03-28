@@ -1,0 +1,71 @@
+﻿@model Site.Application.Contract.ImageSiteApplication.Query.ImageAdminPaging
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "لیست عکس ها";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <hr />
+                <a class="btn btn-success" asp-action="CreateImage">
+                    <i class=" fa fa-plus mx-2"></i> عکس جدید
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> عنوان</th>
+                            <th>تاریخ ثبت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Images.Count() > 0)
+                        {
+                            foreach(var item in Model.Images)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        <img width="100px" src="@item.ImageName" />
+                                    </td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.CreateDate
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger" title="حذف این عکس" onclick="AjaxSweet(
+                                 'حذف عکس ؟؟',
+                                 'بعد از حذف این عکس کاملا از سایت ما حذف میشود !!!1',
+                                 'warning',
+                                 'کلا حذف شود ',
+                                  'حذف نشود میخوامش',
+                                   '/Admin/Site/DeleteImage/@item.Id',
+                                   'Deleted_@item.Id')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> عنوان</th>
+                            <th>تاریخ ثبت</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+}

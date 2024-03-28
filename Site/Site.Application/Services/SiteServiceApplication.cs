@@ -40,7 +40,7 @@ internal class SiteServiceApplication : ISiteServiceApplication
         if (imageName == "")
             return new(false, ValidationMessages.ImageErrorMessage, nameof(commmand.ImageFile));
 
-        _fileService.ResizeImage(imageName, FileDirectories.ServiceImageDirectory100, 100);
+        _fileService.ResizeImage(imageName, FileDirectories.ServiceImageFolder, 100);
         SiteService service = new(imageName, commmand.ImageAlt, commmand.Title);
         if (_siteServiceepository.Create(service))
             return new(true);
@@ -60,7 +60,7 @@ internal class SiteServiceApplication : ISiteServiceApplication
             imageName = _fileService.UploadImage(commmand.ImageFile, FileDirectories.ServiceImageFolder);
             if (imageName == "")
                 return new(false, ValidationMessages.ImageErrorMessage, nameof(commmand.ImageFile));
-            _fileService.ResizeImage(imageName, FileDirectories.ServiceImageDirectory100, 100);
+            _fileService.ResizeImage(imageName, FileDirectories.ServiceImageFolder, 100);
         }
         service.Edit(imageName, commmand.ImageAlt, commmand.Title);
         if (_siteServiceepository.Save())

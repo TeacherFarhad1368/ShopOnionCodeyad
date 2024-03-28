@@ -1,4 +1,5 @@
-﻿using Shared.Application;
+﻿using Shared;
+using Shared.Application;
 using Shared.Application.Services;
 using Site.Application.Contract.ImageSiteApplication.Command;
 using Site.Domain.SiteImageAgg;
@@ -18,11 +19,13 @@ internal class ImageSiteApplication : IImageSiteApplication
 
 	public OperationResult Create(CreateImageSite command)
 	{
-		string imageName = _fileService.UploadImage(command.ImageFile, FileDirectories.ImageFolder);
+		if(command.ImageFile == null || !command.ImageFile.IsImage())
+            return new(false, ValidationMessages.ImageErrorMessage, nameof(command.Title));
+        string imageName = _fileService.UploadImage(command.ImageFile, FileDirectories.ImageFolder);
 		if (imageName == "")
 			return new(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
 
-		_fileService.ResizeImage(imageName, FileDirectories.ImageDirectory100, 100);
+		_fileService.ResizeImage(imageName, FileDirectories.ImageFolder, 100);
 
 		SiteImage image = new(imageName, command.Title);
 		if (_imageSiteRepository.Create(image)) return new(true);

@@ -7,8 +7,6 @@
         <div class="box box-success">
             <form method="post" role="form">
                 <div class="box-body">
-                    <div class="row">
-                    <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="Title"></label>
                                 <input class="form-control" asp-for="Title" onchange="makeSlug('Title','Slug')">
@@ -18,9 +16,7 @@
                                 <label asp-for="Slug"></label>
                                 <input class="form-control" asp-for="Slug">
                                 <span class="text-danger" asp-validation-for="Slug"></span>
-                            </div>
-                        </div>
-                    </div>
+                            </div
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
@@ -46,10 +42,8 @@
 </div>
 @section Scripts{
     <script>
-        $(function () 
-            CKEDITOR.replace('editor1')
-            //bootstrap WYSIHTML5 - text editor
-            $('.textarea').wysihtml5()
+        $(function () {
+          CKEDITOR.replace('editor1');
         })
     </script>
 }

@@ -16,5 +16,5 @@ internal class SiteServiceQuery : ISiteServiceQuery
 	public List<SiteServiceAdminQueryModel> GetAllForAdmin() =>
 		_siteServiceRepository.GetAllQuery()
 		.Select(s => new SiteServiceAdminQueryModel
-		(s.Id,s.Title,s.ImageName,s.ImageAlt,s.CreateDate.ToPersainDate(),s.Active)).ToList();
+		(s.Id,s.Title,FileDirectories.ServiceImageDirectory100 + s.ImageName,s.ImageAlt,s.CreateDate.ToPersainDate(),s.Active)).ToList();
 }

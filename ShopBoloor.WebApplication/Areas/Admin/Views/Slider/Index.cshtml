@@ -9,7 +9,7 @@
             <div class="box-header">
                 <hr />
                 <a class="btn btn-success" asp-action="Create">
-                    <i class=" fa fa-plus mx-2"></i> اسلاید جدید
+                    <i class=" fa fa-plus mx-2"></i> خدمات جدید
                 </a>
             </div>
             <!-- /.box-header -->
@@ -42,8 +42,8 @@
                                     <td>
                                         @{
                                             string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
-                                            string text = item.Active ? "بعد از غیر فعال شدن این اسلاید داده نمیشود ." :
-                                            "بعد از فعال شدن این اسلاید نمایش داده میشود";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این خدمات داده نمیشود ." :
+                                            "بعد از فعال شدن این خدمات نمایش داده میشود";
                                             string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
                                             string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
                                         }

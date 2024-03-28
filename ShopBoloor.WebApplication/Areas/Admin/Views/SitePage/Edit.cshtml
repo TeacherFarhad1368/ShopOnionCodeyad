@@ -9,8 +9,6 @@
             <form method="post" role="form">
                 <input type="hidden" asp-for="Id">
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="Title"></label>
                                 <input class="form-control" asp-for="Title" onchange="makeSlug('Title','Slug')">
@@ -21,10 +19,8 @@
                                 <input class="form-control" asp-for="Slug">
                                 <span class="text-danger" asp-validation-for="Slug"></span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
+
+
                             <div class="form-group">
                                 <label asp-for="Text"></label>
                                 <textarea id="editor1" asp-for="Text" rows="10"
@@ -33,9 +29,6 @@
                                   </textarea>
                                 <span class="text-danger" asp-validation-for="Text"></span>
                             </div>
-                        </div>
-
-                    </div>
                 </div>
                 <div class="box-footer">
                     <button type="submit" class="btn btn-warning">ارسال</button>
@@ -48,8 +41,6 @@
     <script>
         $(function () {
             CKEDITOR.replace('editor1')
-            //bootstrap WYSIHTML5 - text editor
-            $('.textarea').wysihtml5()
         })
     </script>
 }
