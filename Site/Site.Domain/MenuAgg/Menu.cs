@@ -39,7 +39,8 @@ namespace Site.Domain.MenuAgg
         }
         public Menu()
         {
-            
+            Parent = null;
+            Childs = new();
         }
         public int Number { get; private set; }
         public string Title { get; private set; }

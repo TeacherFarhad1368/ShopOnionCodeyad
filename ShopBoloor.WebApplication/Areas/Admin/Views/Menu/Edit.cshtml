@@ -1,0 +1,75 @@
+﻿@model Site.Application.Contract.MenuApplication.Command.EditMenu
+@using Shared.Domain.Enum;
+@using Shared.Application;
+@{
+    ViewData["Title"] = $"ویرایش {Model.Title}";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="hidden" asp-for="@Model.ImageName" />
+                <input type="hidden" asp-for="@Model.ParentId" />
+                <div class="box-body">
+                    <div class="row">
+                    <div class="col-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input class="form-control" asp-for="Title" >
+                                <span class="text-danger" asp-validation-for="Title"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Number"></label>
+                                <input class="form-control" asp-for="Number">
+                                <span class="text-danger" asp-validation-for="Number"></span>
+                            </div>
+                                @if (!string.IsNullOrEmpty(Model.ImageName))
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="ImageAlt"></label>
+                                        <input class="form-control" asp-for="ImageAlt">
+                                        <span class="text-danger" asp-validation-for="ImageAlt"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="hidden" asp-for="ImageAlt">
+                                }
+                            <div class="form-group">
+                                <label asp-for="Url"></label>
+                                    <input class="form-control" asp-for="Url">
+                                    <span class="text-danger" asp-validation-for="Url"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                                @if (!string.IsNullOrEmpty(Model.ImageName))
+                                {
+
+                                    <img width="300px" id="destinationImage" class="img-thumbnail" src="@FileDirectories.MenuImageDirectory@Model.ImageName" />
+                                    <div class="form-group">
+                                        <label asp-for="ImageFile"></label>
+                                        <input type="file" id="chooseImage" class="form-control" asp-for="ImageFile">
+                                        <span class="text-danger" asp-validation-for="ImageFile"></span>
+                                    </div>
+                                 }
+                                else
+                                {
+                                    <input type="hidden" value="@null" asp-for="ImageFile">
+                                }
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-warning">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+}

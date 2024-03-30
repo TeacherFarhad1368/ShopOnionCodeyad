@@ -14,10 +14,12 @@ namespace Query.Services.Admin
 	{
 		private readonly IEmailUserRepository _emailUserRepository;
 		private readonly IUserRepository _userRepository;
-		public EmailAdminQuery(IEmailUserRepository emailUserRepository)
+		public EmailAdminQuery(IEmailUserRepository emailUserRepository, IUserRepository userRepository )
 		{
 			_emailUserRepository = emailUserRepository;
-		}
+			_userRepository = userRepository;
+
+        }
 
 		public EmailUserAdminPaging GetEmailUsersForAdmin(int pageId, int take, string filter)
 		{
@@ -36,7 +38,8 @@ namespace Query.Services.Admin
 					Email = e.Email,
 					Id = e.Id,
 					UserId = e.UserId,
-					UserName= ""
+					UserName= "",
+					Active = e.Active
 				}).OrderByDescending(e => e.Id).ToList();
 
 			model.Emails.ForEach(x =>

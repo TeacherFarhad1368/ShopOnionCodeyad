@@ -1,7 +1,7 @@
-﻿@model Site.Application.Contract.ImageSiteApplication.Query.ImageAdminPaging
+﻿@model Query.Contract.Admin.Email.EmailUserAdminPaging
 @using Shared.Domain.Enum;
 @{
-    ViewData["Title"] = "لیست عکس ها";
+    ViewData["Title"] = "لیست ایمیل های خبرنامه";
 }
 <div class="row">
     <div class="col-xs-12">
@@ -39,38 +39,49 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th> تصویر</th>
-                            <th> عنوان</th>
+                            <th> ایمیل</th>
+                            <th> کاربر</th>
                             <th>تاریخ ثبت</th>
-                            <th></th>
+                            <th> فعال</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if(Model.Images.Count() > 0)
+                        @if(Model.Emails.Count() > 0)
                         {
-                            foreach(var item in Model.Images)
+                            foreach(var item in Model.Emails)
                             {
                                 <tr id="Deleted_@item.Id">
                                     <td>
-                                        <img width="100px" src="@item.ImageName" />
+                                        @item.Email
                                     </td>
                                     <td>
-                                        @item.Title
+                                        @item.UserName
                                     </td>
                                     <td>
-                                        @item.CreateDate
+                                        @item.CreationDate
                                     </td>
                                     <td>
-                                        <a class="btn btn-danger" title="حذف این عکس" onclick="AjaxSweet(
-                                 'حذف عکس ؟؟',
-                                 'بعد از حذف این عکس کاملا از سایت ما حذف میشود !!!1',
-                                 'warning',
-                                 'کلا حذف شود ',
-                                  'حذف نشود میخوامش',
-                                   '/Admin/Site/DeleteImage/@item.Id',
-                                   'Deleted_@item.Id')">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+                                        @{
+                                            string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
+                                            string text = item.Active ? "بعد از غیر فعال شدن - ایمیل های خبرنامه برای این ایمیل ارسال نمیشود ." :
+                                            "بعد از فعال شدن - ایمیل های خبرنامه برای این ایمیل ارسال میشود";
+                                            string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
+                                            string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
+                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/EmailUser/Active/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="pie_@item.Id" id="pie-@item.Id"
+                                                @(item.Active ? "checked" : "") type="checkbox" />
+                                                <label for="pie-@item.Id"></label>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             }

@@ -10,6 +10,8 @@ namespace Site.Application.Contract.MenuApplication.Command
     public interface IMenuApplication
     {
         OperationResult Create(CreateMenu command);
+        CreateSubMenu GetForCreate(int parentId);
+        OperationResult CreateSub(CreateSubMenu command);
         OperationResult Edit(EditMenu command);
         EditMenu GetForEdit(int id);
         bool ActivationChange(int id);

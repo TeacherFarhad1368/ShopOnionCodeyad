@@ -19,26 +19,37 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 			_authService = authService;
 		}
 		public IActionResult Index(int id = 0) => View(_MenuQuery.GetForAdmin(id));
-		public IActionResult Create()
-		{
-			return View();
-		}
+		public IActionResult Create() => View();
 		[HttpPost]
-		public IActionResult Create(CreateMenu model)
+		public IActionResult Create( CreateMenu model)
 		{
 			if (!ModelState.IsValid) return View(model);
 			var res = _MenuApplication.Create(model);
 			if (res.Success)
 			{
 				TempData["ok"] = true;
-				return RedirectToAction("Index");
-			}
+                return Redirect("/Admin/Menu/Index/0");
+            }
 			ModelState.AddModelError(res.ModelName, res.Message);
 			return View(model);
 		}
-		public IActionResult Edit(int id)
+		public IActionResult CreateSub(int id) => View(_MenuApplication.GetForCreate(id));
+		[HttpPost]
+        public IActionResult CreateSub(int id,CreateSubMenu model)
 		{
-			if (id == 2) return NotFound();
+            if (!ModelState.IsValid) return View(model);
+            var res = _MenuApplication.CreateSub(model);
+            if (res.Success)
+            {
+                TempData["ok"] = true;
+                return Redirect($"/Admin/Menu/Index/{id}");
+            }
+            ModelState.AddModelError(res.ModelName, res.Message);
+            return View(model);
+        }
+
+        public IActionResult Edit(int id)
+		{
 			var model = _MenuApplication.GetForEdit(id);
 			return View(model);
 		}
@@ -50,8 +61,8 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 			if (res.Success)
 			{
 				TempData["ok"] = true;
-				return RedirectToAction("Index");
-			}
+                return Redirect($"/Admin/Menu/Index/{model.ParentId}");
+            }
 			ModelState.AddModelError(res.ModelName, res.Message);
 			return View(model);
 		}

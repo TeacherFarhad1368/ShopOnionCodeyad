@@ -1,0 +1,72 @@
+﻿@model Site.Application.Contract.MenuApplication.Command.CreateSubMenu
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = Model.ParentTitle;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.ParentTitle" />
+                <input type="hidden" asp-for="@Model.ParentStatus" />
+                <input type="hidden" asp-for="@Model.ParentId" />
+                <div class="box-body">
+                    <div class="row">
+                    <div class="col-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input class="form-control" asp-for="Title" >
+                                <span class="text-danger" asp-validation-for="Title"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Number"></label>
+                                <input class="form-control" asp-for="Number">
+                                <span class="text-danger" asp-validation-for="Number"></span>
+                            </div>
+                                @if (Model.ParentStatus == MenuStatus.منوی_وبلاگ_با_زیر_منوی_عکس_دار)
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="ImageAlt"></label>
+                                        <input class="form-control" asp-for="ImageAlt">
+                                        <span class="text-danger" asp-validation-for="ImageAlt"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="hidden" asp-for="ImageAlt" value="">
+                                }
+                            <div class="form-group">
+                                <label asp-for="Url"></label>
+                                    <input class="form-control" asp-for="Url">
+                                    <span class="text-danger" asp-validation-for="Url"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                                @if(Model.ParentStatus == MenuStatus.منوی_وبلاگ_با_زیر_منوی_عکس_دار)
+                                {
+
+                                    <img width="300px" id="destinationImage" class="img-thumbnail" src="" />
+                                    <div class="form-group">
+                                        <label asp-for="ImageFile"></label>
+                                        <input type="file" id="chooseImage" class="form-control" asp-for="ImageFile">
+                                        <span class="text-danger" asp-validation-for="ImageFile"></span>
+                                    </div>
+                                 }
+                                else
+                                {
+                                    <input type="hidden" value="@null" asp-for="ImageFile">
+                                }
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

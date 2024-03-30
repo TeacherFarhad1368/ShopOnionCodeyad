@@ -22,6 +22,7 @@ internal class MenuRepository : Repository<int, Menu>, IMenuRepository
             ImageName = s.ImageName,
             Number  =s.Number,
             Title = s.Title,
+            ParentId = s.ParentId == null ? 0 : s.ParentId.Value, 
             Url = s.Url
         }).SingleOrDefault(s => s.Id == id);
 }
