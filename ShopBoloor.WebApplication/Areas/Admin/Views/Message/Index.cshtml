@@ -1,7 +1,7 @@
-﻿@model Query.Contract.Admin.Email.EmailUserAdminPaging
+﻿@model Query.Contract.Admin.MessageUser.MessageUserAdminPaging
 @using Shared.Domain.Enum;
 @{
-    ViewData["Title"] = "لیست ایمیل های خبرنامه";
+    ViewData["Title"] = "لیست پیام های تماس با ما";
 }
 <div class="row">
     <div class="col-xs-12">
@@ -9,6 +9,18 @@
             <div class="box-header">
                 <div class="col-12">
                     <form>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>جست و جو بر اساس وضعیت</label>
+                                <select class="form-control" name="status">
+                                    @foreach (var item in Enum.GetValues(typeof(MessageStatus)).Cast<MessageStatus>())
+                                    {
+                                        <option value="@item">@item.ToString().Replace("_", " ")</option>
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>جست و جو بر اساس عنوان</label>
@@ -46,42 +58,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(Model.Emails.Count() > 0)
+                        @if(Model.Messages.Count() > 0)
                         {
-                            foreach(var item in Model.Emails)
+                            foreach(var item in Model.Messages)
                             {
                                 <tr id="Deleted_@item.Id">
                                     <td>
                                         @item.Email
                                     </td>
                                     <td>
-                                        @item.UserName
+                                        @item.FullName
+                                    </td>
+                                    <td>
+                                        @item.Subject
+                                    </td>
+                                    <td>
+                                        @item.PhoneNumber
+                                    </td>
+                                    <td>
+                                        @item.Status.ToString().Replace("_"," ")
                                     </td>
                                     <td>
                                         @item.CreationDate
                                     </td>
                                     <td>
-                                        @{
-                                            string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
-                                            string text = item.Active ? "بعد از غیر فعال شدن - ایمیل های خبرنامه برای این ایمیل ارسال نمیشود ." :
-                                            "بعد از فعال شدن - ایمیل های خبرنامه برای این ایمیل ارسال میشود";
-                                            string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
-                                            string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
-                                        }
-                                        <div class="checkbox-wrapper-49"
-                                             onclick="AjaxSweetNotDelete(
-                                 '@title',
-                                 '@text',
-                                 'question',
-                                 '@confirm',
-                                  '@cancel',
-                                   '/Admin/EmailUser/Active/@item.Id')">
-                                            <div class="block">
-                                                <input data-index="pie_@item.Id" id="pie-@item.Id"
-                                                @(item.Active ? "checked" : "") type="checkbox" />
-                                                <label for="pie-@item.Id"></label>
-                                            </div>
-                                        </div>
+                                        @item.UseName
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-ifo" title="جزییات پیام" asp-action="Detaill" asp-route-id="@item.Id">
+                                            <i class="fa fa-info"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -95,7 +101,7 @@
                         <ul class="pagination pagination-sm no-margin pull-right">
                             @if (Model.PageId > 1)
                             {
-                                <li><a href="/Admin/EmailUser/Index?pageid=@(Model.PageId - 1)&take=@Model.Take&filter=@Model.Filter">«</a></li>
+                                <li><a href="/Admin/Message/Index?pageid=@(Model.PageId - 1)&take=@Model.Take&filter=@Model.Filter&status=@Model.Status">«</a></li>
                             }
                             @for (int i = Model.StartPage; i <= Model.EndPage; i++)
                             {
@@ -105,16 +111,16 @@
                                 }
                                 else
                                 {
-                                    <li><a href="/Admin/EmailUser/Index?pageid=@i&take=@Model.Take&filter=@Model.Filter">@i</a></li>
+                                    <li><a href="/Admin/Message/Index?pageid=@i&take=@Model.Take&filter=@Model.Filter&status=@Model.Status">@i</a></li>
                                 }
                             }
                             @if (Model.PageId < Model.PageCount)
                             {
-                                <li><a href="/Admin/EmailUser/Index?pageid=@(Model.PageId + 1)&take=@Model.Take&filter=@Model.Filter">»</a></li>
+                                <li><a href="/Admin/Message/Index?pageid=@(Model.PageId + 1)&take=@Model.Take&filter=@Model.Filter&status=@Model.Status">»</a></li>
                             }
                             @if (Model.PageCount > Model.EndPage)
                             {
-                                <li><a href="/Admin/EmailUser/Index?pageid=@Model.PageCount&take=@Model.Take&filter=@Model.Filter">@Model.PageCount</a></li>
+                                <li><a href="/Admin/Message/Index?pageid=@Model.PageCount&take=@Model.Take&filter=@Model.Filter&status=@Model.Status">@Model.PageCount</a></li>
                             }
                         </ul>
                     }
