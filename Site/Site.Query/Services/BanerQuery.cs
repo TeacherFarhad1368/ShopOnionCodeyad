@@ -29,6 +29,12 @@ internal class BanerQuery : IBanerQuery
 
     public List<BanerForUiQueryModel> GetForUi(int count, BanerState state)
     {
-        throw new NotImplementedException();
+        return _banerRepository.GetAllByQuery(b => b.State == state && b.Active)
+            .Select(b => new BanerForUiQueryModel
+            {
+                ImageAlt = b.ImageAlt,
+                ImageName = $"{FileDirectories.BanerImageDirectory}{b.ImageName}",
+                Url = b.Url
+            }).Take(count).ToList();
     }
 }

@@ -31,7 +31,7 @@ internal class SiteSettingApplication : ISiteSettingApplication
             logoName = _fileService.UploadImage(command.LogoFile, FileDirectories.SiteImageFolder);
             if (logoName == "")
                 return new(false, ValidationMessages.ImageErrorMessage, nameof(command.LogoFile));
-            _fileService.ResizeImage(logoName, FileDirectories.SiteImageDirectory300, 300);
+            _fileService.ResizeImage(logoName, FileDirectories.SiteImageFolder, 300);
         }
         string favIconName = site.FavIcon;
         string oldfavIconName = site.FavIcon;
@@ -41,9 +41,9 @@ internal class SiteSettingApplication : ISiteSettingApplication
             favIconName = _fileService.UploadImage(command.FavIconFile, FileDirectories.SiteImageFolder);
             if (logoName == "")
                 return new(false, ValidationMessages.ImageErrorMessage, nameof(command.FavIconFile));
-            _fileService.ResizeImage(favIconName, FileDirectories.SiteImageDirectory64, 64);
-            _fileService.ResizeImage(favIconName, FileDirectories.SiteImageDirectory32, 32);
-            _fileService.ResizeImage(favIconName, FileDirectories.SiteImageDirectory16, 16);
+            _fileService.ResizeImage(favIconName, FileDirectories.SiteImageFolder, 64);
+            _fileService.ResizeImage(favIconName, FileDirectories.SiteImageFolder, 32);
+            _fileService.ResizeImage(favIconName, FileDirectories.SiteImageFolder, 16);
         }
         site.Edit(command.Instagram, command.WhatsApp, command.Telegram, command.Youtube, logoName,
             command.LogoAlt, favIconName, command.Enamad, command.SamanDehi, command.SeoBox,

@@ -1,0 +1,6 @@
+﻿@model Site.Application.Contract.SiteSettingApplication.Query.FavIconForUiQueryModel
+
+@if(!string.IsNullOrEmpty(Model.FavIcon))
+{
+    <link rel="icon" type="image/png" href="@Model.FavIcon">
+}
