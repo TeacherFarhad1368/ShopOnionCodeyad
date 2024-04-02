@@ -1904,11 +1904,11 @@ footer.main-footer .footer-widgets .newsletter {
     margin-top: 30px;
 }
 
-footer.main-footer .footer-widgets .newsletter form {
+footer.main-footer .footer-widgets .newsletter .form {
     position: relative;
 }
 
-footer.main-footer .footer-widgets .newsletter form .form-control {
+footer.main-footer .footer-widgets .newsletter .form .form-control {
     font-family: Shabnam;
     font-size: 13px;
     border-radius: 7px;
@@ -1923,7 +1923,7 @@ footer.main-footer .footer-widgets .newsletter form .form-control {
     transition: all .2s ease-out;
 }
 
-footer.main-footer .footer-widgets .newsletter form .btn {
+footer.main-footer .footer-widgets .newsletter .form .btn {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -1938,8 +1938,8 @@ footer.main-footer .footer-widgets .newsletter form .btn {
     line-height: 0;
 }
 
-footer.main-footer .footer-widgets .newsletter form .btn:focus,
-footer.main-footer .footer-widgets .newsletter form .btn:active {
+footer.main-footer .footer-widgets .newsletter .form .btn:focus,
+footer.main-footer .footer-widgets .newsletter .form .btn:active {
     background-color: #00bfd6;
     box-shadow: none !important;
 }

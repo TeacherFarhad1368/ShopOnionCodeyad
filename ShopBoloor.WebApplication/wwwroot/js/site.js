@@ -60,3 +60,43 @@ function readURL1(input) {
 $("input#chooseImage1").change(function () {
     readURL1(this);
 });
+function ValidateEmail(email) {
+
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (email.match(validRegex)) {
+
+        return true;
+
+    } else {
+        return false;
+
+    }
+
+}
+function AddEmailUser() {
+    var mail = $("input#inputEmailUser").val();
+    var mailValid = $("span#inputEmailUserValid");
+    if (mail === null || mail === "" || ValidateEmail(mail) == false) {
+        mailValid.text("لطفا یک ایمیل معتبر وارد کنید .");
+    }
+    else {
+        mailValid.text("");
+        $.ajax({
+            type: "Post",
+            url: "/Home/AddEmailUser",
+            data: {email: mail}
+        }).done(function (res) {
+
+            debugger;
+            if (res == "") {
+                AlertSweetTimer( "ایمیل شما به موفقیت اضافه شد .",'success', 3000);
+                $("input#inputEmailUser").val("");
+            }
+            else {
+                AlertSweetTimer(res,'error' , 3000);
+                mailValid.text(res);
+            }
+        });
+    }
+}
