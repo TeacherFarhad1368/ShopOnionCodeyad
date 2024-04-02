@@ -1,0 +1,52 @@
+﻿@model List<Site.Application.Contract.MenuApplication.Query.MenuForUi>
+@if(Model.Count() > 0)
+{
+    <ul class="list float-right">
+       
+    @foreach(var item in Model.OrderBy(m => m.Number))
+    {
+            @if(item.Status == Shared.Domain.Enum.MenuStatus.منوی_اصلی)
+            {
+                <li class="list-item">
+                    <a class="nav-link" href="@item.Url">@item.Title</a>
+                </li>
+            }
+            @if(item.Status == Shared.Domain.Enum.MenuStatus.منوی_اصلی_با_زیر_منو)
+            {
+                <li class="list-item list-item-has-children mega-menu mega-menu-col-5">
+                    <a class="nav-link" href="#">@item.Title </a>
+                    @if(item.Childs.Count() > 0)
+                    {
+                        <ul class="sub-menu nav">
+                            @foreach(var sub in item.Childs.OrderBy(s=>s.Number).Take(5))
+                            {
+                                <li class="list-item list-item-has-children">
+                                    <i class="now-ui-icons arrows-1_minimal-left"></i><a class="main-list-item nav-link">
+                                        @sub.Title
+                                    </a>
+                                    @if(sub.Childs.Count() > 0)
+                                    {
+                                        <ul class="sub-menu nav">
+                                            @foreach(var x in sub.Childs.OrderBy(c => c.Number).Take(9))
+                                            {
+                                                <li class="list-item">
+                                                    <a class="nav-link" href="@x.Url">@x.Title</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                    
+                                </li>
+                            }
+                            @if (!string.IsNullOrEmpty(item.ImageName))
+                            {
+                                <img src="@item.ImageName" @(string.IsNullOrEmpty(item.ImageAlt) ? "" : $"alt={item.ImageAlt}")>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        
+        }
+    </ul>
+}

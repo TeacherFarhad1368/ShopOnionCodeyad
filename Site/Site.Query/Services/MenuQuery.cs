@@ -70,7 +70,9 @@ internal class MenuQuery : IMenuQuery
             {
                 Number = item.Number,
                 Title = item.Title,
-                Url = item.Url
+                Url = item.Url,
+                Status = item.Status,
+                Childs = new()
             };
             if(_menuRepository.ExistBy(m=>m.ParentId == item.Id && m.Active))
                 menu.Childs = _menuRepository.GetAllByQuery(m => m.Active && m.ParentId == item.Id)
@@ -81,7 +83,8 @@ internal class MenuQuery : IMenuQuery
                     ImageName = FileDirectories.MenuImageDirectory + m.ImageName,
                     Number = m.Number,
                     Title = m.Title,
-                    Url = m.Url
+                    Url = m.Url,
+                    Status = m.Status
                 }).ToList();
 
             model.Add(menu);
@@ -100,7 +103,9 @@ internal class MenuQuery : IMenuQuery
             {
                 Number = item.Number,
                 Title = item.Title,
-                Url = item.Url
+                Url = item.Url,
+                Status = item.Status,
+                Childs = new()
             };
             if (_menuRepository.ExistBy(m => m.ParentId == item.Id && m.Active))
                 menu.Childs = _menuRepository.GetAllByQuery(m => m.Active && m.ParentId == item.Id)
@@ -108,7 +113,8 @@ internal class MenuQuery : IMenuQuery
                 {
                     Number = m.Number,
                     Title = m.Title,
-                    Url = m.Url
+                    Url = m.Url,
+                    Status = m.Status
                 }).ToList();
 
             model.Add(menu);
@@ -132,21 +138,37 @@ internal class MenuQuery : IMenuQuery
                 Url = item.Url,
                 ImageAlt = item.ImageAlt,
                 ImageName = string.IsNullOrEmpty(item.ImageName) ? "" : FileDirectories.MenuImageDirectory + item.ImageName,
-                Childs = new()
+                Childs = new(),
+                Status = item.Status
             };
             if (_menuRepository.ExistBy(m => m.ParentId == item.Id && m.Active))
                 menu.Childs = _menuRepository.GetAllByQuery(m => m.Active && m.ParentId == item.Id)
                 .Select(m => new MenuForUi
                 {
-                    ImageAlt = m.ImageAlt,
+                    Id= m.Id,
                     Childs = new(),
-                    ImageName = FileDirectories.MenuImageDirectory + m.ImageName,
                     Number = m.Number,
                     Title = m.Title,
-                    Url = m.Url
+                    Url = m.Url,
+                    Status = m.Status
                 }).ToList();
 
             model.Add(menu);
+        }
+        foreach(var item in model.Where(w=>w.Status == MenuStatus.منوی_اصلی_با_زیر_منو && w.Childs.Count() > 0))
+        {
+            foreach(var sub in item.Childs)
+            {
+                sub.Childs = _menuRepository.GetAllByQuery(m => m.Active && m.ParentId == sub.Id)
+                .Select(m => new MenuForUi
+                {
+                    Childs = new(),
+                    Number = m.Number,
+                    Title = m.Title,
+                    Url = m.Url,
+                    Status = m.Status
+                }).ToList();
+            }
         }
         return model;
     }

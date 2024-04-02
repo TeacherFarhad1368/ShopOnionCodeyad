@@ -34,32 +34,6 @@ public class BottomBanerViewComponent : ViewComponent
         return View(model);
     }
 }
-public class LeftBanerViewComponent : ViewComponent
-{
-    private readonly IBanerQuery _query;
-    public LeftBanerViewComponent(IBanerQuery query)
-    {
-        _query = query;
-    }
-    public IViewComponentResult Invoke()
-    {
-        var model = _query.GetForUi(2,BanerState.بنر_2تایی_چپ_850x420);
-        return View(model);
-    }
-}
-public class RightBanerViewComponent : ViewComponent
-{
-    private readonly IBanerQuery _query;
-    public RightBanerViewComponent(IBanerQuery query)
-    {
-        _query = query;
-    }
-    public IViewComponentResult Invoke()
-    {
-        var model = _query.GetForUi(2, BanerState.بنر_2تایی_راست_850x420);
-        return View(model);
-    }
-}
 public class CenterBaner2ViewComponent : ViewComponent
 {
     private readonly IBanerQuery _query;
