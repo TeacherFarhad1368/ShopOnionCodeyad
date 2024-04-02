@@ -22,90 +22,20 @@
                             <button type="submit" class="btn btn-primary">ارسال</button>
                         </form>
                     </div>
-                    <div class="socials">
-                        <p>ما را در شبکه های اجتماعی دنبال کنید.</p>
-                        <div class="footer-social instagram">
-                            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                        </div>
-                        <div class="footer-social telegram">
-                            <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
-                        </div>
-                        <div class="footer-social whatsapp">
-                            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        </div>
-                        <div class="footer-social youtube">
-                            <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
+                    @await Component.InvokeAsync("Social")
+                   
                 </div>
             </div>
         </div>
-        <div class="info">
-            <div class="row">
-                <div class="col-12 col-lg-4">
-                    <span>هفت روز هفته ، 24 ساعت شبانه‌روز پاسخگوی شما هستیم.</span>
-                </div>
-                <div class="col-12 col-lg-2">شماره تماس: 021-123456789</div>
-                <div class="col-12 col-lg-2">آدرس ایمیل:<a href="#">info@digikala.com</a></div>
-                <div class="col-12 col-lg-4 text-center">
-                    <a href="#" target="_blank">
-                        <img src="/Assets/img/bazzar.png" width="159" height="48"
-                             alt="">
-                    </a>
-                    <a href="#" target="_blank">
-                        <img src="/Assets/img/sibapp.png" width="159" height="48"
-                             alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
+        @await Component.InvokeAsync("ContactFooter")
+        
     </div>
-    <div class="description">
-        <div class="container">
-            <div class="row">
-                <div class="site-description col-12 col-lg-7">
-                    <h1 class="site-title">فروشگاه اینترنتی تاپ کالا، بررسی، انتخاب و خرید آنلاین</h1>
-                    <p>
-                        تاپ کالا به عنوان یکی از قدیمی‌ترین فروشگاه های اینترنتی با بیش از یک دهه تجربه، با
-                        پایبندی به سه اصل کلیدی، پرداخت در
-                        محل، 7 روز ضمانت بازگشت کالا و تضمین اصل‌بودن کالا، موفق شده تا همگام با فروشگاه‌های
-                        معتبر جهان، به بزرگ‌ترین فروشگاه
-                        اینترنتی ایران تبدیل شود. به محض ورود به تاپ کالا با یک سایت پر از کالا رو به رو
-                        می‌شوید! هر آنچه که نیاز دارید و به
-                        ذهن شما خطور می‌کند در اینجا پیدا خواهید کرد.
-                    </p>
-                </div>
-                <div class="symbol col-12 col-lg-5">
-                    <a href="#" target="_blank"><img src="/Assets/img/symbol-01.png" alt=""></a>
-                    <a href="#" target="_blank"><img src="/Assets/img/symbol-02.png" alt=""></a>
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <ul class="footer-partners default">
-                            <li class="col-md-3 col-sm-6">
-                                <a href=""><img src="/Assets/img/footer/1.svg" alt=""></a>
-                            </li>
-                            <li class="col-md-3 col-sm-6">
-                                <a href=""><img src="/Assets/img/footer/2.svg" alt=""></a>
-                            </li>
-                            <li class="col-md-3 col-sm-6">
-                                <a href=""><img src="/Assets/img/footer/3.svg" alt=""></a>
-                            </li>
-                            <li class="col-md-3 col-sm-6">
-                                <a href=""><img src="/Assets/img/footer/4.svg" alt=""></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @await Component.InvokeAsync("Footer")
+
     <div class="copyright">
         <div class="container">
             <p>
-                استفاده از مطالب فروشگاه اینترنتی تاپ کالا فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است.
-                کلیه حقوق این سایت متعلق
-                به شرکت نوآوران فن آوازه (فروشگاه آنلاین تاپ کالا) می‌باشد.
+               طراحی و برنامه نویسی توسط : <a href="https://codeyad.com"> کدیاد </a>
             </p>
         </div>
     </div>

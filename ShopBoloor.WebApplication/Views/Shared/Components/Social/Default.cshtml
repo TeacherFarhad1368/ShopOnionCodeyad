@@ -1,0 +1,33 @@
+﻿@model Site.Application.Contract.SiteSettingApplication.Query.SocialForUiQueryModel
+
+<div class="socials">
+    <p>ما را در شبکه های اجتماعی دنبال کنید.</p>
+    @if (!string.IsNullOrEmpty(Model.Instagram))
+    {
+        <div class="footer-social instagram">
+            <a href="@Model.Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(Model.Telegram))
+    {
+        var tel = $"@{Model.Telegram}";
+        <div class="footer-social telegram">
+            <a href="https://web.telegram.org/#/im?p=@tel" target="_blank"><i class="fab fa-telegram"></i></a>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(Model.WhatsApp))
+    {
+        var whats = Model.WhatsApp.TrimStart('0');
+        <div class="footer-social whatsapp">
+            <a href="https://api.whatsapp.com/send?phone=+98@whats" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    }
+    @if (!string.IsNullOrEmpty(Model.Youtube))
+    {
+
+        <div class="footer-social youtube">
+            <a href="@Model.Youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+    }
+    
+</div>

@@ -1,0 +1,37 @@
+﻿@model Site.Application.Contract.SiteSettingApplication.Query.ContactFooterUiQueryModel
+
+
+<div class="info">
+    <div class="row">
+        <div class="col-12 col-lg-4">
+            @if (!string.IsNullOrEmpty(Model.Address))
+            {
+                <span>@Model.Address</span>
+            }
+        </div>
+        @if (!string.IsNullOrEmpty(Model.Phone))
+        {
+            <div class="col-12 col-lg-2">شماره تماس: @Model.Phone</div>
+        }
+        @if (!string.IsNullOrEmpty(Model.Email))
+        {
+            <div class="col-12 col-lg-2">آدرس ایمیل:<a href="mailto:@Model.Email">@Model.Email</a></div>
+        }
+        <div class="col-12 col-lg-4 text-center">
+            @if (!string.IsNullOrEmpty(Model.Android))
+            {
+                <a href="@Model.Android" target="_blank">
+                    <img src="/Assets/img/bazzar.png" width="159" height="48"
+                         alt="نرم افزار اندروید">
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.IOS))
+            {
+                <a href="@Model.IOS" target="_blank">
+                    <img src="/Assets/img/sibapp.png" width="159" height="48"
+                         alt="نرم افزار آیفون">
+                </a>
+            }
+        </div>
+    </div>
+</div>

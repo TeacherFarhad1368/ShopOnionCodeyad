@@ -2,16 +2,16 @@
 
 public class FooterUiQueryModel
 {
-    public FooterUiQueryModel(string? enamad, string? samanDehi, string? seoBox, string? android)
+    public FooterUiQueryModel(string? enamad, string? samanDehi, string? title, string? description)
     {
         Enamad = enamad;
         SamanDehi = samanDehi;
-        SeoBox = seoBox;
-        Android = android;
+        Description = description;
+        Title = title;
     }
 
     public string? Enamad { get; private set; }
     public string? SamanDehi { get; private set; }
-    public string? SeoBox { get; private set; }
-    public string? Android { get; private set; }
+    public string? Title { get; private set; }
+    public string? Description { get; private set; }
 }

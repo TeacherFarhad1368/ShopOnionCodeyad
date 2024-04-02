@@ -19,6 +19,12 @@ internal class SiteSettingQuery : ISiteSettingQuery
         _siteSettingRepository = siteSettingRepository;
     }
 
+    public ContactFooterUiQueryModel GetContactDataForFooter()
+    {
+        var site = _siteSettingRepository.GetSingle();
+        return new ContactFooterUiQueryModel(site.Address, site.Phone1, site.Email1, site.Android, site.IOS);
+    }
+
     public FavIconForUiQueryModel GetFavIconForUi()
     {
         var site = _siteSettingRepository.GetSingle();
@@ -27,7 +33,8 @@ internal class SiteSettingQuery : ISiteSettingQuery
 
     public FooterUiQueryModel GetFooter()
     {
-        throw new NotImplementedException();
+        var site = _siteSettingRepository.GetSingle();
+        return new FooterUiQueryModel(site.Enamad, site.SamanDehi, site.FooterTitle, site.FooterDescription);
     }
 
     public LogoForUiQueryModel GetLogoForUi()
@@ -38,6 +45,7 @@ internal class SiteSettingQuery : ISiteSettingQuery
 
     public SocialForUiQueryModel GetSocialForUi()
     {
-        throw new NotImplementedException();
+        var site = _siteSettingRepository.GetSingle();
+        return new SocialForUiQueryModel(site.Instagram, site.WhatsApp, site.Telegram, site.Youtube);
     }
 }

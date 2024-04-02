@@ -1,0 +1,30 @@
+﻿@model Site.Application.Contract.SiteSettingApplication.Query.FooterUiQueryModel
+<div class="description">
+    <div class="container">
+        <div class="row">
+            <div class="site-description col-12 col-lg-7">
+                @if (!string.IsNullOrEmpty(Model.Title))
+                {
+                    <h1 class="site-title">@Model.Title</h1>
+                }
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                     <p>
+                   @Model.Description
+                </p>
+                }
+            </div>
+           
+            <div class="symbol col-12 col-lg-5">
+                @if (!string.IsNullOrEmpty(Model.Enamad))
+                {
+                    @Model.Enamad
+                }
+                @if (!string.IsNullOrEmpty(Model.SamanDehi))
+                {
+                    @Model.SamanDehi
+                }
+            </div>
+        </div>
+    </div>
+</div>
