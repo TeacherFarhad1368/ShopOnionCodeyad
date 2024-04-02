@@ -125,3 +125,13 @@ public class ServicesViewComponent : ViewComponent
         return View(model);
     }
 }
+public class AmazingSliderViewComponent : ViewComponent
+{
+    public AmazingSliderViewComponent()
+    {
+    }
+    public IViewComponentResult Invoke()
+    {
+        return View();
+    }
+}

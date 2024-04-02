@@ -1,0 +1,29 @@
+﻿@model List<Site.Application.Contract.MenuApplication.Query.MenuForUi>
+@if(Model.Count() > 0)
+{
+
+    @foreach(var item in Model.OrderBy(m => m.Number))
+    {
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="widget-menu widget card">
+                    <header class="card-header">
+                        <h3 class="card-title"> @item.Title  </h3>
+                    </header>
+                @if(item.Childs.Count() > 0)
+                {
+                    <ul class="footer-menu">
+                        @foreach(var sub in item.Childs.OrderBy(m => m.Number))
+                        {
+                            <li>
+                                <a href="@sub.Url">@sub.Title</a>
+                            </li>
+                        }
+
+                    </ul>
+                }
+
+                </div>
+            </div>
+        }
+}

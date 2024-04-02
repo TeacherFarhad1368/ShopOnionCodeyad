@@ -1,0 +1,18 @@
+﻿@model List<Site.Application.Contract.SiteServiceApplication.Query.SiteServiceUIQueryModel>
+
+@if(Model.Count() > 0)
+{
+    <div class="footer-services">
+        <div class="row">
+            @foreach(var item in Model)
+            {
+                <div class="service-item col">
+                    <a>
+                        <img src="@item.ImageName" alt="@item.ImageAlt">
+                    </a>
+                    <p> @item.Title</p>
+                </div>
+            }
+        </div>
+    </div>
+}
