@@ -3,7 +3,7 @@
 // jscs:enable
 /* globals jQuery */
 /*
- * jQuery ezPlus 1.2.5
+ * jQuery ezPlus 1.2.4
  * Demo's and documentation:
  * http://igorlino.github.io/elevatezoom-plus/
  *
@@ -208,7 +208,7 @@ if (typeof Object.create !== 'function') {
 
                 if (self.options.scrollZoom)
                     self.zoomLens = $('<div class="zoomLens"/>');
-
+                
                 return {
                     display: 'none',
                     position: 'absolute',
@@ -317,7 +317,7 @@ if (typeof Object.create !== 'function') {
             if (self.$elem.attr('id')) {
                 self.zoomContainer.attr('id', self.$elem.attr('id') + '-' + self.options.container);
             }
-            $('.' + self.options.container + '[uuid="' + self.options.zoomId + '"]').remove();
+            $('.' + self.options.container).remove();
             $(self.options.zoomContainerAppendTo).append(self.zoomContainer);
 
             //this will add overflow hidden and contrain the lens on lens mode
@@ -1124,14 +1124,14 @@ if (typeof Object.create !== 'function') {
                 }
                 // adjust images less than the window height
 
-                // if (self.options.zoomType === 'window') {
-                //     if (self.largeHeight < self.options.zoomWindowHeight) {
-                //         self.windowTopPos = 0;
-                //     }
-                //     if (self.largeWidth < self.options.zoomWindowWidth) {
-                //         self.windowLeftPos = 0;
-                //     }
-                // }
+                if (self.options.zoomType === 'window') {
+                    if (self.largeHeight < self.options.zoomWindowHeight) {
+                        self.windowTopPos = 0;
+                    }
+                    if (self.largeWidth < self.options.zoomWindowWidth) {
+                        self.windowLeftPos = 0;
+                    }
+                }
                 //set the zoomwindow background position
                 if (self.options.easing) {
 

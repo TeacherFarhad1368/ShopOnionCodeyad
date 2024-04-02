@@ -28,6 +28,12 @@ internal class SliderQuery : ISliderQuery
 
     public List<SliderForUi> GetAllForUi()
     {
-        throw new NotImplementedException();
+        return _sliderRepository.GetAllByQuery(s => s.Active)
+            .Select(s => new SliderForUi()
+            {
+                ImageAlt = s.ImageAlt,
+                ImageName = FileDirectories.SliderImageDirectory + s.ImageName,
+                Url = s.Url
+            }).ToList();
     }
 }

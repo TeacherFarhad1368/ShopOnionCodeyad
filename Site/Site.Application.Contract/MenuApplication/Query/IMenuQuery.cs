@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Site.Application.Contract.MenuApplication.Query
     {
         MenuPageAdminQueryModel GetForAdmin(int parentId);
         List<MenuForUi> GetForIndex();
+        List<MenuForUi> GetForFooter();
         List<MenuForUi> GetForBlog();
 
     }

@@ -2,11 +2,11 @@
 {
     public class MenuForUi
     {
-        public int Number { get; private set; }
-        public string Title { get; private set; }
-        public string Url { get; private set; }
-        public string? ImageName { get; private set; }
-        public string? ImageAlt { get; private set; }
-        public List<MenuForUi>? Childs { get; private set; }
+        public int Number { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageAlt { get; set; }
+        public List<MenuForUi>? Childs { get; set; }
     }
 }

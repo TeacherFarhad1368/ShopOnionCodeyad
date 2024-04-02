@@ -1,0 +1,57 @@
+﻿@model List<Site.Application.Contract.SliderApplication.Query.SliderForUi>
+
+@if(Model.Count() > 0)
+{
+    <section id="main-slider" class="carousel slide carousel-fade card main-slider-st d-md-block d-none"
+             data-ride="carousel">
+        <ol class="carousel-indicators">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <li data-target="#main-slider" data-slide-to="@i" class=@(i == 0 ? "active" : "")></li>
+            }
+        </ol>
+        <div class="carousel-inner">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                var slide = Model.Skip(i).First();
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <a class="d-block" href="@slide.Url">
+                        <img src="@slide.ImageName" class="d-block w-100" alt="@slide.ImageAlt">
+                    </a>
+                </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#main-slider" role="button" data-slide="prev">
+            <i class="now-ui-icons arrows-1_minimal-right"></i>
+        </a>
+        <a class="carousel-control-next" href="#main-slider" data-slide="next">
+            <i class="now-ui-icons arrows-1_minimal-left"></i>
+        </a>
+    </section>
+    <section id="main-slider-mb" class="carousel slide carousel-fade card main-slider-st d-md-none"
+             data-ride="carousel">
+        <ol class="carousel-indicators">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <li data-target="#main-slider-mb" data-slide-to="@i" class=@(i == 0 ? "active" : "")></li>
+            }
+        </ol>
+        <div class="carousel-inner">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                var slide = Model.Skip(i).First();
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <a class="d-block" href="@slide.Url">
+                        <img src="@slide.ImageName" class="d-block w-100" alt="@slide.ImageAlt">
+                    </a>
+                </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#main-slider-mb" role="button" data-slide="prev">
+            <i class="now-ui-icons arrows-1_minimal-right"></i>
+        </a>
+        <a class="carousel-control-next" href="#main-slider-mb" data-slide="next">
+            <i class="now-ui-icons arrows-1_minimal-left"></i>
+        </a>
+    </section>
+}

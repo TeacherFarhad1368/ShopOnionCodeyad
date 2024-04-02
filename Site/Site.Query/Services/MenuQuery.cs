@@ -59,11 +59,95 @@ internal class MenuQuery : IMenuQuery
 
     public List<MenuForUi> GetForBlog()
     {
-        throw new NotImplementedException();
+        List<MenuForUi> model = new();
+        var menus = _menuRepository.GetAllByQuery(b => b.Active &&
+        (b.Status == MenuStatus.منوی_وبلاگ_لینک
+        || b.Status == MenuStatus.منوی_وبلاگ_با_زیرمنوی_بدون_عکس
+        || b.Status == MenuStatus.منوی_وبلاگ_با_زیر_منوی_عکس_دار));
+        foreach(var item in menus)
+        {
+            MenuForUi menu = new()
+            {
+                Number = item.Number,
+                Title = item.Title,
+                Url = item.Url
+            };
+            if(_menuRepository.ExistBy(m=>m.ParentId == item.Id && m.Active))
+                menu.Childs = _menuRepository.GetAllByQuery(m => m.Active && m.ParentId == item.Id)
+                .Select(m => new MenuForUi
+                {
+                    ImageAlt = m.ImageAlt,
+                    Childs = new(),
+                    ImageName = FileDirectories.MenuImageDirectory + m.ImageName,
+                    Number = m.Number,
+                    Title = m.Title,
+                    Url = m.Url
+                }).ToList();
+
+            model.Add(menu);
+        }
+        return model;
+    }
+
+    public List<MenuForUi> GetForFooter()
+    {
+        List<MenuForUi> model = new();
+        var menus = _menuRepository.GetAllByQuery(b => b.Active &&
+        (b.Status == MenuStatus.تیتر_منوی_فوتر));
+        foreach (var item in menus)
+        {
+            MenuForUi menu = new()
+            {
+                Number = item.Number,
+                Title = item.Title,
+                Url = item.Url
+            };
+            if (_menuRepository.ExistBy(m => m.ParentId == item.Id && m.Active))
+                menu.Childs = _menuRepository.GetAllByQuery(m => m.Active && m.ParentId == item.Id)
+                .Select(m => new MenuForUi
+                {
+                    Number = m.Number,
+                    Title = m.Title,
+                    Url = m.Url
+                }).ToList();
+
+            model.Add(menu);
+        }
+        return model;
     }
 
     public List<MenuForUi> GetForIndex()
     {
-        throw new NotImplementedException();
+        List<MenuForUi> model = new();
+        var menus = _menuRepository.GetAllByQuery(b => b.Active &&
+        (b.Status == MenuStatus.منوی_اصلی
+        || b.Status == MenuStatus.منوی_اصلی_با_زیر_منو
+        ));
+        foreach (var item in menus)
+        {
+            MenuForUi menu = new()
+            {
+                Number = item.Number,
+                Title = item.Title,
+                Url = item.Url,
+                ImageAlt = item.ImageAlt,
+                ImageName = string.IsNullOrEmpty(item.ImageName) ? "" : FileDirectories.MenuImageDirectory + item.ImageName,
+                Childs = new()
+            };
+            if (_menuRepository.ExistBy(m => m.ParentId == item.Id && m.Active))
+                menu.Childs = _menuRepository.GetAllByQuery(m => m.Active && m.ParentId == item.Id)
+                .Select(m => new MenuForUi
+                {
+                    ImageAlt = m.ImageAlt,
+                    Childs = new(),
+                    ImageName = FileDirectories.MenuImageDirectory + m.ImageName,
+                    Number = m.Number,
+                    Title = m.Title,
+                    Url = m.Url
+                }).ToList();
+
+            model.Add(menu);
+        }
+        return model;
     }
 }

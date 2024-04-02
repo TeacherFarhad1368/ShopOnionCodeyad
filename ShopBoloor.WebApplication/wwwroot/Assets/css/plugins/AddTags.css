@@ -1,0 +1,57 @@
+.addui-Tags .addui-Tags-tag {
+    display: inline-block;
+    background: #e0e0e0;
+    color: #3a8c96;
+    margin: 4px;
+    font-size: 13px;
+    line-height: 32px;
+    height: 32px;
+    margin-top: 10px;
+    background-color: #fff3f4;
+    padding: 0 10px;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+.addui-Tags .addui-Tags-tag:first-child {
+    margin-top: 60px;
+}
+
+.addui-Tags .addui-Tags-tag.addui-Tags-removable {
+    cursor: pointer;
+    position: relative;
+}
+
+.addui-Tags .addui-Tags-tag.addui-Tags-removable:after {
+    display: inline-block;
+    content: "×";
+    margin: 8px 0px 8px 8px;
+    color: #3a8c96;
+    border-radius: 999px;
+    font-size: 20px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: top;
+    position: absolute;
+    left: 10px;
+}
+
+.addui-Tags .addui-Tags-input {
+    border-radius: 5px;
+    background: #fff;
+    border: 1px solid #c8c8c8;
+    color: #717171;
+    font-size: 14px;
+    line-height: 1.571;
+    padding: 11px 12px;
+    width: 100%;
+    letter-spacing: -.8px;
+    text-align: right;
+    font-family: iranyekan;
+    outline: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+}

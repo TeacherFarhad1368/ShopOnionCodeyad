@@ -1,22 +1,31 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Assets/img/apple-icon.png">
     @await Component.InvokeAsync("Fav")
     <title>@ViewData["Title"]</title>
     <partial name="_Css" />
 </head>
-<body>
-    <div class="page-wrapper">
-    <partial name="_Header" />
+
+<body class="index-page sidebar-collapse">
+    
     <partial name="_HeaderResponsive" />
-    @RenderBody()
-    <partial name="_Colors" />
-    <partial name="_Loading" />
-    <partial name="_Footer" />
+    <!-- responsive-header -->
+    
+    <!-- responsive-header -->
+
+    <div class="wrapper default">
+        <partial name="_Header" />
+        @RenderBody()
+        <partial name="_Footer" />
     </div>
      <partial name="_Js" />
      @RenderSection("Scripts",false)
 </body>
+
 </html>
+
