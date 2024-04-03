@@ -29,7 +29,7 @@ namespace Shared.Application
         {
             if (date == new DateTime()) return "";
             var pc = new PersianCalendar();
-            return $"{pc.GetYear(date)}/{pc.GetMonth(date):00}/{pc.GetDayOfMonth(date):00}";
+            return $"{pc.GetYear(date)}/{MonthNames[pc.GetMonth(date) - 1]}/{pc.GetDayOfMonth(date):00}";
         }
 
         public static string ToDiscountFormat(this DateTime date)

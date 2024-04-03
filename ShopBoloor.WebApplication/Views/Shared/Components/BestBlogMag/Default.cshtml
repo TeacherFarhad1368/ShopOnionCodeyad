@@ -1,0 +1,85 @@
+﻿@model List<Blogs.Application.Contract.BlogApplication.Query.BestBlogQueryModel>
+
+@if(Model.Count() == 4)
+{
+        var list = Model.OrderByDescending(b => b.Visit).ToList();
+        var blog = list.First();
+      <section class="featured-posts-grid">
+        <div class="container">
+            <div class="row row-8">
+
+                <div class="col-lg-6">
+                        @foreach(var item in list.Skip(1))
+                        {
+                            <div class="featured-posts-grid__item featured-posts-grid__item--sm">
+                                <article class="entry card post-list featured-posts-grid__entry">
+                                    <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url(@item.ImageName400)">
+                                        <a href="single-post.html" class="thumb-url"></a>
+                                        <img src="@item.ImageName400" alt="@item.ImageAlt" class="entry__img d-none">
+                                        <a href="/Blogs/@item.CategorySlug" 
+                                        class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--violet">
+                                        @item.CategoryTitle
+                                        </a>
+                                    </div>
+
+                                    <div class="entry__body post-list__body card__body">
+                                        <h2 class="entry__title">
+                                            <a href="/Blog/@item.Slug">
+                                            @item.Title
+                                            </a>
+                                        </h2>
+                                        <ul class="entry__meta">
+                                            <li class="entry__meta-author">
+                                                <span>نویسنده:</span>
+                                                <a>@item.Writer</a>
+                                            </li>
+                                            <li class="entry__meta-date">
+                                                @item.CreationDate
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </article>
+                            </div>
+                        }
+
+                   
+                </div> <!-- end col -->
+
+                <div class="col-lg-6">
+                    <!-- Large post -->
+                    <div class="featured-posts-grid__item featured-posts-grid__item--lg">
+                        <article class="entry card featured-posts-grid__entry">
+                            <div class="entry__img-holder card__img-holder">
+                                <a href="/Blog/@blog.Slug">
+                                    <img src="@blog.ImageName" alt="@blog.ImageAlt" class="entry__img">
+                                </a>
+                                <a href="/Blogs/@blog.CategorySlug" 
+                                class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--green">
+                                 @blog.CategoryTitle
+                                </a>
+                            </div>
+
+                            <div class="entry__body card__body">
+                                <h2 class="entry__title">
+                                        <a href="/Blog/@blog.Slug">
+                                        @blog.Title
+                                        </a>
+                                </h2>
+                                <ul class="entry__meta">
+                                    <li class="entry__meta-author">
+                                        <span>نویسنده:</span>
+                                        <a>@blog.Writer</a>
+                                    </li>
+                                    <li class="entry__meta-date">
+                                       @blog.CreationDate
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div> <!-- end large post -->
+                </div>
+
+            </div>
+        </div>
+    </section>
+}

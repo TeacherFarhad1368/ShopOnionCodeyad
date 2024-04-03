@@ -20,6 +20,42 @@ namespace Blogs.Query.Services
             _blogCategoryRepository = blogCategoryRepository;
         }
 
+        public List<BestBlogQueryModel> GetBestBlogForUi()
+        {
+            IQueryable<Blog> blogs = _blogRepository.GetAllByQuery(b => b.Active).OrderByDescending(b => b.VisitCount);
+            var model = blogs.Select(b => new BestBlogQueryModel
+            {
+                CategorySlug = "",
+                Category = b.CategoryId,
+                CategoryTitle = "",
+                CreationDate = b.CreateDate.ToPersainDate(),
+                Slug = b.Slug,
+                SubCategory = b.SubCategoryId,
+                Title =b.Title,
+                Visit = b.VisitCount,
+                Writer = b.Writer,
+                ImageName = FileDirectories.BlogImageDirectory + b.ImageName,
+                ImageName400 = FileDirectories.BlogImageDirectory400 + b.ImageName,
+                ImageAlt = b.ImageAlt
+            }).OrderByDescending(b => b.Visit).Take(4).ToList();
+            model.ForEach(x =>
+            {
+                if(x.SubCategory > 0)
+                {
+                    var sub = _blogCategoryRepository.GetById(x.SubCategory);
+                    x.CategorySlug = sub.Slug;
+                    x.CategoryTitle = sub.Title;
+                }
+                else
+                {
+                    var parent = _blogCategoryRepository.GetById(x.Category);
+                    x.CategorySlug = parent.Slug;
+                    x.CategoryTitle = parent.Title;
+                }
+            });
+            return model;
+        }
+
         public AdminBlogsPageQueryModel GetBlogsForAdmin(int id)
         {
             AdminBlogsPageQueryModel model = new()
@@ -70,6 +106,13 @@ namespace Blogs.Query.Services
                 x.CategoryTitle = _blogCategoryRepository.GetById(x.CategoryId).Title;
             });
             return model;
+        }
+
+        public List<LastBlogForMagQueryModel> GetLastBlogForMagUi()
+        {
+            IQueryable<Blog> blogs = _blogRepository.GetAllByQuery(b=>b.Active).OrderByDescending(b => b.CreateDate);
+            return blogs.Select(b => new LastBlogForMagQueryModel(b.Slug, b.Title))
+                .Take(5).ToList();
         }
     }
 }
