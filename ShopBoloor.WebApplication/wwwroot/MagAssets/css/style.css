@@ -1670,6 +1670,14 @@ img.mfp-img {
 	.social-facebook:hover {
 		background-color: #324e8c !important;
 		color: #fff !important; }
+.social-whatsapp {
+	background-color: green;
+}
+
+	.social-whatsapp:hover {
+		background-color: forestgreen !important;
+		color: #fff !important;
+	}
 	.social-twitter {
 		background-color: #55ACEE; }
 	.social-twitter:hover {

@@ -1,0 +1,106 @@
+﻿@using Site.Application.Contract.MenuApplication.Query;
+@using Site.Application.Contract.SiteSettingApplication.Query;
+@using Shared.Domain.Enum;
+@model Tuple<List<MenuForUi> ,SocialForUiQueryModel>
+
+<header class="sidenav" id="sidenav">
+
+    <!-- close -->
+    <div class="sidenav__close">
+        <button class="sidenav__close-button" id="sidenav__close-button" aria-label="close sidenav">
+            <i class="ui-close sidenav__close-icon"></i>
+        </button>
+    </div>
+
+    <!-- Nav -->
+    <nav class="sidenav__menu-container">
+        @if(Model.Item1.Count() > 0)
+        {
+            <ul class="sidenav__menu" role="menubar">
+                @foreach(var item in Model.Item1.OrderBy(m => m.Number))
+                {
+                    @switch (item.Status)
+                    {
+                        case MenuStatus.منوی_وبلاگ_لینک:
+                            <li>
+                                <a href="@item.Url" class="sidenav__menu-url">@item.Title</a>
+                            </li>
+                            break;
+                            case MenuStatus.منوی_وبلاگ_با_زیرمنوی_بدون_عکس:
+                            <li>
+                                <a href="#" class="sidenav__menu-url">@item.Title</a>
+                                    @if(item.Childs.Count() > 0)
+                                {
+                                    <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
+                                    <ul class="sidenav__menu-dropdown">
+                                        @foreach(var sub in item.Childs.OrderBy(c => c.Number))
+                                        {
+                                            <li><a href="@sub.Url" class="sidenav__menu-url"> @sub.Title</a></li>
+                                        }
+                                    </ul>
+                                    }
+                                    
+                            </li>
+                            break;
+                            case MenuStatus.منوی_وبلاگ_با_زیر_منوی_عکس_دار:
+                            <li>
+                                <a href="#" class="sidenav__menu-url">@item.Title</a>
+                                @if (item.Childs.Count() > 0)
+                                {
+                                    <button class="sidenav__menu-toggle" aria-haspopup="true" aria-label="Open dropdown"><i class="ui-arrow-down"></i></button>
+                                    <ul class="sidenav__menu-dropdown">
+                                        @foreach (var sub in item.Childs.OrderBy(c => c.Number))
+                                        {
+                                            <li><a href="@sub.Url" class="sidenav__menu-url"> @sub.Title</a></li>
+                                        }
+                                    </ul>
+                                }
+
+                            </li>
+                            break;
+                        default:
+                            break;
+                    }
+                }
+               
+            </ul>
+        }
+        
+    </nav>
+    @if(Model.Item2 != null)
+    {
+        <div class="socials sidenav__socials">
+            @if (!string.IsNullOrEmpty(Model.Item2.Instagram))
+            {
+
+                <a class="social social-instagram" href="@Model.Item2.Instagram" target="_blank" aria-label="instagram">
+                    <i class="ui-instagram"></i>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.Item2.Telegram))
+            {
+                var tel = $"@{Model.Item2.Telegram}";
+
+                <a class="social social-twitter" href="https://web.telegram.org/#/im?p=@tel" target="_blank" aria-label="telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.Item2.WhatsApp))
+            {
+                var whats = Model.Item2.WhatsApp.TrimStart('0');
+
+                <a class="social social-whatsapp" href="https://api.whatsapp.com/send?phone=+98@whats" target="_blank" aria-label="facebook">
+                    <i class="ui-whatsapp"></i>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.Item2.Youtube))
+            {
+                <a class="social social-youtube" href="@Model.Item2.Youtube" target="_blank" aria-label="youtube">
+                    <i class="ui-youtube"></i>
+                </a>
+            }
+        </div>
+    }
+    
+</header>
+

@@ -99,19 +99,6 @@ public class MenuFooterViewComponent : ViewComponent
         return View(model);
     }
 }
-public class MenuBlogViewComponent : ViewComponent
-{
-    private readonly IMenuQuery _query;
-    public MenuBlogViewComponent(IMenuQuery query)
-    {
-        _query = query;
-    }
-    public IViewComponentResult Invoke()
-    {
-        var model = _query.GetForBlog();
-        return View(model);
-    }
-}
 public class ServicesViewComponent : ViewComponent
 {
     private readonly ISiteServiceQuery _query;
@@ -133,19 +120,6 @@ public class AmazingSliderViewComponent : ViewComponent
     public IViewComponentResult Invoke()
     {
         return View();
-    }
-}
-public class SocialViewComponent : ViewComponent
-{
-    private readonly ISiteSettingQuery _query;
-    public SocialViewComponent(ISiteSettingQuery query)
-    {
-        _query = query;
-    }
-    public IViewComponentResult Invoke()
-    {
-        var model = _query.GetSocialForUi();
-        return View(model);
     }
 }
 public class FooterViewComponent : ViewComponent

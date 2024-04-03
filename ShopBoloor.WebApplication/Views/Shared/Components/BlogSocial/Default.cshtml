@@ -1,0 +1,50 @@
+﻿@model Site.Application.Contract.SiteSettingApplication.Query.SocialForUiQueryModel
+
+<div class="top-bar d-none d-lg-block">
+    <div class="container">
+        <div class="row">
+
+            <!-- Top menu -->
+            <div class="col-lg-6">
+                <ul class="top-menu">
+                    <li><a href="/">صفحه اصلی سایت</a></li>
+                    <li><a href="#">تبلیغات</a></li>
+                    <li><a href="#">تماس با ما</a></li>
+                </ul>
+            </div>
+
+            <!-- Socials -->
+            <div class="col-lg-6">
+                <div class="socials nav__socials socials--nobase socials--white justify-content-start">
+                    @if (!string.IsNullOrEmpty(Model.Instagram))
+                    {
+                        <a class="social social-instagram" href="@Model.Instagram" target="_blank" aria-label="instagram">
+                            <i class="ui-instagram"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Telegram))
+                    {
+                        var tel = $"@{Model.Telegram}";
+                        <a class="social social-google-plus" href="https://web.telegram.org/#/im?p=@tel" target="_blank" aria-label="google">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.WhatsApp))
+                    {
+                        var whats = Model.WhatsApp.TrimStart('0');
+                        <a class="social social-twitter" href="https://api.whatsapp.com/send?phone=+98@whats" target="_blank" aria-label="twitter">
+                        <i class="ui-whatsapp"></i>
+                    </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Youtube))
+                    {
+                        <a class="social social-youtube" href="@Model.Youtube" target="_blank" aria-label="youtube">
+                            <i class="ui-youtube"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
