@@ -16,6 +16,19 @@ public class LogoHeaderViewComponent : ViewComponent
         return View(model);
     }
 }
+public class LogoBlogViewComponent : ViewComponent
+{
+    private readonly ISiteSettingQuery _query;
+    public LogoBlogViewComponent(ISiteSettingQuery query)
+    {
+        _query = query;
+    }
+    public IViewComponentResult Invoke()
+    {
+        var model = _query.GetLogoForUi();
+        return View(model);
+    }
+}
 
 public class FavViewComponent : ViewComponent
 {

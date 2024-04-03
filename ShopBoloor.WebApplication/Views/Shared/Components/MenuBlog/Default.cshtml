@@ -1,0 +1,93 @@
+﻿@using Site.Application.Contract.MenuApplication.Query;
+@using Shared.Domain.Enum;
+@model List<MenuForUi>
+
+
+
+<nav class="flex-child nav__wrap d-none d-lg-block">
+    @if (Model.Count() > 0)
+    {
+        <ul class="nav__menu" >
+            @foreach (var item in Model.OrderBy(m => m.Number))
+            {
+                @switch (item.Status)
+                {
+                    case MenuStatus.منوی_وبلاگ_لینک:
+                        <li class="active">
+                            <a href="@item.Url">@item.Title</a>
+                        </li>
+                        break;
+                    case MenuStatus.منوی_وبلاگ_با_زیرمنوی_بدون_عکس:
+                        <li class="nav__dropdown">
+                            <a href="#">@item.Title</a>
+                            @if (item.Childs.Count() > 0)
+                            {
+                                <ul class="nav__dropdown-menu">
+                                    @foreach (var sub in item.Childs.OrderBy(c => c.Number))
+                                    {
+                                        <li><a href="@sub.Url"> @sub.Title</a></li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                        break;
+                    case MenuStatus.منوی_وبلاگ_با_زیر_منوی_عکس_دار:
+                        <li class="nav__dropdown">
+                            <a href="#">@item.Title</a>
+                            @if (item.Childs.Count() > 0)
+                            {
+                                
+                            <ul class="nav__dropdown-menu nav__megamenu">
+                                <li>
+                                    <div class="nav__megamenu-wrap">
+                                        <div class="row">
+                                                @foreach (var sub in item.Childs.OrderBy(c => c.Number))
+                                                {
+                                                    <div class="col nav__megamenu-item">
+                                                        <article class="entry">
+                                                            <div class="entry__img-holder">
+                                                                <a href="@sub.Url">
+                                                                    <img src="@sub.ImageName" alt="@sub.ImageAlt" class="entry__img">
+                                                                </a>
+                                                            </div>
+
+                                                            <div class="entry__body">
+                                                                <h2 class="entry__title">
+                                                                    <a href="@sub.Url">
+                                                                        @sub.Title
+                                                                    </a>
+                                                                </h2>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                }
+
+                                        </div>
+                                    </div>
+                                </li>
+                                </ul>
+                            }
+                        </li>
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        </ul>
+    }
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@
 @if(!string.IsNullOrEmpty(Model.LogoName))
 {
     <div class="logo-area default">
-        <a href="#">
+        <a href="/">
             <img src="@Model.LogoName" @(string.IsNullOrEmpty(Model.LogoAlt) ? "" : $"alt={Model.LogoAlt}")>
         </a>
     </div>

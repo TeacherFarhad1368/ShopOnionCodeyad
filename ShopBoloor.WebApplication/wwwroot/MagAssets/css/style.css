@@ -3466,11 +3466,14 @@ figcaption {
 -------------------------------------------------------*/
 .logo {
 	line-height: 1; }
-
-.logo-holder {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex; }
+	.logo .logo__img{
+		width:90px;
+	}
+	.logo-holder {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+	}
 
 /* Nav Flexbox
 -------------------------------------------------------*/
