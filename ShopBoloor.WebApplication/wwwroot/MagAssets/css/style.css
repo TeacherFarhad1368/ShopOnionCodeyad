@@ -2727,11 +2727,13 @@ img.mfp-img {
 .mc4wp-form-fields input[type=text] {
 	margin-bottom: 8px; }
 
-.mc4wp-form-fields input[type=submit] {
-	margin-bottom: 0;
-	width: auto; }
-	.mc4wp-form-fields input[type=submit]:focus {
-		background-color: #2D95E3; }
+	.mc4wp-form-fields .form-group button {
+		margin-bottom: 0;
+		height: 46px;
+	}
+	.mc4wp-form-fields .form-group button:focus {
+		background-color: #2D95E3;
+	}
 
 .newsletter__text {
 	color: #83858F; }
@@ -4838,3 +4840,10 @@ dd {
 			color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+/*my css*/
+.tabs__trigger{
+	cursor:pointer;
+}
+.text-danger{
+	color:orangered;
+}

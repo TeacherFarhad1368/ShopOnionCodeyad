@@ -78,7 +78,7 @@ namespace Blogs.Query.Services
                     Writer = b.Writer,
                     ImageName = FileDirectories.BlogImageDirectory + b.ImageName,
                     ImageAlt = b.ImageAlt
-                }).Take(4).ToList();
+                }).Take(2).ToList();
             }
             return model;
         }

@@ -42,129 +42,22 @@
         <!-- Sidebar -->
         <aside class="col-lg-4 sidebar sidebar--right">
 
-            <!-- Widget Popular Posts -->
-            <aside class="widget widget-popular-posts">
-                <h4 class="widget-title">محبوب ترین مقالات</h4>
-                <ul class="post-list-small">
-                    <li class="post-list-small__item">
-                        <article class="post-list-small__entry clearfix">
-                            <div class="post-list-small__img-holder">
-                                <div class="thumb-container thumb-100">
-                                    <a href="single-post.html">
-                                        <img data-src="/MagAssets/img/content/thumb/post-8.jpg" src="/MagAssets/img/empty.png" alt="" class="post-list-small__img--rounded lazyload">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="post-list-small__body">
-                                <h3 class="post-list-small__entry-title">
-                                    <a href="single-post.html">گوشی تاشو هواوی میت ایکس در تاریخ مقرر عرضه می‌شود</a>
-                                </h3>
-                                <ul class="entry__meta">
-                                    <li class="entry__meta-author">
-                                        <span>نویسنده:</span>
-                                        <a href="#">بهرامی راد</a>
-                                    </li>
-                                    <li class="entry__meta-date">
-                                        ۴ اردیبهشت ۱۳۹۸
-                                    </li>
-                                </ul>
-                            </div>
-                        </article>
-                    </li>
-                    <li class="post-list-small__item">
-                        <article class="post-list-small__entry clearfix">
-                            <div class="post-list-small__img-holder">
-                                <div class="thumb-container thumb-100">
-                                    <a href="single-post.html">
-                                        <img data-src="/MagAssets/img/content/thumb/post-2.jpg" src="/MagAssets/img/empty.png" alt="" class="post-list-small__img--rounded lazyload">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="post-list-small__body">
-                                <h3 class="post-list-small__entry-title">
-                                    <a href="single-post.html">نمایشگر وان پلاس ۷ قرار است ما را شگفت‌زده کند!</a>
-                                </h3>
-                                <ul class="entry__meta">
-                                    <li class="entry__meta-author">
-                                        <span>نویسنده:</span>
-                                        <a href="#">بهرامی راد</a>
-                                    </li>
-                                    <li class="entry__meta-date">
-                                        ۴ اردیبهشت ۱۳۹۸
-                                    </li>
-                                </ul>
-                            </div>
-                        </article>
-                    </li>
-                    <li class="post-list-small__item">
-                        <article class="post-list-small__entry clearfix">
-                            <div class="post-list-small__img-holder">
-                                <div class="thumb-container thumb-100">
-                                    <a href="single-post.html">
-                                        <img data-src="/MagAssets/img/content/thumb/post-6.jpg" src="/MagAssets/img/empty.png" alt="" class="post-list-small__img--rounded lazyload">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="post-list-small__body">
-                                <h3 class="post-list-small__entry-title">
-                                    <a href="single-post.html">چرا لانچرهای اندروید دیگر محبوبیت گذشته را ندارند؟</a>
-                                </h3>
-                                <ul class="entry__meta">
-                                    <li class="entry__meta-author">
-                                        <span>نویسنده:</span>
-                                        <a href="#">بهرامی راد</a>
-                                    </li>
-                                    <li class="entry__meta-date">
-                                        ۴ اردیبهشت ۱۳۹۸
-                                    </li>
-                                </ul>
-                            </div>
-                        </article>
-                    </li>
-                    <li class="post-list-small__item">
-                        <article class="post-list-small__entry clearfix">
-                            <div class="post-list-small__img-holder">
-                                <div class="thumb-container thumb-100">
-                                    <a href="single-post.html">
-                                        <img data-src="/MagAssets/img/content/thumb/post-5.jpg" src="/MagAssets/img/empty.png" alt="" class="post-list-small__img--rounded lazyload">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="post-list-small__body">
-                                <h3 class="post-list-small__entry-title">
-                                    <a href="single-post.html">۵ کتاب روانشناسی که برای زندگی بهتر باید بخوانید</a>
-                                </h3>
-                                <ul class="entry__meta">
-                                    <li class="entry__meta-author">
-                                        <span>نویسنده:</span>
-                                        <a href="#">بهرامی راد</a>
-                                    </li>
-                                    <li class="entry__meta-date">
-                                        ۴ اردیبهشت ۱۳۹۸
-                                    </li>
-                                </ul>
-                            </div>
-                        </article>
-                    </li>
-                </ul>
-            </aside> <!-- end widget popular posts -->
-            <!-- Widget Newsletter -->
             <aside class="widget widget_mc4wp_form_widget">
                 <h4 class="widget-title">خبرنامه</h4>
                 <p class="newsletter__text">
                     <i class="ui-email newsletter__icon"></i>
                     برای اطلاع از آخرین خبرها مشترک شوید
                 </p>
-                <form class="mc4wp-form" method="post">
+                <div class="mc4wp-form">
                     <div class="mc4wp-form-fields">
-                        <div class="form-group">
-                            <input type="email" name="EMAIL" placeholder="ایمیل" required="">
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-lg btn-color" value="عضویت">
+                        <div class="form-group d-flex">
+                            <input type="email" id="inputEmailUser" placeholder="ایمیل">
+                            <button onclick="AddEmailUser()" class="btn btn-lg btn-color">عضویت</button>
                         </div>
                     </div>
-                </form>
+
+                    <span class="text-danger" id="inputEmailUserValid"></span>
+                </div>
             </aside> <!-- end widget newsletter -->
             <!-- Widget Ad 300 -->
             <aside class="widget widget_media_image">
