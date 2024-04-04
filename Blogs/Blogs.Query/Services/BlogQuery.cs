@@ -56,6 +56,33 @@ namespace Blogs.Query.Services
             return model;
         }
 
+        public List<BestBlogModel> GetBestBlogsForMagIndex()
+        {
+            List<BestBlogModel> model = _blogCategoryRepository.GetAllByQuery(c => c.Active && c.Parent == 0)
+                .Select(c => new BestBlogModel
+                {
+                    Blogs = new(),
+                    CategoryTitle = c.Title,
+                    Id = c.Id
+                }).ToList();
+            foreach(var item in model)
+            {
+                IQueryable<Blog> res = _blogRepository.GetAllByQuery(b=>b.Active && b.CategoryId == item.Id).OrderByDescending(b=>b.Id);
+                if (res.Count() < 1) model.Remove(item);
+                item.Blogs = res.Select(b => new BestBlogForMagIndexQueryModel
+                {
+                    ShortDescription = b.ShortDescription,
+                    CreationDate = b.CreateDate.ToPersainDate(),
+                    Slug = b.Slug,
+                    Title = b.Title,
+                    Writer = b.Writer,
+                    ImageName = FileDirectories.BlogImageDirectory + b.ImageName,
+                    ImageAlt = b.ImageAlt
+                }).Take(4).ToList();
+            }
+            return model;
+        }
+
         public AdminBlogsPageQueryModel GetBlogsForAdmin(int id)
         {
             AdminBlogsPageQueryModel model = new()
