@@ -18,6 +18,13 @@ namespace Blogs.Infrastructure.Services
             _context = context;
         }
 
+        public BlogCategory GetBySlug(string slug)
+        {
+            var category = _context.BlogCategories.SingleOrDefault(b => b.Slug == slug.Trim());
+            if (category == null) return null;
+            return category;
+        }
+
         public EditBlogCategory GetForEdit(int id)
         {
             return _context.BlogCategories.Select(c => new EditBlogCategory

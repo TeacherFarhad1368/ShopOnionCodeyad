@@ -60,6 +60,32 @@ public class CenterBaner4ViewComponent : ViewComponent
         return View(model);
     }
 }
+public class LeftBanerBlogViewComponent : ViewComponent
+{
+    private readonly IBanerQuery _query;
+    public LeftBanerBlogViewComponent(IBanerQuery query)
+    {
+        _query = query;
+    }
+    public IViewComponentResult Invoke()
+    {
+        var model = _query.GetForUi(1, BanerState.بنر_تکی_وبلاگ_280x230);
+        return View(model);
+    }
+}
+public class ButtomBanerBlogViewComponent : ViewComponent
+{
+    private readonly IBanerQuery _query;
+    public ButtomBanerBlogViewComponent(IBanerQuery query)
+    {
+        _query = query;
+    }
+    public IViewComponentResult Invoke()
+    {
+        var model = _query.GetForUi(1, BanerState.بنر_تکی_وبلاگ_1020x130);
+        return View(model);
+    }
+}
 public class SliderViewComponent : ViewComponent
 {
     private readonly ISliderQuery _query;

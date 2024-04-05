@@ -11,5 +11,6 @@ namespace Seos.Domain
     {
         CreateSeo GetSeoForUbsert(int ownerId, WhereSeo where);
         Seo GetSeo(int ownerId, WhereSeo where);
+        Seo GetSeoForUi(int ownerId, WhereSeo where,string title);
     }
 }

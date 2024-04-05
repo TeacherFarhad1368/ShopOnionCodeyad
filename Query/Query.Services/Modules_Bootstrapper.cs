@@ -8,7 +8,9 @@ using Query.Contract.Admin.Comment;
 using Query.Contract.Admin.Email;
 using Query.Contract.Admin.MessageUser;
 using Query.Contract.Admin.Seo;
+using Query.Contract.UI.Blog;
 using Query.Services.Admin;
+using Query.Services.UI;
 using Seos.Query;
 using Site.Query;
 using Users.Query;
@@ -33,6 +35,9 @@ namespace Query.Services
 			services.AddTransient<IEmailAdminQuery, EmailAdminQuery>();
 			services.AddTransient<ISeoAdminQuery, SeoAdminQuery>();
 			services.AddTransient<IMessageUserAdminQuery, MessageUserAdminQuery>();
+
+
+			services.AddTransient<IBlogUiQuery, BlogUiQuery>();
 		}
 	}
 }

@@ -1,0 +1,90 @@
+﻿@model Query.Contract.UI.Blog.BlogUiPaging
+@{
+    ViewData["Title"] = Model.Seo.MetaTitle;
+    Layout = "~/Views/Shared/_MagLayout.cshtml";
+}
+<partial name="_MagBreadCrumb" model="@Model.BreadCrumb" />
+<div class="main-container container" id="main-container">
+    <div class="row">
+        <div class="col-lg-8 blog__content mb-72">
+            <h1 class="page-title">@Model.Title</h1>
+            @if(Model.Blogs.Count() > 0)
+            {
+                <div class="row card-row">
+                    @foreach(var item in Model.Blogs)
+                    {
+                        <partial name="_BlogCard" model="@item" />
+                    }
+                    
+                </div>
+            }
+            else
+            {
+                <div class="row card-row">
+                    <div class="alert alert-warning">
+                        <h4>
+                            مقاله ای برای نمایش موجود نیست
+                        </h4>
+                    </div>
+                </div>
+            }
+           
+            @if(Model.PageCount > 1)
+            {
+                <nav class="pagination">
+                    @if(Model.PageId > 1)
+                    {
+                        <a href="/Blogs/@Model.Slug?pageid=@(Model.PageId - 1)&filter=@Model.Filter" 
+                        class="pagination__page pagination__icon pagination__page--prev"><i class="ui-arrow-right"></i></a>
+                    }
+                    @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                    {
+                        if(i == Model.PageId)
+                        {
+                            <span class="pagination__page pagination__page--current">@i</span>
+                        }
+                        else
+                        {
+                            <a href="/Blogs/@Model.Slug?pageid=@i&filter=@Model.Filter" class="pagination__page">@i</a>
+                        }
+                    }
+                    @if (Model.PageCount > Model.PageId)
+                    {
+                        <a href="/Blogs/@Model.Slug?pageid=@(Model.PageId + 1)&filter=@Model.Filter"
+                           class="pagination__page pagination__icon pagination__page--next"><i class="ui-arrow-left"></i></a>
+                    }
+                </nav>
+            }
+            
+        </div> <!-- end posts -->
+        <!-- Sidebar -->
+        <aside class="col-lg-4 sidebar sidebar--right">
+            <aside class="widget widget_mc4wp_form_widget">
+                <h4 class="widget-title">جست و جو </h4>
+                
+                <form class="mc4wp-form" >
+                    <div class="mc4wp-form-fields">
+                        <div class="form-group">
+                            <input type="text" name="filter" placeholder="جست و جو" value="@Model.Filter">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-lg btn-color" value="جست و جو">
+                        </div>
+                    </div>
+                </form>
+            </aside>
+            <aside class="widget widget_categories">
+                <h4 class="widget-title">دسته بندی ها</h4>
+                <ul>
+                    <li><a href="/Blogs">همه مقالات </a></li>
+                    @foreach(var item in Model.Categories)
+                    {
+
+                        <li><a href="/Blogs/@item.Slug">@item.Title <span class="categories-count">@item.BlogCount</span></a></li>
+                    }
+                </ul>
+            </aside>
+        </aside> 
+
+    </div> <!-- end content -->
+</div>

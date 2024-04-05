@@ -1,0 +1,40 @@
+﻿@model Query.Contract.UI.Blog.BlogCardQueryModel
+
+<div class="col-md-6">
+    <article class="entry card">
+        <div class="entry__img-holder card__img-holder">
+            <a href="/Blog/@Model.Slug">
+                <div class="thumb-container thumb-70">
+                    <img data-src="@Model.ImageName" 
+                    src="@Model.ImageName" class="entry__img lazyload" alt="@Model.ImageAlt" />
+                </div>
+            </a>
+            <a href="/Blogs/@Model.CategorySlug" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--violet">
+                @Model.CategoryTitle
+            </a>
+        </div>
+
+        <div class="entry__body card__body">
+            <div class="entry__header">
+
+                <h2 class="entry__title">
+                    <a href="/Blog/@Model.Slug">
+                    @Model.Title    
+                    </a>
+                </h2>
+                <ul class="entry__meta">
+                    <li class="entry__meta-author">
+                        <span>نویسنده:</span>
+                        <a> @Model.Writer</a>
+                    </li>
+                    <li class="entry__meta-date">
+                        @Model.CreationDate
+                    </li>
+                </ul>
+            </div>
+            <div class="entry__excerpt">
+               @Model.ShortDescription
+            </div>
+        </div>
+    </article>
+</div>

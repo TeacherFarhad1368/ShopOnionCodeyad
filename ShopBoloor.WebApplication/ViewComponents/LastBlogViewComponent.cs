@@ -30,3 +30,16 @@ public class BestBlogMagViewComponent : ViewComponent
         return View(model);
     }
 }
+public class BestBlogSliderMagViewComponent : ViewComponent
+{
+    private readonly IBlogQuery _query;
+    public BestBlogSliderMagViewComponent(IBlogQuery query)
+    {
+        _query = query;
+    }
+    public IViewComponentResult Invoke()
+    {
+        var model = _query.GetBestBlogForSliderUi();
+        return View(model);
+    }
+}

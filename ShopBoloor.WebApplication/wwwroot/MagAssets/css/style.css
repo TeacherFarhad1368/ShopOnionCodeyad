@@ -4847,3 +4847,11 @@ dd {
 .text-danger{
 	color:orangered;
 }
+
+/*my css*/
+.copyright {
+	font-size: 12px;
+	text-align: center;
+	padding: 15px 0;
+	width:100% !important;
+}

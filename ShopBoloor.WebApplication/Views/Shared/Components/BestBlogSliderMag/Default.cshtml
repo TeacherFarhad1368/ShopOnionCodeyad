@@ -1,0 +1,27 @@
+﻿@model List<Blogs.Application.Contract.BlogApplication.Query.BestBlogSliderQueryModel>
+@if(Model.Count() > 0)
+{
+    <section class="section mb-0">
+        <div class="title-wrap title-wrap--line">
+            <h3 class="section-title">پربازدیدترین مقالات</h3>
+        </div>
+        <div id="owl-posts" class="owl-carousel owl-theme owl-carousel--arrows-outside">
+            @foreach(var item in Model)
+            {
+                <article class="entry thumb thumb--size-1">
+                    <div class="entry__img-holder thumb__img-holder" style="background-image: url('@item.ImageName');">
+                        <div class="bottom-gradient"></div>
+                        <div class="thumb-text-holder">
+                            <h2 class="thumb-entry-title">
+                                <a href="/Blog/@item.slug">
+                                    @item.title
+                                    </a>
+                            </h2>
+                        </div>
+                        <a href="/Blog/@item.slug" class="thumb-url"></a>
+                    </div>
+                </article>
+            }
+        </div> 
+    </section>
+}

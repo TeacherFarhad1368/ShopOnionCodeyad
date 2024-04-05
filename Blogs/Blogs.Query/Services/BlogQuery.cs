@@ -20,6 +20,19 @@ namespace Blogs.Query.Services
             _blogCategoryRepository = blogCategoryRepository;
         }
 
+        public List<BestBlogSliderQueryModel> GetBestBlogForSliderUi()
+        {
+            return _blogRepository.GetAllByQuery(b => b.Active).Select(b => new BestBlogSliderQueryModel
+            {
+                ImageAlt = b.ImageAlt,
+                Id = b.Id,
+                ImageName = FileDirectories.BlogImageDirectory400 + b.ImageName,
+                slug = b.Slug,
+                title = b.Title,
+                VisitCount = b.VisitCount
+            }).OrderByDescending(b => b.VisitCount).Take(10).ToList();
+        }
+
         public List<BestBlogQueryModel> GetBestBlogForUi()
         {
             IQueryable<Blog> blogs = _blogRepository.GetAllByQuery(b => b.Active).OrderByDescending(b => b.VisitCount);

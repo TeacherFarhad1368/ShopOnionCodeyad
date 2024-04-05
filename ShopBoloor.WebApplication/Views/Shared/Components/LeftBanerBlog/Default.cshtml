@@ -1,0 +1,12 @@
+﻿@model List<Site.Application.Contract.BanerApplication.Query.BanerForUiQueryModel>
+
+@if(Model.Count() > 0)
+{
+    var baner = Model.First();
+
+    <aside class="widget widget_media_image">
+        <a href="@baner.Url">
+            <img src="@baner.ImageName" alt="@baner.ImageAlt" />
+        </a>
+    </aside>
+}

@@ -46,5 +46,15 @@ namespace Seos.Infrastructure
             };
         }
 
+        public Seo GetSeoForUi(int ownerId, WhereSeo where, string title)
+        {
+            var seo = GetSeo(ownerId, where);
+            if(seo == null)
+            {
+                seo = new Seo(title, "", "", true, "","", where, ownerId);
+                Create(seo);
+            }
+            return seo;
+        }
     }
 }

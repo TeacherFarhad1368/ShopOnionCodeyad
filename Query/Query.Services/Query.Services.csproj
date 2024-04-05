@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Query.Contract\Query.Contract.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UI\" />
-  </ItemGroup>
-
 </Project>
