@@ -6,13 +6,13 @@
     <meta name="description" content="">
     @await Component.InvokeAsync("Fav")
     <title>@ViewData["Title"]</title>
+    @RenderSection("SEO",false)
     <link rel="stylesheet" href="/MagAssets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/Assets/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/MagAssets/css/font-icons.css" />
     <link rel="stylesheet" href="/MagAssets/css/style.css" />
     <script src="/MagAssets/js/lazysizes.min.js"></script>
 </head>
-
 <body class="bg-light style-default style-rounded">
     <div class="loader-mask">
         <div class="loader">
@@ -46,8 +46,8 @@
                                     <i class="ui-search nav__search-trigger-icon"></i>
                                 </a>
                                 <div class="nav__search-box" id="nav__search-box">
-                                    <form class="nav__search-form">
-                                        <input type="text" placeholder="جستجو مقالات" class="nav__search-input">
+                                    <form class="nav__search-form" action="/Blogs">
+                                        <input type="text" name="filter" placeholder="جستجو مقالات" class="nav__search-input">
                                         <button type="submit" class="search-button btn btn-lg btn-color btn-button">
                                             <i class="ui-search nav__search-icon"></i>
                                         </button>
@@ -61,7 +61,7 @@
                 </div> <!-- end container -->
 
             </div>
-        </header> <!-- end navigation -->
+        </header> 
         @RenderBody()
         
         <!-- Footer -->
@@ -82,7 +82,7 @@
             <a href="#top" aria-label="Go to top"><i class="ui-arrow-up"></i></a>
         </div>
 
-    </main> <!-- end main-wrapper -->
+    </main> 
 
 
     <!-- jQuery Scripts -->

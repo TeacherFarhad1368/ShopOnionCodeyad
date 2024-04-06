@@ -1,0 +1,28 @@
+﻿@model Query.Contract.UI.SeoUiQueryModel
+
+
+<meta name="og:title" content="@Model.MetaTitle" />
+@if (!string.IsNullOrEmpty(Model.MetaDescription))
+{
+    <meta content="@Model.MetaDescription" name="description" />
+}
+@if (!Model.IndexPage)
+{
+    <meta content="noindex, nofollow" name="robots" />
+}
+else
+{
+    <meta content="index , follow" name="robots" />
+}
+@if (!string.IsNullOrEmpty(Model.MetaKeyWords))
+{
+    <meta content="@Model.MetaKeyWords" name="keywords" />
+}
+@if (!string.IsNullOrEmpty(Model.MetaDescription))
+{
+    <meta content="@Model.MetaDescription" name="og:description" />
+}
+@if (!string.IsNullOrEmpty(Model.Canonical))
+{
+    <meta href="@Model.Canonical" rel="canonical" />
+}

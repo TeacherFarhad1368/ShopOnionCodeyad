@@ -3,6 +3,9 @@
     ViewData["Title"] = Model.Seo.MetaTitle;
     Layout = "~/Views/Shared/_MagLayout.cshtml";
 }
+@section SEO{
+    <partial name="_seo" model="@Model.Seo"/>
+}
 <partial name="_MagBreadCrumb" model="@Model.BreadCrumb" />
 <div class="main-container container" id="main-container">
     <div class="row">
@@ -15,7 +18,6 @@
                     {
                         <partial name="_BlogCard" model="@item" />
                     }
-                    
                 </div>
             }
             else
@@ -28,7 +30,6 @@
                     </div>
                 </div>
             }
-           
             @if(Model.PageCount > 1)
             {
                 <nav class="pagination">
@@ -56,8 +57,7 @@
                 </nav>
             }
             
-        </div> <!-- end posts -->
-        <!-- Sidebar -->
+        </div> 
         <aside class="col-lg-4 sidebar sidebar--right">
             <aside class="widget widget_mc4wp_form_widget">
                 <h4 class="widget-title">جست و جو </h4>
@@ -80,7 +80,20 @@
                     @foreach(var item in Model.Categories)
                     {
 
-                        <li><a href="/Blogs/@item.Slug">@item.Title <span class="categories-count">@item.BlogCount</span></a></li>
+                        <li>
+                            <a href="/Blogs/@item.Slug">@item.Title <span class="categories-count">@item.BlogCount</span></a>
+                            @if(item.Childs.Count() > 0)
+                            {
+                                <ul>
+                                    @foreach(var sub in item.Childs)
+                                    {
+                                        <li class="px-3">
+                                            <a href="/Blogs/@sub.Slug">@sub.Title <span class="categories-count">@sub.BlogCount</span></a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
                     }
                 </ul>
             </aside>

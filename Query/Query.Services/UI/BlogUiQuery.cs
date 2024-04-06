@@ -5,11 +5,6 @@ using Query.Contract.UI.Blog;
 using Seos.Domain;
 using Shared.Application;
 using Shared.Domain.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Query.Services.UI;
 
@@ -104,7 +99,7 @@ internal class BlogUiQuery : IBlogUiQuery
 
     private List<BlogCategorySearchQueryModel> GetArchiveBlogCategories()
     {
-        var model =  _blogCategoryRepository.GetAllByQuery(b => b.Active && b.Parent == 0)
+        var model =  _blogCategoryRepository.GetAllBy(b => b.Active && b.Parent == 0)
             .Select(b => new BlogCategorySearchQueryModel
             {
                 BlogCount = 0,
@@ -113,19 +108,20 @@ internal class BlogUiQuery : IBlogUiQuery
                 Title = b.Title,
                 Id = b.Id
             }).ToList();
-        model.ForEach(x =>
+        foreach(var x in model)
         {
             x.BlogCount = _blogRepository.GetAllByQuery(b => b.Active && (b.SubCategoryId == x.Id || b.CategoryId == x.Id)).Count();
-            x.Childs = _blogCategoryRepository.GetAllByQuery(b => b.Active && b.Parent == x.Id)
+            x.Childs = _blogCategoryRepository.GetAllBy(b => b.Active && b.Parent == x.Id)
             .Select(b => new BlogCategorySearchQueryModel
             {
-                BlogCount =0 ,
+                BlogCount = _blogRepository.GetAllBy(c => c.Active && 
+                (c.SubCategoryId == b.Id || c.CategoryId == b.Id)).Count(),
                 Childs = new(),
                 Id = b.Id,
                 Slug = b.Slug,
                 Title = b.Title
             }).ToList();
-        });
+        }
         return model;
     }
 }
