@@ -9,4 +9,5 @@ namespace Query.Contract.UI.Blog;
 public interface IBlogUiQuery
 {
     BlogUiPaging GetBlogsForUi(string slug, int pageId, string filter);
+    SingleBlogQueryModel GetSingleBlogForUi(string slug);
 }

@@ -5,7 +5,7 @@
 function GetBestBlogs() {
     $.ajax({
         type: "Get",
-        url: "/Blog/GetBestBlogs"
+        url: "/GetBestBlogs"
     }).done(function (res) {
         var model = [];
         model = JSON.parse(res);

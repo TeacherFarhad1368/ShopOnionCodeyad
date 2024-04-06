@@ -10,6 +10,7 @@ namespace Blogs.Domain.BlogAgg
 {
     public interface IBlogRepository : IRepository<int, Blog>
     {
+        Blog GetBySlug(string slug);
         EditBlog GetForEdit(int id);
     }
 }

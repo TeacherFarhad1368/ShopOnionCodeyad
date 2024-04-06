@@ -14,7 +14,6 @@ namespace Comments.Query
         public static void Config(IServiceCollection services, string connection)
         {
             CommentInfrastryctureBootstrapper.Config(services, connection);
-            services.AddTransient<ICommentQuery, CommentQuery>();
         }
     }
 }

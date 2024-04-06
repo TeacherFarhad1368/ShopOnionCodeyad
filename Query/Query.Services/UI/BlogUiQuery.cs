@@ -124,4 +124,60 @@ internal class BlogUiQuery : IBlogUiQuery
         }
         return model;
     }
+
+    public SingleBlogQueryModel GetSingleBlogForUi(string slug)
+    {
+        var blog = _blogRepository.GetBySlug(slug);
+        if (blog == null) return null;
+        SingleBlogQueryModel model = new()
+        {
+            ImageAlt = blog.ImageAlt,
+            BreadCrumb = new(),
+            CategoryId = blog.SubCategoryId == 0 ? blog.CategoryId : blog.SubCategoryId,
+            CategorySlug = "",
+            CategoryTitle = "",
+            CreationDate = blog.CreateDate.ToPersainDate(),
+            Description = blog.Text,
+            Id = blog.Id,
+            ImageName = FileDirectories.BlogImageDirectory + blog.ImageName,
+            Slug = blog.Slug,
+            Title = blog.Title,
+            VisitCount = blog.VisitCount,
+            Writer = blog.Writer
+        };
+
+        var category = _blogCategoryRepository.GetById(model.CategoryId);
+        model.CategoryTitle = category.Title;
+        model.CategorySlug = category.Slug;
+        var seo = _seoRepository.GetSeoForUi(model.Id, WhereSeo.Blog, model.Title);
+        model.Seo = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
+        model.BreadCrumb = GetSingleBlogBreadCrumb(model.Id);   
+        return model;
+    }
+
+    private List<BreadCrumbQueryModel> GetSingleBlogBreadCrumb(int id)
+    {
+        List<BreadCrumbQueryModel> model = new()
+        {
+            new BreadCrumbQueryModel(){Number = 1 , Title ="خانه" , Url = "/"} ,
+            new BreadCrumbQueryModel(){Number = 2, Title = "مجله خبری" , Url = "/Blog"},
+            new BreadCrumbQueryModel(){Number = 3, Title = "آرشیو مقالات" , Url = "/Blogs"}
+        };
+        var blog = _blogRepository.GetById(id);
+        var category = _blogCategoryRepository.GetById(blog.CategoryId);
+        model.Add(new BreadCrumbQueryModel() { Number = 4, Title = category.Title, Url = $"/Blogs/{category.Slug}" });
+        int number = 5;
+        if (blog.SubCategoryId > 0)
+        {
+            var subCategory = _blogCategoryRepository.GetById(blog.SubCategoryId);
+            if (subCategory != null)
+            {
+
+                model.Add(new BreadCrumbQueryModel() { Number = number, Title = subCategory.Title, Url = $"/Blogs/{subCategory.Slug}" });
+                number++;
+            }
+        }
+        model.Add(new() { Number = number, Title = blog.Title, Url = "" });
+        return model;
+    }
 }
