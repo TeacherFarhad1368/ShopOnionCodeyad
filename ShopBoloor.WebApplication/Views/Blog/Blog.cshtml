@@ -1,4 +1,5 @@
 ﻿@model Query.Contract.UI.Blog.SingleBlogQueryModel
+@using Shared.Domain.Enum;
 @{
     ViewData["Title"] = Model.Seo.MetaTitle;
     Layout = "~/Views/Shared/_MagLayout.cshtml";
@@ -44,7 +45,7 @@
                                 </li>
                                 <li class="entry__meta-comments">
                                     <a href="#">
-                                        <i class="ui-chat-empty"></i>۱۳
+                                        <i class="ui-chat-empty" id="iCommentCount"></i>
                                     </a>
                                 </li>
                             </ul>
@@ -115,64 +116,24 @@
                     </form>
                 </div>
                     <div class="title-wrap title-wrap--line">
-                        <h3 class="section-title">۳ دیدگاه</h3>
+                        <h3 class="section-title" id="h3CommentCount"></h3>
                     </div>
-                    <ul class="comment-list" >
-                        <li class="comment">
-                            <div class="comment-body">
-                                <div class="comment-avatar">
-                                    <img alt="" src="/MagAssets/img/default-avatar.png">
-                                </div>
-                                <div class="comment-text">
-                                    <h6 class="comment-author">بهرامی راد</h6>
-                                    <div class="comment-metadata">
-                                        <a href="#" class="comment-date">۴ اردیبهشت ۱۳۹۸</a>
-                                    </div>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.</p>
-                                    <a href="#" class="comment-reply">پاسخ</a>
-                                </div>
-                            </div>
-
-                            <ul class="children">
-                                <li class="comment">
-                                    <div class="comment-body">
-                                        <div class="comment-avatar">
-                                            <img alt="" src="/MagAssets/img/default-avatar.png">
-                                        </div>
-                                        <div class="comment-text">
-                                            <h6 class="comment-author">حامد</h6>
-                                            <div class="comment-metadata">
-                                                <a href="#" class="comment-date">۴ اردیبهشت ۱۳۹۸</a>
-                                            </div>
-                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.</p>
-                                            <a href="#" class="comment-reply">پاسخ</a>
-                                        </div>
-                                    </div>
-                                </li> <!-- end reply comment -->
-                            </ul>
-
-                        </li> <!-- end 1-2 comment -->
-
-                        <li>
-                            <div class="comment-body">
-                                <div class="comment-avatar">
-                                    <img alt="" src="/MagAssets/img/default-avatar.png">
-                                </div>
-                                <div class="comment-text">
-                                    <h6 class="comment-author">علی</h6>
-                                    <div class="comment-metadata">
-                                        <a href="#" class="comment-date">۴ اردیبهشت ۱۳۹۸</a>
-                                    </div>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.</p>
-                                    <a href="#" class="comment-reply">پاسخ</a>
-                                </div>
-                            </div>
-                        </li> <!-- end 3 comment -->
-
+                    <ul class="comment-list" id="CommentParentList">
+                        
+                       
                     </ul>
+                <div class="col-12 text-center" id="getMoreCommentDiv">
+
+                </div>
                 </div> 
             </div> 
         </div> 
        
     </div> 
-</div>
+@section Scripts{
+    <script>
+        $(function () {
+            GetComments("@Model.Id", "@CommentFor.مقاله.ToString()", 1);
+        });
+    </script>
+}

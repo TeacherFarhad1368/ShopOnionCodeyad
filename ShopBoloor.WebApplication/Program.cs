@@ -1,6 +1,8 @@
 using Blogs.Query;
 using Microsoft.AspNetCore.DataProtection;
 using ShopBoloor.WebApplication.Utility;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Users.Query;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +10,9 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("Local");
 
+services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
 DependencyBootstrapper.Config(services,connectionString);
 
-services.AddControllersWithViews();
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

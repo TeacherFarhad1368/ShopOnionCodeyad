@@ -1,5 +1,4 @@
-﻿using Comments.Application.Contract.CommentApplication.Query;
-using Comments.Infrastructure;
+﻿using Comments.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

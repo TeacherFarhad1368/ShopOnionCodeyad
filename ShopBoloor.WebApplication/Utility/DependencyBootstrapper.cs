@@ -2,6 +2,7 @@
 using Comments.Query;
 using Emails.Query;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PostModule.Query;
 using Query.Services;
 using Seos.Query;
@@ -18,7 +19,6 @@ namespace ShopBoloor.WebApplication.Utility
         public static void Config(IServiceCollection services1,string connection)
         {
             services1.AddHttpContextAccessor();
-
             services1.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -33,6 +33,7 @@ namespace ShopBoloor.WebApplication.Utility
                     x.AccessDeniedPath = "/Auth/AccessDenied";
                 });
 
+            services1.AddControllersWithViews();
 
             Modules_Bootstrapper.Config(services1, connection);
 
