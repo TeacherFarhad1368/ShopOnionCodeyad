@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = Model.Seo.MetaTitle;
     Layout = "~/Views/Shared/_MagLayout.cshtml";
+    var SuccessCreateComment = TempData["SuccessCreateComment"] != null;
+    var FaildCreateComment = TempData["FaildCreateComment"] != null;
 }
 @section SEO{
     <partial name="_seo" model="@Model.Seo"/>
@@ -88,32 +90,38 @@
                     <div class="title-wrap">
                         <h5 class="comment-respond__title section-title">دیدگاه شما</h5>
                     </div>
-                    <form id="form" class="comment-form" method="post" action="#">
+                    <form id="formComment" class="comment-form" method="post" action="/Comment/Create">
+                        <input type="hidden" name="ownerId" value="@Model.Id" />
+                        <input type="hidden" name="commentFor" value="@CommentFor.مقاله" />
+                        <input type="hidden" id="parentIdComment" name="parentId" />
                         <p class="comment-form-comment">
-                            <label for="comment">دیدگاه</label>
-                            <textarea id="comment" name="comment" rows="5" required="required"></textarea>
+                            <label id="labalFullNameComment" for="comment">دیدگاه</label>
+                            <textarea id="textComment" name="text" rows="5"></textarea>
+                            <span class="text-danger" id="textCommentValid"></span>
                         </p>
 
                         <div class="row row-20">
-                            <div class="col-lg-4">
-                                <label for="name">نام: *</label>
-                                <input name="name" id="name" type="text">
+                            <div class="col-lg-6">
+                                <label for="name">نام کامل: *</label>
+                                <input name="fullName" id="fullNameComment" type="text">
+                                <span class="text-danger" id="fullNameCommentValid"></span>
                             </div>
-                            <div class="col-lg-4">
-                                <label for="comment">ایمیل: *</label>
-                                <input name="email" id="email" type="email">
-                            </div>
-                            <div class="col-lg-4">
-                                <label for="comment">وبسایت:</label>
-                                <input name="website" id="website" type="text">
+                            <div class="col-lg-6">
+                                <label for="comment">ایمیل: </label>
+                                <input name="email" id="emailComment" type="text">
+                                <span class="text-danger" id="emailCommentValid"></span>
                             </div>
                         </div>
 
-                        <p class="comment-form-submit">
-                            <input type="submit" class="btn btn-lg btn-color btn-button" value="ارسال دیدگاه" id="submit-message">
-                        </p>
-
+                     
                     </form>
+                    <p class="comment-form-submit">
+                        <button type="button" class="btn btn-lg btn-color btn-button"
+                                onclick="submitComment()">
+                            ارسال دیدگاه
+                        </button>
+                    </p>
+
                 </div>
                     <div class="title-wrap title-wrap--line">
                         <h3 class="section-title" id="h3CommentCount"></h3>
@@ -136,4 +144,16 @@
             GetComments("@Model.Id", "@CommentFor.مقاله.ToString()", 1);
         });
     </script>
+    @if (SuccessCreateComment)
+    {
+        <script>
+            AlertSweetTimer("نظر شما با موفقیت اضافه شد و به زودی نمایش داده میشود .", "success", 3000);
+        </script>
+    }
+    @if (FaildCreateComment)
+    {
+        <script>
+            AlertSweetTimer("عملیات نا موفق !! لطفا اطلاعات را با دقت وارد کنید  .", "error", 3000);
+        </script>
+    }
 }

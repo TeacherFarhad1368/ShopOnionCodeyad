@@ -120,7 +120,7 @@ function GetComments(ownerId, commentFor, pageId) {
                                     <p>
                                     ${model.Comments[i].Text}
                                     </p>
-                                    <a onclick="AnswerComment(${model.Comments[i].Id})" style="cursor:pointer;float:left" 
+                                    <a onclick="AnswerComment(${model.Comments[i].Id},'${model.Comments[i].FullName}')" style="cursor:pointer;float:left" 
                                     class="comment-reply">پاسخ</a>
                                 </div>
                             </div>
@@ -156,7 +156,6 @@ function GetComments(ownerId, commentFor, pageId) {
            
         }
 
-        debugger;
         var getMoreComment = $("div#getMoreCommentDiv");
         getMoreComment.html("");
         if (model.PageCount > model.PageId) {
@@ -171,6 +170,35 @@ function GetComments(ownerId, commentFor, pageId) {
         }
     });
 }
-function AnswerComment(id) {
-
+function AnswerComment(id, fullName) {
+    $("#labalFullNameComment").text(`پاسخ برای  ${fullName}`);
+    var parent = $("input#parentIdComment");
+    parent.val(id);
+    ScroolToEleman('respond');
+    $("textarea#textComment").select();
+    return;
+}
+function submitComment() {
+    var fullName = $("input#fullNameComment").val();
+    var email = $("input#emailComment").val();
+    var text = $("textarea#textComment").val();
+    if (fullName === null || fullName === "") {
+        $("span#fullNameCommentValid").text("نام کامل اجباری است .");
+    }
+    else {
+        $("span#fullNameCommentValid").text("");
+        if ((email !== null && email !== "") && ValidateEmail(email) === false) {
+            $("span#emailCommentValid").text("یک ایمیل معتبر وارد کنید .");
+        }
+        else {
+            $("span#emailCommentValid").text("");
+            if (text === "" || text === null) {
+                $("span#textCommentValid").text("متن نظر اجباری است .");
+            }
+            else {
+                $("span#textCommentValid").text("");
+                $("form#formComment").submit();
+            }
+        }
+    }
 }
