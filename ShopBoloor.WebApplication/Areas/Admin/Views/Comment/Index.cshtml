@@ -1,0 +1,117 @@
+﻿@model Query.Contract.Admin.Comment.CommentAdminPaging
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="col-12">
+                    <form>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>جست و جو بر اساس عنوان</label>
+                            <input type="text" class="form-control" name="filter" value="@Model.Filter">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>تعداد نمایش در هر صفحه</label>
+                            <input type="number" id="chooseImage" class="form-control" name="take" value="@Model.Take">
+                        </div>
+                        </div>
+                        <div class="col-4">
+                            <label></label>
+                            <button type="submit" class="btn btn-info">
+                                جست و جو
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> نام</th>
+                            <th> ایمیل</th>
+                            <th> کاربر</th>
+                            <th> نظر</th>
+                            <th> متن نظر</th>
+                            <th> دلیل لغو</th>
+                            <th> وضعیت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Comments.Count() > 0)
+                        {
+                            foreach(var item in Model.Comments)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                       @item.FullName
+                                    </td>
+                                    <td>
+                                        @item.Email
+                                    </td>
+                                    <td>
+                                        @item.UserName
+                                    </td>
+                                    <td>@item.CommentTitle</td>
+                                    <td>@item.Text</td>
+                                    <td>@item.WhyRejected</td>
+                                    <td>@item.Status.ToString().Replace("_", " ")</td>
+                                    <td>
+                                        @if (item.HaveChild)
+                                        {
+                                            <a class="btn btn-primary" 
+                                            href="/Admin/Comment/@item.OwnerId/@item.CommentFor/@item.Status?parent=@item.Id" target="_blank">
+                                                پاسخ ها
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+                <div class="col-12 text-center">
+                    @if (Model.PageCount > 1)
+                    {
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            @if (Model.PageId > 1)
+                            {
+                                <li><a href="/Admin/Comment/@Model.OwnerId/@Model.CommentFor/@Model.CommentStatus?pageid=@(Model.PageId - 1)&take=@Model.Take&filter=@Model.Filter">«</a></li>
+                            }
+                            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                            {
+                                if (i == Model.PageId)
+                                {
+                                    <li class="bg-info"><a>@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="/Admin/Comment/@Model.OwnerId/@Model.CommentFor/@Model.CommentStatus?pageid=@i&take=@Model.Take&filter=@Model.Filter">@i</a></li>
+                                }
+                            }
+                            @if (Model.PageId < Model.PageCount)
+                            {
+                                <li><a href="/Admin/Comment/@Model.OwnerId/@Model.CommentFor/@Model.CommentStatus?pageid=@(Model.PageId + 1)&take=@Model.Take&filter=@Model.Filter">»</a></li>
+                            }
+                            @if (Model.PageCount > Model.EndPage)
+                            {
+                                <li><a href="/Admin/Comment/@Model.OwnerId/@Model.CommentFor/@Model.CommentStatus?pageid=@Model.PageCount&take=@Model.Take&filter=@Model.Filter">@Model.PageCount</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+}

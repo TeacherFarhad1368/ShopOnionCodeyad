@@ -16,13 +16,13 @@ namespace Query.Services.Admin
 	{
 		private readonly ICommentRepository _commentRepository;
 		private readonly IUserRepository _userRepository;
-		private readonly IBlogRepository blogRepository;
+		private readonly IBlogRepository _blogRepository;
 
 		public CommentAdminQuery(ICommentRepository commentRepository, IUserRepository userRepository, IBlogRepository blogRepository)
 		{
 			_commentRepository = commentRepository;
 			_userRepository = userRepository;
-			this.blogRepository = blogRepository;
+			_blogRepository = blogRepository;
 		}
 
 		public List<CommentAdminQueryModel> GetAllUnSeenCommentsForAdmin()
@@ -52,7 +52,17 @@ namespace Query.Services.Admin
 					var user = _userRepository.GetById(x.UserId);
 					x.UserName = string.IsNullOrEmpty(user.FullName) ? user.Mobile : user.FullName;
 				}
-
+				switch (x.CommentFor)
+				{
+					case CommentFor.مقاله:
+						var blog = _blogRepository.GetById(x.OwnerId);
+						x.CommentTitle = $"نظر برای مقاله  {blog.Title}";
+						break;
+					case CommentFor.محصول:
+						break;
+					default:
+						break;
+				}
 
 				// ببینیم نظر کدوم مقاله یا محصول است
 
@@ -76,7 +86,8 @@ namespace Query.Services.Admin
 			model.CommentStatus = status;
 			model.OwnerId = ownerId;
 			model.ParentId = parentId;
-			model.PageTitle = $"لیست نظرات - {status.ToString().Replace("_"," ")} - {commentFor.ToString().Replace("_"," ")}";
+			model.PageTitle = $"لیست نظرات - {status.ToString().Replace("_"," ")} - " +
+				$"{commentFor.ToString().Replace("_"," ")}";
 			model.Comments = new();
 			if (result.Count() > 0)
 				model.Comments = result.Skip(model.Skip).Take(model.Take).Select(c => new CommentAdminQueryModel
@@ -96,7 +107,21 @@ namespace Query.Services.Admin
 					UserName = ""
 				}).OrderByDescending(c => c.Id).ToList();
 
-			model.Comments.ForEach(x =>
+		  if(model.OwnerId > 0)
+			{
+                switch (model.CommentFor)
+                {
+                    case CommentFor.مقاله:
+                        var blog = _blogRepository.GetById(model.OwnerId);
+                        model.PageTitle = model.PageTitle +  $"  {blog.Title}";
+                        break;
+                    case CommentFor.محصول:
+                        break;
+                    default:
+                        break;
+                }
+            }
+				model.Comments.ForEach(x =>
 			{
 				x.HaveChild = _commentRepository.ExistBy(c => c.ParentId == x.Id);
 				if(x.UserId > 0)
@@ -105,10 +130,19 @@ namespace Query.Services.Admin
 					x.UserName = string.IsNullOrEmpty(user.FullName) ? user.Mobile : user.FullName;
 				}
 
+                switch (x.CommentFor)
+                {
+                    case CommentFor.مقاله:
+                        var blog = _blogRepository.GetById(x.OwnerId);
+                        x.CommentTitle = $"نظر برای مقاله  {blog.Title}";
+                        break;
+                    case CommentFor.محصول:
+                        break;
+                    default:
+                        break;
+                }
 
-				// ببینیم نظر کدوم مقاله یا محصول است
-
-			});
+            });
 
 			// تایین عنوان صفحه
 			return model;
