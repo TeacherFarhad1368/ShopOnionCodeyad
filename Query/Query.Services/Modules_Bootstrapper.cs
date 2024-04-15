@@ -10,6 +10,7 @@ using Query.Contract.Admin.MessageUser;
 using Query.Contract.Admin.Seo;
 using Query.Contract.UI.Blog;
 using Query.Contract.UI.Comment;
+using Query.Contract.UI.Site;
 using Query.Services.Admin;
 using Query.Services.UI;
 using Seos.Query;
@@ -40,6 +41,7 @@ namespace Query.Services
 
 			services.AddTransient<IBlogUiQuery, BlogUiQuery>();
 			services.AddTransient<ICommentUiQuery, CommentUiQuery>();
+			services.AddTransient<ISiteUiQuery, SiteUiQuery>();
 		}
 	}
 }

@@ -5,6 +5,7 @@ namespace Site.Domain.SitePageAgg
 {
 	public interface ISitePageRepository : IRepository<int, SitePage>
 	{
-		EditSitePage GetForEdit(int id);
+        SitePage GetBySlug(string slug);
+        EditSitePage GetForEdit(int id);
 	}
 }

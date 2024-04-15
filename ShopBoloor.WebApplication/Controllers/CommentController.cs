@@ -33,7 +33,7 @@ namespace ShopBoloor.WebApplication.Controllers
             CreateComment createComment = new CreateComment()
             {
             Email = email,
-            For = CommentFor.مقاله,
+            For = commentFor,
             FullName = fullName,
             OwnerId = ownerId,
             ParentId = parentId,

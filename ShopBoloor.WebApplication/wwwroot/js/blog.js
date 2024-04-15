@@ -161,7 +161,7 @@ function GetComments(ownerId, commentFor, pageId) {
         if (model.PageCount > model.PageId) {
             var getMore = `
              
-                    <a class="btn btn-lg btn-color px-4 py-2" onclick="GetComments( '${model.OwnerId}', 'مقاله' , ${model.PageId + 1})">
+                    <a class="btn btn-lg btn-color px-4 py-2" onclick="GetComments( '${model.OwnerId}', '${commentFor}' , ${model.PageId + 1})">
                         ادامه نظرات
                     </a>
                     

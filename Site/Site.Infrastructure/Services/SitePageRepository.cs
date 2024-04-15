@@ -13,7 +13,12 @@ internal class SitePageRepository : Repository<int, SitePage>, ISitePageReposito
 		_context = context;
 	}
 
-	public EditSitePage GetForEdit(int id) =>
+    public SitePage GetBySlug(string slug)
+    {
+		return _context.SitePages.SingleOrDefault(s => s.Slug.Trim().ToLower() == slug.Trim().ToLower());
+    }
+
+    public EditSitePage GetForEdit(int id) =>
 		_context.SitePages.Select(s => new EditSitePage
 		{
 			Id = s.Id,

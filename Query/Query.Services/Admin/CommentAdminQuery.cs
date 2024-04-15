@@ -2,6 +2,7 @@
 using Comments.Domain.CommentAgg;
 using Query.Contract.Admin.Comment;
 using Shared.Domain.Enum;
+using Site.Domain.SitePageAgg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace Query.Services.Admin
 		private readonly ICommentRepository _commentRepository;
 		private readonly IUserRepository _userRepository;
 		private readonly IBlogRepository _blogRepository;
-
-		public CommentAdminQuery(ICommentRepository commentRepository, IUserRepository userRepository, IBlogRepository blogRepository)
+		private readonly ISitePageRepository _sitePageRepository ;
+		public CommentAdminQuery(ICommentRepository commentRepository, IUserRepository userRepository,
+			IBlogRepository blogRepository,ISitePageRepository sitePageRepository)
 		{
 			_commentRepository = commentRepository;
 			_userRepository = userRepository;
 			_blogRepository = blogRepository;
+			_sitePageRepository = sitePageRepository;
 		}
 
 		public List<CommentAdminQueryModel> GetAllUnSeenCommentsForAdmin()
@@ -60,7 +63,11 @@ namespace Query.Services.Admin
 						break;
 					case CommentFor.محصول:
 						break;
-					default:
+                    case CommentFor.صفحه:
+						var site = _sitePageRepository.GetById(x.OwnerId);
+                        x.CommentTitle = $"نظر برای صفحه  {site.Title}";
+                        break;
+                    default:
 						break;
 				}
 
@@ -117,6 +124,10 @@ namespace Query.Services.Admin
                         break;
                     case CommentFor.محصول:
                         break;
+                    case CommentFor.صفحه:
+                        var site = _sitePageRepository.GetById( model.OwnerId);
+                        model.PageTitle = model.PageTitle + $"  {site.Title}";
+                        break;
                     default:
                         break;
                 }
@@ -143,6 +154,10 @@ namespace Query.Services.Admin
                         x.CommentTitle = $"نظر برای مقاله  {blog.Title}";
                         break;
                     case CommentFor.محصول:
+                        break;
+                    case CommentFor.صفحه:
+                        var site = _sitePageRepository.GetById(x.OwnerId);
+                        x.CommentTitle = $"نظر برای صفحه  {site.Title}";
                         break;
                     default:
                         break;

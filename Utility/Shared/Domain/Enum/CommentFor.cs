@@ -3,6 +3,7 @@
     public enum CommentFor
     {
         مقاله,
-        محصول
+        محصول,
+        صفحه
     }
 }
