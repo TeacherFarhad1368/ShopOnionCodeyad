@@ -157,6 +157,9 @@
             <li class=@(route.ToString().ToLower().Trim().Contains("/admin/sitepage") ? "active" : "")>
                 <a href="/Admin/SitePage/Index"><i class="fa fa-book"></i> <span>مدیریت صفحات</span></a>
             </li>
+            <li class=@(route.ToString().ToLower().Trim().Contains("/admin/comment") ? "active" : "")>
+                <a href="/Admin/Comment/UnSeen"><i class="fa fa-book"></i> <span>نظرات دیده نشده</span></a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

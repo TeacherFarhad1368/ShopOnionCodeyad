@@ -97,6 +97,39 @@ function AjaxSweetRefresh(title1, text1, icon1, confirmButtonText1, cancelButton
         }
     })
 }
+function AjaxSweetInput(title1, confirmButtonText1, url1, deletedId) {
+    Swal.fire({
+        title: title1,
+        input: "text",
+        inputAttributes: {
+            autocapitalize: "off"
+        },
+        showCancelButton: true,
+        confirmButtonText: confirmButtonText1,
+        cancelButtonText: 'انصراف',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "Get",
+                url: url1 +  result.value 
+            }).done(function (res) {
+                if (res) {
+                    AlertSweetTimer("عملیات موفق", "success", 3000);
+                    setTimeout($(`#${deletedId}`).hide('slow'), 3000);
+
+                }
+                else {
+                    AlertSweetTimer("عملیات نا موفق", "error", 3000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);
+                }
+            });
+        }
+    });
+}
 function makeSlug(source, destination) {
 
     var titleStr = $('#' + source).val();

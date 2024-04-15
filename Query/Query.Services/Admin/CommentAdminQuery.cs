@@ -121,6 +121,12 @@ namespace Query.Services.Admin
                         break;
                 }
             }
+		  if(model.ParentId != null &&  model.ParentId > 0)
+			{
+				var commment = _commentRepository.GetById(model.ParentId.Value);
+				model.PageTitle = model.PageTitle + $"- پاسخ برای {commment.FullName}";
+
+            }
 				model.Comments.ForEach(x =>
 			{
 				x.HaveChild = _commentRepository.ExistBy(c => c.ParentId == x.Id);

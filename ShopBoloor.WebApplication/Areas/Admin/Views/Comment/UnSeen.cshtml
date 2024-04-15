@@ -1,0 +1,96 @@
+﻿@model List<Query.Contract.Admin.Comment.CommentAdminQueryModel>
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "لیست نظرات دیده نشده";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> نام</th>
+                            <th> ایمیل</th>
+                            <th> کاربر</th>
+                            <th> نظر</th>
+                            <th> متن نظر</th>
+                            <th> وضعیت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                 <tr id="Deleted_@item.Id">
+                                    <td>
+                                       @item.FullName
+                                    </td>
+                                    <td>
+                                        @item.Email
+                                    </td>
+                                    <td>
+                                        @item.UserName
+                                    </td>
+                                    <td>@item.CommentTitle</td>
+                                    <td>@item.Text</td>
+                                    <td>@item.Status.ToString().Replace("_", " ")</td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" onclick="AjaxSweet(
+                                 'تایید شود',
+                                 'پس از تایید, کامنت نمایش داده میشود ',
+                                 'question',
+                                 'تایید شود',
+                                  'انصراف',
+                                   '/Admin/Comment/Accept/@item.Id',
+                                   'Deleted_@item.Id')">
+                                        تایید ؟
+                                       </a>
+                                        <a class="btn btn-danger btn-sm" onclick="AjaxSweetInput(
+                                 'دلیل رد کردن',
+                                 'رد شود',
+                                   '/Admin/Comment/Reject/@item.Id?why=',
+                                   'Deleted_@item.Id')">
+                                            رد شود ؟
+                                        </a>
+                                    </td>
+                                    </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> نام</th>
+                            <th> ایمیل</th>
+                            <th> کاربر</th>
+                            <th> نظر</th>
+                            <th> متن نظر</th>
+                            <th> وضعیت</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}

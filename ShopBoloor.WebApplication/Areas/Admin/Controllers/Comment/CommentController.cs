@@ -29,7 +29,6 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Comment
 		{
 			return _commentApplication.AcceptedComment(id);
 		}
-		[HttpPost]
 		public bool Reject(long id,string why)
 		{
 			var res = _commentApplication.Reject(new RejectComment()
