@@ -3238,7 +3238,7 @@ figcaption {
 .contact-name,
 .contact-email,
 .contact-subject {
-	max-width: 266px; }
+	max-width: 100%; }
 
 /*-------------------------------------------------------*/
 /* 404

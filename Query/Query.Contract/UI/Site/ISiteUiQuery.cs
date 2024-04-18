@@ -9,4 +9,5 @@ namespace Query.Contract.UI.Site;
 public interface ISiteUiQuery
 {
     SitePageUiQueryModel GetSitePageQueryModel(string slug);
+    ContactUsUiQueryModel GetContactUsModelForUi();
 }

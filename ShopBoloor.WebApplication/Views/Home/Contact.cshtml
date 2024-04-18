@@ -1,0 +1,94 @@
+﻿@model Query.Contract.UI.Site.ContactUsUiQueryModel
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = Model.Seo.MetaTitle;
+    Layout = "~/Views/Shared/_MagLayout.cshtml";
+    var SuccessCreateComment = TempData["SuccessCreateComment"] != null;
+    var FaildCreateComment = TempData["FaildCreateComment"] != null;
+}
+@section SEO{
+    <partial name="_seo" model="@Model.Seo"/>
+}
+<partial name="_MagBreadCrumb" model="@Model.BreadCrumbs" />
+<div class="main-container container" id="main-container">
+    <!-- post content -->
+    <div class="blog__content mb-72">
+        <h1 class="page-title">@Model.Seo.MetaTitle</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="entry__article">
+                  @Html.Raw(Model.Description)
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h4>با ما تماس بگیرید</h4>
+                <ul class="contact-items">
+                    @if (!string.IsNullOrEmpty(Model.Address))
+                    {
+                        <li class="contact-item">
+                            <address>@Model.Address</address>
+                        </li>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Phone1))
+                    {
+                        <li class="contact-item"><a href="tel:@Model.Phone1">@Model.Phone1</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Phone2))
+                    {
+                        <li class="contact-item"><a href="tel:@Model.Phone2">@Model.Phone2</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Email1))
+                    {
+                        <li class="contact-item"><a href="mailto:@Model.Email1">@Model.Email1</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Email2))
+                    {
+                        <li class="contact-item"><a href="mailto:@Model.Email2">@Model.Email2</a></li>
+                    }
+                   
+                </ul>
+
+                <!-- Contact Form -->
+                <form id="contact-form" class="contact-form mt-30 mb-30" method="post" action="#">
+                    <div class="contact-name">
+                        <label for="name">نام <abbr title="required" class="required">*</abbr></label>
+                        <input name="name" id="name" type="text">
+                    </div>
+                    <div class="contact-email">
+                        <label for="email">ایمیل <abbr title="required" class="required">*</abbr></label>
+                        <input name="email" id="email" type="email">
+                    </div>
+                    <div class="contact-subject">
+                        <label for="email">موضوع</label>
+                        <input name="subject" id="subject" type="text">
+                    </div>
+                    <div class="contact-message">
+                        <label for="message">پیام <abbr title="required" class="required">*</abbr></label>
+                        <textarea id="message" name="message" rows="7" required="required"></textarea>
+                    </div>
+
+                    <input type="submit" class="btn btn-lg btn-color btn-button" value="فرستادن" id="submit-message">
+                    <div id="msg" class="message"></div>
+                </form>
+
+            </div>
+        </div>
+    </div> 
+</div>
+@section Scripts{
+    @if (SuccessCreateComment)
+    {
+        <script>
+            AlertSweetTimer("نظر شما با موفقیت اضافه شد و به زودی نمایش داده میشود .", "success", 3000);
+        </script>
+    }
+    @if (FaildCreateComment)
+    {
+        <script>
+            AlertSweetTimer("عملیات نا موفق !! لطفا اطلاعات را با دقت وارد کنید  .", "error", 3000);
+        </script>
+    }
+}

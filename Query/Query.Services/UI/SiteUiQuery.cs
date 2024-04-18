@@ -3,6 +3,7 @@ using Query.Contract.UI.Site;
 using Seos.Domain;
 using Shared.Domain.Enum;
 using Site.Domain.SitePageAgg;
+using Site.Domain.SiteSettingAgg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,28 @@ internal class SiteUiQuery : ISiteUiQuery
 {
     private readonly ISeoRepository _seoRepository;
     private readonly ISitePageRepository _sitePageRepository;
+    private readonly ISiteSettingRepository _siteSettingRepository;
 
-    public SiteUiQuery(ISeoRepository seoRepository, ISitePageRepository sitePageRepository)
+    public SiteUiQuery(ISeoRepository seoRepository, ISitePageRepository sitePageRepository,
+        ISiteSettingRepository siteSettingRepository)
     {
         _seoRepository = seoRepository;
         _sitePageRepository = sitePageRepository;
+        _siteSettingRepository = siteSettingRepository;
+    }
+
+    public ContactUsUiQueryModel GetContactUsModelForUi()
+    {
+        var site = _siteSettingRepository.GetSingle();
+
+        List<BreadCrumbQueryModel> breadcrums = new()
+        {
+             new BreadCrumbQueryModel(){Number = 1,Title = "صفحه اصلی",Url = "/"},
+            new BreadCrumbQueryModel() {Number = 2,Title = "تماس با ما",Url =""}
+        };
+        var seo = _seoRepository.GetSeoForUi(site.Id, WhereSeo.Contact, "تماس با ما");
+        SeoUiQueryModel seoModel = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
+        return new ContactUsUiQueryModel(site.ContactDescription, site.Phone1, site.Phone2, site.Email1, site.Email2, site.Address, seoModel, breadcrums);
     }
 
     public SitePageUiQueryModel GetSitePageQueryModel(string slug)
