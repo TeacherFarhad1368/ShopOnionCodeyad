@@ -52,9 +52,13 @@
                     <thead>
                         <tr>
                             <th> ایمیل</th>
-                            <th> کاربر</th>
+                            <th> نام کامل</th>
+                            <th> موضوع</th>
+                            <th> شماره تماس</th>
+                            <th> وضعیت</th>
                             <th>تاریخ ثبت</th>
-                            <th> فعال</th>
+                            <th> کاربر</th>
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,7 +89,7 @@
                                         @item.UseName
                                     </td>
                                     <td>
-                                        <a class="btn btn-ifo" title="جزییات پیام" asp-action="Detaill" asp-route-id="@item.Id">
+                                        <a class="btn btn-ifo" title="جزییات پیام" asp-action="Detail" asp-route-id="@item.Id">
                                             <i class="fa fa-info"></i>
                                         </a>
                                     </td>

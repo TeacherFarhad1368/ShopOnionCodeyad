@@ -1,7 +1,9 @@
 ﻿using Emails.Application.Contract.EmailUserApplication.Command;
+using Emails.Application.Contract.MessageUserApplication.Command;
 using Microsoft.AspNetCore.Mvc;
 using Query.Contract.UI.Site;
 using Shared.Application.Services.Auth;
+using Shared.Application.Validations;
 using System.Diagnostics;
 
 namespace ShopBoloor.WebApplication.Controllers
@@ -11,11 +13,14 @@ namespace ShopBoloor.WebApplication.Controllers
         private readonly IEmailUserApplication _emailUserApplication;
         private readonly IAuthService _authService;
         private readonly ISiteUiQuery _siteUiQuery;
-        public HomeController(IEmailUserApplication emailUserApplication, IAuthService authService, ISiteUiQuery siteUiQuery)
+        private readonly IMessageUserApplication _messageUserApplication;
+        public HomeController(IEmailUserApplication emailUserApplication, IAuthService authService,
+            ISiteUiQuery siteUiQuery, IMessageUserApplication messageUserApplication)
         {
             _emailUserApplication = emailUserApplication;
             _authService = authService;
             _siteUiQuery = siteUiQuery;
+            _messageUserApplication = messageUserApplication;
         }
         public IActionResult Index()
         {
@@ -38,7 +43,33 @@ namespace ShopBoloor.WebApplication.Controllers
         [HttpPost]
         public IActionResult SendMessage(string fullName,string email,string subject,string message)
         {
-            return View();
+            var userId = _authService.GetLoginUserId();
+            if(string.IsNullOrEmpty(fullName) || 
+                (string.IsNullOrEmpty(email) || (email.IsEmail() == false && email.IsMobile() == false))
+                || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(message))
+            {
+                TempData["FaildMessage"] = true;
+                return RedirectToAction("Contact");
+            }
+            var res = _messageUserApplication.Create(new CreateMessageUser()
+            {
+                Email = email.IsEmail() ? email : "",
+                FullName = fullName,
+                Message = message,
+                PhoneNumber = email.IsMobile() ? email : "",
+                Subject = subject,
+                UserId = userId
+            });
+            if (res.Success)
+            {
+                TempData["SuccessMessage"] = true;
+                return RedirectToAction("Contact");
+            }
+            else
+            {
+                TempData["FaildMessage"] = true;
+                return RedirectToAction("Contact");
+            }
         }
         public IActionResult Error()
         {

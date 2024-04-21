@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = Model.Seo.MetaTitle;
     Layout = "~/Views/Shared/_MagLayout.cshtml";
-    var SuccessCreateComment = TempData["SuccessCreateComment"] != null;
-    var FaildCreateComment = TempData["FaildCreateComment"] != null;
+    var FaildMessage = TempData["FaildMessage"] != null;
+    var SuccessMessage = TempData["SuccessMessage"] != null;
 }
 @section SEO{
     <partial name="_seo" model="@Model.Seo"/>
@@ -83,16 +83,16 @@
     </div> 
 </div>
 @section Scripts{
-    @if (SuccessCreateComment)
+    @if (SuccessMessage)
     {
         <script>
-            AlertSweetTimer("نظر شما با موفقیت اضافه شد و به زودی نمایش داده میشود .", "success", 3000);
+            AlertSweetTimer("پیام شما با موفقیت اضافه شد و به زودی به پیام شما پاسخ داده خواهد شد  .", "success", 5000);
         </script>
     }
-    @if (FaildCreateComment)
+    @if (FaildMessage)
     {
         <script>
-            AlertSweetTimer("عملیات نا موفق !! لطفا اطلاعات را با دقت وارد کنید  .", "error", 3000);
+            AlertSweetTimer("عملیات نا موفق !! لطفا اطلاعات را با دقت وارد کنید  و پس از چند دقیقه مجددا تلاش کنید   .", "error", 5000);
         </script>
     }
 }
