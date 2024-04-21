@@ -202,3 +202,46 @@ function submitComment() {
         }
     }
 }
+
+function SendContactMessage() {
+    var fullName = $("input#fullNameContact").val();
+    var email = $("input#emailContact").val();
+    var subject = $("input#subjectContact").val();
+    var message = $("textarea#messageContact").val();
+    var fullNameValid = $("span#fullNameContactValid");
+    var emailValid = $("span#emailContactValid");
+    var subjectValid = $("span#subjectContactValid");
+    var messageValid = $("span#messageContactValid");
+    var formContact = $("form#contactform");
+    if (fullName === null || fullName === "") {
+        fullNameValid.text("نام کامل خود را وارد کنید .");
+    }
+    else {
+        fullNameValid.text("");
+        if (email === null || email === "" ) {
+            emailValid.text("یک ایمیل یا شماره تماس معتبر وارد کنید  .");
+        }
+        else {
+            emailValid.text("");
+            if (ValidateEmail(email) || (isValueNumber(email) && email.length == 11)) {
+                emailValid.text("");
+                if (subject === null || subject === "") {
+                    subjectValid.text("موضوع پیام را وارد کنید .");
+                }
+                else {
+                    subjectValid.text("");
+                    if (message === null || message === "") {
+                        messageValid.text("متن پیام را وارد کنید .");
+                    }
+                    else {
+                        messageValid.text("");
+                        formContact.submit();
+                    }
+                }
+            }
+            else {
+                emailValid.text("یک ایمیل یا شماره تماس معتبر وارد کنید  .");
+            }
+        }
+    }
+}

@@ -35,6 +35,11 @@ namespace ShopBoloor.WebApplication.Controllers
             var model = _siteUiQuery.GetContactUsModelForUi();
             return View(model);
         }
+        [HttpPost]
+        public IActionResult SendMessage(string fullName,string email,string subject,string message)
+        {
+            return View();
+        }
         public IActionResult Error()
         {
             return View();

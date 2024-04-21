@@ -5,6 +5,9 @@
 
     return true;
 }
+function isValueNumber(val) {
+    return !isNaN(parseInt(val));
+}
 //success
 //question
 //info

@@ -52,28 +52,32 @@
                 </ul>
 
                 <!-- Contact Form -->
-                <form id="contact-form" class="contact-form mt-30 mb-30" method="post" action="#">
+                <form id="contactform" class="contact-form mt-30 mb-30" method="post" action="/Home/SendMessage">
                     <div class="contact-name">
-                        <label for="name">نام <abbr title="required" class="required">*</abbr></label>
-                        <input name="name" id="name" type="text">
+                        <label for="name">نام کامل <abbr title="required" class="required">*</abbr></label>
+                        <input name="fullName" id="fullNameContact" type="text">
+                        <span class="text-danger" id="fullNameContactValid"></span>
                     </div>
                     <div class="contact-email">
-                        <label for="email">ایمیل <abbr title="required" class="required">*</abbr></label>
-                        <input name="email" id="email" type="email">
+                        <label for="email">ایمیل یا شماره تماس <abbr title="required" class="required">*</abbr></label>
+                        <input name="email" id="emailContact" type="email">
+                        <span class="text-danger" id="emailContactValid"></span>
                     </div>
                     <div class="contact-subject">
                         <label for="email">موضوع</label>
-                        <input name="subject" id="subject" type="text">
+                        <input name="subject" id="subjectContact" type="text">
+                        <span class="text-danger" id="subjectContactValid"></span>
                     </div>
                     <div class="contact-message">
-                        <label for="message">پیام <abbr title="required" class="required">*</abbr></label>
-                        <textarea id="message" name="message" rows="7" required="required"></textarea>
+                        <label for="message">متن پیام <abbr title="required" class="required">*</abbr></label>
+                        <textarea name="message" id="messageContact" rows="7"></textarea>
+                        <span class="text-danger" id="messageContactValid"></span>
                     </div>
 
-                    <input type="submit" class="btn btn-lg btn-color btn-button" value="فرستادن" id="submit-message">
-                    <div id="msg" class="message"></div>
                 </form>
-
+                <button type="button" class="btn btn-lg btn-color btn-button" onclick="SendContactMessage()">
+                    ارسال پیام
+            </button>
             </div>
         </div>
     </div> 
