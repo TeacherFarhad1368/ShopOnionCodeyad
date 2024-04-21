@@ -34,6 +34,12 @@ namespace ShopBoloor.WebApplication.Controllers
             if(model == null) return NotFound();
             return View(model);
         }
+        [Route("/About")]
+        public IActionResult About()
+        {
+            var model = _siteUiQuery.GetAboutUsModelForUi();
+            return View(model);
+        }
         [Route("/Contact")]
         public IActionResult Contact()
         {

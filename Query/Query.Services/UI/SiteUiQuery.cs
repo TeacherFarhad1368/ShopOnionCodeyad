@@ -26,6 +26,20 @@ internal class SiteUiQuery : ISiteUiQuery
         _siteSettingRepository = siteSettingRepository;
     }
 
+    public AboutUsUiQueryModel GetAboutUsModelForUi()
+    {
+        var site = _siteSettingRepository.GetSingle();
+
+        List<BreadCrumbQueryModel> breadcrums = new()
+        {
+             new BreadCrumbQueryModel(){Number = 1,Title = "صفحه اصلی",Url = "/"},
+            new BreadCrumbQueryModel() {Number = 2,Title = "درباره ما",Url =""}
+        };
+        var seo = _seoRepository.GetSeoForUi(0, WhereSeo.About, "درباره ما");
+        SeoUiQueryModel seoModel = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
+        return new AboutUsUiQueryModel(site.AboutTitle, site.AboutDescription, seoModel, breadcrums);
+    }
+
     public ContactUsUiQueryModel GetContactUsModelForUi()
     {
         var site = _siteSettingRepository.GetSingle();
@@ -35,7 +49,7 @@ internal class SiteUiQuery : ISiteUiQuery
              new BreadCrumbQueryModel(){Number = 1,Title = "صفحه اصلی",Url = "/"},
             new BreadCrumbQueryModel() {Number = 2,Title = "تماس با ما",Url =""}
         };
-        var seo = _seoRepository.GetSeoForUi(site.Id, WhereSeo.Contact, "تماس با ما");
+        var seo = _seoRepository.GetSeoForUi(0, WhereSeo.Contact, "تماس با ما");
         SeoUiQueryModel seoModel = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
         return new ContactUsUiQueryModel(site.ContactDescription, site.Phone1, site.Phone2, site.Email1, site.Email2, site.Address, seoModel, breadcrums);
     }

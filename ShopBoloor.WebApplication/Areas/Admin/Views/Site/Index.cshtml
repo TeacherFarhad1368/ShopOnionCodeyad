@@ -1,11 +1,21 @@
 ﻿@model Site.Application.Contract.SiteSettingApplication.Command.UbsertSiteSetting
 @using Shared.Application;
+@using Shared.Domain.Enum;
 @{
     ViewData["Title"] = "تنظیمات سایت";
 }
 <div class="row">
     <div class="col-xs-12">
         <div class="box box-success">
+            <a class="btn btn-info" href="/Admin/Seo/0/@WhereSeo.Home" target="_blank">
+                Seo صفحه اصلی
+            </a>
+            <a class="btn btn-info" href="/Admin/Seo/0/@WhereSeo.About" target="_blank">
+                Seo درباره ما
+            </a>
+            <a class="btn btn-info" href="/Admin/Seo/0/@WhereSeo.Contact" target="_blank">
+                Seo تماس با ما
+            </a>
             <form method="post" role="form" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="row">

@@ -1,0 +1,24 @@
+﻿@model Query.Contract.UI.Site.AboutUsUiQueryModel
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = Model.Seo.MetaTitle;
+    Layout = "~/Views/Shared/_MagLayout.cshtml";
+}
+@section SEO{
+    <partial name="_seo" model="@Model.Seo"/>
+}
+<partial name="_MagBreadCrumb" model="@Model.BreadCrumbs" />
+<div class="main-container container" id="main-container">
+    <!-- post content -->
+    <div class="blog__content mb-72">
+        <h1 class="page-title">@Model.Title</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="entry__article">
+                  @Html.Raw(Model.Description)
+                </div>
+            </div>
+        </div>
+    </div> <!-- end post content -->
+</div>

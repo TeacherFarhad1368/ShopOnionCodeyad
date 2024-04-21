@@ -10,4 +10,5 @@ public interface ISiteUiQuery
 {
     SitePageUiQueryModel GetSitePageQueryModel(string slug);
     ContactUsUiQueryModel GetContactUsModelForUi();
+    AboutUsUiQueryModel GetAboutUsModelForUi();
 }
