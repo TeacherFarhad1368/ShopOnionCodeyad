@@ -1,4 +1,5 @@
 ﻿using Shared.Domain;
+using Shared.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,97 @@ namespace PostModule.Domain.PostEntity
         {
             if (OutSideCity) OutSideCity = false;
             else OutSideCity = true;
+        }
+        public int Calculate(CalculatePost calculate,int weight)
+        {
+            int price = 0;
+            int pricePlus = 0;
+            int count = 0;
+            PostPrice postPrice = null;
+            PostPrice lastPostPrice = null;
+             postPrice = PostPrices.SingleOrDefault(p => p.Start <= weight && p.End >= weight);
+            if (postPrice == null)
+            {
+
+                lastPostPrice = PostPrices.OrderByDescending(p => p.End).First();
+                var end = lastPostPrice.End;
+                var m = weight - end;
+                count = m / 1000;
+                if (m % 1000 > 0) count++;
+            }
+
+
+            switch (calculate)
+            {
+                case CalculatePost.درون_شهری:
+                    if(postPrice != null)
+                    {
+                        price = postPrice.CityPrice;
+                    }
+                    else
+                    {
+                        price = lastPostPrice.CityPrice;
+                        pricePlus = count * CityPricePlus;
+                    }
+                    break;
+                case CalculatePost.تهران:
+                    if (postPrice != null)
+                    {
+                        price = postPrice.TehranPrice;
+                    }
+                    else
+                    {
+                        price = lastPostPrice.TehranPrice;
+                        pricePlus = count * TehranPricePlus;
+                    }
+                    break;
+                case CalculatePost.مرکز_استان:
+                    if (postPrice != null)
+                    {
+                        price = postPrice.StateCenterPrice;
+                    }
+                    else
+                    {
+                        price = lastPostPrice.StateCenterPrice;
+                        pricePlus = count * StateCenterPricePlus;
+                    }
+                    break;
+                case CalculatePost.درون_استانی:
+                    if (postPrice != null)
+                    {
+                        price = postPrice.InsideStatePrice;
+                    }
+                    else
+                    {
+                        price = lastPostPrice.InsideStatePrice;
+                        pricePlus = count * InsideStatePricePlus;
+                    }
+                    break;
+                case CalculatePost.هم_جوار:
+                    if (postPrice != null)
+                    {
+                        price = postPrice.StateClosePrice;
+                    }
+                    else
+                    {
+                        price = lastPostPrice.StateClosePrice;
+                        pricePlus = count * StateClosePricePlus;
+                    }
+                    break;
+                case CalculatePost.غیر_هم_جوار:
+                    if (postPrice != null)
+                    {
+                        price = postPrice.StateNonClosePrice;
+                    }
+                    else
+                    {
+                        price = lastPostPrice.StateNonClosePrice;
+                        pricePlus = count * StateNonClosePricePlus;
+                    }
+                    break;
+                default: return 0;
+            }
+            return price + pricePlus;
         }
     }
 }

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Utility\Shared\Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserPostApplication\Query\" />
+  </ItemGroup>
+
 </Project>

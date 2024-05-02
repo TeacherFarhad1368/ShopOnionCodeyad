@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PostModule.Application.Contract.CityApplication;
 using PostModule.Application.Contract.PostApplication;
+using PostModule.Application.Contract.PostCalculate;
 using PostModule.Application.Contract.PostPriceApplication;
 using PostModule.Application.Contract.StateApplication;
+using PostModule.Application.Contract.UserPostApplication.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,9 @@ namespace PostModule.Application.Services
             services.AddTransient<ICityApplication, CityApplication>();
             services.AddTransient<IPostApplication, PostApplication>();
             services.AddTransient<IPostPriceApplication, PostPriceApplication>();
-
+            services.AddTransient<IPackageApplication, PackageApplication>();
+            services.AddTransient<IUserPostApplication, UserPostApplication>();
+            services.AddTransient<IPostCalculateApplication, PostCalculateApplication>();
         }
     }
 }
