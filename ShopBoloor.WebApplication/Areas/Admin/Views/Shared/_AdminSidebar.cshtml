@@ -63,25 +63,9 @@
                     </li>
                 </ul>
             </li>
-            <li class="@(route.ToString().ToLower().Trim().Contains("/admin/blog")
-              ? "active" : "") treeview">
-                <a href="#">
-                    <i class="fa fa-user"></i> <span>مدیریت پست</span>
-                    <span class="pull-left-container">
-                        <i class="fa fa-angle-right pull-left"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/post") ? "active" : "")>
-                        <a href="/Admin/Post/Index"><i class="fa fa-user-secret"></i>  مدیریت پست</a>
-                    </li>
-                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/state/") ? "active" : "")>
-                        <a href="/Admin/State/Index"><i class="fa fa-user-secret"></i>  مدیریت استان ها</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="@(route.ToString().ToLower().Trim().Contains("/admin/post") 
+            <li class="@(route.ToString().ToLower().Trim().Contains("/admin/post")
             || route.ToString().ToLower().Trim().Contains("/admin/state")
+            || route.ToString().ToLower().Trim().Contains("/admin/package")
             || route.ToString().ToLower().Trim().Contains("/admin/city")
               ? "active" : "") treeview">
                 <a href="#">
@@ -96,6 +80,9 @@
                     </li>
                     <li class=@(route.ToString().ToLower().Trim().Contains("/admin/state/") ? "active" : "")>
                         <a href="/Admin/State/Index"><i class="fa fa-user-secret"></i>  مدیریت استان ها</a>
+                    </li>
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/package") ? "active" : "")>
+                        <a href="/Admin/Package/Index"><i class="fa fa-user-secret"></i>  مدیریت پکیج های فروش پست</a>
                     </li>
                 </ul>
             </li>

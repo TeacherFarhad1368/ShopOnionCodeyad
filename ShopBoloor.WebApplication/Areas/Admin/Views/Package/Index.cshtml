@@ -1,0 +1,101 @@
+﻿@model List<PostModule.Application.Contract.UserPostApplication.Query.PackageAdminQueryModel>
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "لیست پکیج های فروش پست";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <hr />
+                <a class="btn btn-success" asp-action="Create">
+                    <i class=" fa fa-plus mx-2"></i> پکیج جدید
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> عنوان</th>
+                            <th> تعداد درخواست</th>
+                            <th> قیمت (تومان)</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ ویرایش</th>
+                            <th>فعال ؟</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Title</td>
+                                    <td>@item.Count</td>
+                                    <td>@item.Price.ToString("#,0")</td>
+                                    <td>@item.CreationDate</td>
+                                    <td>@item.UpdateDate</td>
+                                    <td>
+                                        @{
+                                            string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این پکیج نمایش داده نمیشود ."
+                                            : "بعد از فعال شدن این پکیج نمایش داده میشود";
+                                            string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
+                                            string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
+                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/Package/Active/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="pie_@item.Id" id="pie-@item.Id"
+                                                @(item.Active ? "checked" : "") type="checkbox" />
+                                                <label for="pie-@item.Id"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> عنوان</th>
+                            <th> تعداد درخواست</th>
+                            <th> قیمت (تومان)</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ ویرایش</th>
+                            <th>فعال ؟</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}

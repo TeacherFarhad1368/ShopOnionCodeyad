@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PostModule.Application.Contract.PostQuery;
 using PostModule.Application.Contract.StateQuery;
+using PostModule.Application.Contract.UserPostApplication.Query;
 using PostModule.Application.Services;
 using PostModule.Domain.Services;
 using PostModule.Infrastracture.EF;
@@ -18,6 +19,7 @@ namespace PostModule.Query
 
             services.AddTransient<IStateQuery, StateQuery>();
             services.AddTransient<IPostQuery, PostQuery>();
+            services.AddTransient<IPackageQuery, PackageQuery>();
         }
     }
 }
