@@ -6,9 +6,12 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box box-success">
-            <form method="post" role="form" >
+            <form method="post" role="form" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Id">
+                <input type="hidden" asp-for="ImageName">
                 <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="box-body">
                             <div class="form-group">
                                 <label asp-for="Title"></label>
                                 <input class="form-control" asp-for="Title">
@@ -16,14 +19,19 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="Count"></label>
-                        <input class="form-control" asp-for="Count">
-                        <span class="text-danger" asp-validation-for="Count"></span>
+                                <input class="form-control" asp-for="Count">
+                                <span class="text-danger" asp-validation-for="Count"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Price"></label>
-                        <input class="form-control" asp-for="Price">
-                        <span class="text-danger" asp-validation-for="Price"></span>
-                            </div
+                                <input class="form-control" asp-for="Price">
+                                <span class="text-danger" asp-validation-for="Price"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ImageAlt"></label>
+                                <input class="form-control" asp-for="ImageAlt">
+                                <span class="text-danger" asp-validation-for="ImageAlt"></span>
+                            </div>
                             <div class="form-group">
                                 <label asp-for="Description"></label>
                                 <textarea class="form-control" asp-for="Description" rows="7">
@@ -31,6 +39,17 @@
                                 </textarea>
                                 <span class="text-danger" asp-validation-for="Description"></span>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <img width="300px" id="destinationImage" class="img-thumbnail" src="@FileDirectories.PackageImageDirectory@Model.ImageName" />
+                        <div class="form-group">
+                            <label asp-for="ImageFile"></label>
+                            <input type="file" id="chooseImage" class="form-control" asp-for="ImageFile">
+                            <span class="text-danger" asp-validation-for="ImageFile"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="box-footer">
                     <button type="submit" class="btn btn-warning">ارسال</button>

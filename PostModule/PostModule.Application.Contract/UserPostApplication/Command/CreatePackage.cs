@@ -1,4 +1,5 @@
-﻿using Shared.Application;
+﻿using Microsoft.AspNetCore.Http;
+using Shared.Application;
 using System.ComponentModel.DataAnnotations;
 
 namespace PostModule.Application.Contract.UserPostApplication.Command;
@@ -16,4 +17,10 @@ public class CreatePackage
     public int Count { get;set; }
     [Display(Name = "قیمت")]
     public int Price { get;set; }
+    [Display(Name = "تصویر")]
+    public IFormFile? ImageFile { get; set; }
+    [Display(Name = "alt تصویر")]
+    [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
+    [MaxLength(150, ErrorMessage = ValidationMessages.MaxLengthMessage)]
+    public string ImageAlt { get; set; }
 }

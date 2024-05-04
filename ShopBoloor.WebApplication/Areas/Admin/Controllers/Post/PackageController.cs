@@ -19,7 +19,8 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Package
 
         public IActionResult Index()
         {
-            return View(_PackageQuery.GetAll());
+            var model = _PackageQuery.GetAll();
+            return View(model);
         }
         public IActionResult Create() => View();
         [HttpPost] 

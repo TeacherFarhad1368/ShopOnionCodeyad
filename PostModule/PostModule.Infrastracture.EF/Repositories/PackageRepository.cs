@@ -20,7 +20,10 @@ internal class PackageRepository : Repository<int, Package>, IPackageRepository
             Title = p.Title,
             Description = p.Description,
             Count = p.Count,
-            Price = p.Price
+            Price = p.Price,
+            ImageAlt = p.ImageAlt,
+            ImageFile = null,
+            ImageName = p.ImageName
         }).SingleOrDefault(p => p.Id == id);
     }
 }

@@ -18,6 +18,11 @@ namespace Shared.Application
         public const string BlogCategoryImageDirectory400 = "/Images/BlogCategory/400/";
         public const string BlogCategoryImageDirectory100 = "/Images/BlogCategory/100/";
 
+        public const string PackageImageFolder = "Package";
+        public const string PackageImageDirectory = "/Images/Package/";
+        public const string PackageImageDirectory400 = "/Images/Package/400/";
+        public const string PackageImageDirectory100 = "/Images/Package/100/";
+
         public const string UserImageFolder = "User";
         public const string UserImageDirectory = "/Images/User/";
         public const string UserImageDirectory100 = "/Images/User/100/";

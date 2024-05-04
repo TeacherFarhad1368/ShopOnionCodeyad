@@ -17,6 +17,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th> تصویر</th>
                             <th> عنوان</th>
                             <th> تعداد درخواست</th>
                             <th> قیمت (تومان)</th>
@@ -27,11 +28,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(Model.Count() > 0)
+                       
+                       @if(Model.Count() > 0)
                         {
                             foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>
+                                        <img src="@item.ImageName" />
+                                    </td>
                                     <td>@item.Title</td>
                                     <td>@item.Count</td>
                                     <td>@item.Price.ToString("#,0")</td>
@@ -61,16 +66,20 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
+                                        <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" 
+                                        asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </td>
+                               
                                 </tr>
                             }
                         }
                     </tbody>
                     <tfoot>
-                        <tr>
+
+                            <tr>   
+                            <th> تصویر</th>
                             <th> عنوان</th>
                             <th> تعداد درخواست</th>
                             <th> قیمت (تومان)</th>

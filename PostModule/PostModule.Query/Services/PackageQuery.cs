@@ -13,10 +13,12 @@ namespace PostModule.Query.Services
             _packageRepository = packageRepository;
         }
 
-        public List<PackageAdminQueryModel> GetAll() =>
-            _packageRepository.GetAllQuery().
-            Select(p => new PackageAdminQueryModel(p.Id,p.Title, p.Count, p.Price,
-                p.CreateDate.ToPersainDate(), p.UpdateDate.ToPersainDate(), p.Active))
+        public List<PackageAdminQueryModel> GetAll()
+        {
+            IQueryable<Package> model = _packageRepository.GetAllQuery();
+            return model.Select(p => new PackageAdminQueryModel(p.Id, p.Title, p.Count, p.Price,
+                p.CreateDate.ToPersainDate(), p.UpdateDate.ToPersainDate(), p.Active, FileDirectories.PackageImageDirectory100 + p.ImageName))
             .ToList();
+        }
     }
 }
