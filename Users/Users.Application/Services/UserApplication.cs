@@ -189,6 +189,11 @@ namespace Users.Application.Services
             return new(true);
         }
 
+        public void Logout()
+        {
+            _authService.Logout();
+        }
+
         public bool Register(RegisterUser command)
         {
             var key = GenerateRandomCode.GenerateUserRegisterCode().ToString();

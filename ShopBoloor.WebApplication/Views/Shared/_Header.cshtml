@@ -1,4 +1,5 @@
-﻿<header class="main-header default">
+﻿@inject Shared.Application.Services.Auth.IAuthService _auth;
+<header class="main-header default">
     <div class="container">
         <div class="row">
             <div class="col-lg-2 col-md-3 col-sm-4 col-5">
@@ -50,31 +51,61 @@
             </div>
             <div class="col-md-4 col-sm-12">
                 <div class="user-login dropdown">
-                    <a href="#" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown"
-                       id="navbarDropdownMenuLink1">
-                        ورود / ثبت نام
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                        <div class="dropdown-item">
-                            <a class="btn btn-info">ورود به تاپ کالا</a>
-                        </div>
-                        <div class="dropdown-item font-weight-bold">
-                            <span>کاربر جدید هستید؟</span> <a class="register" href="#">ثبت‌نام</a>
-                        </div>
-                        <hr>
-                        <div class="dropdown-item">
-                            <a href="#" class="dropdown-item-link">
-                                <i class="now-ui-icons users_single-02"></i>
-                                پروفایل
-                            </a>
-                        </div>
-                        <div class="dropdown-item">
-                            <a href="#" class="dropdown-item-link">
-                                <i class="now-ui-icons shopping_bag-16"></i>
-                                پیگیری سفارش
-                            </a>
-                        </div>
-                    </ul>
+                    @if (_auth.IsUserLogin())
+                    {
+                        <a href="#" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown"
+                           id="navbarDropdownMenuLink1">
+                            داشبرد کاربر
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                            <div class="dropdown-item">
+                                <a class="btn btn-info">ورود به تاپ کالا</a>
+                            </div>
+                            <div class="dropdown-item font-weight-bold">
+                                <span>کاربر جدید هستید؟</span> <a class="register" href="#">ثبت‌نام</a>
+                            </div>
+                            <hr>
+                            <div class="dropdown-item">
+                                <a href="#" class="dropdown-item-link">
+                                    <i class="now-ui-icons users_single-02"></i>
+                                    پروفایل
+                                </a>
+                            </div>
+                            <div class="dropdown-item">
+                                <a asp-area="" asp-controller="Auth" asp-action="Logout" class="dropdown-item-link">
+                                    <i class="now-ui-icons shopping_bag-16"></i>
+                                    خروج از سایت
+                                </a>
+                            </div>
+                        </ul>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown"
+                           id="navbarDropdownMenuLink1">
+                            ورود / ثبت نام
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                            <div class="dropdown-item">
+                                <a class="btn btn-info" asp-area="" asp-controller="Auth" asp-action="Login">ورود به سایت</a>
+                            </div>
+                            <hr>
+                            <div class="dropdown-item">
+                                <a href="#" class="dropdown-item-link">
+                                    <i class="now-ui-icons users_single-02"></i>
+                                    پروفایل
+                                </a>
+                            </div>
+                            <div class="dropdown-item">
+                                <a href="#" class="dropdown-item-link">
+                                    <i class="now-ui-icons shopping_bag-16"></i>
+                                    پیگیری سفارش
+                                </a>
+                            </div>
+                        </ul>
+                    }
+                    
+                    
                 </div>
                 <div class="cart dropdown">
                     <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">

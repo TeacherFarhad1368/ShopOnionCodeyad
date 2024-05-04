@@ -51,5 +51,10 @@ namespace ShopBoloor.WebApplication.Controllers
             return View(model);
         }
         public IActionResult AccessDenied() => View();
+        public IActionResult Logout()
+        {
+            _userApplication.Logout();
+            return RedirectToAction("Login");
+        }
     }
 }

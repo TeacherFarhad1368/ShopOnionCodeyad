@@ -17,5 +17,6 @@ namespace Users.Application.Contract.UserApplication.Command
         OperationResult ChangePassword(ChangeUserPassword command);
         bool ActivationChange(int id);
         bool DeleteChange(int id);
+        void Logout();
     }
 }

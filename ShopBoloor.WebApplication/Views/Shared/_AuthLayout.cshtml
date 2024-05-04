@@ -1,30 +1,33 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @await Component.InvokeAsync("Fav")
     <title>@ViewData["Title"]</title>
     <partial name="_Css" />
 </head>
+
 <body>
-    <div class="page-wrapper auth-page-wrapper">
-        <main class="page-content">
-            <div class="container">
-                <div class="auth-wrapper">
-                    <div class="auth-form shadow-around">
-                        <div class="site-logo">
-                            <a href="#">
-                                <img src="/Assets/images/logo.png" alt="logo">
-                            </a>
-                        </div>
+
+    <div class="wrapper default">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+                    <div class="account-box">
+                        @await Component.InvokeAsync("LogoHeader")
                         @RenderBody()
                     </div>
                 </div>
             </div>
-        </main>
-        <partial name="_AuthFooter" />
+        </div>
+
+    <partial name="_AuthFooter" />
     </div>
     <partial name="_Js" />
-    @RenderSection("Scripts",false)
+    @RenderSection("Scripts", false)
 </body>
+
 </html>
