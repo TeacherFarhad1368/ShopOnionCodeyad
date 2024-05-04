@@ -4,6 +4,7 @@ using PostModule.Domain.CityEntity;
 using PostModule.Infrastracture.EF.Mapping;
 using PostModule.Domain.PostEntity;
 using PostModule.Domain.UserPostAgg;
+using PostModule.Domain.SettingAgg;
 
 namespace PostModule.Infrastracture.EF
 {
@@ -20,6 +21,7 @@ namespace PostModule.Infrastracture.EF
         public DbSet<Package> Packages { get; set; }
         public DbSet<PostOrder> PostOrders { get; set; }
         public DbSet<UserPost> UserPosts { get; set; }
+        public DbSet<PostSetting> PostSettings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(StateMapping).Assembly);

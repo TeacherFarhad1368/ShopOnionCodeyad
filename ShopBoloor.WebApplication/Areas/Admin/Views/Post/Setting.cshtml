@@ -1,0 +1,49 @@
+﻿@model PostModule.Application.Contract.PostSettingApplication.Command.UbsertPostSetting
+@using Shared.Application;
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "تنظیمات پست";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <a class="btn btn-info" href="/Admin/Seo/0/@WhereSeo.PostPackage" target="_blank">
+                Seo صفحه پکیج ها
+            </a>
+            <form method="post" role="form" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="PackageTitle"></label>
+                                <input class="form-control" asp-for="PackageTitle">
+                                <span class="text-danger" asp-validation-for="PackageTitle"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PackageDescription"></label>
+                                <textarea id="editor4" asp-for="PackageDescription" rows="10"
+                                          cols="80">
+
+                                  </textarea>
+                                <span class="text-danger" asp-validation-for="PackageDescription"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            CKEDITOR.replace('editor4')
+        })
+    </script>
+}

@@ -15,6 +15,7 @@ namespace Shared.Domain.Enum
         Home,
 		About,
 		Contact,
-		Page
+		Page,
+		PostPackage
 	}
 }

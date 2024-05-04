@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PostModule.Application.Contract.PostApplication;
 using PostModule.Application.Contract.PostQuery;
+using PostModule.Application.Contract.PostSettingApplication.Command;
 using System.Diagnostics.Contracts;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
@@ -10,10 +11,11 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
     {
         private readonly IPostQuery _postQuery;
         private readonly IPostApplication _postApplication;
-
-        public PostController(IPostQuery postQuery, IPostApplication postApplication)
+        private readonly IPostSettingApplication _postSettingApplication;
+        public PostController(IPostQuery postQuery, IPostApplication postApplication, IPostSettingApplication postSettingApplication)
         {
             _postQuery = postQuery;
+            _postSettingApplication = postSettingApplication;
             _postApplication = postApplication;
         }
 
@@ -52,5 +54,21 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
         public bool Active(int id) => _postApplication.ActivationChange(id);
         public bool Inside(int id) => _postApplication.InsideCityChange(id);
         public bool Outside(int id) => _postApplication.OutSideCityChange(id);
+
+
+        public IActionResult Setting() => View(_postSettingApplication.GetForUbsert());
+        [HttpPost]
+        public IActionResult Setting(UbsertPostSetting model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var res = _postSettingApplication.Ubsert(model);
+            if (res.Success)
+            {
+                TempData["ok"] = true;
+                return Redirect("/Admin/Post/Setting/");
+            }
+            ModelState.AddModelError(res.ModelName, res.Message);
+            return View(model);
+        }
     }
 }

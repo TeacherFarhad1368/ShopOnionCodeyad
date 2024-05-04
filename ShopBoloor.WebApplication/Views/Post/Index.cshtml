@@ -1,0 +1,68 @@
+﻿@model Query.Contract.UI.PostPackage.PackageUiPageQueryModel
+@{
+    ViewData["Title"] = Model.Seo.MetaTitle;
+}
+ <main class="search-page default">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                       <partial name="_BreadCrumb" model="@Model.BreadCrumbs" />
+                        <div class="listing default">
+                            <div class="tab-content default text-center">
+                                <div class="tab-pane active" id="related" role="tabpanel" aria-expanded="true">
+                                    <div class="container no-padding-right">
+                                @if(Model.Packages.Count() > 0)
+                                {
+                                    <ul class="row listing-items">
+                                        @foreach (var item in Model.Packages)
+                                        {
+                                            <li class="col-lg-4 col-md-6 col-12 no-padding">
+                                                <div class="product-box">
+                                                    <div class="product-seller-details product-seller-details-item-grid">
+                                                        <span class="product-main-seller">
+                                                           <a class="btn btn-success">
+                                                               خرید
+                                                           </a>
+                                                        </span>
+                                                        <span class="product-seller-details-badge-container"></span>
+                                                    </div>
+                                                    <a class="product-box-img">
+                                                        <img src="@item.ImageName" alt="@item.ImageAlt">
+                                                    </a>
+                                                    <div class="product-box-content">
+                                                        <div class="product-box-content-row">
+                                                            <div class="product-box-title">
+                                                                <a>
+                                                                  @item.Title
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-box-row product-box-row-price">
+                                                            <div class="price">
+                                                                <div class="price-value">
+                                                                    <div class="price-value-wrapper">
+                                                                       @item.Price.ToString("#,0") 
+                                                                       <span class="price-currency">تومان</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <p>
+                                                                @item.Description
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                }
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>

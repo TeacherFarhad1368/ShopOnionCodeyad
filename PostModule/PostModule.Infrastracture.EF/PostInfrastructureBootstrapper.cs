@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PostModule.Domain.Services;
+using PostModule.Domain.SettingAgg;
 using PostModule.Domain.UserPostAgg;
 using PostModule.Infrastracture.EF.Repositories;
 using System;
@@ -22,6 +23,7 @@ namespace PostModule.Infrastracture.EF
             services.AddTransient<IPackageRepository, PackageRepository>();
             services.AddTransient<IUserPostRepository, UserPostRepository>();
             services.AddTransient<IPOstOrderRepository, PostOrderRepository>();
+            services.AddTransient<IPostSettingRepository, PostSettingRepository>();
 
             services.AddDbContext<Post_Context>(x =>
             {

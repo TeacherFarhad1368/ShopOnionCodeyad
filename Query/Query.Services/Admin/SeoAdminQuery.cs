@@ -54,6 +54,8 @@ namespace Query.Services.Admin
                     var page = _sitePageRepository.GetById(ownerId);
                     if (page == null) return "";
                     return $"seo برای صفحه {page.Title}";
+                case WhereSeo.PostPackage:
+                    return "seo برای صفحه پکیج های فروش Api پست";
                 default:
                     return "";
             }

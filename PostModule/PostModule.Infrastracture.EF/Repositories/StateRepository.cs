@@ -10,35 +10,34 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostModule.Infrastracture.EF.Repositories
+namespace PostModule.Infrastracture.EF.Repositories;
+
+internal class StateRepository : Repository<int, State>, IStateRepository
 {
-    internal class StateRepository : Repository<int, State>, IStateRepository
+    private readonly Post_Context _context;
+    public StateRepository(Post_Context context) : base(context)
     {
-        private readonly Post_Context _context;
-        public StateRepository(Post_Context context) : base(context)
+        _context = context;
+    }
+
+    public List<StateViewModel> GetAllStateViewModel()
+    {
+        return GetAllQuery().Select(s => new StateViewModel { 
+            CreateDate=s.CreateDate.ToString(),
+            Id=s.Id,
+            Title=s.Title
+
+        }).ToList();
+
+    }
+
+    public EditStateModel GetStateForEdit(int id)
+    {
+        var state = GetById(id);
+        return new()
         {
-            _context = context;
-        }
-
-        public List<StateViewModel> GetAllStateViewModel()
-        {
-            return GetAllQuery().Select(s => new StateViewModel { 
-                CreateDate=s.CreateDate.ToString(),
-                Id=s.Id,
-                Title=s.Title
-
-            }).ToList();
-
-        }
-
-        public EditStateModel GetStateForEdit(int id)
-        {
-            var state = GetById(id);
-            return new()
-            {
-                Id=state.Id,
-                Title=state.Title
-            };
-        }
+            Id=state.Id,
+            Title=state.Title
+        };
     }
 }

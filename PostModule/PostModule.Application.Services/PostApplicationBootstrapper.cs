@@ -3,6 +3,7 @@ using PostModule.Application.Contract.CityApplication;
 using PostModule.Application.Contract.PostApplication;
 using PostModule.Application.Contract.PostCalculate;
 using PostModule.Application.Contract.PostPriceApplication;
+using PostModule.Application.Contract.PostSettingApplication.Command;
 using PostModule.Application.Contract.StateApplication;
 using PostModule.Application.Contract.UserPostApplication.Command;
 using System;
@@ -24,6 +25,7 @@ namespace PostModule.Application.Services
             services.AddTransient<IPackageApplication, PackageApplication>();
             services.AddTransient<IUserPostApplication, UserPostApplication>();
             services.AddTransient<IPostCalculateApplication, PostCalculateApplication>();
+            services.AddTransient<IPostSettingApplication, PostSettingApplication>();
         }
     }
 }

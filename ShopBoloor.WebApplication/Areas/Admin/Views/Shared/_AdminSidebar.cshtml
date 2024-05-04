@@ -84,6 +84,9 @@
                     <li class=@(route.ToString().ToLower().Trim().Contains("/admin/package") ? "active" : "")>
                         <a href="/Admin/Package/Index"><i class="fa fa-user-secret"></i>  مدیریت پکیج های فروش پست</a>
                     </li>
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/post/setting") ? "active" : "")>
+                        <a href="/Admin/Post/Setting"><i class="fa fa-user-secret"></i>  تنظیمات پست</a>
+                    </li>
                 </ul>
             </li>
             <li class="@(route.ToString().ToLower().Trim().Contains("/admin/emailUser")
