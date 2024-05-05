@@ -35,6 +35,11 @@ app.UseEndpoints(x =>
         pattern: "Admin/{controller=Home}/{action=Index}/{id?}",
         areaName: "Admin"
         );
+    x.MapAreaControllerRoute(
+        name: "UserPanel",
+        pattern: "UserPanel/{controller=Home}/{action=Index}/{id?}",
+        areaName: "UserPanel"
+        );
 
     x.MapControllerRoute(
         name: "default",

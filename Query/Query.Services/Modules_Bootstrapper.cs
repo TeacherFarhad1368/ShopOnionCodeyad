@@ -12,8 +12,10 @@ using Query.Contract.UI.Blog;
 using Query.Contract.UI.Comment;
 using Query.Contract.UI.PostPackage;
 using Query.Contract.UI.Site;
+using Query.Contract.UserPanel.User;
 using Query.Services.Admin;
 using Query.Services.UI;
+using Query.Services.UserPanel;
 using Seos.Query;
 using Site.Query;
 using Users.Query;
@@ -24,26 +26,30 @@ namespace Query.Services
 	{
 		public static void Config(IServiceCollection services , string connection)
 		{
-			Blog_Bootstrapper.Config(services, connection);
-			User_Bootstrapper.Config(services, connection);
-			Comment_Bootstrapper.Config(services, connection);
-			Site_Bootstrapper.Config(services, connection);
-			Seo_Bootstrapper.Config(services, connection);
-			Post_Bootstrapper.Config(services, connection);
-			Email_Bootstrapper.Config(services, connection);
-
-
-
-			services.AddTransient<ICommentAdminQuery, CommentAdminQuery>();
-			services.AddTransient<IEmailAdminQuery, EmailAdminQuery>();
-			services.AddTransient<ISeoAdminQuery, SeoAdminQuery>();
-			services.AddTransient<IMessageUserAdminQuery, MessageUserAdminQuery>();
-
-
-			services.AddTransient<IBlogUiQuery, BlogUiQuery>();
-			services.AddTransient<ICommentUiQuery, CommentUiQuery>();
-			services.AddTransient<ISiteUiQuery, SiteUiQuery>();
-			services.AddTransient<IPackageUiQuery, PackageUiQuery>();
-		}
-	}
+            #region Modules
+            Blog_Bootstrapper.Config(services, connection);
+            User_Bootstrapper.Config(services, connection);
+            Comment_Bootstrapper.Config(services, connection);
+            Site_Bootstrapper.Config(services, connection);
+            Seo_Bootstrapper.Config(services, connection);
+            Post_Bootstrapper.Config(services, connection);
+            Email_Bootstrapper.Config(services, connection);
+            #endregion
+            #region Admin Query
+            services.AddTransient<ICommentAdminQuery, CommentAdminQuery>();
+            services.AddTransient<IEmailAdminQuery, EmailAdminQuery>();
+            services.AddTransient<ISeoAdminQuery, SeoAdminQuery>();
+            services.AddTransient<IMessageUserAdminQuery, MessageUserAdminQuery>();
+            #endregion
+            #region UI Query 
+            services.AddTransient<IBlogUiQuery, BlogUiQuery>();
+            services.AddTransient<ICommentUiQuery, CommentUiQuery>();
+            services.AddTransient<ISiteUiQuery, SiteUiQuery>();
+            services.AddTransient<IPackageUiQuery, PackageUiQuery>();
+            #endregion
+            #region UserPanel
+            services.AddTransient<IUserPanelQuery, UserPanelQuery>();
+            #endregion
+        }
+    }
 }

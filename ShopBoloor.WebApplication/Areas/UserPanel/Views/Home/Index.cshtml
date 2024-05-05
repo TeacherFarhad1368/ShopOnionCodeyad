@@ -1,0 +1,124 @@
+﻿@model Query.Contract.UserPanel.User.UserInfoForPanelQueryModel
+@{
+    ViewData["Title"] = $"پنل کاربری {Model.FullName ?? ""} ";
+}
+<div class="row">
+
+    <div class="col-lg-6">
+        <div class="col-12">
+            <h1 class="title-tab-content">اطلاعات شخصی</h1>
+        </div>
+        <div class="content-section default">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <p>
+                        <span class="title">نام و نام خانوادگی :</span>
+                        <span>@Model.FullName</span>
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p>
+                        <span class="title">پست الکترونیک :</span>
+                        <span>@Model.Email</span>
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p>
+                        <span class="title">شماره تلفن همراه:</span>
+                        <span>@Model.Mobile</span>
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p>
+                        <span class="title">جنسیت :</span>
+                        <span>@Model.UserGender.ToString().Replace("_"," ")</span>
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p>
+                        <span class="title">تاریخ ثبت نام :</span>
+                        <span>@Model.CreationDate</span>
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p>
+                        <span class="title">تراکنش ها :</span>
+                        <span> تعداد @Model.TransactionCount تراکنش به مبلغ 
+                            @Model.TransactionSum.ToString("#,0")  تومان</span>
+                    </p>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="profile-additional-info.html"
+                       class="btn-link-border form-account-link">
+                        ویرایش اطلاعات شخصی
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="col-12">
+            <h1 class="title-tab-content">لیست آخرین علاقمندی ها</h1>
+        </div>
+        <div class="content-section default">
+            <div class="row">
+                <div class="col-12">
+                    <div class="profile-recent-fav-row">
+                        <a href="#" class="profile-recent-fav-col profile-recent-fav-col-thumb">
+                            <img src="/Assets/img/cart/4560621.jpg">
+                        </a>
+                        <div class="profile-recent-fav-col profile-recent-fav-col-title">
+                            <a href="#">
+                                <h4 class="profile-recent-fav-name">
+                                    گوشی موبایل اپل مدل iPhone XR دو سیم کارت ظرفیت 256 گیگابایت
+                                </h4>
+                            </a>
+                            <div class="profile-recent-fav-price">ناموجود</div>
+                        </div>
+                        <div class="profile-recent-fav-col profile-recent-fav-col-actions">
+                            <button class="btn-action btn-action-remove">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="profile-recent-fav-row">
+                        <a href="#" class="profile-recent-fav-col profile-recent-fav-col-thumb">
+                            <img src="/Assets/img/cart/3794614.jpg">
+                        </a>
+                        <div class="profile-recent-fav-col profile-recent-fav-col-title">
+                            <a href="#">
+                                <h4 class="profile-recent-fav-name">
+                                    گوشی موبایل اپل مدل iPhone XR دو سیم کارت ظرفیت 256 گیگابایت
+                                </h4>
+                            </a>
+                            <div class="profile-recent-fav-price">ناموجود</div>
+                        </div>
+                        <div class="profile-recent-fav-col profile-recent-fav-col-actions">
+                            <button class="btn-action btn-action-remove">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="#" class="btn-link-border form-account-link">
+                        مشاهده و ویرایش لیست مورد علاقه
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <h1 class="title-tab-content">آخرین سفارش ها</h1>
+    </div>
+    <div class="col-12 text-center">
+        <div class="content-section pt-5 pb-5">
+            <div class="icon-empty">
+                <i class="now-ui-icons travel_info"></i>
+            </div>
+            <h1 class="text-empty">موردی برای نمایش وجود ندارد!</h1>
+        </div>
+    </div>
+</div>

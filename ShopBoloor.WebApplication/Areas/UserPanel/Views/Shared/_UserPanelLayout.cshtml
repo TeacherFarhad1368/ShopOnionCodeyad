@@ -11,16 +11,24 @@
 </head>
 
 <body class="index-page sidebar-collapse">
-    
     <partial name="_HeaderResponsive" />
     <div class="wrapper default">
         <partial name="_Header" />
-        @RenderBody()
+        <main class="profile-user-page default">
+            <div class="container">
+                <div class="row">
+                    <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2">
+                        @RenderBody()
+                    </div>
+                    <partial name="_UserPanelSideBar"/>
+                    
+                </div>
+            </div>
+        </main>
         <partial name="_Footer" />
     </div>
-     <partial name="_Js" />
-     @RenderSection("Scripts",false)
+    <partial name="_Js" />
+    @RenderSection("Scripts", false)
 </body>
 
 </html>
-
