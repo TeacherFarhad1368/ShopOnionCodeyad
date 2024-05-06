@@ -41,6 +41,12 @@ namespace PostModule.Application.Services
             }
         }
 
+        public async Task<CreatePostOrder> GetCreatePostModelAsync(int userId, int packageId) =>
+            await _packageRepository.GetCreatePostModelAsync(userId, packageId);
+
+        public async Task<PostOrderUserPanelModel> GetPostOrderNotPaymentForUser(int userId) =>
+            await _pOstOrderRepository.GetPostOrderNotPaymentForUser(userId);
+
         public async Task<bool> PaymentPostOrderAsync(PaymentPostModel command)
         {
             var postOrder = await _pOstOrderRepository.GetPostOrderNotPaymentForUserAsync(command.UserId);

@@ -1,6 +1,7 @@
 ﻿@model Query.Contract.UI.PostPackage.PackageUiPageQueryModel
 @{
     ViewData["Title"] = Model.Seo.MetaTitle;
+    var OrderNotExist = TempData["OrderNotExist"] != null;
 }
  <main class="search-page default">
             <div class="container">
@@ -72,3 +73,11 @@
                 </div>
             </div>
         </main>
+        @section Scripts{
+    @if (OrderNotExist)
+    {
+        <script>
+            AlertSweetTimer("فاکتور پرداخت نشده ای برای api پست ندارید . از این صفحه یه بسته برای پست انتخاب کنید .", "warning",3000)
+        </script>
+    }
+}

@@ -12,6 +12,12 @@ internal class PackageRepository : Repository<int, Package>, IPackageRepository
         _context = context;
     }
 
+    public async Task<CreatePostOrder> GetCreatePostModelAsync(int userId, int packageId)
+    {
+        var package = await _context.Packages.FindAsync(packageId);
+        return new CreatePostOrder(userId,package.Id,package.Price);
+    }
+
     public EditPackage GetForEdit(int id)
     {
         return _context.Packages.Select(p => new EditPackage
