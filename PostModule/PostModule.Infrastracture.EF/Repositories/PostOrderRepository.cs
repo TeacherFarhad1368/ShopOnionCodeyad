@@ -25,7 +25,7 @@ internal class PostOrderRepository : Repository<int, PostOrder>, IPOstOrderRepos
             await _context.SaveChangesAsync();
         }
         return new PostOrderUserPanelModel(postOrder.Id, postOrder.PackageId, package.Title, postOrder.Price,
-            $"{FileDirectories.PackageImageDirectory400}{package.ImageName}", package.ImageAlt, package.Count);
+            $"{FileDirectories.PackageImageDirectory400}{package.ImageName}", package.ImageAlt, package.Count,package.Description);
     }
 
     public async Task<PostOrder> GetPostOrderNotPaymentForUserAsync(int userId) =>

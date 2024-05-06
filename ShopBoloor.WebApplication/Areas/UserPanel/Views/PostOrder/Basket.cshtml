@@ -1,0 +1,66 @@
+﻿@model PostModule.Application.Contract.UserPostApplication.Command.PostOrderUserPanelModel
+
+@{
+    ViewData["Title"] = "فاکتور Api";
+}
+<div class="row d-flex flex-column justify-content-center">
+    <h2 class="my-2">
+        فاکتور (استفاده از Api پست) شماره f_@Model.Id
+    </h2>
+    <div class="checkout-aside">
+        <div class="checkout-summary">
+            <div class="checkout-summary-main">
+                
+                <ul class="checkout-summary-summary">
+                    <li class="text-center">
+                        <h3>
+                            @Model.PackageTitle
+                        </h3>
+                    </li>
+                    <li>
+                        <img class="img-thumbnail m-auto" width="300" src="@Model.ImageName" alt="@Model.ImageAlt"/>
+                    </li>
+                    <li><span>مبلغ کل</span><span>@Model.Price.ToString("#,0") تومان</span></li>
+                    <li><span>تعداد درخواست Api</span><span>@Model.Count.ToString("#,0") </span></li>
+                    
+                </ul>
+                <div class="checkout-summary-devider">
+                    <div></div>
+                </div>
+                <div class="checkout-summary-content">
+                    <div class="checkout-summary-price-title">مبلغ قابل پرداخت:</div>
+                    <div class="checkout-summary-price-value">
+                        <span class="checkout-summary-price-value-amount">@Model.Price.ToString("#,0")</span>تومان
+                    </div>
+                    <a asp-action="Payment" class="selenium-next-step-shipping">
+                        <div class="parent-btn">
+                            <button class="dk-btn dk-btn-info">
+                                پرداخت
+                                <i class="now-ui-icons shopping_basket"></i>
+                            </button>
+                        </div>
+                    </a>
+                    <div class="mt-3">
+                       @Model.Description
+                    </div>
+                </div>
+            </div>
+        </div>
+      @*   <div class="checkout-feature-aside">
+            <ul>
+                <li class="checkout-feature-aside-item checkout-feature-aside-item-guarantee">
+                    هفت روز
+                    ضمانت تعویض
+                </li>
+                <li class="checkout-feature-aside-item checkout-feature-aside-item-cash">
+                    پرداخت در محل با
+                    کارت بانکی
+                </li>
+                <li class="checkout-feature-aside-item checkout-feature-aside-item-express">
+                    تحویل اکسپرس
+                </li>
+            </ul>
+        </div> *@
+    </div>
+</div>
+

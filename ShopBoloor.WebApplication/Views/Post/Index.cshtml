@@ -37,7 +37,16 @@
                                                         <img src="@item.ImageName" alt="@item.ImageAlt">
                                                     </a>
                                                     <div class="product-box-content">
-                                                       
+                                                        <div class="product-box-row product-box-row-price">
+                                                            <div class="price">
+                                                                <div class="price-value">
+                                                                    <div class="price-value-wrapper">
+                                                                        @item.Count.ToString("#,0")
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <span>تعداد درخواست : </span>
+                                                        </div>
                                                         <div class="product-box-row product-box-row-price">
                                                             <div class="price">
                                                                 <div class="price-value">
@@ -53,7 +62,9 @@
                                                             @item.Description
                                                         </p>
                                                         <div class="parent-btn">
-                                                            <a href="#" class="dk-btn dk-btn-info">
+                                                            <a asp-area="UserPanel" asp-controller="PostOrder"
+                                                            asp-action="Create" asp-route-id="@item.Id"
+                                                            class="dk-btn dk-btn-info">
                                                                  خرید
                                                             </a>
                                                         </div>
