@@ -9,4 +9,5 @@ namespace Query.Contract.UserPanel.User;
 public interface IUserPanelQuery
 {
     UserInfoForPanelQueryModel GetUserInfoForPanel(int userId);
+    UserPanelSideBarQueryModel GetUserPanelSideBarModel(int userId);
 }

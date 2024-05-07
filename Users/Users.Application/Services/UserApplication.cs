@@ -130,15 +130,17 @@ namespace Users.Application.Services
             return new(false, ValidationMessages.SystemErrorMessage, "FullName");
         }
 
-        public OperationResult EditByUser(EditUserByUser command)
+        public OperationResult EditByUser(EditUserByUser command, int userId)
         {
-            var user = _userRepository.GetById(command.Id);
-            if (_userRepository.ExistBy(u => u.Mobile.Trim() == command.Mobile.Trim() && u.Id != command.Id))
+            var user = _userRepository.GetById(userId);
+            if (_userRepository.ExistBy(u => u.Mobile.Trim() == command.Mobile.Trim() && u.Id != userId))
                 return new(false, ValidationMessages.DuplicatedMessage, "Mobile");
             if (!string.IsNullOrEmpty(command.Email) &&
-                _userRepository.ExistBy(u => u.Email.ToLower().Trim() == command.Email.ToLower().Trim() && u.Id != command.Id))
+                _userRepository.ExistBy(u => u.Email.ToLower().Trim() == command.Email.ToLower().Trim() && 
+                u.Id != userId))
                 return new(false, ValidationMessages.DuplicatedMessage, "Email");
-
+            if(command.AvatarFile != null && !command.AvatarFile.IsImage())
+                return new(false, ValidationMessages.ImageErrorMessage, "AvatarFile");
             string imageName = command.AvatarName;
             string oldImageName = command.AvatarName;
             if (command.AvatarFile != null)
@@ -165,6 +167,11 @@ namespace Users.Application.Services
                 _fileService.DeleteImage(FileDirectories.UserImageDirectory100 + imageName);
             }
             return new(false, ValidationMessages.SystemErrorMessage, "FullName");
+        }
+
+        public EditUserByUser GetForEditByUser(int userId)
+        {
+            return _userRepository.GetForEditByUser(userId);
         }
 
         public OperationResult Login(LoginUser command)

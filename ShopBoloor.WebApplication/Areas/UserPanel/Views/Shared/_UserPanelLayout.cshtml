@@ -9,7 +9,9 @@
     <title>@ViewData["Title"]</title>
     <partial name="_Css" />
 </head>
-
+@{
+    var SuccessLogin = TempData["SuccessLogin"] != null;
+}
 <body class="index-page sidebar-collapse">
     <partial name="_HeaderResponsive" />
     <div class="wrapper default">
@@ -20,14 +22,19 @@
                     <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2">
                         @RenderBody()
                     </div>
-                    <partial name="_UserPanelSideBar"/>
-                    
+                    @await Component.InvokeAsync("UserPanelSidebar")
                 </div>
             </div>
         </main>
         <partial name="_Footer" />
     </div>
     <partial name="_Js" />
+    @if (SuccessLogin)
+    {
+        <script>
+            AlertSweet("عملیات موفق", "شما با موفقیت وارد سایت شدید .", "success");
+        </script>
+    }
     @RenderSection("Scripts", false)
 </body>
 

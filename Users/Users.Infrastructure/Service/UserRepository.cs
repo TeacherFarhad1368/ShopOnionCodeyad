@@ -1,4 +1,6 @@
-﻿using Shared.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Infrastructure;
+using Users.Application.Contract.UserApplication.Command;
 using Users.Domain.UserAgg;
 using Users.Domain.UserAgg.Repository;
 
@@ -14,5 +16,19 @@ namespace Users.Infrastructure.Service
 
         public User GetByMobile(string v) =>
             _context.Users.SingleOrDefault(u => u.Mobile == v.Trim());
+
+        public EditUserByUser GetForEditByUser(int userId)
+        {
+            var u = _context.Users.Find(userId);
+            return new EditUserByUser()
+            {
+                AvatarFile = null,
+                AvatarName = u.Avatar,
+                Email = u.Email,
+                FullName = u.FullName,
+                Mobile = u.Mobile,
+                UserGender = u.UserGender
+            };
+        }
     }
 }

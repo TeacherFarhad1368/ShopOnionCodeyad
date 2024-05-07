@@ -8,7 +8,6 @@ namespace Users.Application.Contract.UserApplication.Command
 {
     public class EditUserByUser
     {
-        public int Id { get; set; }
         [Display(Name = "نام کامل")]
         [MaxLength(255, ErrorMessage = ValidationMessages.MaxLengthMessage)]
         public string? FullName { get; set; }

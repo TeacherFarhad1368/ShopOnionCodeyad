@@ -3,6 +3,7 @@
     ViewData["Title"] = "ورود به سایت";
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
     var SuccessLogout = TempData["SuccessLogout"] != null;
+    var SuccessEditProfile = TempData["SuccessEditProfile"] != null;
 }
 <div class="account-box-title text-right">ورود به سایت</div>
 <div class="account-box-content">
@@ -37,7 +38,13 @@
     @if (SuccessLogout)
     {
         <script>
-            SuccessJquery("عملیات موفق", "شما با موفقیت از حساب کاربری خارج شدید .");
+            AlertSweet("عملیات موفق", "شما با موفقیت از حساب کاربری خارج شدید .", "success");
+        </script>
+    }
+    @if (SuccessEditProfile)
+    {
+        <script>
+            AlertSweet("عملیات موفق", "اطلاعات شما با موفقیت ویرایش شد. با اطلاعات جدید وارد شوید  .", "success");
         </script>
     }
 }

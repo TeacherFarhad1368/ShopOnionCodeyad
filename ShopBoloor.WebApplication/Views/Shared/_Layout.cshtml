@@ -9,7 +9,9 @@
     <title>@ViewData["Title"]</title>
     <partial name="_Css" />
 </head>
-
+@{
+    var SuccessLogin = TempData["SuccessLogin"] != null;
+}
 <body class="index-page sidebar-collapse">
     
     <partial name="_HeaderResponsive" />
@@ -19,7 +21,13 @@
         <partial name="_Footer" />
     </div>
      <partial name="_Js" />
-     @RenderSection("Scripts",false)
+    @if (SuccessLogin)
+    {
+        <script>
+            AlertSweet("عملیات موفق", "شما با موفقیت وارد سایت شدید .", "success");
+        </script>
+    }
+    @RenderSection("Scripts",false)
 </body>
 
 </html>

@@ -13,8 +13,9 @@ namespace Users.Application.Contract.UserApplication.Command
         OperationResult Login(LoginUser command);
         OperationResult Create(CreateUser command);
         OperationResult Edit(EditUserByAdmin command);
-        OperationResult EditByUser(EditUserByUser command);
+        OperationResult EditByUser(EditUserByUser command,int userId);
         OperationResult ChangePassword(ChangeUserPassword command);
+        EditUserByUser GetForEditByUser(int userId);
         bool ActivationChange(int id);
         bool DeleteChange(int id);
         void Logout();

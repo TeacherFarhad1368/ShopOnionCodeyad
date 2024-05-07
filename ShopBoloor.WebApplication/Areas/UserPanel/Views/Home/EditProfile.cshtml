@@ -1,0 +1,66 @@
+﻿@model Users.Application.Contract.UserApplication.Command.EditUserByUser
+@using Shared.Domain.Enum;
+@using Shared.Application;
+@{
+    ViewData["Title"] = "ویرایش اطلاعات شخصی";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">ویرایش اطلاعات شخصی</h1>
+        </div>
+        <div class="content-section default">
+            
+            <form class="form-account" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="AvatarName" />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">نام کامل</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" asp-for="FullName" type="text" >
+                        </div>
+                        <span class="text-danger" asp-validation-for="FullName"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">ایمیل</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" type="text" asp-for="Email">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">موبایل</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Mobile">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Mobile"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">جنسیت</div>
+                        <div class="form-account-row">
+                            <select class="input-field" asp-for="UserGender">
+                                <option value="@Gender.زن">زن</option>
+                                <option value="@Gender.مرد">مرد</option>
+                                <option value="@Gender.نامشخص">نامشخص</option>
+                            </select>
+                        </div>
+                        <span class="text-danger" asp-validation-for="UserGender"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <img width="300px" id="destinationImage" class="img-thumbnail" 
+                        src="@FileDirectories.UserImageDirectory@Model.AvatarName" />
+                        <div class="form-account-title">تصویر پروفایل</div>
+                        <div class="form-account-row">
+                            <input class="input-field" id="chooseImage" type="file" asp-for="AvatarFile">
+                        </div>
+                        <span class="text-danger" asp-validation-for="AvatarFile"></span>
+                    </div>
+                   
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-warning btn-lg">ذخیره</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

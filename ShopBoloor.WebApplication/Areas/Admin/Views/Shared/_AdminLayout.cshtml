@@ -5,6 +5,7 @@
     @{
         var ok = TempData["ok"] != null;
         var faild = TempData["faild"] != null;
+        var SuccessLogin = TempData["SuccessLogin"] != null;
     }
     <div class="wrapper">
        <partial name="_AdminHeader" />
@@ -36,6 +37,12 @@
     {
         <script>
             AlertSweetTimer("عملیات نا موفق !!!", "error", 4000);
+        </script>
+    }
+    @if (SuccessLogin)
+    {
+        <script>
+            AlertSweet("عملیات موفق", "شما با موفقیت وارد سایت شدید .", "success");
         </script>
     }
     @RenderSection("Scripts",false)
