@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using PostModule.Application.Contract.UserPostApplication.Command;
 using Shared.Application.Services.Auth;
+using Query.Contract.UserPanel.PostOrder;
 
 namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
 {
@@ -12,16 +13,20 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
         private int _userId;
         private readonly IPackageApplication _packageApplication;
         private readonly IUserPostApplication _userPostApplication;
+        private readonly IPostOrderUserPanelQuery _postOrderUserPanelQuery;
         private readonly IAuthService _authService;
         public PostOrderController(IPackageApplication packageApplication, IUserPostApplication userPostApplication,
-            IAuthService authService)
+            IAuthService authService, IPostOrderUserPanelQuery postOrderUserPanelQuery)
         {
             _authService = authService;
             _userPostApplication = userPostApplication;
             _packageApplication = packageApplication;
+            _postOrderUserPanelQuery = postOrderUserPanelQuery;
         }
-        public IActionResult Orders()
+        public IActionResult Orders(int pageId = 0)
         {
+            _userId = _authService.GetLoginUserId();
+            var model = _postOrderUserPanelQuery.GetPostOrdersForUsePanel(pageId, _userId);
             return View();
         }
         public async Task<IActionResult> Basket()

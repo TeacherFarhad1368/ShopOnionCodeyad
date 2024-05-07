@@ -1,5 +1,7 @@
 ﻿@model Site.Application.Contract.ImageSiteApplication.Query.ImageAdminPaging
 @using Shared.Domain.Enum;
+@using Shared.Application;
+@inject IHttpContextAccessor _accessor;
 @{
     ViewData["Title"] = "لیست عکس ها";
 }
@@ -42,6 +44,7 @@
                             <th> تصویر</th>
                             <th> عنوان</th>
                             <th>تاریخ ثبت</th>
+                            <th>لینک عکس</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -52,13 +55,17 @@
                             {
                                 <tr id="Deleted_@item.Id">
                                     <td>
-                                        <img width="100px" src="@item.ImageName" />
+                                        <img width="100px" src="@FileDirectories.ImageDirectory100@item.ImageName" />
                                     </td>
                                     <td>
                                         @item.Title
                                     </td>
                                     <td>
                                         @item.CreateDate
+                                    </td>
+                                    <td>
+                                        <input class="form-control" readonly
+                                               value="@_accessor.HttpContext.Request.Scheme.ToString()://@_accessor.HttpContext.Request.Host.ToString()@FileDirectories.ImageDirectory@item.ImageName" id="img_@item.Id" />
                                     </td>
                                     <td>
                                         <a class="btn btn-danger" title="حذف این عکس" onclick="AjaxSweet(
@@ -70,6 +77,9 @@
                                    '/Admin/Site/DeleteImage/@item.Id',
                                    'Deleted_@item.Id')">
                                             <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a class="btn btn-info" title="کپی کردن لینک عکس" onclick="copy('img_@item.Id')">
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                     </td>
                                 </tr>
