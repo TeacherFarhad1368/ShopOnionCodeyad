@@ -28,7 +28,7 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
         {
             _userId = _authService.GetLoginUserId();
             var model = await _userPostApplication.GetPostOrderNotPaymentForUser(_userId);
-            if(model == null)
+            if (model == null)
             {
                 TempData["OrderNotExist"] = true;
                 return Redirect("/Post");
@@ -55,6 +55,12 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             PaymentPostModel payment = new(_userId, 0, model.Price);
             await _userPostApplication.PaymentPostOrderAsync(payment);
             return RedirectToAction("Orders");
+        }
+        public async Task<IActionResult> UserPost()
+        {
+            _userId = _authService.GetLoginUserId();
+            var model = await _userPostApplication.GetUserPostModelForPanel(_userId);
+            return View(model);
         }
     }
 }

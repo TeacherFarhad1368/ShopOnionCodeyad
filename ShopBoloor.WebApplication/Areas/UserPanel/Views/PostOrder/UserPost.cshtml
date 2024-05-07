@@ -1,0 +1,31 @@
+﻿@model PostModule.Application.Contract.UserPostApplication.Command.UserPostPanelModel
+
+@{
+    ViewData["Title"] = "فاکتور Api";
+}
+<div class="row d-flex flex-column justify-content-center">
+    <h2 class="my-2">
+      استفاده از API پست
+    </h2>
+    <p>
+        <span> تعداد درخواست های باقیمانده شما : </span>
+        <span class="text-success"> @Model.Count.ToString("#,0") درخواست باقیمانده</span>
+    </p>
+    <p>
+        <span> کد Api شما : </span> 
+        
+    </p>
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="col-8">
+            <input class="form-control" readonly value="@Model.ApiCode" id="userApiCode" />
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-success" onclick="copy('userApiCode')">
+                کپی کردن کد Api 
+            </button>
+        </div>
+    </div>
+    <div class="checkout-aside">
+       @Html.Raw(Model.ApiDescription)
+    </div>
+</div>

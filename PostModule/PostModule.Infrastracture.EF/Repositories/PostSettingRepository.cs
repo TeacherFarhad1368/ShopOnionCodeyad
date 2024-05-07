@@ -18,7 +18,8 @@ internal class PostSettingRepository : Repository<int, PostSetting>, IPostSettin
         return new()
         {
             PackageDescription = s.PackageDescription,
-            PackageTitle = s.PackageTitle
+            PackageTitle = s.PackageTitle,
+            ApiDescription = s.ApiDescription
         };
     }
 
@@ -27,7 +28,7 @@ internal class PostSettingRepository : Repository<int, PostSetting>, IPostSettin
         var setting = _context.PostSettings.SingleOrDefault();
         if(setting == null)
         {
-            setting = new("", "");
+            setting = new("", "","");
             Create(setting);
         }
         return setting;

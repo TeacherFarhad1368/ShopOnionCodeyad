@@ -54,8 +54,8 @@ namespace PostModule.Query.Services
                 CityCount = s.Cities.Count()
 			}).ToList();
 
-		public List<StateQueryModel> GetStatesWithCity() =>
-            _post_Context.States.Include(s => s.Cities).Select(s => new StateQueryModel
+		public async Task<List<StateQueryModel>> GetStatesWithCity() =>
+           await  _post_Context.States.Include(s => s.Cities).Select(s => new StateQueryModel
             {
                 Name = s.Title,
                 Cities = s.Cities.Select(c=> new CityQueryModel
@@ -63,7 +63,7 @@ namespace PostModule.Query.Services
                     CityCode = c.Id,
                     Name = c.Title,
                 }).ToList()
-            }).ToList();
+            }).ToListAsync();
 
         public string GetStateTitle(int id)
         {

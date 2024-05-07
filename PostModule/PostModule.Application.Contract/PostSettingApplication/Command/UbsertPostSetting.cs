@@ -10,5 +10,8 @@ namespace PostModule.Application.Contract.PostSettingApplication.Command
         public string? PackageTitle { get; set; }
         [Display(Name = "توضیحات صفحه پکیج های فروش Api پست")]
         public string? PackageDescription { get; set; }
+
+        [Display(Name = "توضیحات استفاده از Api پست در پنل کاربر")]
+        public string? ApiDescription { get;  set; }
     }
 }

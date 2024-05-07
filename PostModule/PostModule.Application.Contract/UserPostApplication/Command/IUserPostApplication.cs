@@ -6,4 +6,5 @@ public interface IUserPostApplication
     Task<bool> PaymentPostOrderAsync(PaymentPostModel command);
     Task<CreatePostOrder> GetCreatePostModelAsync(int userId, int packageId);
     Task<PostOrderUserPanelModel> GetPostOrderNotPaymentForUser(int userId);
+    Task<UserPostPanelModel> GetUserPostModelForPanel(int userId);
 }

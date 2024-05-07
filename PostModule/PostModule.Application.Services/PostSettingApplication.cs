@@ -22,7 +22,7 @@ namespace PostModule.Application.Services
         public OperationResult Ubsert(UbsertPostSetting command)
         {
             PostSetting setting = _postSettingRepository.GetSingle();
-            setting.Edit(command.PackageTitle, command.PackageDescription);
+            setting.Edit(command.PackageTitle, command.PackageDescription,command.ApiDescription);
             if (_postSettingRepository.Save()) return new(true);
             return new OperationResult(false,ValidationMessages.SystemErrorMessage,nameof(command.PackageTitle));
         }

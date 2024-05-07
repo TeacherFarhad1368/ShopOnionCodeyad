@@ -108,3 +108,10 @@ function ScroolToEleman(id) {
         scrollTop: $(`#${id}`).offset().top
     }, 1000);
 }
+function copy(id) {
+    var copyText = document.getElementById(id);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    AlertSweet("عملیات موفق", "متن مورد نظر کپی شد.","success");
+}

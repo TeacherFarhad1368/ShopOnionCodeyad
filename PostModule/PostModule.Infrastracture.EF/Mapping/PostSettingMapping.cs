@@ -13,6 +13,7 @@ namespace PostModule.Infrastracture.EF.Mapping
 
             builder.Property(b => b.PackageTitle).IsRequired(false).HasMaxLength(255);
             builder.Property(b => b.PackageDescription).IsRequired(false);
+            builder.Property(b => b.ApiDescription).IsRequired(false);
 
         }
     }

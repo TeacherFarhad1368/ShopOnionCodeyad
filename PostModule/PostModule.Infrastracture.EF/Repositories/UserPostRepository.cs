@@ -12,6 +12,11 @@ internal class UserPostRepository : Repository<int, UserPost>, IUserPostReposito
         _context = context;
     }
 
+    public async Task<UserPost> GetByApiCode(string apiCode)
+    {
+        return await _context.UserPosts.SingleOrDefaultAsync(p => p.ApiCode == apiCode);
+    }
+
     public async Task<UserPost> GetForUser(int userId)
     {
         UserPost userPost = await _context.UserPosts.SingleOrDefaultAsync(p => p.UserId == userId);

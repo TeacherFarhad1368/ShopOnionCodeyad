@@ -1,10 +1,12 @@
 ﻿using PostModule.Application.Contract.UserPostApplication.Command;
+using PostModule.Domain.SettingAgg;
 using PostModule.Domain.UserPostAgg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PostModule.Application.Services
 {
@@ -13,13 +15,15 @@ namespace PostModule.Application.Services
         private readonly IPOstOrderRepository _pOstOrderRepository;
         private readonly IPackageRepository _packageRepository;
         private readonly IUserPostRepository _userPostRepository;
-
+        private readonly IPostSettingRepository _postSettingRepository;
         public UserPostApplication(IPOstOrderRepository pOstOrderRepository, 
-            IPackageRepository packageRepository, IUserPostRepository userPostRepository)
+            IPackageRepository packageRepository, IUserPostRepository userPostRepository,
+            IPostSettingRepository postSettingRepository)
         {
             _pOstOrderRepository = pOstOrderRepository;
             _packageRepository = packageRepository;
             _userPostRepository = userPostRepository;
+            _postSettingRepository = postSettingRepository;
         }
 
         public async Task<bool> CreatePostOrderAsync(CreatePostOrder command)
@@ -47,6 +51,13 @@ namespace PostModule.Application.Services
         public async Task<PostOrderUserPanelModel> GetPostOrderNotPaymentForUser(int userId) =>
             await _pOstOrderRepository.GetPostOrderNotPaymentForUser(userId);
 
+        public async Task<UserPostPanelModel> GetUserPostModelForPanel(int userId)
+        {
+            UserPost userPost = await _userPostRepository.GetForUser(userId);
+            var setting = _postSettingRepository.GetSingle();
+            return new UserPostPanelModel(setting.ApiDescription, userPost.Count, userPost.ApiCode);
+        }
+
         public async Task<bool> PaymentPostOrderAsync(PaymentPostModel command)
         {
             var postOrder = await _pOstOrderRepository.GetPostOrderNotPaymentForUserAsync(command.UserId);
@@ -60,4 +71,5 @@ namespace PostModule.Application.Services
             return _userPostRepository.Save();
         }
     }
+   
 }

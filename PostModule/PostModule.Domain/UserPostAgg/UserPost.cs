@@ -15,7 +15,7 @@ namespace PostModule.Domain.UserPostAgg
             Count = count;
             ApiCode = apiCode;
         }
-        public void UserApi()
+        public void UseApi()
         {
             Count--;
         }
