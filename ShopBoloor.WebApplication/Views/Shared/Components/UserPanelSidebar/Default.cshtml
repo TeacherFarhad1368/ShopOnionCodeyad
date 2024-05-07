@@ -52,11 +52,12 @@
                     </a>
                 }
 
-              @*   <a href="profile-orders-return.html" class="dropdown-item">
+                <a href="/UserPanel/Address" class="dropdown-item 
+            @(route.ToString().ToLower().Contains("/userPanel/address")  ? "active-menu" : "")">
                     <i class="now-ui-icons files_single-copy-04"></i>
-                    درخواست مرجوعی
+                    آدرس های شما
                 </a>
-                <a href="profile-favorites.html" class="dropdown-item">
+                @*  <a href="profile-favorites.html" class="dropdown-item">
                     <i class="now-ui-icons ui-2_favourite-28"></i>
                     لیست علاقمندی ها
                 </a>
@@ -94,13 +95,14 @@
                     </a>
                 </li>
             }
-           @*  <li>
-                <a href="profile-orders-return.html">
+             <li>
+                <a href="/UserPanel/Address" class="
+                 @(route.ToString().ToLower().Contains("/userPanel/address")  ? "active" : "")">
                     <i class="now-ui-icons files_single-copy-04"></i>
-                    درخواست مرجوعی
+                    آدرس های شما
                 </a>
             </li>
-            <li>
+            @* <li>
                 <a href="profile-favorites.html">
                     <i class="now-ui-icons ui-2_favourite-28"></i>
                     لیست علاقمندی ها

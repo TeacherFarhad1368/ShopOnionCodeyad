@@ -12,6 +12,7 @@ using Query.Contract.UI.Blog;
 using Query.Contract.UI.Comment;
 using Query.Contract.UI.PostPackage;
 using Query.Contract.UI.Site;
+using Query.Contract.UserPanel.Address;
 using Query.Contract.UserPanel.PostOrder;
 using Query.Contract.UserPanel.User;
 using Query.Services.Admin;
@@ -51,6 +52,7 @@ namespace Query.Services
             #region UserPanel
             services.AddTransient<IUserPanelQuery, UserPanelQuery>();
             services.AddTransient<IPostOrderUserPanelQuery, PostOrderUserPanelQuery>();
+            services.AddTransient<IUserAddressUserPanelQuery, UserAddressUserPanelQuery>();
             #endregion
         }
     }

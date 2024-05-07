@@ -13,7 +13,7 @@ namespace Users.Infrastructure.EFConfigs
 
             builder.Property(b => b.FullName).IsRequired().HasMaxLength(255);
             builder.Property(b => b.AddressDetail).IsRequired().HasMaxLength(500);
-            builder.Property(b => b.IranCode).IsRequired().HasMaxLength(10);
+            builder.Property(b => b.IranCode).IsRequired(false).HasMaxLength(10);
             builder.Property(b => b.Phone).IsRequired().HasMaxLength(11);
             builder.Property(b => b.PostalCode).IsRequired().HasMaxLength(10);
 

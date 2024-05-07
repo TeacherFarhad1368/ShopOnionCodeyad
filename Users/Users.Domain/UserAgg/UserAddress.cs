@@ -10,13 +10,13 @@ namespace Users.Domain.UserAgg
         public string PostalCode { get; private set; }
         public string Phone { get; private set; }
         public string FullName { get; private set; }
-        public string IranCode { get; private set; }
+        public string? IranCode { get; private set; }
         public int UserId { get; private set; }
         public User User { get; private set; }
        
 
         public UserAddress(int stateId, int cityId, string addressDetail, 
-            string postalCode, string phone, string fullName, string iranCode, int userId)
+            string postalCode, string phone, string fullName, string? iranCode, int userId)
         {
             StateId = stateId;
             CityId = cityId;

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Query.Contract.UserPanel.Address.UserAddressForPanelQueryModel>
+
+@{
+    ViewData["Title"] = "لیست آدرس های شما";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"].ToString()</h1>
+            @if(Model.Count() < 10)
+            {
+                <a class="btn btn-success" asp-action="Create">
+                    ثبت آدرس جدید
+                </a>
+            }
+        </div>
+        <div class="content-section default">
+            <div class="table-responsive">
+                <table class="table table-order">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">استان</th>
+                            <th scope="col">شهرستان</th>
+                            <th scope="col">جزییات آدرس</th>
+                            <th scope="col">کد پستی</th>
+                            <th scope="col">نام تحویل گیرنده</th>
+                            <th scope="col">شماره تماس</th>
+                            <th scope="col">کد ملی</th>
+                            <th scope="col">تاریخ ثبت</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>
+                                       @item.StateName
+                                    </td>
+                                    <td>
+                                        @item.CityName
+                                    </td>
+                                    <td>@item.AddressDetail</td>
+                                    <td>@item.PostalCode</td>
+                                    <td>@item.FullName</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.IranCode</td>
+                                    <td>
+                                        @item.CreationDate
+                                    </td>
+
+                                    <td>
+                                       
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="text-center text-danger">
+                                    آدرسی برای نمایش موجود نیست
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+               
+            </div>
+        </div>
+    </div>
+</div>

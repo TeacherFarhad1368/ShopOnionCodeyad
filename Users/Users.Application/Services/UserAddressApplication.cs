@@ -18,10 +18,10 @@ namespace Users.Application.Services
             _userAdressRepository = userAdressRepository;
         }
 
-        public OperationResult Create(CreateAddress command)
+        public OperationResult Create(CreateAddress command,int userId)
         {
             UserAddress address = new(command.StateId, command.CityId, command.AddressDetail, command.PostalCode, command.Phone,
-                command.FullName, command.IranCode, command.UserId);
+                command.FullName, command.IranCode, userId);
 
             if (_userAdressRepository.Create(address))
                 return new(true);
