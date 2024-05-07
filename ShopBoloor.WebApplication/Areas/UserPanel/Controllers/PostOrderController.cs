@@ -27,7 +27,7 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
         {
             _userId = _authService.GetLoginUserId();
             var model = _postOrderUserPanelQuery.GetPostOrdersForUsePanel(pageId, _userId);
-            return View();
+            return View(model);
         }
         public async Task<IActionResult> Basket()
         {

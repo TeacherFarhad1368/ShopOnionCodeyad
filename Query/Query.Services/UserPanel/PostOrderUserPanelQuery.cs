@@ -37,6 +37,7 @@ namespace Query.Services.UserPanel
                     PackageId = o.PackageId,
                     PackageImage = "",
                     PackageTitle = "",
+                    Price = o.Price,
                     Status = o.Status,
                     transactionId = o.TransactionId,
                     TransactionRef = ""

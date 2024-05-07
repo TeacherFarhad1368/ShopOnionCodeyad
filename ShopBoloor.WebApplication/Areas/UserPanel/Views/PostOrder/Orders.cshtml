@@ -1,0 +1,107 @@
+﻿@model Query.Contract.UserPanel.PostOrder.PostOrderUserPanelPaging
+@{
+    ViewData["Title"] = "فاکتور های Api پست";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"].ToString()</h1>
+        </div>
+        <div class="content-section default">
+            <div class="table-responsive">
+                <table class="table table-order">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">شماره سفارش</th>
+                            <th scope="col">تصویر</th>
+                            <th scope="col">عنوان بسته</th>
+                            <th scope="col">مبلغ قابل پرداخت</th>
+                            <th scope="col">تعداد درخواست</th>
+                            <th scope="col">تاریخ</th>
+                            <th scope="col">کد تراکنش</th>
+                            <th scope="col">وضعیت</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Orders.Count() > 0)
+                        {
+                            foreach(var item in Model.Orders)
+                            {
+                                
+                        <tr>
+                            <td class="text-success">
+                                <h3>
+                                            f_@item.Id
+                                </h3>
+                            </td>
+                            <td>
+                                <img width="200" class="img-thumbnail" src="@item.PackageImage" />
+                            </td>
+                            <td>@item.PackageTitle</td>
+                                    <td>@item.Price.ToString("#,0") تومان</td>
+                                    <td>@item.Count.ToString("#,0") درخواست</td>
+                                    <td>@item.Date</td>
+                                    <td>@item.TransactionRef</td>
+                                    <td class="@(item.Status == Shared.Domain.Enum.PostOrderStatus.پرداخت_نشده ? "text-danger" : "text-success")">
+                                        @item.Status.ToString().Replace("_", " ")</td>
+
+                            <td>
+                                        @if(item.Status == Shared.Domain.Enum.PostOrderStatus.پرداخت_نشده)
+                                        {
+                                            <a class="btn btn-success" asp-action="Basket">پرداخت</a>
+                                        }
+                                    </td>
+                        </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="text-center text-danger">
+                                    فاکتوری برای نمایش موجود نیست
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @if (Model.PageCount > 1)
+                {
+                    <div class="pager default text-center">
+                        <ul class="pager-items mb-0">
+                        @if (Model.PageId > 1)
+                        {
+                                <li>
+                                    <a class="pager-item" href="/UserPanel/PostOrder/Orders?pageId=@(Model.PageId - 1)">قبل</a>
+                                </li>
+                        }
+                        @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                        {
+                            if (i == Model.PageId)
+                            {
+                                    <li>
+                                        <a class="pager-item is-active" >@i</a>
+                                    </li>
+                            }
+                            else
+                            {
+                                    <li>
+                                        <a class="pager-item" href="/UserPanel/PostOrder/Orders?pageId=@i">@i</a>
+                                    </li>
+                            }
+                        }
+                        @if (Model.PageCount > Model.PageId)
+                        {
+                                <li>
+                                    <a class="pager-item" href="/UserPanel/PostOrder/Orders?pageId=@(Model.PageId + 1)">بعد</a>
+                                </li>
+                        }
+                        </ul>
+                    </div>
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>
+

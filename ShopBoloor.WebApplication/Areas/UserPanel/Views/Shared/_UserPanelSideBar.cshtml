@@ -85,15 +85,19 @@
                 حساب کاربری شما
             </button>
             <div class="dropdown-menu dropdown-menu-right text-right">
-                <a href="profile.html" class="dropdown-item 
+                <a href="/UserPanel" class="dropdown-item 
                @(route.ToString().ToLower() == "/userpanel" ||
                 route.ToString().ToLower() == "/userpanel/home/index" ? "active-menu" : "")">
                     <i class="now-ui-icons users_single-02"></i>
                     پروفایل
                 </a>
-                <a href="profile-orders.html" class="dropdown-item">
+                <a href="/UserPanel/PostOrder/orders" class="dropdown-item">
                     <i class="now-ui-icons shopping_basket"></i>
-                    همه سفارش ها
+                     سفارش های Api پست
+                </a>
+                <a href="/UserPanel/PostOrder/UserPost" class="dropdown-item">
+                    <i class="now-ui-icons shopping_basket"></i>
+                    راهنمای Api پست
                 </a>
                 <a href="profile-orders-return.html" class="dropdown-item">
                     <i class="now-ui-icons files_single-copy-04"></i>
@@ -114,16 +118,22 @@
         <div class="profile-menu-header">حساب کاربری شما</div>
         <ul class="profile-menu-items">
             <li>
-                <a href="profile.html" class="@(route.ToString().ToLower() == "/userpanel" ||
+                <a href="/UserPanel" class="@(route.ToString().ToLower() == "/userpanel" ||
                 route.ToString().ToLower() == "/userpanel/home/index" ? "active" : "")">
                     <i class="now-ui-icons users_single-02"></i>
                     پروفایل
                 </a>
             </li>
             <li>
-                <a href="profile-orders.html">
+                <a href="/UserPanel/PostOrder/orders">
                     <i class="now-ui-icons shopping_basket"></i>
-                    همه سفارش ها
+                     سفارش های Api پست
+                </a>
+            </li>
+            <li>
+                <a href="/UserPanel/PostOrder/UserPost">
+                    <i class="now-ui-icons shopping_basket"></i>
+                    راهنمای Api پست
                 </a>
             </li>
             <li>
