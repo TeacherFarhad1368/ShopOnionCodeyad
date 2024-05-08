@@ -10,6 +10,6 @@ namespace Users.Application.Contract.UserAddressApplication.Command
     public interface IUserAddressApplication
     {
         OperationResult Create(CreateAddress command, int userId);
-        bool Delete(int id);
+        bool Delete(int id,int userId);
     }
 }

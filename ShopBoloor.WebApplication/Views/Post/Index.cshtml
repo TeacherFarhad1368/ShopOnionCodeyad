@@ -100,9 +100,79 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+            <h3 class="text-center my-4">
+                محاسبه مرسوله پستی
+            </h3>
+            <div class="content-section default">
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-account-title">انتخاب استان مبدا *</div>
+                            <div class="form-account-row">
+                                <Select class="input-field text-right"
+                                    id="SourceStateId" onchange="GetCitiesForSelectBox('SourceStateId','SourceCityId')">
+                                    <option value=0>انتخاب استان</option>
+                                </Select>
+                            </div>
+                        <span class="text-danger" id="SourceStateIdValid"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-account-title">انتخاب شهر مبدا *</div>
+                            <div class="form-account-row">
+                            <Select class="input-field text-right" id="SourceCityId">
+                                </Select>
+                            </div>
+                        <span class="text-danger" id="SourceCityIdValid"></span>
+                        </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">انتخاب استان مقصد *</div>
+                        <div class="form-account-row">
+                            <Select class="input-field text-right"
+                                    id="DestinationStateId" onchange="GetCitiesForSelectBox('DestinationStateId','DestinationCityId')">
+                                <option value=0>انتخاب استان</option>
+                            </Select>
+                        </div>
+                        <span class="text-danger" id="DestinationStateIdValid"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">انتخاب شهر مقصد *</div>
+                        <div class="form-account-row">
+                            <Select class="input-field text-right" id="DestinationCityId">
+                            </Select>
+                        </div>
+                        <span class="text-danger" id="DestinationCityIdValid"></span>
+                    </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-account-title">وزن مرسوله پستی *</div>
+                            <div class="form-account-row">
+                                <input class="input-field text-right" type="text" id="weight"
+                                   onkeypress="return isNumber(event)">
+                            </div>
+                        <span class="text-danger" id="weightValid"></span>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="button" onclick="CalculatePost()" class="btn btn-warning btn-lg">محاسبه شود</button>
+                    </div>
+            </div>
+        </div>
             </div>
         </main>
         @section Scripts{
+            <script>
+                $(function(){
+            GetStatesForSelectBox('SourceStateId');
+            GetStatesForSelectBox('DestinationStateId');
+            $("select#DestinationStateId").select2();
+            $("select#SourceStateId").select2();
+            $("select#SourceCityId").select2();
+            $("select#DestinationCityId").select2();
+        })
+        function CalculatePost(){
+
+        }
+    </script>
     @if (OrderNotExist)
     {
         <script>

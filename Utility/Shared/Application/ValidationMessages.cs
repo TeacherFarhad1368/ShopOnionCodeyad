@@ -10,7 +10,7 @@ namespace Shared.Application
     {
         public const string RequiredMessage = "این فیلد اجباری است .";
         public const string MaxLengthMessage = "تعداد کاراکتر ها بیش از حد مجاز است .";
-        public const string MinLengthMessage = "تعداد کاراکتر ها کنتر از حد مجاز است .";
+        public const string MinLengthMessage = "تعداد کاراکتر ها کم تر از حد مجاز است .";
         public const string SystemErrorMessage = "خطای سیستم !!!! مجددا تلاش کنید .";
         public const string DuplicatedMessage = "این فیلد تکراری است .";
         public const string ImageErrorMessage = "لطفا یک تصویر معتبر وارد کنید .";

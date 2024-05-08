@@ -24,14 +24,14 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="form-account-title">ایمیل</div>
                         <div class="form-account-row">
-                            <input class="input-field text-right" type="text" asp-for="Email">
+                            <input class="input-field text-right" type="email" asp-for="Email">
                         </div>
                         <span class="text-danger" asp-validation-for="Email"></span>
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <div class="form-account-title">موبایل</div>
                         <div class="form-account-row">
-                            <input class="input-field" type="text" asp-for="Mobile">
+                            <input class="input-field" type="text" asp-for="Mobile" onkeypress="return isNumber(event)">
                         </div>
                         <span class="text-danger" asp-validation-for="Mobile"></span>
                     </div>

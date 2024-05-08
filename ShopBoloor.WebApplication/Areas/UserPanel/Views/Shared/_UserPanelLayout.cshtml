@@ -11,6 +11,8 @@
 </head>
 @{
     var SuccessLogin = TempData["SuccessLogin"] != null;
+    var ok = TempData["ok"] != null;
+    var faild = TempData["faild"] != null;
 }
 <body class="index-page sidebar-collapse">
     <partial name="_HeaderResponsive" />
@@ -29,10 +31,23 @@
         <partial name="_Footer" />
     </div>
     <partial name="_Js" />
+    <script src="/js/userPanel.js"></script>
     @if (SuccessLogin)
     {
         <script>
             AlertSweet("عملیات موفق", "شما با موفقیت وارد سایت شدید .", "success");
+        </script>
+    }
+    @if (ok)
+    {
+        <script>
+            AlertSweetTimer("عملیا ت با موفقیت انجام شد", "success", 4000);
+        </script>
+    }
+    @if (faild)
+    {
+        <script>
+            AlertSweetTimer("عملیات نا موفق !!!", "error", 4000);
         </script>
     }
     @RenderSection("Scripts", false)

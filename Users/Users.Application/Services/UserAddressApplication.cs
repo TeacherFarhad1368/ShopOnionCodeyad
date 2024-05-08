@@ -29,9 +29,10 @@ namespace Users.Application.Services
             return new(false,ValidationMessages.SystemErrorMessage, "StateId");  
         }
 
-        public bool Delete(int id)
+        public bool Delete(int id, int userId)
         {
             var address = _userAdressRepository.GetById(id);
+            if(address.UserId != userId) return false;  
             return _userAdressRepository.Delete(address);
         }
     }

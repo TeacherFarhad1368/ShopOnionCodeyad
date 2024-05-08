@@ -36,7 +36,7 @@
                             foreach (var item in Model)
                             {
 
-                                <tr>
+                                <tr id="tr_@item.Id">
                                     <td>
                                        @item.StateName
                                     </td>
@@ -53,7 +53,15 @@
                                     </td>
 
                                     <td>
-                                       
+                                        @{
+                                            string titleMessage = "حذف این آدرس ؟؟";
+                                            string textMessage = "پس از حذف , این آدرس کلا حذف میشود .";
+                                        }
+                                        <a class="btn btn-danger"
+                                           onclick="AjaxSweet('@titleMessage','@textMessage','question',
+                                'حذف شود','انصراف','/UserPanel/Address/Delete/@item.Id','tr_@item.Id')">
+                                           حذف
+                                       </a>
                                     </td>
                                 </tr>
                             }

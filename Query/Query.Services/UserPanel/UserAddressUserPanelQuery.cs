@@ -28,6 +28,7 @@ namespace Query.Services.UserPanel
             var addresses = _userAdressRepository.GetAllByQuery(a => a.UserId == userId).OrderByDescending(a => a.Id)
                 .Select(a => new UserAddressForPanelQueryModel
                 {
+                    Id = a.Id,
                     AddressDetail = a.AddressDetail,
                     CityId = a.CityId,
                     CityName = "",

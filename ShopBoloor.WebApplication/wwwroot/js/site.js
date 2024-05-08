@@ -115,3 +115,35 @@ function copy(id) {
     document.execCommand("copy");
     AlertSweet("عملیات موفق", "متن مورد نظر کپی شد.","success");
 }
+
+
+function GetStatesForSelectBox(selectId) {
+    $.ajax({
+        type: "Get",
+        url: "/Post/GetStates"
+    }).done(function (res) {
+        var list = [];
+        var selectBox = $(`select#${selectId}`);
+        list = JSON.parse(res);
+        list.forEach(x => {
+            var state = `<option value=${x.Id}>${x.Title}</option>`;
+            selectBox.append(state);
+        });
+    });
+}
+function GetCitiesForSelectBox(selectparentId, selectChildId) {
+    var stateId = $(`select#${selectparentId}`).val();
+    var selectBox = $(`select#${selectChildId}`);
+    selectBox.html("");
+    $.ajax({
+        type: "Get",
+        url: `/Post/GetCities/${stateId}`
+    }).done(function (res) {
+        var list = [];
+        list = JSON.parse(res);
+        list.forEach(x => {
+            var city = `<option value=${x.CityCode}>${x.Title}</option>`;
+            selectBox.append(city);
+        });
+    });
+}

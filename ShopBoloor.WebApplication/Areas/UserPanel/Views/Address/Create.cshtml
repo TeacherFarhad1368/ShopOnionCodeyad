@@ -1,0 +1,86 @@
+﻿@model Users.Application.Contract.UserAddressApplication.Command.CreateAddress
+
+@{
+    ViewData["Title"] = "افزودن آدرس جدید";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"]</h1>
+        </div>
+        <div class="content-section default">
+
+            <form class="form-account" method="post">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">انتخاب استان *</div>
+                        <div class="form-account-row">
+                            <Select class="input-field text-right" 
+                            asp-for="StateId" id="StateId" onchange="GetCitiesForSelectBox('StateId','CityId')">
+                                <option value=0 >انتخاب استان</option>
+                            </Select>
+                        </div>
+                        <span class="text-danger" asp-validation-for="StateId"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">انتخاب شهر *</div>
+                        <div class="form-account-row">
+                            <Select class="input-field text-right" asp-for="CityId" id="CityId">
+                            </Select>
+                        </div>
+                        <span class="text-danger" asp-validation-for="CityId"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">جزییات ادرس *</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" type="text" asp-for="AddressDetail">
+                        </div>
+                        <span class="text-danger" asp-validation-for="AddressDetail"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">کد پستی *</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" type="text" asp-for="PostalCode"
+                                   onkeypress="return isNumber(event)">
+                        </div>
+                        <span class="text-danger" asp-validation-for="PostalCode"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">شماره تماس *</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Phone"
+                                   onkeypress="return isNumber(event)">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Phone"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">نام و نام خانوادگی *</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="FullName">
+                        </div>
+                        <span class="text-danger" asp-validation-for="FullName"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">کد ملی</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="IranCode" onkeypress="return isNumber(event)">
+                        </div>
+                        <span class="text-danger" asp-validation-for="IranCode"></span>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-warning btn-lg">ذخیره</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            GetStatesForSelectBox("StateId");
+            $('select#StateId').select2();
+            $('select#CityId').select2();
+        })
+    </script>
+}

@@ -18,7 +18,15 @@ namespace PostModule.Query.Services
             _post_Context = post_Context;
         }
 
-		public StateDetailQueryModel GetStateDetail(int id)
+        public List<CityForChooseQueryModel> GetCitiesForChoose(int stateId)=>
+            _post_Context.Cities.Where(c=> c.StateId == stateId)
+            .Select(c=> new CityForChooseQueryModel()
+            {
+                CityCode = c.Id,
+                Title = c.Title
+            }).ToList();
+
+        public StateDetailQueryModel GetStateDetail(int id)
 		{
             var state = _post_Context.States.Find(id);
             StateDetailQueryModel model = new()
@@ -54,7 +62,16 @@ namespace PostModule.Query.Services
                 CityCount = s.Cities.Count()
 			}).ToList();
 
-		public async Task<List<StateQueryModel>> GetStatesWithCity() =>
+        public List<StateForChooseQueryModel> GetStatesForChoose()
+        {
+            return _post_Context.States.Select(s => new StateForChooseQueryModel
+            {
+                Id = s.Id,
+                Title = s.Title
+            }).ToList();
+        }
+
+        public async Task<List<StateQueryModel>> GetStatesWithCity() =>
            await  _post_Context.States.Include(s => s.Cities).Select(s => new StateQueryModel
             {
                 Name = s.Title,
@@ -70,5 +87,11 @@ namespace PostModule.Query.Services
             var state = _post_Context.States.Find(id);
             return state.Title;
         }
+
+        public bool IsCityCorrect(int stateId, int cityId) =>
+            _post_Context.Cities.Any(c => c.Id == cityId && c.StateId == stateId);
+
+        public bool IsStateCorrect(int stateId) =>
+            _post_Context.States.Any(s => s.Id == stateId);
     }
 }
