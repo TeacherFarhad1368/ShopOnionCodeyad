@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net;
 using WebApplication.Test.Models;
 
 namespace WebApplication.Test.Controllers
@@ -15,7 +17,34 @@ namespace WebApplication.Test.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<State> model = new();
+            try
+            {
+                // Define the API endpoint URL
+                string apiUrl = "https://localhost:44324/api/shipping";
+
+                // Create a WebRequest
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(apiUrl);
+                request.Method = "GET";
+
+                // Get the response
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    
+                        // Read the response content
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            string responseBody = reader.ReadToEnd();
+                        model = JsonConvert.DeserializeObject<List<State>>(responseBody);
+                        }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            return View(model);
         }
 
         public IActionResult Privacy()

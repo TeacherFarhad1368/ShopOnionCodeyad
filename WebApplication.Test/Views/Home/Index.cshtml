@@ -1,8 +1,54 @@
-﻿@{
+﻿@model List<WebApplication.Test.Models.State>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  <label>شهر مبدا</label>
+  <select id="sou">
+      @foreach(var item in Model){
+          <optgroup>
+                <option>
+                    <h2>
+                        @item.Name
+                    </h2>
+              </option>
+              @foreach(var sub in item.Cities){
+                  <option value="@sub.CityCode">
+                      @sub.Name
+                  </option>
+              }
+          </optgroup>
+      }
+  </select>
+  <hr />
+    <label>شهر مقصد</label>
+    <select id="des">
+        @foreach (var item in Model)
+        {
+            <optgroup>
+                <option>
+                    <h2>
+                        @item.Name
+                    </h2>
+                </option>
+                @foreach (var sub in item.Cities)
+                {
+                    <option value="@sub.CityCode">
+                        @sub.Name
+                    </option>
+                }
+            </optgroup>
+        }
+    </select>
+    <hr />
 </div>
+@section Scripts{
+   <script>
+        $(function () {
+            $("select#sou").select2();
+            $("select#des").select2();
+        })
+   </script>
+}
