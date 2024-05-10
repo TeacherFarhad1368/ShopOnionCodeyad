@@ -10,6 +10,7 @@
         cancelButtonText: cancelButtonText1
     }).then((result) => {
         if (result.isConfirmed) {
+            Loding();
             $.ajax({
                 type: "Get",
                 url: url1
@@ -22,6 +23,7 @@
                 else {
                     AlertSweetTimer("عملیات نا موفق", "error", 3000);
                 }
+                EndLoading();
             });
         }
     })

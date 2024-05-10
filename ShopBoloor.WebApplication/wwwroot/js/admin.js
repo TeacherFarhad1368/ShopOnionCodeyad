@@ -10,13 +10,12 @@
         cancelButtonText: cancelButtonText1
     }).then((result) => {
         if (result.isConfirmed) {
-            debugger;
+            Loding();
             $.ajax({
                 type: "Get",
                 url: url1
             }).done(function (res) {
 
-                debugger;
                 if (res) {
                     AlertSweetTimer("عملیات موفق", "success", 3000);
                     setTimeout($(`#${deletedId}`).hide('slow'), 3000);
@@ -24,6 +23,7 @@
                 else {
                     AlertSweetTimer("عملیات نا موفق", "error", 3000);
                 }
+                EndLoading();
             });
         }
 
@@ -44,6 +44,7 @@ function AjaxSweetNotDelete(title1, text1, icon1, confirmButtonText1, cancelButt
         cancelButtonText: cancelButtonText1
     }).then((result) => {
         if (result.isConfirmed) {
+            Loding();
             $.ajax({
                 type: "Get",
                 url: url1
@@ -54,6 +55,7 @@ function AjaxSweetNotDelete(title1, text1, icon1, confirmButtonText1, cancelButt
                 else {
                     AlertSweetTimer("عملیات نا موفق", "error", 3000);
                 }
+                EndLoading();
             });
         }
         else {
@@ -73,6 +75,7 @@ function AjaxSweetRefresh(title1, text1, icon1, confirmButtonText1, cancelButton
         cancelButtonText: cancelButtonText1
     }).then((result) => {
         if (result.isConfirmed) {
+            Loding();
             $.ajax({
                 type: "Get",
                 url: url1
@@ -90,6 +93,7 @@ function AjaxSweetRefresh(title1, text1, icon1, confirmButtonText1, cancelButton
                         location.reload();
                     }, 3000);
                 }
+
             });
         }
         else {
@@ -111,6 +115,7 @@ function AjaxSweetInput(title1, confirmButtonText1, url1, deletedId) {
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
+            Loding();
             $.ajax({
                 type: "Get",
                 url: url1 +  result.value 
@@ -126,6 +131,7 @@ function AjaxSweetInput(title1, confirmButtonText1, url1, deletedId) {
                         location.reload();
                     }, 3000);
                 }
+                EndLoading();
             });
         }
     });
@@ -140,8 +146,6 @@ function makeSlug(source, destination) {
         .replace(/-+/g, '-');
     $('#' + destination).val(titleStr);
 }
-
-
 function ChooseParentBlogCategory(parentSelect, childSelect) {
     var id = $(`select#${parentSelect}`).val();
     if (id > 0) {

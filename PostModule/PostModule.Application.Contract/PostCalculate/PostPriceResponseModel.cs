@@ -5,7 +5,7 @@ public class PostPriceResponseModel
     public PostPriceResponseModel(string title, string status, int price)
     {
         Title = title;
-        Status = status;
+        Status = status; 
         Price = price;
     }
 

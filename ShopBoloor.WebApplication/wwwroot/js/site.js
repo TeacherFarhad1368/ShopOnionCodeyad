@@ -85,13 +85,13 @@ function AddEmailUser() {
     }
     else {
         mailValid.text("");
+        Loding();
         $.ajax({
             type: "Post",
             url: "/Home/AddEmailUser",
             data: {email: mail}
         }).done(function (res) {
 
-            debugger;
             if (res == "") {
                 AlertSweetTimer( "ایمیل شما به موفقیت اضافه شد .",'success', 3000);
                 $("input#inputEmailUser").val("");
@@ -100,6 +100,7 @@ function AddEmailUser() {
                 AlertSweetTimer(res,'error' , 3000);
                 mailValid.text(res);
             }
+            EndLoading();
         });
     }
 }
@@ -147,3 +148,64 @@ function GetCitiesForSelectBox(selectparentId, selectChildId) {
         });
     });
 }
+
+function CalculatePost() {
+    var sourceId = $("select#SourceCityId").val();
+    var destinationId = $("select#DestinationCityId").val();
+    var weight = $("input#weight").val();
+    var sourceValid = $("span#SourceCityIdValid");
+    var destinationValid = $("span#DestinationCityIdValid");
+    var weightValid = $("span#weightValid");
+    var parentDiv = $("div#calculatePostDiv");
+    parentDiv.html("");
+    if (sourceId < 1 || sourceId === null || isNumber(sourceId) === false) {
+        sourceValid.text("لطفا استان و شهر مبدا رو انتخاب کنید .");
+    }
+    else if (destinationId < 1 || destinationId === null || isNumber(destinationId) === false) {
+
+        sourceValid.text("");
+        destinationValid.text("لطفا استان و شهر مقصد رو انتخاب کنید .");
+    }
+    else if (weight === null || weight === "" || isNumber(weight) === false) {
+        sourceValid.text("");
+        destinationValid.text("");
+        weightValid.text("لطفا وزن را بر اساس گرم وارد کنید .");
+    }
+    else {
+        Loding();
+        sourceValid.text("");
+        destinationValid.text("");
+        weightValid.text("");
+
+        $.ajax({
+            type: "Post",
+            url: "/Post/Calculate",
+            data: { sourceId: sourceId, destinationId: destinationId, weight: weight }
+        }).done(function (res) {
+            var model = [];
+            model = JSON.parse(res);
+            model.forEach(x => {
+                var price = `<div class="d-flex flex-column justify-content-center align-item-center
+                p-3 border border-1 border-success m-2">
+                <h2 class="text-center">${x.Title}</h2>
+                <h3 class="text-center">${x.Status}</h3>
+                <p  class="text-center text-success"> ${separate(x.Price)} تومان</p>
+                </div>`;
+                parentDiv.append(price);
+            });
+            EndLoading();
+            ScroolToEleman("calculatePostDiv");
+        });
+    }
+}
+
+function Loding() {
+    $(".loading").fadeIn();
+}
+function EndLoading() {
+    $(".loading").fadeOut();
+}
+$("form").submit(
+    function () {
+        $(".loading").fadeIn();
+    });

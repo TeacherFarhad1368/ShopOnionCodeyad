@@ -95,9 +95,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostModule.Query", "PostMod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Query", "Query", "{05AAD25C-908F-41B9-B955-F11E5CCA4070}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Query.Contract", "Query\Query.Contract\Query.Contract.csproj", "{F2ADAC78-0437-4F38-8DD1-B7F058540470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Query.Contract", "Query\Query.Contract\Query.Contract.csproj", "{F2ADAC78-0437-4F38-8DD1-B7F058540470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Query.Services", "Query\Query.Services\Query.Services.csproj", "{C6B08E45-9FE0-4C43-88D3-F20DAB68517C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Query.Services", "Query\Query.Services\Query.Services.csproj", "{C6B08E45-9FE0-4C43-88D3-F20DAB68517C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication.Test", "WebApplication.Test\WebApplication.Test.csproj", "{73A19875-A502-46BC-9570-BDD80C381D6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -261,6 +263,10 @@ Global
 		{C6B08E45-9FE0-4C43-88D3-F20DAB68517C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6B08E45-9FE0-4C43-88D3-F20DAB68517C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6B08E45-9FE0-4C43-88D3-F20DAB68517C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73A19875-A502-46BC-9570-BDD80C381D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73A19875-A502-46BC-9570-BDD80C381D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73A19875-A502-46BC-9570-BDD80C381D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73A19875-A502-46BC-9570-BDD80C381D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

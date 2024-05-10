@@ -144,7 +144,7 @@
                         <span class="text-danger" id="DestinationCityIdValid"></span>
                     </div>
                         <div class="col-sm-12 col-md-12">
-                            <div class="form-account-title">وزن مرسوله پستی *</div>
+                            <div class="form-account-title">وزن مرسوله پستی (بر اساس گرم) *</div>
                             <div class="form-account-row">
                                 <input class="input-field text-right" type="text" id="weight"
                                    onkeypress="return isNumber(event)">
@@ -157,7 +157,15 @@
                     </div>
             </div>
         </div>
+
+        <div class="row">
+            <h3 class="text-center my-4">
+                محاسبه مرسوله پستی
+            </h3>
+            <div class="content-section default" id="calculatePostDiv">
             </div>
+        </div>
+    </div>
         </main>
         @section Scripts{
             <script>
@@ -169,9 +177,6 @@
             $("select#SourceCityId").select2();
             $("select#DestinationCityId").select2();
         })
-        function CalculatePost(){
-
-        }
     </script>
     @if (OrderNotExist)
     {
