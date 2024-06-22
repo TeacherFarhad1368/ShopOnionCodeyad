@@ -13,5 +13,6 @@ namespace Shared.Domain
         bool Delete(T Entity);
         bool ExistBy(Expression<Func<T, bool>> expression);
         bool Save();
+        Task<bool> CreateAsync(T Entity);
     }
 }

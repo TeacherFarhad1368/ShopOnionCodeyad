@@ -23,5 +23,6 @@ namespace Shared.Application
         public const string ChoosePermission = "سطح دسترسی را انتخاب کنید  . ";
         public const string ParentCategoryMessage = "سرگروه را انتخاب کنید  . ";
         public const string ChildCategoryMessage = "زیرگروه را انتخاب کنید  . ";
+        public const string PaymentPriceError = "مبلغ باید بیشتر از 1000 تومان باشد  . ";
     }
 }

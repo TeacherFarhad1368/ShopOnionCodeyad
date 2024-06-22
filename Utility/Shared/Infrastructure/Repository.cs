@@ -23,6 +23,12 @@ namespace Shared.Infrastructure
             return Save();
         }
 
+        public async Task<bool> CreateAsync(T Entity)
+        {
+            await _context.AddAsync<T>(Entity);
+            return Save();
+        }
+
         public bool Delete(T Entity)
         {
             _context.Remove<T>(Entity);
