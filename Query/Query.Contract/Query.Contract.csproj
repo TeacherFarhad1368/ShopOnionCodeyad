@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\PostModule\PostModule.Query\PostModule.Query.csproj" />
     <ProjectReference Include="..\..\Seos\Seos.Query\Seos.Query.csproj" />
     <ProjectReference Include="..\..\Site\Site.Query\Site.Query.csproj" />
+    <ProjectReference Include="..\..\Transactions\Transactions.Query\Transactions.Query.csproj" />
     <ProjectReference Include="..\..\Users\Users.Query\Users.Query.csproj" />
   </ItemGroup>
 

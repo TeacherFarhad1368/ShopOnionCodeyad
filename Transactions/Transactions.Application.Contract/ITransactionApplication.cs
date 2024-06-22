@@ -6,6 +6,7 @@ namespace Transactions.Application.Contract
     public interface ITransactionApplication
     {
         Task<OperationResult> CreateAsync(CreateTransaction command);
-        Task<bool> PaymentAsync(TransactionStatus status, int id,string refId);
+        Task<bool> PaymentAsync(TransactionStatus status, long id,string refId);
+        Task<TransactionQueryModel> GetForCheckPaymentAsync(long id);
     }
 }

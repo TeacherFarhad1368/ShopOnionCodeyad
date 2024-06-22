@@ -53,7 +53,13 @@ namespace Shared.Infrastructure
         public T GetById(Tkey id) =>
             _context.Find<T>(id);
 
+        public async Task<T> GetByIdAsync(Tkey id) =>
+           await _context.FindAsync<T>(id);
+
         public bool Save() =>
             _context.SaveChanges() >= 0 ? true : false;
+
+        public async Task<bool> SaveAsync() =>
+           await _context.SaveChangesAsync() >= 0 ? true : false;
     }
 }

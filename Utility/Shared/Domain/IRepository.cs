@@ -9,10 +9,12 @@ namespace Shared.Domain
         IQueryable<T> GetAllQuery();
         IQueryable<T> GetAllByQuery(Expression<Func<T, bool>> expression);
         T GetById(Tkey id);
+        Task<T> GetByIdAsync(Tkey id);
         bool Create(T Entity);
         bool Delete(T Entity);
         bool ExistBy(Expression<Func<T, bool>> expression);
         bool Save();
+        Task<bool> SaveAsync();
         Task<bool> CreateAsync(T Entity);
     }
 }

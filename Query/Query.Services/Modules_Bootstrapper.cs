@@ -20,6 +20,7 @@ using Query.Services.UI;
 using Query.Services.UserPanel;
 using Seos.Query;
 using Site.Query;
+using Transactions.Query;
 using Users.Query;
 
 namespace Query.Services
@@ -36,6 +37,7 @@ namespace Query.Services
             Seo_Bootstrapper.Config(services, connection);
             Post_Bootstrapper.Config(services, connection);
             Email_Bootstrapper.Config(services, connection);
+            Transaction_Bootstrapper.Config(services, connection);
             #endregion
             #region Admin Query
             services.AddTransient<ICommentAdminQuery, CommentAdminQuery>();

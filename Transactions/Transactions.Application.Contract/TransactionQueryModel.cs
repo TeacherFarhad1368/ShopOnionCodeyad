@@ -1,24 +1,22 @@
-﻿using Shared.Domain;
-using Shared.Domain.Enum;
-namespace Transactions.Domain
+﻿using Shared.Domain.Enum;
+
+namespace Transactions.Application.Contract
 {
-    public class Transaction : BaseEntityCreate<long>
+    public class TransactionQueryModel
     {
-        public Transaction(int userId, int price, TransactionPortal portal,TransactionFor transactionFor,int ownerId)
+        public TransactionQueryModel(long id, int userId, int price, string refId, TransactionPortal portal, TransactionStatus status, TransactionFor transactionFor, int ownerId)
         {
+            Id = id;
             UserId = userId;
             Price = price;
-            RefId = "";
+            RefId = refId;
             Portal = portal;
-            Status = TransactionStatus.نا_موفق;
+            Status = status;
             TransactionFor = transactionFor;
             OwnerId = ownerId;
         }
-        public void Payment(TransactionStatus status,string refId)
-        {
-            Status = status;
-            RefId = refId;
-        }
+
+        public long Id { get; private set; }
         public int UserId { get; private set; }
         public int Price { get; private set; }
         public string RefId { get; private set; }

@@ -16,15 +16,24 @@ namespace Transactions.Application
         {
             if (command.Price < 1000)
                 return new OperationResult(false, ValidationMessages.PaymentPriceError, nameof(command.Price));
-            Transaction transaction = new(command.UserId, command.Price, command.Portal);
+            Transaction transaction = new(command.UserId, command.Price, command.Portal,command.TransactionFor,command.OwnerId);
             if (await _transactionRepository.CreateAsync(transaction))
                 return new(true);
             return new OperationResult(false, ValidationMessages.SystemErrorMessage, nameof(command.Price));
         }
 
-        public Task<bool> PaymentAsync(TransactionStatus status, int id, string refId)
+        public async Task<TransactionQueryModel> GetForCheckPaymentAsync(long id)
         {
-            throw new NotImplementedException();
+            var tranaction = await _transactionRepository.GetByIdAsync(id);
+            return new TransactionQueryModel(tranaction.Id,tranaction.UserId,tranaction.Price,tranaction.RefId,
+                tranaction.Portal,tranaction.Status,tranaction.TransactionFor,tranaction.OwnerId);
+        }
+
+        public async Task<bool> PaymentAsync(TransactionStatus status, long id, string refId)
+        {
+            var transaction = await _transactionRepository.GetByIdAsync(id);
+            transaction.Payment(status, refId);
+            return await _transactionRepository.SaveAsync();
         }
     }
 }
