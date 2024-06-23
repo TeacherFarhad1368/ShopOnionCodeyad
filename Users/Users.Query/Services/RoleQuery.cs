@@ -8,19 +8,18 @@ using Users.Application.Contract.RoleApplication.Query;
 using Users.Domain.UserAgg.Repository;
 using Users.Infrastructure;
 
-namespace Users.Query.Services
-{
-    internal class RoleQuery : IRoleQuery
-    {
-        private readonly IRoleRepository _roleRepository;
-        public RoleQuery(IRoleRepository roleRepository)
-        {
-            _roleRepository = roleRepository;
-        }
-        public bool CheckPermission(int userId, UserPermission permission)=>
-            _roleRepository.CheckPermission(userId,permission);
+namespace Users.Query.Services;
 
-        public List<RoleQueryModel> GetAllRoles() =>
-            _roleRepository.GetAllRoles();
+internal class RoleQuery : IRoleQuery
+{
+    private readonly IRoleRepository _roleRepository;
+    public RoleQuery(IRoleRepository roleRepository)
+    {
+        _roleRepository = roleRepository;
     }
+    public bool CheckPermission(int userId, UserPermission permission)=>
+        _roleRepository.CheckPermission(userId,permission);
+
+    public List<RoleQueryModel> GetAllRoles() =>
+        _roleRepository.GetAllRoles();
 }

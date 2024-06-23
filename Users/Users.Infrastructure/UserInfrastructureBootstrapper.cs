@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Users.Application;
 using Users.Domain.UserAgg.Repository;
+using Users.Domain.WalletAgg;
 using Users.Infrastructure.Service;
 
 namespace Users.Infrastructure
@@ -20,6 +21,7 @@ namespace Users.Infrastructure
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserAdressRepository, UserAddressRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IWalletRepository, WalletRepository>();
 
             services.AddDbContext<UserContext>(x =>
             {

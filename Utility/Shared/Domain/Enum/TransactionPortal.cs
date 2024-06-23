@@ -10,4 +10,5 @@ namespace Shared.Domain.Enum
     {
         زرین_پال
     }
+
 }

@@ -9,9 +9,11 @@ namespace Transactions.Infrastructure
     {
         public static void Config(IServiceCollection services,string connectionString)
         {
-            Transaction_Application_Bootstrapper.Config(services);
 
             services.AddTransient<ITransactionRepository, TransactionRepository>();
+
+            Transaction_Application_Bootstrapper.Config(services);
+
 
             services.AddDbContext<TransactionContext>(x =>
             {

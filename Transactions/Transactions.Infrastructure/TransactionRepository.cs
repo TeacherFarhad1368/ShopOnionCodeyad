@@ -6,8 +6,10 @@ namespace Transactions.Infrastructure
 {
     internal class TransactionRepository : Repository<long, Transaction>, ITransactionRepository
     {
-        public TransactionRepository(DbContext context) : base(context)
+        private readonly TransactionContext _context;
+        public TransactionRepository(TransactionContext context) : base(context)
         {
+            _context = context;
         }
     }
 }

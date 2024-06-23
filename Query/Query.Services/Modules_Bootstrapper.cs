@@ -15,6 +15,7 @@ using Query.Contract.UI.Site;
 using Query.Contract.UserPanel.Address;
 using Query.Contract.UserPanel.PostOrder;
 using Query.Contract.UserPanel.User;
+using Query.Contract.UserPanel.Wallet;
 using Query.Services.Admin;
 using Query.Services.UI;
 using Query.Services.UserPanel;
@@ -55,6 +56,7 @@ namespace Query.Services
             services.AddTransient<IUserPanelQuery, UserPanelQuery>();
             services.AddTransient<IPostOrderUserPanelQuery, PostOrderUserPanelQuery>();
             services.AddTransient<IUserAddressUserPanelQuery, UserAddressUserPanelQuery>();
+            services.AddTransient<IUserPanelWalletQuery, UserPanelWalletQuery>();
             #endregion
         }
     }

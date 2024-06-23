@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Users.Domain.WalletAgg;
 
 namespace Users.Domain.UserAgg
 {
@@ -19,9 +20,12 @@ namespace Users.Domain.UserAgg
         public Gender UserGender { get; private set; }
         public List<UserAddress> UserAddresses { get; private set; }
         public List<UserRole> UserRoles { get; private set; }
-        private User()
+        public List<Wallet> Wallets { get; private set; }
+        public User()
         {
-            
+            UserAddresses = new();
+            UserRoles = new();
+            Wallets = new();
         }
         public User(string fullName, string mobile, string email, string password,
              string avatar, bool active, bool delete, Gender gender)
