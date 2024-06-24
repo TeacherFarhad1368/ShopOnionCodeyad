@@ -1,0 +1,79 @@
+﻿@model Query.Contract.UserPanel.Wallet.TransactionUserPanelPaging
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "تراکنش های شما";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"].ToString()</h1>
+            <p>@Model.FullName</p>
+            <p>@Model.WalletAmount.ToString("#,0") تومان</p>
+            <a class="btn btn-success" asp-action="CreateTransaction">
+                    شارژ کیف پول
+                </a>
+        </div>
+        <div class="content-section default">
+            <div class="table-responsive">
+                <table class="table table-order">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">مبلغ (تومان)</th>
+                            <th scope="col">کد تراکنش</th>
+                            <th scope="col">درگاه بانکی </th>
+                            <th scope="col">وضعیت</th>
+                            <th scope="col">توضیحات</th>
+                            <th scope="col">تاریخ ثبت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Transaction.Count() > 0)
+                        {
+                            foreach (var item in Model.Transaction)
+                            {
+
+                                <tr id="tr_@item.Id">
+                                    <td>@item.Id</td>
+                                    <td>
+                                       @item.Price.ToString("#,0")
+                                    </td>
+                                    <td>
+                                        @item.RefId
+                                    </td>
+                                    <td>@item.Portal.ToString().Replace("_"," ")</td>
+                                    <td>
+                                        @if(item.Status == TransactionStatus.موفق)
+                                        {
+                                            <span class="text-success">موفق</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">نا موفق</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            string owner = item.TransactionFor == TransactionFor.Wallet ? "کیف پول " : "فاکتور";
+                                        }
+                                        برای @owner شماره @item.OwnerId
+                                    </td>
+                                    <td>@item.CretionDate</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center text-danger">
+                                    موردی برای نمایش موجود نیست
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+               
+            </div>
+        </div>
+    </div>
+</div>

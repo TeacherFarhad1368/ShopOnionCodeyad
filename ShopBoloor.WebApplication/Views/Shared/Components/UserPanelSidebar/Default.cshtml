@@ -51,7 +51,16 @@
                         راهنمای Api پست
                     </a>
                 }
-
+                <a href="/UserPanel/Wallet" class="dropdown-item
+            @(route.ToString().ToLower().Contains("/userPanel/wallet")  ? "active-menu" : "")">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                    کیف پول
+                </a>
+                <a href="/UserPanel/Wallet/Transactions" class="dropdown-item
+            @(route.ToString().ToLower().Contains("/userPanel/wallet/transactions")  ? "active-menu" : "")">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                    تراکنش ها
+                </a>
                 <a href="/UserPanel/Address" class="dropdown-item 
             @(route.ToString().ToLower().Contains("/userPanel/address")  ? "active-menu" : "")">
                     <i class="now-ui-icons files_single-copy-04"></i>
@@ -95,6 +104,20 @@
                     </a>
                 </li>
             }
+            <li>
+                <a href="/UserPanel/Wallet" class="
+                 @(route.ToString().ToLower().Contains("/userPanel/wallet")  ? "active" : "")">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                    کیف پول
+                </a>
+            </li>
+            <li>
+                <a href="/UserPanel/Wallet/Transactions" class="
+                 @(route.ToString().ToLower().Contains("/userPanel/wallet/transactions")  ? "active" : "")">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                    تراکنش ها
+                </a>
+            </li>
              <li>
                 <a href="/UserPanel/Address" class="
                  @(route.ToString().ToLower().Contains("/userPanel/address")  ? "active" : "")">

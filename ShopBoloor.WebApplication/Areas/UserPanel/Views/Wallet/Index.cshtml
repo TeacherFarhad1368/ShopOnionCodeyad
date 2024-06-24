@@ -1,0 +1,63 @@
+﻿@model Query.Contract.UserPanel.Wallet.WalletUserPanelPaging
+
+@{
+    ViewData["Title"] = "کیف پول شما";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"].ToString()</h1>
+            <p>@Model.FullName</p>
+            <p>@Model.WalletAmount.ToString("#,0") تومان</p>
+                <a class="btn btn-success" asp-action="CreateTransaction">
+                    شارژ کیف پول
+                </a>
+        </div>
+        <div class="content-section default">
+            <div class="table-responsive">
+                <table class="table table-order">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">مبلغ (تومان)</th>
+                            <th scope="col">نوع</th>
+                            <th scope="col">توضیحات </th>
+                            <th scope="col">تاریخ ثبت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Wallets.Count() > 0)
+                        {
+                            foreach (var item in Model.Wallets)
+                            {
+
+                                <tr id="tr_@item.Id">
+                                    <td>
+                                        @item.Id
+                                    </td>
+                                    <td>
+                                       @item.Price.ToString("#,0")
+                                    </td>
+                                    <td>
+                                        @item.Type.ToString()
+                                    </td>
+                                    <td>@item.Description</td>
+                                    <td>@item.CreationDate</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-danger">
+                                    موردی برای نمایش موجود نیست
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+               
+            </div>
+        </div>
+    </div>
+</div>
