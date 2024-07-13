@@ -44,6 +44,9 @@
                     <li class=@(route.ToString().ToLower().Trim().Contains("/admin/role") ? "active" : "")>
                         <a href="/Admin/Role"><i class="fa fa-user-secret"></i>  سطوح دسترسی</a>
                     </li>
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/user") ? "active" : "")>
+                        <a href="/Admin/User"><i class="fa fa-user-secret"></i>  کاربران سایت</a>
+                    </li>
                 </ul>
             </li>
             <li class="@(route.ToString().ToLower().Trim().Contains("/admin/blog")

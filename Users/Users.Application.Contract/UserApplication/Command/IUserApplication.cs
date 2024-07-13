@@ -16,6 +16,7 @@ namespace Users.Application.Contract.UserApplication.Command
         OperationResult EditByUser(EditUserByUser command,int userId);
         OperationResult ChangePassword(ChangeUserPassword command);
         EditUserByUser GetForEditByUser(int userId);
+        EditUserByAdmin GetForEditByAdmin(int userId);
         bool ActivationChange(int id);
         bool DeleteChange(int id);
         void Logout();

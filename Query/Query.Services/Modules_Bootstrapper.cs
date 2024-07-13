@@ -8,6 +8,8 @@ using Query.Contract.Admin.Comment;
 using Query.Contract.Admin.Email;
 using Query.Contract.Admin.MessageUser;
 using Query.Contract.Admin.Seo;
+using Query.Contract.Admin.User;
+using Query.Contract.Admin.Wallet;
 using Query.Contract.UI.Blog;
 using Query.Contract.UI.Comment;
 using Query.Contract.UI.PostPackage;
@@ -45,6 +47,8 @@ namespace Query.Services
             services.AddTransient<IEmailAdminQuery, EmailAdminQuery>();
             services.AddTransient<ISeoAdminQuery, SeoAdminQuery>();
             services.AddTransient<IMessageUserAdminQuery, MessageUserAdminQuery>();
+            services.AddTransient<IAdminWalletQuery, AdminWalletQuery>();
+            services.AddTransient<IAdminUserQuery, AdminUserQuery>();
             #endregion
             #region UI Query 
             services.AddTransient<IBlogUiQuery, BlogUiQuery>();

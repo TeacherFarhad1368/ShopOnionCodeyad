@@ -11,6 +11,7 @@ namespace Users.Domain.UserAgg.Repository
     public interface IUserRepository : IRepository<int, User>
     {
         User GetByMobile(string v);
+        EditUserByAdmin GetForEditByAdmin(int userId);
         EditUserByUser GetForEditByUser(int userId);
     }
 }

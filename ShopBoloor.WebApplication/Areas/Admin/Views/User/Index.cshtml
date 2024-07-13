@@ -1,0 +1,196 @@
+﻿@model Query.Contract.Admin.User.UsersForAdminPaging
+@using Query.Contract.Admin.User;
+
+@{
+    ViewData["Title"] = "لیست کاربران";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">جست و جو</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="">
+                <form id="formSearchAdmin">
+                    <input type="hidden" id="inputPageId" name="pageId" value="1" />
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>وضعیت </label>
+                            <select class="form-control" name="status">
+                                <option value="@UserStatusSearch.همه" selected="@(Model.Status == UserStatusSearch.همه ? "selected" : false)">
+                                    همه
+                                </option>
+                                <option value="@UserStatusSearch.کاربران_فعال" selected="@(Model.Status == UserStatusSearch.کاربران_فعال ? "selected" : false)">
+                                    کاربران فعال
+                                </option>
+                                <option value="@UserStatusSearch.کاربران_غیر_فعال" selected="@(Model.Status == UserStatusSearch.کاربران_غیر_فعال ? "selected" : false)">
+                                    کاربران غیر فعال
+                                </option>
+                                <option value="@UserStatusSearch.حذف_شده_ها" selected="@(Model.Status == UserStatusSearch.حذف_شده_ها ? "selected" : false)">
+                                    کاربران حذف شده
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>جست و جو</label>
+                            <input type="text" id="chooseImage" class="form-control" name="filter" value="@Model.Filter">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>سفارشی سازی ترتیب</label>
+                            <select class="form-control" name="orderBy">
+                                <option value="@UserOrderBySearch.تاریخ_ثبت_از_اول_به_آخر" selected="@(Model.OrderBy == UserOrderBySearch.تاریخ_ثبت_از_اول_به_آخر ? "selected" : false)">
+                                    بر اساس تاریخ ثبت از اول به آخر
+                                </option>
+                                <option value="@UserOrderBySearch.تاریخ_ثبت_از_آخر_به_اول" selected="@(Model.OrderBy == UserOrderBySearch.تاریخ_ثبت_از_آخر_به_اول ? "selected" : false)">
+                                    بر اساس تاریخ ثبت از آخر به اول
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد نمایش در هر صفحه</label>
+                            <input type="number" id="chooseImage" class="form-control" name="take" value="@Model.Take">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label></label>
+                        <button type="submit" class="btn btn-info">
+                            جست و جو
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header">
+                <a class="btn btn-success" asp-action="Create">
+                    <i class=" fa fa-plus mx-2"></i> افزودن کاربر جدید
+                </a>
+                
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> نام </th>
+                            <th> تومان</th>
+                            <th> ایمیل </th>
+                            <th> موبایل </th>
+                            <th> فعال </th>
+                            <th> حذف شده </th>
+                            <th> کیف پول </th>
+                            <th> تعداد تراکنش </th>
+                            <th> جمع تراکنش </th>
+                            <th> تعداد فاکتور </th>
+                            <th> جمع فاکتور </th>
+                            <th>تاریخ ثبت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Users.Count() > 0)
+                        {
+                            foreach (var item in Model.Users)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        @item.FullName
+                                    </td>
+                                    <td>
+                                        @item.Email
+                                    </td>
+                                    <td>
+                                        @item.Mobile
+                                    </td>
+                                    <td>
+                                        @if(item.Active)
+                                        {
+                                            <span class="text-success">فعال</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">غیر فعال</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!item.Delete)
+                                        {
+                                            <span class="text-success">فعال</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">حذف شده</span>
+                                        }
+                                    </td>
+                                    <td>@item.WalletAmount</td>
+                                    <td>@item.TransactionSuccessCount</td>
+                                    <td>@item.TransactionSuccessSum</td>
+                                    <td>@item.OrderCount</td>
+                                    <td>@item.OrderSum</td>
+                                    <td>
+                                        @item.Creationdate
+                                    </td>
+                                   <td>
+                                        <a class="btn btn-warning" title="ویرایش @item.FullName" 
+                                        asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-primary" title="کیف پول @item.FullName"
+                                          asp-controller="Wallet" asp-action="Wallets"
+                                          asp-route-id="@item.Id">
+                                            <i class="fa fa-shopping-basket"></i>
+                                        </a>
+                                        <a class="btn btn-info" title="تراکنش های @item.FullName"
+                                           asp-controller="Wallet" asp-action="Transaction"
+                                           asp-route-userId="@item.Id">
+                                            <i class="fa fa-dollar"></i>
+                                        </a>
+                                   </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+                <div class="col-12 text-center">
+                    @if (Model.PageCount > 1)
+                    {
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            @if (Model.PageId > 1)
+                            {
+                                <li><a style="cursor:pointer" onclick="ChangePagination('@(Model.PageId - 1)')">«</a></li>
+                            }
+                            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                            {
+                                if (i == Model.PageId)
+                                {
+                                    <li class="bg-info"><a>@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a onclick="ChangePagination('@i')">@i</a></li>
+                                }
+                            }
+                            @if (Model.PageId < Model.PageCount)
+                            {
+                                <li><a onclick="ChangePagination('@(Model.PageId + 1)')">»</a></li>
+                            }
+                            @if (Model.PageCount > Model.EndPage)
+                            {
+                                <li><a onclick="ChangePagination('@Model.PageCount')">@Model.PageCount</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

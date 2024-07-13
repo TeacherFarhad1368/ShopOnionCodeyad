@@ -107,7 +107,8 @@ namespace Users.Application.Services
             if(string.IsNullOrEmpty(command.Password))
              pass = Sha256Hasher.Hash(command.Password);
 
-            user.Edit(command.FullName, command.Mobile.Trim(), command.Email.ToLower().Trim(),
+            user.Edit(command.FullName, command.Mobile.Trim(), 
+                command.Email.ToLower().Trim(),
                 pass, imageName, command.UserGender);
 
             if (_userRepository.Save())
@@ -168,6 +169,9 @@ namespace Users.Application.Services
             }
             return new(false, ValidationMessages.SystemErrorMessage, "FullName");
         }
+
+        public EditUserByAdmin GetForEditByAdmin(int userId) =>
+            _userRepository.GetForEditByAdmin(userId);
 
         public EditUserByUser GetForEditByUser(int userId)
         {

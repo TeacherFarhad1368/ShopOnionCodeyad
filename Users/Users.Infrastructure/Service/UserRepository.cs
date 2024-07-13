@@ -17,6 +17,22 @@ internal class UserRepository : Repository<int,User> , IUserRepository
     public User GetByMobile(string v) =>
         _context.Users.SingleOrDefault(u => u.Mobile == v.Trim());
 
+    public EditUserByAdmin GetForEditByAdmin(int userId)
+    {
+        var u = _context.Users.Find(userId);
+        return new EditUserByAdmin()
+        {
+            AvatarFile = null,
+            AvatarName = u.Avatar,
+            Email = u.Email,
+            FullName = u.FullName,
+            Mobile = u.Mobile,
+            UserGender = u.UserGender,
+            Id = u.Id,  
+            Password = null
+        };
+    }
+
     public EditUserByUser GetForEditByUser(int userId)
     {
         var u = _context.Users.Find(userId);

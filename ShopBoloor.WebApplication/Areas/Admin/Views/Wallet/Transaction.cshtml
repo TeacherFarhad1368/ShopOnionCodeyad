@@ -1,0 +1,186 @@
+﻿@model Query.Contract.Admin.Wallet.TransactionsForAdminPaging
+@using Query.Contract.Admin.Wallet;
+
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">جست و جو</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="">
+                <form id="formSearchAdmin">
+                    <input type="hidden" id="inputPageId" name="pageId" value="1" />
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>درگاه</label>
+                            <select class="form-control" name="portal">
+                                <option value="@TransactionPortalSearch.همه" selected="@(Model.Portal == TransactionPortalSearch.همه ? "selected" : false)">
+                                    همه
+                                </option>
+                                <option value="@TransactionPortalSearch.زرین_پال" selected="@(Model.Portal == TransactionPortalSearch.زرین_پال ? "selected" : false)">
+                                    زرین پال
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>وضعیت</label>
+                            <select class="form-control" name="status">
+                                <option value="@TransactionStatusSearch.همه" selected="@(Model.Status == TransactionStatusSearch.همه ? "selected" : false)">
+                                    همه
+                                </option>
+                                <option value="@TransactionStatusSearch.موفق" selected="@(Model.Status == TransactionStatusSearch.موفق ? "selected" : false)">
+                                     موفق
+                                </option>
+                                <option value="@TransactionStatusSearch.نا_موفق" selected="@(Model.Status == TransactionStatusSearch.نا_موفق ? "selected" : false)">
+                                    نا موفق
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>نوع</label>
+                            <select class="form-control" name="transactionFor">
+                                <option value="@TransactionForSearch.همه" selected="@(Model.TransactionFor == TransactionForSearch.همه ? "selected" : false)">
+                                    همه
+                                </option>
+                                <option value="@TransactionForSearch.کیف_پول" selected="@(Model.TransactionFor == TransactionForSearch.کیف_پول ? "selected" : false)">
+                                    کیف پول
+                                </option>
+                                <option value="@TransactionForSearch.فاکتور" selected="@(Model.TransactionFor == TransactionForSearch.فاکتور ? "selected" : false)">
+                                    فاکتور
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>سفارشی سازی ترتیب</label>
+                            <select class="form-control" name="orderBy">
+                                <option value="@OrderingWalletSearch.بر_اساس_تاریخ_از_آخر" selected="@(Model.OrderBy == OrderingWalletSearch.بر_اساس_تاریخ_از_آخر ? "selected" : false)">
+                                    بر اساس تاریخ از آخر
+                                </option>
+                                <option value="@OrderingWalletSearch.بر_اساس_تاریخ_از_اول" selected="@(Model.OrderBy == OrderingWalletSearch.بر_اساس_تاریخ_از_اول ? "selected" : false)">
+                                    بر اساس تاریخ از اول
+                                </option>
+                                <option value="@OrderingWalletSearch.بر_اساس_مبلغ_از_بالا_به_پایین" selected="@(Model.OrderBy == OrderingWalletSearch.بر_اساس_مبلغ_از_بالا_به_پایین ? "selected" : false)">
+                                    بر اساس مبلغ از بالا به پایین
+                                </option>
+                                <option value="@OrderingWalletSearch.بر_اساس_مبلغ_از_بالا_به_پایین" selected="@(Model.OrderBy == OrderingWalletSearch.بر_اساس_مبلغ_از_پایین_به_بالا ? "selected" : false)">
+                                    بر اساس مبلغ از پایین به بالا
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد نمایش در هر صفحه</label>
+                            <input type="number" class="form-control" name="take" value="@Model.Take">
+                        </div>
+                        <div class="form-group">
+                            <label>کد تراکنش</label>
+                            <input type="text"  class="form-control" name="filter" value="@Model.Filter">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label></label>
+                        <button type="submit" class="btn btn-info">
+                            جست و جو
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header">
+            </div>
+            <div class="box-body">
+                
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> کاربر </th>
+                            <th> تراکنش</th>
+                            <th> مبلغ </th>
+                            <th> درگاه </th>
+                            <th> وضعیت </th>
+                            <th> کد تراکنش </th>
+                            <th> تاریخ </th>h>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Transactions.Count() > 0)
+                        {
+                            foreach (var item in Model.Transactions)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>@item.UserName</td>
+                                    <td>
+                                        @if(item.TransactionFor == Shared.Domain.Enum.TransactionFor.Wallet)
+                                        {
+                                           <span>برای شارژ کیف پول شماره @item.OwnerId</span>
+                                        }
+                                        else
+                                        {
+                                            <span>برای فاکتور شماره @item.OwnerId</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Price.ToString("#,0")
+                                    </td>
+                                    <td>
+                                        @item.Portal.ToString()
+                                    </td>
+                                    <td>
+                                        @item.Status.ToString()
+                                    </td>
+                                    <td>@item.RefId</td>
+                                    <td>
+                                        @item.CretionDate
+                                    </td>
+                                   
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+                <div class="col-12 text-center">
+                    @if (Model.PageCount > 1)
+                    {
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            @if (Model.PageId > 1)
+                            {
+                                <li><a style="cursor:pointer" onclick="ChangePagination('@(Model.PageId - 1)')">«</a></li>
+                            }
+                            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                            {
+                                if (i == Model.PageId)
+                                {
+                                    <li class="bg-info"><a>@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a onclick="ChangePagination('@i')">@i</a></li>
+                                }
+                            }
+                            @if (Model.PageId < Model.PageCount)
+                            {
+                                <li><a onclick="ChangePagination('@(Model.PageId + 1)')">»</a></li>
+                            }
+                            @if (Model.PageCount > Model.EndPage)
+                            {
+                                <li><a onclick="ChangePagination('@Model.PageCount')">@Model.PageCount</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

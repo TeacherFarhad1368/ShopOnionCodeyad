@@ -25,9 +25,9 @@ internal class WalletApplication : IWalletApplication
         return new(false, ValidationMessages.SystemErrorMessage);
     }
 
-    public async Task<OperationResult> DepositByUserAsync(CreateWallet command)
+    public async Task<OperationResult> DepositByUserAsync(CreateWalletWithWhy command)
     {
-        var wallet = Wallet.DepositByUser(command.UserId, command.Price, command.Description);
+        var wallet = Wallet.DepositByUser(command.UserId, command.Price, command.Description,command.WalletWhy);
         if (await _walletRepository.CreateAsync(wallet))
             return new(true);
 
@@ -42,9 +42,9 @@ internal class WalletApplication : IWalletApplication
         return await _walletRepository.SaveAsync();
     }
 
-    public async Task<OperationResult> WithdrawalAsync(CreateWallet command)
+    public async Task<OperationResult> WithdrawalAsync(CreateWalletWithWhy command)
     {
-        var wallet = Wallet.Withdrawall(command.UserId, command.Price, command.Description);
+        var wallet = Wallet.Withdrawall(command.UserId, command.Price, command.Description, command.WalletWhy);
         if (await _walletRepository.CreateAsync(wallet))
             return new(true);
 
