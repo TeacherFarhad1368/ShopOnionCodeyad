@@ -50,10 +50,10 @@ namespace Users.Application.Services
         public OperationResult Create(CreateUser command)
         {
             if (_userRepository.ExistBy(u => u.Mobile.Trim() == command.Mobile.Trim()))
-                return new(false, ValidationMessages.DuplicatedMessage, "Mobile");
+                return new(false, ValidationMessages.DuplicatedMessageMobile, "Mobile");
             if (!string.IsNullOrEmpty(command.Email) && 
                 _userRepository.ExistBy(u => u.Email.ToLower().Trim() == command.Email.ToLower().Trim()))
-                return new(false, ValidationMessages.DuplicatedMessage, "Email");
+                return new(false, ValidationMessages.DuplicatedMessageEmail, "Email");
 
             string imageName = "default.png";
             if(command.AvatarFile != null)
@@ -88,10 +88,10 @@ namespace Users.Application.Services
         {
             var user = _userRepository.GetById(command.Id);
             if (_userRepository.ExistBy(u => u.Mobile.Trim() == command.Mobile.Trim() && u.Id != command.Id))
-                return new(false, ValidationMessages.DuplicatedMessage, "Mobile");
+                return new(false, ValidationMessages.DuplicatedMessageMobile, "Mobile");
             if (!string.IsNullOrEmpty(command.Email) &&
                 _userRepository.ExistBy(u => u.Email.ToLower().Trim() == command.Email.ToLower().Trim() && u.Id != command.Id))
-                return new(false, ValidationMessages.DuplicatedMessage, "Email");
+                return new(false, ValidationMessages.DuplicatedMessageEmail, "Email");
 
             string imageName = command.AvatarName;
             string oldImageName = command.AvatarName;
@@ -104,7 +104,7 @@ namespace Users.Application.Services
                 _fileService.ResizeImage(imageName, FileDirectories.UserImageFolder, 100);
             }
             var pass = user.Password;
-            if(string.IsNullOrEmpty(command.Password))
+            if(!string.IsNullOrEmpty(command.Password))
              pass = Sha256Hasher.Hash(command.Password);
 
             user.Edit(command.FullName, command.Mobile.Trim(), 

@@ -79,7 +79,8 @@ namespace Query.Services.Admin
                         OrderCount = 0,
                         OrderSum = 0,
                         TransactionSuccessCount = 0,
-                        TransactionSuccessSum = 0
+                        TransactionSuccessSum = 0,
+                        AvatarAddress = FileDirectories.UserImageDirectory100 + u.Avatar
                     }).ToList();
 
             if (model.Users.Count() > 0)

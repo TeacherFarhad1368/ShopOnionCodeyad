@@ -9,6 +9,7 @@ public class UserForAdminQueryModel
     public bool Active { get; set; }
     public bool Delete { get; set; }
     public string Creationdate { get; set; }
+    public string AvatarAddress { get; set; }
     public int WalletAmount { get; set; }
     public int TransactionSuccessCount { get; set; }
     public int TransactionSuccessSum { get; set; }

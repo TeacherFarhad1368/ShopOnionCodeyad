@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Query.Contract.Admin.Wallet;
+using Shared.Application;
 using Users.Application.Contract.WalletApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.User
@@ -21,6 +22,26 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.User
         {
             var model = _adminWalletQuery.GetUserWalletsForAdmin(pageId, id, take, orderBy, type, why);
             return View(model);
+        }
+        public IActionResult Create(int id)
+        {
+            var model = new CreateWallet()
+            {
+                UserId = id
+            };
+            return PartialView("Create", model);
+        }
+        [HttpPost]
+        public async Task<JsonResult> Create(int id,CreateWallet model)
+        {
+            OperationResult res = new(false);
+            if (id != model.UserId)
+                 res = new(false, "لطفا اطلاعات را درست وارد کنید .");
+            else if (model.Price < 1000)
+                res = new(false, "مبلغ باید بیشتر از 1,000 تومان باشد .");
+            else
+            res = await _walletApplication.DepositByAdminAsync(model);
+            return new JsonResult(res);
         }
         public IActionResult Transaction(int userId,int take = 20,int pageId = 1,
             string filter = "", OrderingWalletSearch orderBy = OrderingWalletSearch.بر_اساس_تاریخ_از_آخر,

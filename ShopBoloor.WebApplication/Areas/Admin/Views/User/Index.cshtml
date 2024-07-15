@@ -6,17 +6,17 @@
 }
 <div class="row">
     <div class="col-xs-12">
-        <div class="box">
+        <div class="box collapsed-box">
             <div class="box-header with-border">
                 <h3 class="box-title">جست و جو</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                        <i class="fa fa-minus"></i>
+                        <i class="fa fa-plus"></i>
                     </button>
                 </div>
             </div>
-            <div class="box-body" style="">
+            <div class="box-body" style="display:none">
                 <form id="formSearchAdmin">
                     <input type="hidden" id="inputPageId" name="pageId" value="1" />
                     <div class="col-6">
@@ -70,7 +70,7 @@
         </div>
         <div class="box">
             <div class="box-header">
-                <a class="btn btn-success" asp-action="Create">
+                <a class="btn btn-success" onclick="AjaxAdminGet('/Admin/User/Create','افزودن کاربر جدید')">
                     <i class=" fa fa-plus mx-2"></i> افزودن کاربر جدید
                 </a>
                 
@@ -81,8 +81,8 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th> تصویر </th>
                             <th> نام </th>
-                            <th> تومان</th>
                             <th> ایمیل </th>
                             <th> موبایل </th>
                             <th> فعال </th>
@@ -93,6 +93,7 @@
                             <th> تعداد فاکتور </th>
                             <th> جمع فاکتور </th>
                             <th>تاریخ ثبت</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,6 +102,9 @@
                             foreach (var item in Model.Users)
                             {
                                 <tr id="Deleted_@item.Id">
+                                    <td>
+                                        <img class="img-thumbnail" src="@item.AvatarAddress" />
+                                    </td>
                                     <td>
                                         @item.FullName
                                     </td>
@@ -111,24 +115,48 @@
                                         @item.Mobile
                                     </td>
                                     <td>
-                                        @if(item.Active)
-                                        {
-                                            <span class="text-success">فعال</span>
+                                        @{
+                                            string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این کاربر باید دوباره حساب کاربری خود را فعال کند ." : "بعد از فعال شدن این کاربر میتواند فعالیت کند";
+                                            string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
+                                            string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
                                         }
-                                        else
-                                        {
-                                            <span class="text-danger">غیر فعال</span>
-                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/User/Active/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="pie_@item.Id" id="pie-@item.Id"
+                                                @(item.Active ? "checked" : "") type="checkbox" />
+                                                <label for="pie-@item.Id"></label>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
-                                        @if (!item.Delete)
-                                        {
-                                            <span class="text-success">فعال</span>
+                                        @{
+                                            string title1 = item.Delete ? "غیر حذف شود ؟؟؟" : "حذف شود ؟؟؟";
+                                            string text1 = item.Delete ? "بعد از لغو حذف شدن این کاربر میتواند فعالیت کند" : "بعد از حذف شدن این کاربر دیگر نمیتواند در سایت فعالیت کند .";
+                                            string cancel1 = item.Delete ? "حذف بماند" : "حذف شود";
+                                            string confirm1 = item.Delete ? " حذف نشود" : "حذف شود";
                                         }
-                                        else
-                                        {
-                                            <span class="text-danger">حذف شده</span>
-                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@title1',
+                                 '@text1',
+                                 'question',
+                                 '@confirm1',
+                                  '@cancel1',
+                                   '/Admin/User/Delete/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="del_@item.Id" id="del-@item.Id"
+                                                @(item.Delete ? "checked" : "") type="checkbox" />
+                                                <label for="del-@item.Id"></label>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>@item.WalletAmount</td>
                                     <td>@item.TransactionSuccessCount</td>
@@ -139,8 +167,8 @@
                                         @item.Creationdate
                                     </td>
                                    <td>
-                                        <a class="btn btn-warning" title="ویرایش @item.FullName" 
-                                        asp-action="Edit" asp-route-id="@item.Id">
+                                        <a class="btn btn-warning" title="ویرایش @item.FullName"
+                                           onclick="AjaxAdminGet('/Admin/User/Edit/@item.Id','ویرایش کاربر @item.FullName (@item.Mobile)')">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-primary" title="کیف پول @item.FullName"

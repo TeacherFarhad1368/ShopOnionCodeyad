@@ -14,8 +14,8 @@ internal class WalletRepository : Repository<int, Wallet>, IWalletRepository
 
     public int GetWalletAmount(int userId)
     {
-        int deposits = GetAllByQuery(w => w.IsPay && w.Type == WalletType.واریز).Sum(w => w.Price);
-        int withdraws = GetAllByQuery(w => w.IsPay && w.Type == WalletType.برداشت).Sum(w => w.Price);
+        int deposits = GetAllByQuery(w => w.UserId == userId && w.IsPay && w.Type == WalletType.واریز).Sum(w => w.Price);
+        int withdraws = GetAllByQuery(w =>w.UserId == userId && w.IsPay && w.Type == WalletType.برداشت).Sum(w => w.Price);
         return deposits - withdraws;
     }
 }

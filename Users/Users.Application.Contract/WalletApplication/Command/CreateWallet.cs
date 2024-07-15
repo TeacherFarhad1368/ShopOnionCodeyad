@@ -1,15 +1,14 @@
-﻿namespace Users.Application.Contract.WalletApplication.Command;
+﻿using Shared.Application;
+using System.ComponentModel.DataAnnotations;
+
+namespace Users.Application.Contract.WalletApplication.Command;
 
 public class CreateWallet
 {
-    public CreateWallet(int userId, int price, string description)
-    {
-        UserId = userId;
-        Price = price;
-        Description = description;
-    }
-
-    public int UserId { get; private set; }
-    public int Price { get; private set; }
-    public string Description { get; private set; }
+    public int UserId { get; set; }
+    [Display(Name = "مبلغ (تومان)")]
+    public int Price { get; set; }
+    [Display(Name = "توضیحات")]
+    [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
+    public string Description { get; set; }
 }

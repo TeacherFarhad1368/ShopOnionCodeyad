@@ -190,7 +190,7 @@ namespace Query.Services.Admin
                         WalletWhy = w.WalletWhy
                     }).ToList();
 
-            model.WalletAmount = _walletRepository.GetWalletAmount(userId);
+            model.WalletAmount = _walletRepository.GetWalletAmount(user.Id);
             return model;
         }
     }

@@ -39,6 +39,19 @@ function separate(Number) {
 }
 
 //change src when choose picture
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+});
+async function ReadImageUrlAjax(chooseId, destinationId) {
+    debugger;
+    var img = $(`img#${destinationId}`);
+    const file = document.querySelector(`#${chooseId}`).files[0];
+    var imageUrl = await toBase64(file);
+    img.attr('src', imageUrl);
+}
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

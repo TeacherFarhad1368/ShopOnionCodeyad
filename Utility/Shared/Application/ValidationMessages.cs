@@ -24,5 +24,8 @@ namespace Shared.Application
         public const string ParentCategoryMessage = "سرگروه را انتخاب کنید  . ";
         public const string ChildCategoryMessage = "زیرگروه را انتخاب کنید  . ";
         public const string PaymentPriceError = "مبلغ باید بیشتر از 1000 تومان باشد  . ";
+
+        public const string DuplicatedMessageEmail = "ایمیل تکراری است";
+        public const string DuplicatedMessageMobile = "شماره موبایل تکراری است";
     }
 }

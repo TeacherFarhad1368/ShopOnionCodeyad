@@ -1,0 +1,68 @@
+﻿@model Users.Application.Contract.UserApplication.Command.EditUserByAdmin
+@using Shared.Domain.Enum;
+@using Shared.Application;
+<div class="modal-header">
+    <button type="button" class="close" onclick="closeAjaxModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="ajax-modal-title"></h4>
+    <span class="text-danger" id="ajax-modal-valid"></span>
+</div>
+<form enctype="multipart/form-data" asp-action="Edit" asp-route-id="@Model.Id" 
+      data-ajax="true" 
+      data-ajax-method="POST"
+      data-ajax-failure="AjaxAdminFaild"
+      data-ajax-success="AjaxAdminSucceded" 
+      id="form-ajax-admin">
+    <div class="modal-body">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="AvatarName" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FullName"></label>
+                <input class="form-control" asp-for="FullName">
+                <span class="text-danger" asp-validation-for="FullName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mobile"></label>
+                <input class="form-control" asp-for="Mobile">
+                <span class="text-danger" asp-validation-for="Mobile"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input class="form-control" asp-for="Email">
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input class="form-control" asp-for="Password">
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img width="300" id="destinationImage" class="img-thumbnail"
+            src="/Images/User/@Model.AvatarName" />
+            <div class="form-group">
+                <label asp-for="AvatarFile"></label>
+                <input type="file" class="form-control" asp-for="AvatarFile" onchange="ReadImageUrlAjax('AvatarFile','destinationImage')">
+                <span class="text-danger" asp-validation-for="AvatarFile"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserGender"></label>
+                <select class="form-control" asp-for="UserGender">
+                    @foreach (var item in Enum.GetValues(typeof(Gender)).Cast<Gender>())
+                    {
+                        <option value="@item">
+                            @item.ToString().Replace("_"," ")
+                        </option>
+                    }
+                </select>
+                <span class="text-danger" asp-validation-for="UserGender"></span>
+            </div>
+        </div>
+</div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">ذخیره</button>
+        <button type="button" class="btn btn-danger pull-left" onclick="closeAjaxModal()">خروج</button>
+    </div>
+</form>

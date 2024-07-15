@@ -200,3 +200,46 @@ function CheckBlogCategories(parentId, subId, childSelect) {
         });
     }
 }
+function AjaxAdminGet(url, title) {
+    $.get(url, function (res) {
+        var content = $("div#modal-content-default-ajax");
+        content.html(res);
+        openAjaxModal();
+        var titleModal = $("h4#ajax-modal-title");
+        titleModal.text(title);
+        var form = $("form#form-ajax-admin");
+        $.validator.unobtrusive.parse(form);
+    });
+}
+function openAjaxModal() {
+    var modal = $("div#modal-default-ajax");
+    modal.removeClass("close-form");
+    modal.addClass("in");
+    modal.addClass("open-form");
+}
+function closeAjaxModal() {
+    var content = $("div#modal-content-default-ajax");
+    content.html("");
+    var modal = $("div#modal-default-ajax");
+    modal.removeClass("in");
+    modal.removeClass("open-form");
+    modal.addClass("close-form");
+
+}
+function AjaxAdminSucceded(res) {
+    if (res.success) {
+        closeAjaxModal();
+        AlertSweetTimer("عملیات موفقیت آمیز بود .", "success", 3000);
+        setTimeout(function () {
+            location.reload();
+        }, 3000);
+    }
+    else {
+        var span = $("span#ajax-modal-valid");
+        span.text(res.message);
+    }
+}
+function AjaxAdminFaild() {
+    closeAjaxModal();
+    AlertSweet("عملیات ناموفق", "خطای سیستمی !!!", "error");
+}
