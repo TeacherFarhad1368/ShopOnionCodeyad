@@ -28,3 +28,17 @@
         }
     })
 }
+function CreateTransaction() {
+    var price = $("input#price");
+    var priceValid = $("span#price-validation");
+    var portal = $("input#portal");
+    var portalValid = $("span#portal-validation");
+    if (price.val() < 1000) {
+        priceValid.text("مبلغ باید بیشتر از 999 تومان باشد ")
+    }
+    else {
+        priceValid.text("");
+            descriptionValid.text("");
+            $("form#form-transaction").submit();
+        }
+}

@@ -46,7 +46,6 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onerror = reject;
 });
 async function ReadImageUrlAjax(chooseId, destinationId) {
-    debugger;
     var img = $(`img#${destinationId}`);
     const file = document.querySelector(`#${chooseId}`).files[0];
     var imageUrl = await toBase64(file);

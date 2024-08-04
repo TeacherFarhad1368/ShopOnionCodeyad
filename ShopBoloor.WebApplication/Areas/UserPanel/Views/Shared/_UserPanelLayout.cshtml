@@ -13,6 +13,7 @@
     var SuccessLogin = TempData["SuccessLogin"] != null;
     var ok = TempData["ok"] != null;
     var faild = TempData["faild"] != null;
+    var FaildCreateWallet = TempData["FaildCreateWallet"] != null;
 }
 <body class="index-page sidebar-collapse">
 
@@ -32,7 +33,47 @@
                 </div>
             </div>
         </main>
-        <partial name="_Footer" />
+        <partial name="_Footer" /> <div class="modal-share modal-width-custom modal fade" id="myModalCreateTransaction" tabindex="-1"
+                                        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"> شارژ کیف پول</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form-transaction" asp-area="UserPanel" asp-controller="Wallet" asp-action="CreateTransaction"
+                              method="post" class="form-account">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-account-title">مبلغ (تومان)</div>
+                                    <div class="form-account-row">
+                                        <input class="input-field text-right" name="price" id="price" value="1000"
+                                               type="number">
+                                    </div>
+                                    <span class="text-danger" id="price-validation"></span>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-account-title">انتخاب درگاه بانکی</div>
+                                    <div class="form-account-row">
+                                        <select class="input-field" type="text" name="portal" id="portal" style="text-align:right">
+                                            <option value="@Shared.Domain.Enum.TransactionPortal.زرین_پال">@Shared.Domain.Enum.TransactionPortal.زرین_پال.ToString().Replace("_", " ")</option>
+                                        </select>
+                                    </div>
+                                    <span class="text-danger" id="portal-validation"></span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 text-center">
+                            <button class="btn btn-success btn-lg" onclick="CreateTransaction()">ذخیره</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <partial name="_Js" />
     <script src="/js/userPanel.js"></script>
@@ -52,6 +93,12 @@
     {
         <script>
             AlertSweetTimer("عملیات نا موفق !!!", "error", 4000);
+        </script>
+    }
+    @if (FaildCreateWallet)
+    {
+        <script>
+            AlertSweetTimer("تراکنش ناموفق . لطفا با سایت تماس بگیرید !!!", "error", 4000);
         </script>
     }
     @RenderSection("Scripts", false)

@@ -1,0 +1,151 @@
+﻿@model ShopBoloor.WebApplication.Controllers.OnlinePaymentViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <title>Topkala | shopping-complete-buy</title>
+    <partial name="_Css" />
+</head>
+
+<body>
+
+    <div class="wrapper default shopping-page">
+        <!-- header-shopping -->
+        <header class="header-shopping default">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center pt-2">
+                        <div class="header-shopping-logo default">
+                            @await Component.InvokeAsync("LogoHeader")
+                        </div>
+                    </div>
+                    @if(Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Order)
+                    {
+                        <div class="col-12 text-center">
+                            <ul class="checkout-steps">
+                                <li>
+                                    <a href="shopping.html" class="active">
+                                        <span>اطلاعات ارسال</span>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="shopping-payment.html" class="active">
+                                        <span>پرداخت</span>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="shopping-complete-buy.html" class="active">
+                                        <span>اتمام خرید و ارسال</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+        </header>
+        <!-- header-shopping -->
+
+        <!-- main-shopping -->
+        <main class="cart-page default">
+            <div class="container">
+                <div class="row">
+                    <div class="cart-page-content col-12 order-1">
+                        <section class="page-content default">
+                                @if (Model.Success)
+                            {
+                                <div class="success-checkout text-center default">
+                                    <div class="icon-success">
+                                        <i class="fa fa-check"></i>
+                                    </div>
+                                    @if(Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Wallet)
+                                    {
+                                        <h1>پرداخت با موفقیت انجام شد .</h1>
+                                        <p>@Model.Description</p>
+                                        <p>@Model.Price.ToString("#,0") تومان به کیف پول شما اضافه شد .</p>
+                                    }
+                                    else
+                                    {
+                                        
+                                    }
+                                <p>کد تراکنش : @Model.RefId</p>
+                                <a class="btn btn-info" asp-area="UserPanel" asp-controller="Wallet" asp-action="Index">کیف پول شما</a>
+                            </div>
+                                }
+                                else
+                                {
+                                    <div class="warning-checkout text-center default">
+                                        <div class="icon-warning">
+                                            <i class="fa fa-close"></i>
+                                        </div>
+                                        @if (Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Wallet)
+                                        {
+                                            <h1>پرداخت نا موفق .</h1>
+                                            <p>@Model.Description</p>
+                                        }
+                                        else
+                                        {
+                                            <h1>سفارش <a href="#">DKC-22222222</a>با موفقیت در سیستم ثبت شد.</h1>
+                                        }
+                                        <p>کد تراکنش : @Model.RefId</p>
+                                        <a class="btn btn-info" asp-area="UserPanel" asp-controller="Wallet" asp-action="Index">کیف پول شما</a>
+                                    </div>
+                                   
+                                }
+                            @if (Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Order)
+                            {
+                                <div class="order-info default">
+                                    <h3>کد سفارش: <span>DKC-22222222</span></h3>
+                                    <p>
+                                        سفارش شما با موفقیت در سیستم ثبت شد و هم اکنون <span class="badge badge-success">تکمیل شده</span> است.جزئیات این سفارش را می توانید
+                                        با کلیک بر روی دکمه <a href="#" class="btn-link-border">پیگیری سفارش</a>مشاهده
+                                        نمایید.
+                                    </p>
+                                    <button type="button" class="btn-primary">
+                                        پیگیری سفارش
+                                    </button>
+                                    <div class="table-responsive default mt-3 mb-3">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">نام تحویل گیرنده : جلال بهرامی راد</th>
+                                                    <th scope="col">شماره تماس : 09030000000</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">تعداد مرسوله : 1</th>
+                                                    <td>مبلغ کل : 15390000</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">وضعیت پرداخت : پرداخت آنلاین(موفق)</th>
+                                                    <td>وضعیت سفارش: در انتظار پرداخت</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">آدرس : استان خراسان شمالی،بجنورد</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <partial name="_Footer" />
+    </div>
+    <partial name="_Js" />
+</body>
+
+</html>

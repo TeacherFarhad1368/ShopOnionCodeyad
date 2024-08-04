@@ -12,7 +12,7 @@ var connectionString = configuration.GetConnectionString("Local");
 
 services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
 DependencyBootstrapper.Config(services,connectionString);
-
+services.Configure<SiteData>(configuration.GetSection("SiteData"));
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

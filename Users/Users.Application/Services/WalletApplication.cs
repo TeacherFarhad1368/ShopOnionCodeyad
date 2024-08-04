@@ -25,14 +25,16 @@ internal class WalletApplication : IWalletApplication
         return new(false, ValidationMessages.SystemErrorMessage);
     }
 
-    public async Task<OperationResult> DepositByUserAsync(CreateWalletWithWhy command)
+    public async Task<OperationResultWithKey> DepositByUserAsync(CreateWalletWithWhy command)
     {
-        var wallet = Wallet.DepositByUser(command.UserId, command.Price, command.Description,command.WalletWhy);
-        if (await _walletRepository.CreateAsync(wallet))
-            return new(true);
+        return await _walletRepository.DepositByUserAsync(command);
 
-        return new(false, ValidationMessages.SystemErrorMessage);
+    }
 
+    public async Task<WalletForCheckPayemntQueryModel> GetWalletForCheckPaymentAsync(int id)
+    {
+        var wallet = await _walletRepository.GetByIdAsync(id);
+        return new(wallet.Id, wallet.Type, wallet.IsPay, wallet.Description);
     }
 
     public async Task<bool> SuccessPaymentAsync(int id)

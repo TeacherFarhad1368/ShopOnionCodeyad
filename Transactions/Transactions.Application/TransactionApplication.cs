@@ -12,14 +12,24 @@ namespace Transactions.Application
         {
             _transactionRepository = transactionRepository;
         }
-        public async Task<OperationResult> CreateAsync(CreateTransaction command)
+
+        public async Task<bool> AddTransactionWalletId(long transactionId, int walletId)
+        {
+            Transaction transaction = await _transactionRepository.GetByIdAsync(transactionId);
+            transaction.AddWalletId(walletId);
+            return await _transactionRepository.SaveAsync();
+        }
+
+        public async Task<OperationResultWithKeylong> CreateAsync(CreateTransaction command)
         {
             if (command.Price < 1000)
-                return new OperationResult(false, ValidationMessages.PaymentPriceError, nameof(command.Price));
-            Transaction transaction = new(command.UserId, command.Price, command.Portal,command.TransactionFor,command.OwnerId);
-            if (await _transactionRepository.CreateAsync(transaction))
-                return new(true);
-            return new OperationResult(false, ValidationMessages.SystemErrorMessage, nameof(command.Price));
+                return new OperationResultWithKeylong(false, ValidationMessages.PaymentPriceError, nameof(command.Price));
+            Transaction transaction = new(command.UserId, command.Price, command.Portal, command.TransactionFor, command.OwnerId);
+            var res = await _transactionRepository.CreateAsyncReturnKey(transaction);
+            if (res > 0)
+                return new(true,"","",res);
+            return new OperationResultWithKeylong(false, ValidationMessages.SystemErrorMessage, nameof(command.Price));
+
         }
 
         public async Task<TransactionQueryModel> GetForCheckPaymentAsync(long id)
@@ -27,6 +37,12 @@ namespace Transactions.Application
             var tranaction = await _transactionRepository.GetByIdAsync(id);
             return new TransactionQueryModel(tranaction.Id,tranaction.UserId,tranaction.Price,tranaction.RefId,
                 tranaction.Portal,tranaction.Status,tranaction.TransactionFor,tranaction.OwnerId);
+        }
+
+        public async Task<TransactionViewModel> GetTransactionForCheckPayment(long id)
+        {
+            var t = await _transactionRepository.GetByIdAsync(id);
+            return new TransactionViewModel(t.Id, t.UserId, t.Price, t.RefId, t.Portal, t.Status, t.TransactionFor, t.OwnerId);
         }
 
         public async Task<bool> PaymentAsync(TransactionStatus status, long id, string refId)

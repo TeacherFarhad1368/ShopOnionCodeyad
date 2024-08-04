@@ -1,5 +1,7 @@
-﻿using Shared.Domain.Enum;
+﻿using Shared.Application;
+using Shared.Domain.Enum;
 using Shared.Infrastructure;
+using Users.Application.Contract.WalletApplication.Command;
 using Users.Domain.WalletAgg;
 
 namespace Users.Infrastructure.Service;
@@ -10,6 +12,17 @@ internal class WalletRepository : Repository<int, Wallet>, IWalletRepository
     public WalletRepository(UserContext context) : base(context)
     {
         _context = context;
+    }
+
+    public async Task<OperationResultWithKey> DepositByUserAsync(CreateWalletWithWhy command)
+    {
+        var wallet = Wallet.DepositByUser(command.UserId, command.Price, command.Description, command.WalletWhy);
+        if (await CreateAsync(wallet))
+        {
+            return new(true, "", "", wallet.Id);
+        }
+
+        return new(false, ValidationMessages.SystemErrorMessage);
     }
 
     public int GetWalletAmount(int userId)

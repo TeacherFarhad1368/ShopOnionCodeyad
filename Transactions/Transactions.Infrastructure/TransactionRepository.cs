@@ -11,5 +11,12 @@ namespace Transactions.Infrastructure
         {
             _context = context;
         }
+
+        public async Task<long> CreateAsyncReturnKey(Transaction transaction)
+        {
+            if (await CreateAsync(transaction))
+                return transaction.Id;
+            return 0;
+        }
     }
 }

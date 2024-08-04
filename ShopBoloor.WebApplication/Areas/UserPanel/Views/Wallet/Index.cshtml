@@ -1,5 +1,5 @@
 ﻿@model Query.Contract.UserPanel.Wallet.WalletUserPanelPaging
-
+@using Shared.Domain.Enum;
 @{
     ViewData["Title"] = "کیف پول شما";
 }
@@ -9,9 +9,12 @@
             <h1 class="title-tab-content">@ViewData["Title"].ToString()</h1>
             <p>@Model.FullName</p>
             <p>@Model.WalletAmount.ToString("#,0") تومان</p>
-                <a class="btn btn-success" asp-action="CreateTransaction">
-                    شارژ کیف پول
-                </a>
+            <button data-toggle="modal" data-target="#myModalCreateTransaction"
+                    class="btn btn-success">
+                شارژ کیف پول
+            </button>
+            <!-- Modal Core -->
+           
         </div>
         <div class="content-section default">
             <div class="table-responsive">

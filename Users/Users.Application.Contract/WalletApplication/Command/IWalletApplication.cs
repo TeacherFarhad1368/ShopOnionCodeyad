@@ -9,8 +9,9 @@ namespace Users.Application.Contract.WalletApplication.Command;
 
 public interface IWalletApplication
 {
-    Task<OperationResult> DepositByUserAsync(CreateWalletWithWhy command);
+    Task<OperationResultWithKey> DepositByUserAsync(CreateWalletWithWhy command);
     Task<OperationResult> DepositByAdminAsync(CreateWallet command);
     Task<OperationResult> WithdrawalAsync(CreateWalletWithWhy command);
     Task<bool> SuccessPaymentAsync(int id);
+    Task<WalletForCheckPayemntQueryModel> GetWalletForCheckPaymentAsync(int id);
 }
