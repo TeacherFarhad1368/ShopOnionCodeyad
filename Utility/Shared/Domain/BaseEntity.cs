@@ -42,6 +42,10 @@ namespace Shared.Domain
             if (Active) Active = false;
             else Active = true;
         }
+        public void SetActivation(bool active)
+        {
+            Active = active;
+        }
     }
     public class BaseEntityCreateActive<Tkey> : BaseEntityCreate<Tkey>
     {

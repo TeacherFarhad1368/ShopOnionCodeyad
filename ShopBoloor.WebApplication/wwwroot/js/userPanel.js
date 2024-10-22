@@ -38,7 +38,6 @@ function CreateTransaction() {
     }
     else {
         priceValid.text("");
-            descriptionValid.text("");
             $("form#form-transaction").submit();
         }
 }

@@ -22,10 +22,12 @@ using Query.Services.Admin;
 using Query.Services.UI;
 using Query.Services.UserPanel;
 using Seos.Query;
+using Shop.Query;
 using Site.Query;
 using Transactions.Query;
 using Users.Query;
-
+using Discount.Query;
+using Stores.Query;
 namespace Query.Services
 {
 	public static class Modules_Bootstrapper
@@ -41,6 +43,9 @@ namespace Query.Services
             Post_Bootstrapper.Config(services, connection);
             Email_Bootstrapper.Config(services, connection);
             Transaction_Bootstrapper.Config(services, connection);
+            services.ConfigShopModule(connection);
+            services.Config_Store_Module(connection);
+            services.Config_Discount_Module(connection);
             #endregion
             #region Admin Query
             services.AddTransient<ICommentAdminQuery, CommentAdminQuery>();

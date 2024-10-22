@@ -53,5 +53,25 @@ namespace Shared.Application
 		public const string ImageFolder = "Image";
 		public const string ImageDirectory = "/Images/Image/";
 		public const string ImageDirectory100 = "/Images/Image/100/";
+
+        public const string ProductImageFolder = "Product";
+        public const string ProductImageDirectory = "/Images/Product/";
+        public const string ProductImageDirectory500 = "/Images/Product/500/";
+        public const string ProductImageDirectory100 = "/Images/Product/100/";
+
+		public const string ProductCategoryImageFolder = "ProductCategory";
+		public const string ProductCategoryImageDirectory = "/Images/ProductCategory/";
+		public const string ProductCategoryImageDirectory500 = "/Images/ProductCategory/500/";
+		public const string ProductCategoryImageDirectory100 = "/Images/ProductCategory/100/";
+
+		public const string ProductGalleryImageFolder = "ProductGallery";
+		public const string ProductGalleryImageDirectory = "/Images/ProductGallery/";
+		public const string ProductGalleryImageDirectory100 = "/Images/ProductGallery/100/";
+
+		public const string SellerImageFolder = "Seller";
+		public const string SellerImageDirectory = "/Images/Seller/";
+		public const string SellerImageDirectory500 = "/Images/Seller/500/";
+		public const string SellerImageDirectory100 = "/Images/Seller/100/";
+
 	}
 }

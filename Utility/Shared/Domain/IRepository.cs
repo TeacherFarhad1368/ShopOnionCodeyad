@@ -12,7 +12,9 @@ namespace Shared.Domain
         Task<T> GetByIdAsync(Tkey id);
         bool Create(T Entity);
         bool Delete(T Entity);
+        Task<bool> DeleteAsync(T Entity);
         bool ExistBy(Expression<Func<T, bool>> expression);
+        Task<bool> ExistByAsync(Expression<Func<T, bool>> expression);
         bool Save();
         Task<bool> SaveAsync();
         Task<bool> CreateAsync(T Entity);
