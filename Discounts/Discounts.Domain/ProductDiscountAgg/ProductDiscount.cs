@@ -19,7 +19,7 @@ namespace Discounts.Domain.ProductDiscountAgg
             Percent = percent;
         }
         public void Edit( DateTime startDate,
-    DateTime endDate, int percent)
+               DateTime endDate, int percent)
         {
             StartDate = startDate;
             EndDate = endDate;

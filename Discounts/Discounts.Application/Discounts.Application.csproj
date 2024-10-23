@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Discounts.Application.Contract\Discounts.Application.Contract.csproj" />
   </ItemGroup>
 

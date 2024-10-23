@@ -11,7 +11,7 @@ namespace Discounts.Domain.OrderDiscountAgg
     public class OrderDiscount : BaseEntityCreate<int>
     {
         public OrderDiscount(int percent, string title, string code, int count,
-            OrderDiscountType type, DateTime startDate, DateTime endDate)
+            OrderDiscountType type, DateTime startDate, DateTime endDate,int shopId)
         {
             Percent = percent;
             Title = title;
@@ -20,15 +20,15 @@ namespace Discounts.Domain.OrderDiscountAgg
             Type = type;
             StartDate = startDate;
             EndDate = endDate;
+            ShopId = shopId;    
         }
         public void Edit(int percent, string title, string code, int count,
-           OrderDiscountType type, DateTime startDate, DateTime endDate)
+            DateTime startDate, DateTime endDate)
         {
             Percent = percent;
             Title = title;
             Code = code;
             Count = count;
-            Type = type;
             StartDate = startDate;
             EndDate = endDate;
         }
@@ -45,6 +45,7 @@ namespace Discounts.Domain.OrderDiscountAgg
         public string Code { get; private set; }
         public int Count { get; private set; }
         public OrderDiscountType Type { get; private set; }
+        public int ShopId { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
         public int Use { get; private set; }
