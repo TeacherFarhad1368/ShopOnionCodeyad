@@ -7,8 +7,8 @@
                 @await Component.InvokeAsync("LogoHeader")
                
             </div>
-            <div class="col-lg-6 col-md-5 col-sm-8 col-7">
-                <div class="search-area default">
+            <div class="col-lg-6 col-md-5 col-sm-8 col-7 d-flex align-items-center">
+                <div class="search-area default w-75">
                     <form action="" class="search">
                         <input type="text" id="gsearchsimple"
                                placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
@@ -47,6 +47,11 @@
                         <div class="localSearchSimple"></div>
                         <button type="submit"><img src="/Assets/img/search.png" alt=""></button>
                     </form>
+                </div>
+                <div class="w-25 px-2">
+                    <a class="btn btn-info" asp-area="UserPanel" asp-controller="Seller" asp-action="Index">
+                        ثبت فروشگاه
+                    </a>
                 </div>
             </div>
             <div class="col-md-4 col-sm-12">

@@ -16,7 +16,8 @@ namespace Shop.Application.Services
         private readonly ISellerPackageRepository _sellerPackageRepository;
         private readonly ISellerPackageFeatureRepository _sellerPackageFeatureRepository;
 
-        public SellerPackegaApplication(ISellerPackageRepository sellerPackageRepository, ISellerPackageFeatureRepository sellerPackageFeatureRepository)
+        public SellerPackegaApplication(ISellerPackageRepository sellerPackageRepository, 
+            ISellerPackageFeatureRepository sellerPackageFeatureRepository)
         {
             _sellerPackageRepository = sellerPackageRepository;
             _sellerPackageFeatureRepository = sellerPackageFeatureRepository;

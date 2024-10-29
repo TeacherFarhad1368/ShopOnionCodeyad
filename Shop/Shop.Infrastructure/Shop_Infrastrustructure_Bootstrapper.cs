@@ -27,7 +27,7 @@ namespace Shop.Infrastructure
             services.AddTransient<IProductGalleryRepository, ProductGalleryRepository>();  
             services.AddTransient<IProductRepository, ProductRepository>();  
             services.AddTransient<IProductSellRepository, ProductSellRepository>();  
-            services.AddTransient<ISellerPackageFeatureRepository, SellerPackageFeatureRepository>();  
+            services.AddTransient<ISellerPackageRepository, SellerPackageRepository>();  
             services.AddTransient<ISellerPackageFeatureRepository, SellerPackageFeatureRepository>();  
             services.AddTransient<ISellerRepository, SellerRepository>();
 

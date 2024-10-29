@@ -1,0 +1,140 @@
+﻿@model Shop.Application.Contract.SellerApplication.Command.RequestSeller
+
+
+@{
+    ViewData["Title"] = "درخواست فروشگاه جدید";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"]</h1>
+        </div>
+        <div class="content-section default">
+
+            <form class="form-account" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="GoogleMapUrl" />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">انتخاب استان *</div>
+                        <div class="form-account-row">
+                            <Select class="input-field text-right"
+                                    asp-for="StateId" id="StateId" onchange="GetCitiesForSelectBox('StateId','CityId')">
+                                <option value=0>انتخاب استان</option>
+                            </Select>
+                        </div>
+                        <span class="text-danger" asp-validation-for="StateId"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">انتخاب شهر *</div>
+                        <div class="form-account-row">
+                            <Select class="input-field text-right" asp-for="CityId" id="CityId">
+                            </Select>
+                        </div>
+                        <span class="text-danger" asp-validation-for="CityId"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">نام فروشگاه *</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" type="text" asp-for="Title">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">جزییات آدرس *</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" type="text" asp-for="Address">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Address"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">شماره تماس *</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Phone1"
+                                   onkeypress="return isNumber(event)">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Phone1"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">عکس مجوز فروشگاه *</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="File" asp-for="ImageAccept">
+                        </div>
+                        <span class="text-danger" asp-validation-for="ImageAccept"></span>
+                        <img width="100" class="img-thumbnail" id="destinationImage" />
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">عکس فروشگاه *</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="File" asp-for="ImageFile">
+                        </div>
+                        <span class="text-danger" asp-validation-for="ImageFile"></span>
+                        <img width="100" class="img-thumbnail" id="destinationImage1" />
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">Alt تصویر</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="ImageAlt">
+                        </div>
+                        <span class="text-danger" asp-validation-for="ImageAlt"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">شماره تماس 2</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Phone2"
+                                   onkeypress="return isNumber(event)">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Phone2"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">ایمیل</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="email" asp-for="Email">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">چت واتس اپ </div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="WhatsApp">
+                        </div>
+                        <span class="text-danger" asp-validation-for="WhatsApp"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">لینک تلگرام </div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Telegram">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Telegram"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-account-title">پیج اینستاگرام *</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Instagram">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Instagram"></span>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-warning btn-lg">ذخیره</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $("input#ImageAccept").change(function () {
+            readURL(this);
+        });
+        $("input#ImageFile").change(function () {
+            readURL1(this);
+        });
+    </script>
+    <script>
+        $(function () {
+            GetStatesForSelectBox("StateId");
+            $('select#StateId').select2();
+            $('select#CityId').select2();
+        })
+    </script>
+}
