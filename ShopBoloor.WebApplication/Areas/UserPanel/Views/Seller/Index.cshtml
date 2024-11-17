@@ -43,10 +43,28 @@
                                     </td>
                                     <td>@item.CityName</td>
                                     <td>@item.Phone1</td>
-                                    <td>@item.Status.ToString().Replace("_"," ")</td>
+                                    <td>
+                                        @if(item.Status == Shared.Domain.Enum.SellerStatus.درخواست_ارسال_شده)
+                                        {
+                                            <span class="text-info">@item.Status.ToString().Replace("_", " ")</span>
+                                        }
+                                        else if(item.Status == Shared.Domain.Enum.SellerStatus.درخواست_تایید_نشده)
+                                        {
+                                            <span class="text-danger">@item.Status.ToString().Replace("_", " ")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success">@item.Status.ToString().Replace("_"," ")</span>
+                                        }
+                                    </td>
                                     <td>@item.CreationDate</td>
                                     <td>
-                                        
+                                        @if(item.Status == Shared.Domain.Enum.SellerStatus.درخواست_تایید_نشده)
+                                        {
+                                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">
+                                                ویرایش درخواست
+                                            </a>
+                                        }
                                     </td>
                                 </tr>
                             }

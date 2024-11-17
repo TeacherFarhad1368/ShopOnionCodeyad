@@ -1,7 +1,5 @@
 ﻿using Shared.Domain.Enum;
-
 namespace Query.Contract.Admin.Seller;
-
 public class SellerRequestDetailAdminQueryModel
 {
     public int Id { get; set; }

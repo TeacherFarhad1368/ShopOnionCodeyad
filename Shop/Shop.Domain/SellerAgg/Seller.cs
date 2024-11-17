@@ -44,6 +44,7 @@ public class Seller : BaseEntityCreateUpdateActive<int>
         Phone1 = phone1;
         Phone2 = phone2;
         Email = email;
+        Status = SellerStatus.درخواست_ارسال_شده;
     }
     public void EditImageAccept(string imageAccept)
     {

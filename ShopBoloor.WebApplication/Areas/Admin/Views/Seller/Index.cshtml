@@ -1,0 +1,72 @@
+﻿@model Query.Contract.Admin.Seller.SellerAdminPaging
+@using Shared.Application;
+@{
+    ViewData["Title"] = " لیست فروشگاه ها";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> عنوان</th>
+                            <th> کاربر</th>
+                            <th> شهر</th>
+                            <th> شماره تماس</th>
+                            <th> ایمیل</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ آپدیت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Sellers.Count() > 0)
+                        {
+                            foreach (var item in Model.Sellers)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        <img width="100px" src="@FileDirectories.SellerImageDirectory100@item.ImageName" />
+                                        <a class="btn btn-info mx-2" target="_blank" href="@FileDirectories.SellerImageDirectory@item.ImageName">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        </td>
+                                    <td>@item.Title</td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.CityName</td>
+                                    <td>@item.Phone1</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.CreateDate</td>
+                                    <td>@item.UpdateDate</td>
+                                    <td>
+                                        <a class="btn btn-info" title="جزییات @item.Title" asp-action="Detail" asp-route-id="@item.Id">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> عنوان</th>
+                            <th> کاربر</th>
+                            <th> شهر</th>
+                            <th> شماره تماس</th>
+                            <th> ایمیل</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ آپدیت</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

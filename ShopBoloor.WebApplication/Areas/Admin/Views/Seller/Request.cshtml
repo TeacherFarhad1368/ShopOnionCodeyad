@@ -1,0 +1,235 @@
+﻿@model Query.Contract.Admin.Seller.SellerRequestDetailAdminQueryModel
+@using Shared.Application;
+@{
+    ViewData["Title"] = "درخواست فروشگاه ";
+}
+<style>
+    .flexxx{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        font-weight: bolder;
+        font-size: 20px;
+        padding-bottom:10px;
+        border-bottom:2px solid #000;
+    }
+</style>
+<div class="row">
+    <div class="col-12 col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3>
+                    درخواست فروشگاه @Model.Title
+                    @if(Model.Status == Shared.Domain.Enum.SellerStatus.درخواست_ارسال_شده)
+                    {
+                        <a class="btn btn-danger" title="رد کردن @Model.Title" onclick="AjaxAdminGet('/Admin/Seller/Reject/@Model.Id','رد کردن درخواست فروشندگی کاربر @Model.UserName برای فروشگاه @Model.Title')">
+                            <i class="fa fa-trash"></i> رد کردن @Model.Title
+                        </a>
+                        <a class="btn btn-success" title="تایید کردن @Model.Title" onclick="AjaxAdminGet('/Admin/Seller/Accept/@Model.Id','تایید کردن درخواست فروشندگی کاربر @Model.UserName برای فروشگاه @Model.Title')">
+                            <i class="fa fa-edit"></i>  تایید کردن @Model.Title
+                        </a>
+                    }
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="box">
+            <div class="box-header">
+                <h3>
+                    عکس فروشگاه
+                    <a class="btn btn-info mx-2" target="_blank" href="@FileDirectories.SellerImageDirectory@Model.ImageName">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                </h3>
+            </div>
+            <div class="box-body">
+                <img style="width:100%;" src="@FileDirectories.SellerImageDirectory@Model.ImageName" />
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="box">
+            <div class="box-header">
+                <h3>
+                    عکس مجوز
+                    <a class="btn btn-info mx-2" target="_blank" href="@FileDirectories.SellerImageDirectory@Model.ImageAccept">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                </h3>
+            </div>
+            <div class="box-body">
+                <img style="width:100%;" src="@FileDirectories.SellerImageDirectory@Model.ImageAccept" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-12 col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3>
+                    جزییات فروشگاه
+                </h3>
+            </div>
+            <div class="box-body">
+                <div class="w-100 flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            نام فروشگاه
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.Title
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            نام کاربر
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.UserName
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            شماره تماس فروشگاه
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.Phone1 , @Model.Phone2
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            ایمیل
+                        </span>
+                    </div>
+                    <div>:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.Email
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            شهر
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.CityName
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            آدرس
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.Address
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            شبکه های اجتماعی
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @if (!string.IsNullOrEmpty(Model.Instagram))
+                            {
+                                <a href="@Model.Instagram" target="_blank">
+                                    <i class="fa fa-instagram">
+
+                                    </i>
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Telegram))
+                            {
+                                <a href="@Model.Telegram" target="_blank">
+                                    <i class="fa fa-telegram">
+
+                                    </i>
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.WhatsApp))
+                            {
+                                <a href="https://api.whatsapp.com/send?phone=+98@Model.WhatsApp" target="_blank">
+                                    <i class="fa fa-whatsapp">
+
+                                    </i>
+                                </a>
+                            }
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            تاریخ ثبت
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.CreateDate
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            تاریخ ویرایش
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.UpdateDate
+                        </span>
+                    </div>
+                </div>
+                <div class="flexxx my-2">
+                    <div class="w-25">
+                        <span class="text-dark">
+                            وضعیت
+                        </span>
+                    </div>
+                    <div class="w-25">:</div>
+                    <div class="w-25">
+                        <span class="text-info">
+                            @Model.Status.ToString().Replace("_"," ")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

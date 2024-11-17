@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Query.Contract.Admin.Seller.SellerRequestAdminQueryModel>
+@using Shared.Application;
+@{
+    ViewData["Title"] = "درخواست های فروشندگی";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+            </div>
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> تصویر مجوز</th>
+                            <th> عنوان</th>
+                            <th> کاربر</th>
+                            <th> شهر</th>
+                            <th> شماره تماس</th>
+                            <th> ایمیل</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ آپدیت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        <img width="100px" src="@FileDirectories.SellerImageDirectory100@item.ImageName" />
+                                        <a class="btn btn-info mx-2" target="_blank" href="@FileDirectories.SellerImageDirectory@item.ImageName">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        </td>
+                                    <td>
+                                        <img width="100px" src="@FileDirectories.SellerImageDirectory100@item.ImageAccept" />
+                                        <a class="btn btn-info mx-2" target="_blank" href="@FileDirectories.SellerImageDirectory@item.ImageAccept">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                     </td>
+                                    <td>@item.Title</td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.CityName</td>
+                                    <td>@item.Phone1</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.CreateDate</td>
+                                    <td>@item.UpdateDate</td>
+                                    <td>
+                                        <a class="btn btn-danger" title="رد کردن @item.Title" onclick="AjaxAdminGet('/Admin/Seller/Reject/@item.Id','رد کردن درخواست فروشندگی کاربر @item.UserName برای فروشگاه @item.Title')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a class="btn btn-success" title="تایید کردن @item.Title" onclick="AjaxAdminGet('/Admin/Seller/Accept/@item.Id','تایید کردن درخواست فروشندگی کاربر @item.UserName برای فروشگاه @item.Title')">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-info" title="جزییات @item.Title" asp-action="Request" asp-route-id="@item.Id">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> تصویر</th>
+                            <th> تصویر مجوز</th>
+                            <th> عنوان</th>
+                            <th> کاربر</th>
+                            <th> شهر</th>
+                            <th> شماره تماس</th>
+                            <th> ایمیل</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ آپدیت</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}

@@ -1,0 +1,36 @@
+﻿@model ShopBoloor.WebApplication.Areas.Admin.Controllers.Seller.ChangeSellerStatusByAdmin
+<div class="modal-header">
+    <button type="button" class="close" onclick="closeAjaxModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="ajax-modal-title"></h4>
+</div>
+<form asp-action="Reject"
+      data-ajax="true" 
+      data-ajax-method="POST"
+      data-ajax-failure="AjaxAdminFaild"
+      data-ajax-success="AjaxAdminSucceded" 
+      id="form-ajax-admin">
+    <input type="hidden" asp-for="Id" />
+    <div class="modal-body">
+        <span class="text-danger" id="ajax-modal-valid"></span>
+        <div class="form-group">
+            <label asp-for="DescriptionSMS"></label>
+            <textarea class="form-control" asp-for="DescriptionSMS">
+
+            </textarea>
+            <span class="text-danger" asp-validation-for="DescriptionSMS"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DescriptionEmail"></label>
+            <textarea class="form-control" asp-for="DescriptionEmail">
+
+            </textarea>
+            <span class="text-danger" asp-validation-for="DescriptionEmail"></span>
+        </div>
+</div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">ذخیره</button>
+        <button type="button" class="btn btn-danger pull-left" onclick="closeAjaxModal()">خروج</button>
+    </div>
+</form>

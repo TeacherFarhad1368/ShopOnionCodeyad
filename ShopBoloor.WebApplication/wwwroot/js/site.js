@@ -145,6 +145,7 @@ function GetStatesForSelectBox(selectId) {
     });
 }
 function GetCitiesForSelectBox(selectparentId, selectChildId) {
+    debugger;
     var stateId = $(`select#${selectparentId}`).val();
     var selectBox = $(`select#${selectChildId}`);
     selectBox.html("");
@@ -160,7 +161,46 @@ function GetCitiesForSelectBox(selectparentId, selectChildId) {
         });
     });
 }
-
+function GetCitiesForSelectBoxForEdit(selectparentId, selectChildId, stateId, cityId) {
+    $.ajax({
+        type: "Get",
+        url: "/Post/GetStates"
+    }).done(function (res) {
+        var list = [];
+        var selectBox = $(`select#${selectparentId}`);
+        list = JSON.parse(res);
+        list.forEach(x => {
+            if (parseInt(stateId) === x.Id) {
+                var state = `<option selected="selected" value=${x.Id}>${x.Title}</option>`;
+                selectBox.append(state);
+            }
+            else {
+                var state = `<option value=${x.Id}>${x.Title}</option>`;
+                selectBox.append(state);
+            }
+        });
+    });
+    var selectBox1 = $(`select#${selectChildId}`);
+    selectBox1.html("");
+    $.ajax({
+        type: "Get",
+        url: `/Post/GetCities/${stateId}`
+    }).done(function (res) {
+        var list1 = [];
+        list1 = JSON.parse(res);
+        list1.forEach(x => {
+            debugger;
+            if (cityId === x.CityCode) {
+                var city = `<option selected="selected" value=${x.CityCode}>${x.Title}</option>`;
+                selectBox1.append(city);
+            }
+            else {
+                var city = `<option value=${x.CityCode}>${x.Title}</option>`;
+                selectBox1.append(city);
+            }
+        });
+    });
+}
 function CalculatePost() {
     var sourceId = $("select#SourceCityId").val();
     var destinationId = $("select#DestinationCityId").val();
