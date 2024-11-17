@@ -66,6 +66,23 @@
                     </li>
                 </ul>
             </li>
+            <li class="@(route.ToString().ToLower().Trim().Contains("/admin/product")
+              ? "active" : "") treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>مدیریت محصولات</span>
+                    <span class="pull-left-container">
+                        <i class="fa fa-angle-right pull-left"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/productcategory") ? "active" : "")>
+                        <a href="/Admin/ProductCategory/Index/0"><i class="fa fa-user-secret"></i>  دسته بندی محصولات</a>
+                    </li>
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/product/") ? "active" : "")>
+                        <a href="/Admin/Product/Index/0"><i class="fa fa-user-secret"></i>  مدیریت محصولات</a>
+                    </li>
+                </ul>
+            </li>
             <li class="@(route.ToString().ToLower().Trim().Contains("/admin/blog")
               ? "active" : "") treeview">
                 <a href="#">

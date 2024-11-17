@@ -8,6 +8,7 @@ namespace Shop.Application.Contract.ProductCategoryApplication.Query
 {
     public interface IProductCategoryQuery
     {
+        Task<bool> CheckCategoryHaveParent(int id);
         ProductCategoryAdminPageQueryModel GetCategoriesForAdmin(int id);
     }
 }

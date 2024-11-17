@@ -45,7 +45,6 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Blog
         }
         public IActionResult Edit(int id)
         {
-            if (id == 2) return NotFound();
             var model = _BlogCategoryApplication.GetForEdit(id);
             return View(model);
         }

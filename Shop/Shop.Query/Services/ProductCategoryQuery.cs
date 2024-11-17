@@ -1,6 +1,7 @@
 ﻿using Shared.Application;
 using Shop.Application.Contract.ProductCategoryApplication.Query;
 using Shop.Domain.ProductCategoryAgg;
+
 namespace Shop.Query.Services;
 internal class ProductCategoryQuery : IProductCategoryQuery
 {
@@ -9,6 +10,12 @@ internal class ProductCategoryQuery : IProductCategoryQuery
     public ProductCategoryQuery(IProductCategoryRepository productCategoryRepository)
     {
         _productCategoryRepository = productCategoryRepository;
+    }
+
+    public async Task<bool> CheckCategoryHaveParent(int id)
+    {
+        var category = await _productCategoryRepository.GetByIdAsync(id);
+        return category != null && category.Parent > 0;
     }
 
     public ProductCategoryAdminPageQueryModel GetCategoriesForAdmin(int id)
