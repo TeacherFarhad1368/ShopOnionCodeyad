@@ -128,5 +128,10 @@ namespace Users.Infrastructure.Service
                 UserPermission = r.UserPermission,
                 RoleId = r.RoleId
             }).ToList();
+
+        public bool IsUserAdmin(int userId)
+        {
+            return _context.UserRoles.Any(r => r.UserId == userId); 
+        }
     }
 }

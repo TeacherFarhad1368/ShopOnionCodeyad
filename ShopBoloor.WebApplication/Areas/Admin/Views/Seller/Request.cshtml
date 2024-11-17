@@ -181,7 +181,7 @@
                             }
                             @if (!string.IsNullOrEmpty(Model.WhatsApp))
                             {
-                                <a href="https://api.whatsapp.com/send?phone=+98@Model.WhatsApp" target="_blank">
+                                <a href="@Model.WhatsApp" target="_blank">
                                     <i class="fa fa-whatsapp">
 
                                     </i>

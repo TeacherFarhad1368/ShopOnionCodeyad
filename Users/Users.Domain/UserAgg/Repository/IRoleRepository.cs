@@ -15,5 +15,6 @@ namespace Users.Domain.UserAgg.Repository
         List<RoleQueryModel> GetAllRoles();
         EditRole GetForEdit(int id);
         List<RolePermissionQueryModel> GetPermissionsForRole(int id);
+        bool IsUserAdmin(int userId);
     }
 }

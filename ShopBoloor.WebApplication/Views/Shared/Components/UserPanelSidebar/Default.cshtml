@@ -38,6 +38,21 @@
                     <i class="now-ui-icons users_single-02"></i>
                     پروفایل
                 </a>
+                @if (Model.IsUserAdmin)
+                {
+                    <a href="/UserPanel/PostOrder/orders" class="dropdown-item">
+                        <i class="now-ui-icons shopping_basket"></i>
+                       پنل ادمین
+                    </a>
+                }
+                @if (Model.HaveUserSeller)
+                {
+                    <a href="/UserPanel/Seller/Index" class="dropdown-item
+               @(route.ToString().ToLower().Contains("/userpanel/seller")  ? "active-menu" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                       فروشگاه های شما
+                    </a>
+                }
                 @if (Model.HaveUserOrderPost)
                 {
                     <a href="/UserPanel/PostOrder/orders" class="dropdown-item
@@ -87,6 +102,25 @@
                     پروفایل
                 </a>
             </li>
+            @if (Model.IsUserAdmin)
+            {
+                <li>
+                    <a href="/Admin">
+                        <i class="now-ui-icons shopping_basket"></i>
+                       پنل ادمین
+                    </a>
+                </li>
+            }
+            @if (Model.HaveUserSeller)
+            {
+                <li>
+                    <a href="/UserPanel/Seller/Index" class="
+                 @(route.ToString().ToLower().Contains("/userpanel/seller")  ? "active" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                        فروشگاه های شما
+                    </a>
+                </li>
+            }
             @if (Model.HaveUserOrderPost)
             {
                 <li>
