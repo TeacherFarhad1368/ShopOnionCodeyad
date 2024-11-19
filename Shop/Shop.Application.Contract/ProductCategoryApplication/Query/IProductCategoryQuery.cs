@@ -10,5 +10,12 @@ namespace Shop.Application.Contract.ProductCategoryApplication.Query
     {
         Task<bool> CheckCategoryHaveParent(int id);
         ProductCategoryAdminPageQueryModel GetCategoriesForAdmin(int id);
+        Task<List<ProductCategoryForAddProduct>> GetCategoriesForAddProduct();
+    }
+    public class ProductCategoryForAddProduct
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Parent { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Shared.Application;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Application;
 using Shop.Application.Contract.ProductCategoryApplication.Query;
 using Shop.Domain.ProductCategoryAgg;
 
@@ -16,6 +17,17 @@ internal class ProductCategoryQuery : IProductCategoryQuery
     {
         var category = await _productCategoryRepository.GetByIdAsync(id);
         return category != null && category.Parent > 0;
+    }
+
+    public async Task<List<ProductCategoryForAddProduct>> GetCategoriesForAddProduct()
+    {
+        var res = _productCategoryRepository.GetAllQuery();
+        return await res.Select(r => new ProductCategoryForAddProduct
+        {
+            Id = r.Id,
+            Parent = r.Parent,
+            Title = r.Title
+        }).ToListAsync();
     }
 
     public ProductCategoryAdminPageQueryModel GetCategoriesForAdmin(int id)
