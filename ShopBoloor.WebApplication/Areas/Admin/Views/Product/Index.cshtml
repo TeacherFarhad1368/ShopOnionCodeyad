@@ -1,0 +1,165 @@
+﻿@model Shop.Application.Contract.ProductApplication.ProductAdminPaging
+@using Shop.Application.Contract.ProductApplication;
+@using Shared.Application;
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">جست و جو</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="display:none">
+                <form id="formSearchAdmin">
+                    <input type="hidden" id="inputPageId" name="pageId" value="1" />
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>مرتب سازی  </label>
+                            <select class="form-control" name="orderBy">
+                                <option value="@ProductAdminOrderBy.تاریخ_ثبت_از_آخر" selected="@(Model.OrderBy == ProductAdminOrderBy.تاریخ_ثبت_از_آخر ? "selected" : false)">
+                                    تاریخ ثبت از آخر
+                                </option>
+                                <option value="@ProductAdminOrderBy.تاریخ_ثبت_از_اول" selected="@(Model.OrderBy == ProductAdminOrderBy.تاریخ_ثبت_از_اول ? "selected" : false)">
+                                    تاریخ ثبت از اول
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>جست و جو</label>
+                            <input type="text" id="chooseImage" class="form-control" name="filter" value="@Model.Filter">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>تعداد نمایش در هر صفحه</label>
+                            <input type="number" id="chooseImage" class="form-control" name="take" value="@Model.Take">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label></label>
+                        <button type="submit" class="btn btn-info">
+                            جست و جو
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header">
+                <a class="btn btn-success" asp-action="Create" >
+                    <i class=" fa fa-plus mx-2"></i> افزودن محصول جدید
+                </a>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> تصویر </th>
+                            <th> نام </th>
+                            <th> لینک سریرگ </th>
+                            <th> فعال </th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ ویرایش</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Products.Count() > 0)
+                        {
+                            foreach (var item in Model.Products)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        <img class="img-thumbnail" src="@FileDirectories.ProductImageDirectory100@item.ImageName" />
+                                    </td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.Slug
+                                    </td>
+                                    <td>
+                                        @{
+                                            string title = item.Active ? "غیر فعال شود ؟؟؟" : "فعال شود ؟؟؟";
+                                            string text = item.Active ? "بعد از غیر فعال شدن این محصول - محصول نمایش داده نمیشود ." : "بعد از فعال شدن - محصول نمایش داده می شود ";
+                                            string cancel = item.Active ? "فعال بماند" : "غیر فعال بماند";
+                                            string confirm = item.Active ? "غیر فعال شود" : "فعال شود";
+                                        }
+                                        <div class="checkbox-wrapper-49"
+                                             onclick="AjaxSweetNotDelete(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/Product/Active/@item.Id')">
+                                            <div class="block">
+                                                <input data-index="pie_@item.Id" id="pie-@item.Id"
+                                                @(item.Active ? "checked" : "") type="checkbox" />
+                                                <label for="pie-@item.Id"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @item.CreationDate
+                                    </td>
+                                    <td>
+                                        @item.UpdateDate
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" title="ویرایش @item.Title"
+                                           asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+                <div class="col-12 text-center">
+                    @if (Model.PageCount > 1)
+                    {
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            @if (Model.PageId > 1)
+                            {
+                                <li><a style="cursor:pointer" onclick="ChangePagination('@(Model.PageId - 1)')">«</a></li>
+                            }
+                            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                            {
+                                if (i == Model.PageId)
+                                {
+                                    <li class="bg-info"><a>@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a onclick="ChangePagination('@i')">@i</a></li>
+                                }
+                            }
+                            @if (Model.PageId < Model.PageCount)
+                            {
+                                <li><a onclick="ChangePagination('@(Model.PageId + 1)')">»</a></li>
+                            }
+                            @if (Model.PageCount > Model.EndPage)
+                            {
+                                <li><a onclick="ChangePagination('@Model.PageCount')">@Model.PageCount</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,6 +17,10 @@ namespace Shop.Domain.ProductAgg
         public List<ProductFeature> ProductFeatures { get; private set; }
         public List<ProductGallery> ProductGalleries { get; private set; }
         public List<ProductSell> ProductSells { get; private set; }
+        public void EditCategoryRelations(List<ProductCategoryRelation> categoryRelations)
+        {
+            ProductCategoryRelations = categoryRelations;   
+        }
         public Product()
         {
             ProductCategoryRelations = new();

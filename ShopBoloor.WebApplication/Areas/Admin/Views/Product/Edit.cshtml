@@ -1,0 +1,106 @@
+﻿@model Shop.Application.Contract.ProductApplication.Command.EditProduct
+
+@{
+    ViewData["Title"] = "ویرایش محصول";
+    var categories = ViewData["Categories"] as List<Shop.Application.Contract.ProductCategoryApplication.Query.ProductCategoryForAddProduct>;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-success">
+            <form method="post" role="form" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id">
+                <input type="hidden" asp-for="ImageName">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Title"></label>
+                                    <input class="form-control" asp-for="Title" onchange="makeSlug('Title','Slug')">
+                                    <span class="text-danger" asp-validation-for="Title"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Slug"></label>
+                                    <input class="form-control" asp-for="Slug">
+                                    <span class="text-danger" asp-validation-for="Slug"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Weight"></label>
+                                    <input class="form-control" asp-for="Weight">
+                                    <span class="text-danger" asp-validation-for="Weight"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ImageAlt"></label>
+                                    <input class="form-control" asp-for="ImageAlt">
+                                    <span class="text-danger" asp-validation-for="ImageAlt"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ShortDescription"></label>
+                                    <textarea class="form-control" asp-for="ShortDescription">
+
+                                   </textarea>
+                                    <span class="text-danger" asp-validation-for="ShortDescription"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img width="300px" id="destinationImage" class="img-thumbnail" src="" />
+                                <div class="form-group">
+                                    <label asp-for="ImageFile"></label>
+                                    <input type="file" id="chooseImage" class="form-control" asp-for="ImageFile">
+                                    <span class="text-danger" asp-validation-for="ImageFile"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Categoryids"></label>
+                                    @foreach (var item in categories.Where(c=>c.Parent == 0)){
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <input type="checkbox" style="display:inline-block !important"
+                                                   checked="@(Model.Categoryids.Any(c=>c == item.Id) ? "checked" : false)"
+                                            class="checkbox" name="Categoryids" value="@item.Id" />
+                                            <span>@item.Title</span>
+                                        </div>
+                                        @if(categories.Any(c=>c.Parent == item.Id)){
+                                            foreach (var sub in categories.Where(c => c.Parent == item.Id)){
+                                                <div class="mx-4 px-4 d-flex justify-content-start align-items-center">
+                                                    <input type="checkbox" style="display:inline-block !important;margin-right: 15px !important;" 
+                                                    checked="@(Model.Categoryids.Any(c=>c == sub.Id) ? "checked" : false)"
+                                                    class="checkbox" name="Categoryids" value="@sub.Id" />
+                                                    <span>@sub.Title</span>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                    <span class="text-danger" asp-validation-for="Categoryids"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="Text"></label>
+                                <textarea id="editor1" asp-for="Text" rows="10"
+                                          cols="80">
+
+                                  </textarea>
+                                <span class="text-danger" asp-validation-for="Text"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">ارسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            CKEDITOR.replace('editor1');
+        })
+    </script>
+}

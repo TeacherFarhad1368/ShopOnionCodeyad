@@ -45,7 +45,7 @@ namespace Shop.Application.Services
             var slug = SlugUtility.GenerateSlug(command.Slug);
             if (await _productRepository.ExistByAsync(p => p.Slug == slug))
                 return new OperationResult(false, ValidationMessages.DuplicatedMessage, nameof(command.Slug));
-            if(await _productCategoryRepository.CheckProductCategoriesExist(command.Categoryids) == false)
+            if(command.Categoryids.Count() < 1 &&  await _productCategoryRepository.CheckProductCategoriesExist(command.Categoryids) == false)
                 return new OperationResult(false, "دسته بندی ها را انتخاب کنید " , nameof(command.Categoryids));
             if(command.ImageFile == null || command.ImageFile.IsImage() == false)
                 return new OperationResult(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
@@ -56,7 +56,15 @@ namespace Shop.Application.Services
             _fileService.ResizeImage(imageName, FileDirectories.ProductImageFolder, 500);
             _fileService.ResizeImage(imageName, FileDirectories.ProductImageFolder, 100);
 
-            Product product = new(command.Title.Trim(), slug, command.ShortDescription, command.Text, imageName, command.ImageAlt, command.Weight);
+            Product product = new(command.Title.Trim(), slug, command.ShortDescription, command.Text,
+                imageName, command.ImageAlt, command.Weight);
+            List<ProductCategoryRelation> rels = new();
+            foreach(var item in command.Categoryids)
+            {
+                ProductCategoryRelation relation = new ProductCategoryRelation(item);
+                rels.Add(relation);
+            }
+            product.EditCategoryRelations(rels);
             if (await _productRepository.CreateAsync(product)) return new(true);
             if(command.ImageFile != null)
             {
@@ -69,7 +77,7 @@ namespace Shop.Application.Services
         
         public async Task<OperationResult> EditAsync(EditProduct command)
         {
-            var product = await _productRepository.GetByIdAsync(command.Id);
+            var product = await _productRepository.GetProductByIdAsync(command.Id);
 			if (await _productRepository.ExistByAsync(p => p.Title.Trim().ToLower() == command.Title.Trim().ToLower() && p.Id != product.Id))
 				return new OperationResult(false, ValidationMessages.DuplicatedMessage, nameof(command.Title));
 			var slug = SlugUtility.GenerateSlug(command.Slug);
@@ -91,7 +99,14 @@ namespace Shop.Application.Services
 				_fileService.ResizeImage(imageName, FileDirectories.ProductImageFolder, 100);
 			}
             product.Edit(command.Title, slug, command.ShortDescription, command.Text, imageName, command.ImageAlt, command.Weight);
-            if(await _productRepository.SaveAsync())
+            List<ProductCategoryRelation> rels = new();
+            foreach (var item in command.Categoryids)
+            {
+                ProductCategoryRelation relation = new ProductCategoryRelation(item);
+                rels.Add(relation);
+            }
+            product.EditCategoryRelations(rels);
+            if (await _productRepository.SaveAsync())
             {
 				if (command.ImageFile != null)
 				{

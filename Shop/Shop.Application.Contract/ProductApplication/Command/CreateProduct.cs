@@ -7,6 +7,7 @@ namespace Shop.Application.Contract.ProductApplication.Command
     {
         [Display(Name = "وزن")]
         public int Weight { get; set; }
+        [Display(Name = "انتخاب دسته بندی")]
         public List<int> Categoryids { get; set; }
     }
 }

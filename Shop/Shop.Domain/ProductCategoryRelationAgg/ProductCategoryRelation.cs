@@ -6,7 +6,7 @@ namespace Shop.Domain.ProductCategoryRelationAgg
 {
     public class ProductCategoryRelation : BaseEntity<int>
     {
-        public int ProductId { get; private set; }
+        public int ProductId { get; internal set; }
         public int ProductCategoryId { get; private set; }
         public Product Product { get; private set; }
         public ProductCategory ProductCategory { get; private set; }
@@ -15,7 +15,10 @@ namespace Shop.Domain.ProductCategoryRelationAgg
             Product = new();
             ProductCategory = new();
         }
-
+        public ProductCategoryRelation(int productCategoryId)
+        {
+            ProductCategoryId = productCategoryId;
+        }
         public ProductCategoryRelation(int productId, int productCategoryId)
         {
             ProductId = productId;
