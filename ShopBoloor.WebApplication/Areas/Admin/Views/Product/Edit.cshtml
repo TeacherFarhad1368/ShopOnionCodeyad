@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "ویرایش محصول";
-    var categories = ViewData["Categories"] as List<Shop.Application.Contract.ProductCategoryApplication.Query.ProductCategoryForAddProduct>;
+    var categories = ViewData["Categories"] as
+    List<Shop.Application.Contract.ProductCategoryApplication.Query.ProductCategoryForAddProduct>;
 }
 <div class="row">
     <div class="col-xs-12">
@@ -54,15 +55,15 @@
                                     @foreach (var item in categories.Where(c=>c.Parent == 0)){
                                         <div class="d-flex justify-content-start align-items-center">
                                             <input type="checkbox" style="display:inline-block !important"
-                                                   checked="@(Model.Categoryids.Any(c=>c == item.Id) ? "checked" : false)"
+                                                   checked="@(Model.Categoryids != null && Model.Categoryids.Any(c=>c == item.Id) ? "checked" : false)"
                                             class="checkbox" name="Categoryids" value="@item.Id" />
                                             <span>@item.Title</span>
                                         </div>
                                         @if(categories.Any(c=>c.Parent == item.Id)){
                                             foreach (var sub in categories.Where(c => c.Parent == item.Id)){
                                                 <div class="mx-4 px-4 d-flex justify-content-start align-items-center">
-                                                    <input type="checkbox" style="display:inline-block !important;margin-right: 15px !important;" 
-                                                    checked="@(Model.Categoryids.Any(c=>c == sub.Id) ? "checked" : false)"
+                                                    <input type="checkbox" style="display:inline-block !important;margin-right: 15px !important;"
+                                                           checked="@(Model.Categoryids != null && Model.Categoryids.Any(c=>c == sub.Id) ? "checked" : false)"
                                                     class="checkbox" name="Categoryids" value="@sub.Id" />
                                                     <span>@sub.Title</span>
                                                 </div>

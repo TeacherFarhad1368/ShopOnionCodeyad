@@ -260,4 +260,13 @@ function EndLoading() {
 $("form").submit(
     function () {
         $(".loading").fadeIn();
-    });
+        setTimeout(function () {
+            var s = $(".input-validation-error");
+            if (s.length > 0) {
+                $(".loading").fadeOut();
+                $("form button[type=submit]").removeAttr("disabled");
+            }
+        }, 100, 1);
+    }
+
+);

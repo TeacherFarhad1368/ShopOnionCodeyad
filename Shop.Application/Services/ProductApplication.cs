@@ -45,7 +45,7 @@ namespace Shop.Application.Services
             var slug = SlugUtility.GenerateSlug(command.Slug);
             if (await _productRepository.ExistByAsync(p => p.Slug == slug))
                 return new OperationResult(false, ValidationMessages.DuplicatedMessage, nameof(command.Slug));
-            if(command.Categoryids.Count() < 1 &&  await _productCategoryRepository.CheckProductCategoriesExist(command.Categoryids) == false)
+            if (command.Categoryids == null || command.Categoryids.Count() < 1 || await _productCategoryRepository.CheckProductCategoriesExist(command.Categoryids) == false)
                 return new OperationResult(false, "دسته بندی ها را انتخاب کنید " , nameof(command.Categoryids));
             if(command.ImageFile == null || command.ImageFile.IsImage() == false)
                 return new OperationResult(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
@@ -83,7 +83,7 @@ namespace Shop.Application.Services
 			var slug = SlugUtility.GenerateSlug(command.Slug);
 			if (await _productRepository.ExistByAsync(p => p.Slug == slug && p.Id != product.Id))
 				return new OperationResult(false, ValidationMessages.DuplicatedMessage, nameof(command.Slug));
-			if (await _productCategoryRepository.CheckProductCategoriesExist(command.Categoryids) == false)
+			if (command.Categoryids == null || command.Categoryids.Count() < 1 || await _productCategoryRepository.CheckProductCategoriesExist(command.Categoryids) == false)
 				return new OperationResult(false, "دسته بندی ها را انتخاب کنید ", nameof(command.Categoryids));
 			if (command.ImageFile != null && command.ImageFile.IsImage() == false)
 				return new OperationResult(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));

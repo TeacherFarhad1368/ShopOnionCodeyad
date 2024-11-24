@@ -91,6 +91,10 @@
                                         <a class="btn btn-warning" title="ویرایش @item.Title" asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>
+                                        <a class="btn btn-primary" title="محصولات @item.Title"
+                                           asp-controller="Product" asp-action="Index" asp-route-categoryId="@item.Id">
+                                            <i class="fa fa-product-hunt"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }

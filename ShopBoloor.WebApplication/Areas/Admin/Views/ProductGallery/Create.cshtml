@@ -1,0 +1,36 @@
+﻿@model Shop.Application.Contract.ProductGalleryApplication.Command.CreateProductGallery
+<div class="modal-header">
+    <button type="button" class="close" onclick="closeAjaxModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="ajax-modal-title"></h4>
+</div>
+<form asp-action="Create"
+      asp-route-id="@Model.ProductId" 
+      enctype="multipart/form-data"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-failure="AjaxAdminFaild"
+      data-ajax-success="AjaxAdminSucceded"
+      id="form-ajax-admin">
+    <input type="hidden" asp-for="ProductId" />
+    <div class="modal-body">
+        <span class="text-danger" id="ajax-modal-valid"></span>
+        <img width="200" id="destinationImage" class="img-thumbnail" src=""/>
+        <div class="form-group">
+            <label asp-for="ImageFile"></label>
+            <input type="file" class="form-control" asp-for="ImageFile" onchange="ReadImageUrlAjax('ImageFile','destinationImage')">
+            <span class="text-danger" asp-validation-for="ImageFile"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageAlt"></label>
+            <input class="form-control" asp-for="ImageAlt">
+            <span class="text-danger" asp-validation-for="ImageAlt"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">ذخیره</button>
+        <button type="button" class="btn btn-danger pull-left" onclick="closeAjaxModal()">خروج</button>
+    </div>
+</form>
+

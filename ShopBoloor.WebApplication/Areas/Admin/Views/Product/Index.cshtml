@@ -122,6 +122,14 @@
                                            asp-action="Edit" asp-route-id="@item.Id">
                                             <i class="fa fa-edit"></i>
                                         </a>
+                                        <a class="btn btn-info" title="ویژگی های @item.Title"
+                                           asp-controller="ProductFeature" asp-action="Index" asp-route-id="@item.Id">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                        <a class="btn btn-default" title="ویژگی های @item.Title"
+                                           asp-controller="ProductGallery" asp-action="Index" asp-route-id="@item.Id">
+                                            <i class="fa fa-picture-o"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }

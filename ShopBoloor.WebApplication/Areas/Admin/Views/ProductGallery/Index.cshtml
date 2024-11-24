@@ -1,0 +1,83 @@
+﻿@model Shop.Application.Contract.ProductGalleryApplication.Query.ProductGalleryAdminPageQueryModel
+@using Shared.Domain.Enum;
+@using Shared.Application;
+@{
+    ViewData["Title"] = Model.Title;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <a class="btn btn-success" onclick="AjaxAdminGet('/Admin/ProductGallery/Create/@Model.ProductId','عکس جدید برای @Model.Title')">
+                    <i class=" fa fa-plus mx-2"></i> عکس جدید برای @Model.Title
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> عنوان</th>
+                            <th> مقدار</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.Galleries.Count() > 0)
+                        {
+                            foreach (var item in Model.Galleries)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                        <img class="img-thumbnail" src="@FileDirectories.ProductGalleryImageDirectory100@item.ImageName" />
+                                    </td>
+                                    <td>
+                                        @item.ImageAlt
+                                    </td>
+                                    <td>
+                                        @{
+                                            string title = " حذف شود ؟؟؟";
+                                            string text = "بعد از حذف شدن این عکس کلا حذف میشود .";
+                                            string cancel = "حذف نشود";
+                                            string confirm = "حذف شود";
+                                        }
+                                        <a class="btn btn-danger" title="حذف @item.ImageAlt" onclick="AjaxSweet(
+                                 '@title',
+                                 '@text',
+                                 'question',
+                                 '@confirm',
+                                  '@cancel',
+                                   '/Admin/ProductGallery/Delete/@item.Id','Deleted_@item.Id')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> عنوان</th>
+                            <th> مقدار</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}

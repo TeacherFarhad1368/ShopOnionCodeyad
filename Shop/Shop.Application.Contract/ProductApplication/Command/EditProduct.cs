@@ -9,6 +9,6 @@ namespace Shop.Application.Contract.ProductApplication.Command
         public string ImageName { get; set; }
         [Display(Name = "وزن")]
         public int Weight { get; set; }
-        public List<int> Categoryids { get; set; }
+        public List<int>? Categoryids { get; set; }
     }
 }

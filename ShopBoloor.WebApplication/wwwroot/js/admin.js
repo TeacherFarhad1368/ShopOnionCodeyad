@@ -243,3 +243,7 @@ function AjaxAdminFaild() {
     closeAjaxModal();
     AlertSweet("عملیات ناموفق", "خطای سیستمی !!!", "error");
 }
+function ChangePagination(page) {
+    $("input#inputPageId").val(page);
+    $("form#formSearchAdmin").submit();
+}
