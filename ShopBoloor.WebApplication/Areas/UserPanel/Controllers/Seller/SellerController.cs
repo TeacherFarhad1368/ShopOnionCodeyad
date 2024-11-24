@@ -75,4 +75,11 @@ public class SellerController : Controller
         ModelState.AddModelError(res.ModelName, res.Message);
         return View(model);
     }
+    public IActionResult Detail(int id)
+    {
+        _userId = _authService.GetLoginUserId();
+        var model = _sellerUserPanelQuery.GetSellerDetailForSeller(id, _userId);
+        if(model == null) return NotFound();
+        return View(model); 
+    }
 }

@@ -1,0 +1,109 @@
+﻿@model Query.Contract.UserPanel.Seller.SellerDetailForUserPanelQueryModel
+@using Shared.Application;
+@{
+    ViewData["Title"] = Model.Title;
+}
+<div class="row">
+    <div class="col-12">
+        <h1 class="title-tab-content">@Model.Title</h1>
+    </div>
+    <div class="col-lg-6">
+       
+        <div class="content-section default">
+            <div class="row">
+                <div class="col-12">
+                    <img class="img-thumbnail" src="@FileDirectories.SellerImageDirectory@Model.ImageName" />
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">پست الکترونیک :</span>
+                        <span>@Model.Email</span>
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title"> تلفن تماس 1:</span>
+                        <span>@Model.Phone1</span>
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">شماره تماس 2 :</span>
+                        <span>@Model.Phone2</span>
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">وضعیت :</span>
+                        <span>@Model.Status.ToString().Replace("_", " ")</span>
+                    </p>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="content-section default">
+            <div class="row">
+                <div class="col-12">
+                    <img class="img-thumbnail" src="@FileDirectories.SellerImageDirectory@Model.ImageAccept" />
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">شبکه های اجتماعی :</span>
+                        <span>
+                            @if (!string.IsNullOrEmpty(Model.Instagram))
+                            {
+                                <a>
+                                    <i class="fas fa-instagram" href="@Model.Instagram">
+
+                                    </i>
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Telegram))
+                            {
+                                <a>
+                                    <i class="fas fa-telegram" href="@Model.Telegram">
+
+                                    </i>
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.WhatsApp))
+                            {
+                                <a>
+                                    <i class="fas fa-whatsapp" href="https://api.whatsapp.com/send?phone=+98@Model.WhatsApp">
+
+                                    </i>
+                                </a>
+                            }
+                        </span>
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">شهر و استان :</span>
+                        <span>@Model.CityName</span>
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">جزییات آدرس :</span>
+                        <span>@Model.Address</span>
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">تاریخ ویرایش :</span>
+                        <span>@Model.CreationDate</span>
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p>
+                        <span class="title">تاریخ آپدیت :</span>
+                        <span>@Model.UpdateDate</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿using Shared.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Infrastructure;
 using Shop.Domain.ProductSellAgg;
 
 namespace Shop.Infrastructure.Services;

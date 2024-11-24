@@ -1,0 +1,74 @@
+﻿@model Query.Contract.UserPanel.Seller.SellerProductPageUserPanelQueryModel
+@using Shared.Application;
+@{
+    ViewData["Title"] = "محصولات " + Model.SellerTitle;
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"].ToString()</h1>
+            <a class="btn btn-success" asp-action="Create">
+                محصول جدید
+            </a>
+        </div>
+        <div class="content-section default">
+            <div class="table-responsive">
+                <table class="table table-order">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">عکس</th>
+                            <th scope="col">عنوان</th>
+                            <th scope="col"> آدرس</th>
+                            <th scope="col">شماره تماس</th>
+                            <th scope="col">وضعیت</th>
+                            <th scope="col">تاریخ ثبت</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Products.Count() > 0)
+                        {
+                            foreach (var item in Model.Products)
+                            {
+
+                                <tr id="tr_@item.Id">
+                                    <td>
+                                        <img src="@FileDirectories.ProductImageDirectory100@item.ProductImageName" />
+                                    </td>
+                                    <td>
+                                        @item.ProductTitle
+                                    </td>
+                                    <td>@item.Unit</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.Weight</td>
+                                    <td>@item.SellCount</td>
+                                    <td>
+                                        @if (item.Active)
+                                        {
+                                            <span class="text-success">فعال</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">غیر فعال</span>
+                                        }
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center text-danger">
+                                    آدرسی برای نمایش موجود نیست
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,4 +10,9 @@ internal class SellerRepository : Repository<int, Seller>, ISellerRepository
     {
         _context = context;
     }
+
+    public Seller? GetSellerForUserPanel(int id, int userId)
+    {
+        return _context.Sellers.SingleOrDefault(s=>s.Id == id && s.UserId == userId);   
+    }
 }

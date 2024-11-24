@@ -65,6 +65,12 @@
                                                 ویرایش درخواست
                                             </a>
                                         }
+                                        <a class="btn btn-info" asp-action="Detail" asp-route-id="@item.Id">
+                                            جزییات
+                                        </a>
+                                        <a class="btn btn-default" asp-controller="Product" asp-action="Index" asp-route-id="@item.Id">
+                                            محصولات
+                                        </a>
                                     </td>
                                 </tr>
                             }
