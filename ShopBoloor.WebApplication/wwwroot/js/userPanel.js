@@ -41,3 +41,48 @@ function CreateTransaction() {
             $("form#form-transaction").submit();
         }
 }
+function GetCategoriesForAddProductSell() {
+    var selectParent = $("select#CategoryId");
+    $.ajax({
+        type: "Post",
+        url: "/UserPanel/Product/Categories/0"
+    }).done(function (res) {
+        selectParent.html("");
+        var model = JSON.parse(res);
+        var cate1 = `<option value=${0}>انتخاب سردسته</option>`;
+        selectParent.append(cate1);
+        for (var i = 0; i < model.length; i++) {
+            var cate = `<option value=${model[i].Id}>${model[i].Title}</option>`;
+            selectParent.append(cate);
+        }
+        selectParent.select2();
+    });
+}
+function GetSubCategoriesForAddProductSell() {
+    var selectChild = $("select#SubCategoryId");
+    selectChild.html("");
+    var id = $("select#CategoryId").val();
+    if (id === 0 || id === "0" || id === null || id === undefined) {
+        $("span#CategoryIdValid").text("یک سردسته انتخاب کنید .");
+    }
+    else {
+        $("span#CategoryIdValid").text("");
+      
+        $.ajax({
+            type: "Post",
+            url: `/UserPanel/Product/Categories/${id}`
+        }).done(function (res) {
+           
+            debugger;
+            var model = JSON.parse(res);
+            var cate1 = `<option value=${id}> محصولات این سردسته</option>`;
+            selectChild.append(cate1);
+            for (var i = 0; i < model.length; i++) {
+                var cate = `<option value=${model[i].Id}>${model[i].Title}</option>`;
+                selectChild.append(cate);
+            }
+            selectChild.select2();
+        });
+    }
+    
+}

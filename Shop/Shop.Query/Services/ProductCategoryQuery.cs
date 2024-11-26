@@ -44,4 +44,14 @@ internal class ProductCategoryQuery : IProductCategoryQuery
         ProductCategoryAdminPageQueryModel model = new ProductCategoryAdminPageQueryModel(id,title,productCategories);
         return model;   
     }
+
+    public List<ProductCategoryForAddProductSell> GetCategoryForAddProductSells(int id)
+    {
+        var res = _productCategoryRepository.GetAllByQuery(c=>c.Parent == id);
+        return res.Select(r => new ProductCategoryForAddProductSell
+        {
+            Id = r.Id,  
+            Title = r.Title
+        }).ToList();
+    }
 }

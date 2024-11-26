@@ -1,0 +1,68 @@
+﻿@model Shop.Application.Contract.ProductSellApplication.Command.CreateProductSell
+
+@{
+    ViewData["Title"] = "افزودن محصول";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">افزودن محصول جدید</h1>
+        </div>
+        <div class="content-section default">
+
+            <form class="form-account" method="post">
+                <input type="hidden" asp-for="SellerId" />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-account-title">انتخاب سردسته </div>
+                        <div class="form-account-row">
+                            <select class="input-field text-right" id="CategoryId" onchange="GetSubCategoriesForAddProductSell()">
+
+                            </select>
+                        </div>
+                        <span class="text-danger" id="CategoryIdValid"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-account-title">انتخاب زیر دسته</div>
+                        <div class="form-account-row">
+                            <select class="input-field text-right" id="SubCategoryId">
+                            </select>
+                        </div>
+                        <span class="text-danger" id="SubCategoryIdValid"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-account-title">نام کامل</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" asp-for="Weight" type="number">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Weight"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-account-title">ایمیل</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" type="number" asp-for="Price">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-account-title">موبایل</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Unit" >
+                        </div>
+                        <span class="text-danger" asp-validation-for="Unit"></span>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-warning btn-lg">ذخیره</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function(){
+            GetCategoriesForAddProductSell();
+        });
+    </script>
+}

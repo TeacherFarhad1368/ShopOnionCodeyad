@@ -8,6 +8,7 @@
     @await Component.InvokeAsync("Fav")
     <title>@ViewData["Title"]</title>
     <partial name="_Css" />
+    <link rel="stylesheet" href="/css/select2.min.css" asp-append-version="true" />
 </head>
 @{
     var SuccessLogin = TempData["SuccessLogin"] != null;
@@ -76,6 +77,7 @@
         </div>
     </div>
     <partial name="_Js" />
+    <script src="/js/select2.min.js"></script>
     <script src="/js/userPanel.js"></script>
     @if (SuccessLogin)
     {
