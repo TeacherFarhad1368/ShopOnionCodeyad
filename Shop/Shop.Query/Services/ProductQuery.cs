@@ -20,6 +20,17 @@ namespace Shop.Query.Services
             _context = context;
         }
 
+        public List<ProductForAddProductSellQueryModel> GetProductsForAddProductSells(int id)
+        {
+            return _context.Products.Include(c=>c.ProductCategoryRelations)
+                .Where(c=>c.ProductCategoryRelations.Any(r=>r.ProductCategoryId == id))
+                .Select(c=> new ProductForAddProductSellQueryModel
+                {
+                    Id = c.Id,
+                    Title = c.Title
+                }).ToList();
+        }
+
         public ProductAdminPaging GetProductsForAdmin(int pageId, int take, int categoryId, string filter, ProductAdminOrderBy orderBy)
         {
             string pageTitle = "لیست محصولات";

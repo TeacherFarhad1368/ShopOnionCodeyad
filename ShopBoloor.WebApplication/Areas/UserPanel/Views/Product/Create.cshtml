@@ -25,27 +25,35 @@
                     <div class="col-12">
                         <div class="form-account-title">انتخاب زیر دسته</div>
                         <div class="form-account-row">
-                            <select class="input-field text-right" id="SubCategoryId">
+                            <select class="input-field text-right" id="SubCategoryId" onchange="GetProductsFotCategory()">
                             </select>
                         </div>
                         <span class="text-danger" id="SubCategoryIdValid"></span>
                     </div>
                     <div class="col-12">
-                        <div class="form-account-title">نام کامل</div>
+                        <div class="form-account-title">انتخاب محصول</div>
+                        <div class="form-account-row">
+                            <select class="input-field text-right" asp-for="ProductId">
+                            </select>
+                        </div>
+                        <span class="text-danger" asp-validation-for="ProductId"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-account-title">وزن بسته ی فروش</div>
                         <div class="form-account-row">
                             <input class="input-field text-right" asp-for="Weight" type="number">
                         </div>
                         <span class="text-danger" asp-validation-for="Weight"></span>
                     </div>
                     <div class="col-12">
-                        <div class="form-account-title">ایمیل</div>
+                        <div class="form-account-title">قیمت بسته</div>
                         <div class="form-account-row">
                             <input class="input-field text-right" type="number" asp-for="Price">
                         </div>
                         <span class="text-danger" asp-validation-for="Price"></span>
                     </div>
                     <div class="col-12">
-                        <div class="form-account-title">موبایل</div>
+                        <div class="form-account-title">واحد شمارش بسته</div>
                         <div class="form-account-row">
                             <input class="input-field" type="text" asp-for="Unit" >
                         </div>
@@ -53,7 +61,7 @@
                     </div>
                 </div>
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-warning btn-lg">ذخیره</button>
+                    <button type="submit" class="btn btn-success btn-lg">ذخیره</button>
                 </div>
             </form>
         </div>

@@ -119,4 +119,10 @@ internal class SellerUserPanelQuery : ISellerUserPanelQuery
         });
         return model;
     }
+
+    public bool IsSellerForUser(int id, int userId)
+    {
+       var seller = _sellerRepository.GetById(id);
+        return seller.UserId == userId; 
+    }
 }

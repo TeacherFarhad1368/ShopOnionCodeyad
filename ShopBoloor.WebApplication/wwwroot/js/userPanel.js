@@ -86,3 +86,30 @@ function GetSubCategoriesForAddProductSell() {
     }
     
 }
+function GetProductsFotCategory() {
+    var selectProduct = $("select#ProductId");
+    selectProduct.html("");
+    var categoryId = $("select#SubCategoryId").val();
+    if (categoryId === 0 || categoryId === "0" || categoryId === null || categoryId === undefined) {
+        $("span#SubCategoryIdValid").text("یک دسته بندی انتخاب کنید .");
+    }
+    else {
+        $("span#SubCategoryIdValid").text("");
+
+        $.ajax({
+            type: "Post",
+            url: `/UserPanel/Product/GetProducts/${categoryId}`
+        }).done(function (res) {
+
+            debugger;
+            var model = JSON.parse(res);
+            var cate1 = `<option value=0> انتخاب محصول</option>`;
+            selectProduct.append(cate1);
+            for (var i = 0; i < model.length; i++) {
+                var cate = `<option value=${model[i].Id}>${model[i].Title}</option>`;
+                selectProduct.append(cate);
+            }
+            selectProduct.select2();
+        });
+    }
+}

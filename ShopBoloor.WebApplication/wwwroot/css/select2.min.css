@@ -10,7 +10,7 @@
         box-sizing: border-box;
         cursor: pointer;
         display: block;
-        height: 28px;
+        height: 48px;
         user-select: none;
         -webkit-user-select: none
     }
@@ -182,7 +182,7 @@
 
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         color: #444;
-        line-height: 28px
+        line-height: 48px
     }
 
     .select2-container--default .select2-selection--single .select2-selection__clear {
@@ -199,7 +199,7 @@
     }
 
     .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 26px;
+        height: 42px;
         position: absolute;
         top: 1px;
         right: 1px;

@@ -9,7 +9,13 @@ namespace Shop.Application.Contract.ProductApplication
 {
     public interface IProductQuery
     {
+        List<ProductForAddProductSellQueryModel> GetProductsForAddProductSells(int id);
         ProductAdminPaging GetProductsForAdmin(int pageId, int take, int categoryId, string filter, ProductAdminOrderBy orderBy);
+    }
+    public class ProductForAddProductSellQueryModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
     }
     public enum ProductAdminOrderBy
     {

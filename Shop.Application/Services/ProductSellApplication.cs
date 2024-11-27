@@ -33,7 +33,9 @@ namespace Shop.Application.Services
 
 		public async Task<OperationResult> CreateAsync(CreateProductSell command)
 		{
-			var sell = new ProductSell(command.ProductId, command.SellerId, command.Price, command.Unit, command.Weight);
+			if(command.ProductId == 0)
+                return new(false, ValidationMessages.RequiredMessage, nameof(command.ProductId));
+            var sell = new ProductSell(command.ProductId, command.SellerId, command.Price, command.Unit, command.Weight);
 			if (await _productSellRepository.CreateAsync(sell)) return new(true);
 			return new(false, ValidationMessages.SystemErrorMessage, nameof(command.Unit));
 		}
