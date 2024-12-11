@@ -11,7 +11,7 @@
         <div class="form-account-title">شماره موبایل</div>
         <div class="form-account-row">
             <label class="input-label"><i class="now-ui-icons users_single-02"></i></label>
-            <input class="input-field" type="text" ‌ asp-for="Mobile"
+            <input class="input-field text-left" type="text" ‌ asp-for="Mobile"
                    onkeypress="return isNumber(event)" readonly>
             <span class="text-danger" asp-validation-for="Mobile"></span>
         </div>
@@ -22,7 +22,7 @@
         <label class="input-label">
         <i class="now-ui-icons ui-1_lock-circle-open"></i>
         </label>
-            <input class="input-field" type="text" asp-for="Password" onkeypress="return isNumber(event)">
+            <input class="input-field text-left" type="text" asp-for="Password" onkeypress="return isNumber(event)">
             <span class="text-danger" asp-validation-for="Password"></span>
         </div>
         <div class="form-account-row form-account-submit">

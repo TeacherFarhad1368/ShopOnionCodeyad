@@ -40,14 +40,25 @@ namespace Shop.Application.Services
 			return new(false, ValidationMessages.SystemErrorMessage, nameof(command.Unit));
 		}
 
-		public Task<OperationResult> EditAsync(EditProductSell command)
+		public async Task<OperationResult> EditAsync(EditProductSell command)
 		{
-			throw new NotImplementedException();
-		}
+            var p = await _productSellRepository.GetByIdAsync(command.Id);
+			p.Edit(command.Price,command.Unit,command.Weight);	
+			if(await _productSellRepository.SaveAsync()) return new(true);
+			return new(false,ValidationMessages.SystemErrorMessage, nameof(command.Unit));
+        }
 
-		public Task<EditProductSell> GetForEditAsync(int id)
+		public async Task<EditProductSell> GetForEditAsync(int id)
 		{
-			throw new NotImplementedException();
+			var p = await _productSellRepository.GetByIdAsync(id);
+			return new()
+			{
+				Id = p.Id,
+				Price = p.Price,
+				SellerId = p.SellerId,
+				Unit = p.Unit,
+				Weight = p.Weight
+			};
 		}
 	}
 }

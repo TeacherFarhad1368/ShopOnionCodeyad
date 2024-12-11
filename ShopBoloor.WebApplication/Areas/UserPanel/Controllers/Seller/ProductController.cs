@@ -65,6 +65,31 @@ public class ProductController : Controller
         ModelState.AddModelError(res.ModelName, res.Message);
         return View(model);
     }
+    public async Task<IActionResult> Edit(int id)
+    {
+        _userId = _authService.GetLoginUserId();
+        bool ok = await _sellerUserPanelQuery.IsProductSellForUser(_userId, id);
+        if(ok == false) return NotFound();
+        var model = await _productSellApplication.GetForEditAsync(id);
+        return View(model);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id,EditProductSell model)
+    {
+        _userId = _authService.GetLoginUserId();
+        bool ok = await _sellerUserPanelQuery.IsProductSellForUser(_userId, id);
+        if (id != model.Id || ok == false) return NotFound();
+        if(!ModelState.IsValid) return View(model);
+        var res = await _productSellApplication.EditAsync(model);
+        if(res.Success)
+        {
+            TempData["ok"] = true;
+            return Redirect($"/UserPanel/Product/Index/{model.SellerId}");
+        }
+        ModelState.AddModelError(res.ModelName , res.Message);
+        return View(model);
+    }
+    public async Task<bool> Active(int id) => await _productSellApplication.ActivationChangeAsync(id);
     [HttpPost]
     public JsonResult Categories(int id = 0)
     {

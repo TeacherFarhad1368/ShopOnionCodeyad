@@ -30,6 +30,7 @@ using Discount.Query;
 using Stores.Query;
 using Query.Contract.UserPanel.Seller;
 using Query.Contract.Admin.Seller;
+using Query.Contract.UserPanel.Store;
 namespace Query.Services
 {
 	public static class Modules_Bootstrapper
@@ -70,6 +71,7 @@ namespace Query.Services
             services.AddTransient<IUserAddressUserPanelQuery, UserAddressUserPanelQuery>();
             services.AddTransient<IUserPanelWalletQuery, UserPanelWalletQuery>();
             services.AddTransient<ISellerUserPanelQuery, SellerUserPanelQuery>();
+            services.AddTransient<IStoreUserPanelQuery, StoreUserPanelQuery>();
             #endregion
         }
     }

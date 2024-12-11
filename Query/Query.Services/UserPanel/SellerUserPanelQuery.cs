@@ -7,6 +7,7 @@ using Shop.Domain.SellerAgg;
 using Shared.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Shop.Infrastructure;
+
 namespace Query.Services.UserPanel;
 internal class SellerUserPanelQuery : ISellerUserPanelQuery
 {
@@ -118,6 +119,12 @@ internal class SellerUserPanelQuery : ISellerUserPanelQuery
             x.CityName = $"{state.Title} - {city.Title}";
         });
         return model;
+    }
+
+    public async Task<bool> IsProductSellForUser(int userId, int id)
+    {
+        return await _shopContext.ProductSells.Include(p=>p.Seller)
+            .AnyAsync(c=>c.Seller.UserId == userId && c.Id == id);
     }
 
     public bool IsSellerForUser(int id, int userId)

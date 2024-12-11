@@ -6,6 +6,7 @@ namespace Shop.Application.Contract.ProductSellApplication.Command
 	public class EditProductSell
 	{
         public int Id { get; set; }
+        public int SellerId { get; set; }
 		[Display(Name = "قیمت هر واحد فروش")]
 		public int Price { get; set; }
 		[Display(Name = "هر واحد فروش")]

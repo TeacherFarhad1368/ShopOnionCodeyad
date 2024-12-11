@@ -52,6 +52,11 @@
                         <i class="now-ui-icons shopping_basket"></i>
                        فروشگاه های شما
                     </a>
+                    <a href="/UserPanel/Store/Index" class="dropdown-item
+               @(route.ToString().ToLower().Contains("/userpanel/store")  ? "active-menu" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                        انبارداری فروشگاه  
+                    </a>
                 }
                 @if (Model.HaveUserOrderPost)
                 {
@@ -118,6 +123,13 @@
                  @(route.ToString().ToLower().Contains("/userpanel/seller")  ? "active" : "")">
                         <i class="now-ui-icons shopping_basket"></i>
                         فروشگاه های شما
+                    </a>
+                </li>
+                <li>
+                    <a href="/UserPanel/Store/Index" class="
+                 @(route.ToString().ToLower().Contains("/userpanel/store")  ? "active" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                        انبارداری فروشگاه
                     </a>
                 </li>
             }

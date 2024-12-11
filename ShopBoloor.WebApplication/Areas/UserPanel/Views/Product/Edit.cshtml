@@ -1,0 +1,45 @@
+﻿@model Shop.Application.Contract.ProductSellApplication.Command.EditProductSell
+
+@{
+    ViewData["Title"] = "ویرایش محصول";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">ویرایش محصول </h1>
+        </div>
+        <div class="content-section default">
+
+            <form class="form-account" method="post">
+                <input type="hidden" asp-for="SellerId" />
+                <input type="hidden" asp-for="Id" />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-account-title">وزن بسته ی فروش</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" asp-for="Weight" type="number">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Weight"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-account-title">قیمت بسته</div>
+                        <div class="form-account-row">
+                            <input class="input-field text-right" type="number" asp-for="Price">
+                        </div>
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-account-title">واحد شمارش بسته</div>
+                        <div class="form-account-row">
+                            <input class="input-field" type="text" asp-for="Unit" >
+                        </div>
+                        <span class="text-danger" asp-validation-for="Unit"></span>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-warning btn-lg">ذخیره</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
