@@ -1,0 +1,56 @@
+﻿@model Query.Contract.UserPanel.Store.StoreDetailForSellerPanelQueryModel
+@using Shared.Application;
+
+@{
+    ViewData["Title"] = "جزییات فاکتور انبار";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">@ViewData["Title"].ToString()</h1>
+            <h3> @Model.SellerTitle</h3>
+            <h5>@Model.CreationDate</h5>
+            <p>
+                @Model.Description
+            </p>
+        </div>
+        <div class="content-section default">
+            <div class="table-responsive">
+                <table class="table table-order">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">عکس</th>
+                            <th scope="col">عنوان محصول</th>
+                            <th scope="col"> واحد فروش</th>
+                            <th scope="col">تعداد</th>
+                            <th scope="col">نوع</th
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.StoreProducts)
+                            {
+
+                                <tr id="tr_@item.Id">
+                                    <td>
+                                        <img src="@FileDirectories.ProductImageDirectory100@item.ProductImageName" />
+                                    </td>
+                                    <td>
+                                        @item.ProductTitle
+                                    </td>
+                                    <td>@item.Unit</td>
+                                    <td>@item.Count</td>
+                                    <td>
+                                        <span class="@(item.Type == Shared.Domain.Enum.StoreProductType.افزایش 
+                                                     ? "text-success" : "text-danger")">
+                                            @item.Type.ToString()
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

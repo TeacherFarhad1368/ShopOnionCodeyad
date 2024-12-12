@@ -1,0 +1,104 @@
+﻿@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "ویرایش انبار";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">ویرایش انبار</h1>
+        </div>
+        <div class="content-section default">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-account-title">انتخاب فروشگاه </div>
+                    <div class="form-account-row">
+                        <select class="input-field text-right" id="sellerId" onchange="SelectSellerId()">
+                        </select>
+                    </div>
+                    <span class="text-danger" id="sellerIdValid"></span>
+                </div>
+                <div class="col-12">
+                    <div class="form-account-title">توضیحات</div>
+                    <div class="form-account-row">
+                        <textarea rows="7" class="input-field text-right" id="storeDescription" >
+
+                        </textarea>
+                    </div>
+                    <span class="text-danger" id="storeDescriptionValid"></span>
+                </div>
+               
+                <div class="content-section default">
+                    <div class="col-12 d-flex justufy-content-between align-items-center">
+                        <div class="col-12 col-md-5">
+                            <div class="col-12">
+                                <div class="form-account-title">انتخاب محصول</div>
+                                <div class="form-account-row">
+                                    <select class="input-field text-right" id="ProductStoreId">
+                                    </select>
+                                </div>
+                                <span class="text-danger" id="ProductStoreIdValid"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="col-12">
+                                <div class="form-account-title">نوع</div>
+                                <div class="form-account-row">
+                                    <select class="input-field text-right" id="ProductTypeId">
+                                        <option value="0">
+                                            انتخاب نوع
+                                        </option>
+                                        <option value="@StoreProductType.افزایش">
+                                            افزایش
+                                        </option>
+                                        <option value="@StoreProductType.کاهش">
+                                            کاهش
+                                        </option>
+                                    </select>
+                                </div>
+                                <span class="text-danger" id="ProductTypeIdValid"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-account-title">تعداد</div>
+                            <div class="form-account-row">
+                                <input type="text" class="input-field text-right" id="ProductCountId"
+                                       onkeypress="return isNumber(event)" value="0"/>
+                            </div>
+                            <span class="text-danger" id="ProductCountIdValid"></span>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <a class="btn btn-success" style="cursor:pointer" 
+                            onclick="CreateProductSellStore()">
+                               افزودن
+                            </a>
+                        </div>
+                    </div>
+                    <span class="text-danger" id="storeProductsValid"></span>
+                    <div class="table-responsive">
+                        <table class="table table-order">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">عنوان</th>
+                                    <th scope="col">فروش</th>
+                                    <th scope="col">نوع</th>
+                                    <th scope="col">تعداد</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyProducts">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button style="cursor:pointer" onclick="CreateStoreProductSeller()" class="btn btn-success btn-lg">ذخیره</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="/js/store.js"></script>
+}
