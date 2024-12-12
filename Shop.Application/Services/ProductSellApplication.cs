@@ -48,7 +48,17 @@ namespace Shop.Application.Services
 			return new(false,ValidationMessages.SystemErrorMessage, nameof(command.Unit));
         }
 
-		public async Task<EditProductSell> GetForEditAsync(int id)
+        public async Task<bool> EditProductSellAmountAsync(List<EditProdoctSellAmount> sels)
+        {
+			foreach(var item in sels)
+			{
+				var sell = _productSellRepository.GetById(item.SellId);
+				sell.ChangeAmount(item.count, item.Type);
+			}
+			return await _productSellRepository.SaveAsync();	
+        }
+
+        public async Task<EditProductSell> GetForEditAsync(int id)
 		{
 			var p = await _productSellRepository.GetByIdAsync(id);
 			return new()

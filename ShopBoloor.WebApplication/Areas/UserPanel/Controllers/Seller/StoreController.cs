@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Query.Contract.UserPanel.Store;
 using Shared.Application.Services.Auth;
+using Shop.Application.Contract.ProductSellApplication.Command;
 using Stores.Application.Contract.StoreApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers.Seller
@@ -15,12 +16,14 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers.Seller
         private readonly IAuthService _authService;
         private readonly IStoreUserPanelQuery _storeUserPanelQuery;
         private readonly IStoreApplication _storeApplication;
+        private readonly IProductSellApplication _productSellApplication;
         public StoreController(IAuthService authService, IStoreUserPanelQuery storeUserPanelQuery,
-            IStoreApplication storeApplication)
+            IStoreApplication storeApplication, IProductSellApplication productSellApplication)
         {
             _authService = authService;
             _storeUserPanelQuery = storeUserPanelQuery; 
             _storeApplication = storeApplication;
+            _productSellApplication = productSellApplication;
         }
 
         public IActionResult Index(int pageId = 1,int sellerId = 0,int take = 10,string filter ="")
@@ -47,7 +50,7 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers.Seller
             return Json(JsonConvert.SerializeObject(res));
         }
         [HttpPost]
-        public async Task<bool> Create( string model)
+        public async Task<bool> Create(string model)
         {
             _userId = _authService.GetLoginUserId();
             CreateStore res = JsonConvert.DeserializeObject<CreateStore>(model);
@@ -56,7 +59,16 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers.Seller
                 return false;
             }
             var result = await _storeApplication.CreateAsync(_userId,res);
-            if(result.Success) return true;
+            if(result.Success)
+            {
+                await _productSellApplication.EditProductSellAmountAsync(res.Products.Select(r => new EditProdoctSellAmount
+                {
+                    count = r.Count,
+                    SellId = r.ProductSellId,
+                    Type = r.Type
+                }).ToList());
+                return true;
+            }
             else return false;  
         }
         public IActionResult Detail(int id)

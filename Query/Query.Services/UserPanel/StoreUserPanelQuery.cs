@@ -69,7 +69,7 @@ namespace Query.Services.UserPanel
                 CreationDate = store.CreateDate.ToPersainDate(),
                 Description = store.Description,
                 Id = id,
-                SellerId = store.Id,
+                SellerId = store.SellerId,
                 SellerTitle = "",
                 StoreProducts = store.StoreProducts.Select(s=> new StoreProductDetailForSellerPanelQueryModel
                 {

@@ -23,10 +23,13 @@ function GetSellersForUser() {
 function SelectSellerId() {
     var id = $("select#sellerId").val();
     products = [];
+   
     var productStoteSelect = $("select#ProductStoreId");
     productStoteSelect.html("");
     if (id < 1) {
         $("span#sellerIdValid").text("فروشگاه را انتخاب کنید .");
+        stores = [];
+        UpdateProducts();
     }
     else {
         $("span#sellerIdValid").text("");
@@ -49,7 +52,14 @@ function SelectSellerId() {
                 var opt = `<option value=0> این فروشگاه محصولی ندارد .</option>`;
                 productStoteSelect.append(opt);
             }
-            
+            stores.forEach(x => {
+                const currentProduct = products.find(s => s.ProductSellId == x.ProductSellId);
+                if (currentProduct === undefined) {
+                    const itemRemove = stores.find(s => s.ProductSellId == currentProduct.ProductSellId);
+                    stores.splice(itemRemove, 1);
+                }
+            });
+            UpdateProducts();
         });
     }
 }

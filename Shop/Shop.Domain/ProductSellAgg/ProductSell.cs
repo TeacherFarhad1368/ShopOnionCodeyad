@@ -47,7 +47,7 @@ public class ProductSell : BaseEntityCreateUpdateActive<int>
                 Amount = Amount + amount;
                 break;
             case StoreProductType.کاهش:
-                Amount = Amount - amount;
+                Amount = (Amount - amount) < 0 ? 0 : (Amount - amount);
                 break;
             default:
                 break;
