@@ -1,0 +1,44 @@
+﻿@model ProductShopUiQueryModel
+@using Query.Contract.UI.Product;
+<li class="col-lg-4 col-md-6 col-12 no-padding">
+    <div class="product-box">
+        <div class="product-seller-details product-seller-details-item-grid">
+            <span class="product-main-seller">
+                <span class="product-seller-details-label">
+                    فروشنده:
+                </span>@Model.Shop
+            </span>
+            <span class="product-seller-details-badge-container"></span>
+        </div>
+        <a class="product-box-img" href="/Product/@Model.Id/@Model.Slug">
+            <img src="@Model.ImageName" alt="@Model.ImageAlt">
+        </a>
+        <div class="product-box-content">
+            <div class="product-box-content-row">
+                <div class="product-box-title">
+                    <a href="/Product/@Model.Id/@Model.Slug">
+                        @Model.Title
+                    </a>
+                </div>
+            </div>
+            <div class="product-box-row product-box-row-price">
+                <div class="price">
+                    <div class="price-value">
+                        <div class="price-value-wrapper">
+                            @if(Model.PriceAfterOff != Model.Price){
+                                <del class="text-danger">
+                                    @Model.Price 
+                                </del>
+                                @Model.PriceAfterOff.ToString("3,0") <span class="price-currency">تومان</span>
+                            }
+                            else
+                            {
+                                @Model.Price.ToString("3,0") <span class="price-currency">تومان</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

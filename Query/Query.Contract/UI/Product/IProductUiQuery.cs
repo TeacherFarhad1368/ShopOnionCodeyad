@@ -5,7 +5,7 @@ public interface IProductUiQuery
 {
     ShopPaging GetProductsForUi(int pageId, string filter, string categorySlug, int Id, ShopOrderBy orderBy);
 }
-public class ShopPaging : BasePaging
+public class ShopPaging : BasePaging 
 {
     public int ShopId { get; set; }
     public string ShopTitle { get; set; }
@@ -13,6 +13,15 @@ public class ShopPaging : BasePaging
     public string Filter { get; set; }
     public ShopOrderBy OrderBy { get; set; }
     public List<ProductShopUiQueryModel> Products { get; set; }
+    public List<ProductCategoryUiQueryModel> Categories { get; set; }
+    public List<BreadCrumbQueryModel> BreadCrumb { get; set; }
+    public SeoUiQueryModel Seo { get; set; }
+}
+public class ProductCategoryUiQueryModel
+{
+    public string Title { get; set; }
+    public string Slug { get; set; }
+    public List<ProductCategoryUiQueryModel> Childs { get; set; }
 }
 public class ProductShopUiQueryModel
 {

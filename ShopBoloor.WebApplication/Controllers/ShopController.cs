@@ -13,9 +13,9 @@ namespace ShopBoloor.WebApplication.Controllers
         }
 
         [Route("/Shop/{id?}")]
-        public IActionResult Index(int? id,string slug = "",int pageId = 0,string filter="",ShopOrderBy orderBy = ShopOrderBy.جدید_ترین)
+        public IActionResult Index(int? id,string slug = "",int pageId = 1,string filter="",ShopOrderBy orderBy = ShopOrderBy.جدید_ترین)
         {
-            var model = _productUiQuery.GetProductsForUi(pageId,filter,slug,id,orderBy);
+            var model = _productUiQuery.GetProductsForUi(pageId,filter,slug,id == null ? 0 : id.Value,orderBy);
             return View(model);
         }
     }

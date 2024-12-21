@@ -1,0 +1,156 @@
+﻿@model ShopPaging
+@using Query.Contract.UI.Product;
+@{
+    ViewData["Title"] = Model.ShopTitle;
+}
+<main class="search-page default">
+    <div class="container">
+        <div class="row">
+            <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 order-1">
+                <div class="box">
+                    <div class="box-header">دسته بندی ها</div>
+                    <div class="box-content category-result">
+                        <ul>
+                            <li>
+                                <a href="/Shop/@Model.ShopId">همه ی محصولات</a>
+                                <ul>
+                                    @foreach(var item in Model.Categories)
+                                    {
+                                        <li>
+                                            <a href="/Shop/@Model.ShopId?slug=@item.Slug&orderBy=@Model.OrderBy">@item.Title</a>
+                                            @if(item.Childs.Count() > 0)
+                                            {
+                                                <ul>
+                                                    @foreach(var child in item.Childs){
+                                                        <li>
+                                                            <a href="/Shop/@Model.ShopId?slug=@child.Slug&orderBy=@Model.OrderBy">@child.Title</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            }
+
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header">جستجو در نتایج:</div>
+                    <div class="box-content">
+                        <form id="myForm">
+                            <input type="hidden" name="pageId" id="inputPageId" value="1" />
+                            <input type="hidden" name="slug" id="slug" value="@Model.CategorySlug" />
+                            <input type="hidden" name="orderBy" id="inputOrderBy" value="@Model.OrderBy" />
+                            <div class="ui-input ui-input--quick-search">
+                                <input type="text" class="ui-input-field ui-input-field--cleanable"
+                                name="filter" value="@Model.Filter">
+                                <span class="ui-input-cleaner"></span>
+                            </div>
+                            <input type="submit" class="btn btn-block btn-success"
+                            value="جستجو ..">
+                        </form>
+
+                    </div>
+                </div>
+                @*   <div class="box">
+                    <div class="box-content">
+                        <input type="checkbox" name="checkbox" class="bootstrap-switch" checked />
+                        <label for="">فقط کالاهای موجود</label>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-content">
+                        <input type="checkbox" name="checkbox" class="bootstrap-switch" checked />
+                        <label for="">فقط کالاهای آماده ارسال</label>
+                    </div>
+                </div> *@
+            </aside>
+            <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-2">
+                <partial name="_ShopBreadCrumb" model="@Model.BreadCrumb" />
+
+                <div class="listing default">
+                    <div class="listing-counter">@Model.DataCount.ToString("0,#") کالا</div>
+                    <div class="listing-header default">
+                        <ul class="listing-sort nav nav-tabs justify-content-center" 
+                        data-label="مرتب‌سازی بر اساس :">
+                            <li>
+                                <a style="cursor:pointer" onclick="chnageOrderBy('@ShopOrderBy.پرفروش_ترین')" class="@(Model.OrderBy == ShopOrderBy.پرفروش_ترین ? "active" : "")">پرفروش ترین</a>
+                            </li>
+                            <li>
+                                <a style="cursor:pointer" onclick="chnageOrderBy('@ShopOrderBy.قدیمی_ترین')" class="@(Model.OrderBy == ShopOrderBy.قدیمی_ترین ? "active" : "")">قدیمی ترین</a>
+                            </li>
+                            <li>
+                                <a style="cursor:pointer" onclick="chnageOrderBy('@ShopOrderBy.جدید_ترین')" class="@(Model.OrderBy == ShopOrderBy.جدید_ترین ? "active" : "")">جدید ترین</a>
+                            </li>
+                            <li>
+                                <a style="cursor:pointer" onclick="chnageOrderBy('@ShopOrderBy.گران_ترین')" class="@(Model.OrderBy == ShopOrderBy.گران_ترین ? "active" : "")">گران ترین</a>
+                            </li>
+                            <li>
+                                <a style="cursor:pointer" onclick="chnageOrderBy('@ShopOrderBy.ارزان_ترین')" class="@(Model.OrderBy == ShopOrderBy.ارزان_ترین ? "active" : "")">ارزان ترین</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content default text-center">
+                        <div class="tab-pane active" >
+                            <div class="container no-padding-right">
+                                <ul class="row listing-items">
+                                    @if(Model.Products.Count() > 0){
+                                        foreach(var item in Model.Products)
+                                        {
+                                            <partial name="_ShopCart" model="@item" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                       <li>
+                                            <div class="row text-center alert alert-warning">
+                                                <h4>محصولی برای نمایش موجود نیست</h4>
+                                             </div>
+                                       </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    @if(Model.PageCount > 1){
+                        <div class="pager default text-center">
+                            <ul class="pager-items mb-0">
+                                <li>
+                                    <a class="pager-item" style="cursor:pointer" onclick="ChangePagination('1')">1</a>
+                                </li>
+                                @for(int i = Model.StartPage;i<= Model.EndPage;i++){
+                                    if(i > 1){
+                                        if(i == Model.PageId){
+                                            <li>
+                                                <a class="pager-item is-active">@i</a>
+                                            </li>
+                                        }
+                                        else{
+                                            <li>
+                                                <a class="pager-item" style="cursor:pointer" onclick="ChangePagination('@i')">@i</a>
+                                            </li>
+                                        }
+                                    }
+                                    
+                                }
+                                @if (Model.PageId < Model.PageCount)
+                                {
+                                    <line class="pager-items--partition"></line>
+                                    <li>
+                                        <a class="pager-next" style="cursor:pointer" onclick="ChangePagination('@(Model.PageId + 1)')"></a>
+                                    </li>
+                                }
+                                <li>
+                                    <a class="pager-item is-active" style="cursor:pointer" onclick="ChangePagination('@Model.PageCount')">@Model.PageCount</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

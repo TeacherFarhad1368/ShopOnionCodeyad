@@ -270,3 +270,11 @@ $("form").submit(
     }
 
 );
+function ChangePagination(page) {
+    $("input#inputPageId").val(page);
+    $("form#myForm").submit();
+}
+function chnageOrderBy(orderBy) {
+    $("input#inputOrderBy").val(orderBy);
+    $("form#myForm").submit();
+}

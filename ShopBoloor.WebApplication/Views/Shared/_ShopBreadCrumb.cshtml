@@ -1,0 +1,24 @@
+﻿@model List<Query.Contract.UI.BreadCrumbQueryModel>
+@if(Model.Count() > 0)
+{
+    <div class="breadcrumb-section default">
+        <ul class="breadcrumb-list">
+            @foreach (var item in Model.OrderBy(m => m.Number))
+            {
+                if (string.IsNullOrEmpty(item.Url))
+                {
+                    <li><span>@item.Title</span></li>
+                }
+                else
+                {
+                    <li>
+                        <a href="@item.Url">
+                            <span>@item.Title</span>
+                        </a>
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+}
