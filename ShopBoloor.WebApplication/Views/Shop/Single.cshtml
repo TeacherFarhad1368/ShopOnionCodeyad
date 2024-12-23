@@ -1,0 +1,691 @@
+﻿@model SingleProductUIQueryModel
+@using Query.Contract.UI.Product;
+@using Shared.Application;
+@{
+    ViewData["Title"] = Model.Seo.MetaTitle;
+}
+<main class="single-product default">
+    <div class="container">
+        <partial name="_ProductBreadCrumb" model="@Model.BreadCrumb" />
+        <div class="row">
+            <div class="col-12">
+                <article class="product">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-6 col-sm-12">
+                            <div class="product-gallery default">
+                                <img class="zoom-img" id="img-product-zoom" src="@FileDirectories.ProductImageDirectory500@Model.ImageName"
+                                data-zoom-image="@FileDirectories.ProductImageDirectory@Model.ImageName" width="411" />
+
+                                <div id="gallery_01f" style="width:500px;float:left;">
+                                    <ul class="gallery-items owl-carousel owl-theme" id="gallery-slider">
+                                        <li class="item">
+                                            <a href="#" class="elevatezoom-gallery active" data-update=""
+                                            data-image="@FileDirectories.ProductImageDirectory500@Model.ImageName"
+                                            data-zoom-image="@FileDirectories.ProductImageDirectory@Model.ImageName">
+                                                <img src="@FileDirectories.ProductImageDirectory100@Model.ImageName" width="100" />
+                                            </a>
+                                        </li>
+                                        @if(Model.Galleries.Count() > 0)
+                                        {
+                                            foreach(var item in Model.Galleries){
+                                                <li class="item">
+                                                    <a href="tester" class="elevatezoom-gallery"
+                                                       data-image="@FileDirectories.ProductGalleryImageDirectory500@item.ImageName"
+                                                       data-zoom-image="@FileDirectories.ProductGalleryImageDirectory@item.ImageName">
+                                                        <img src="@FileDirectories.ProductGalleryImageDirectory100@item.ImageName" width="100" />
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <ul class="gallery-options">
+                                <li>
+                                    <button class="add-favorites"><i class="fa fa-heart"></i></button>
+                                    <span class="tooltip-option">افزودن به علاقمندی</span>
+                                </li>
+                                <li>
+                                    <button data-toggle="modal" data-target="#myModal">
+                                        <i class="fa fa-share-alt"></i>
+                                    </button>
+                                    <span class="tooltip-option">اشتراک گذاری</span>
+                                </li>
+                            </ul>
+                            <!-- Modal Core -->
+                            <div class="modal-share modal fade" id="myModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">اشتراک گذاری</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-share">
+                                                <div class="form-share-title">
+                                                    اشتراک گذاری در شبکه های اجتماعی
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <ul class="btn-group-share">
+                                                            <li>
+                                                                <a href="#" class="btn-share btn-share-twitter"
+                                                                   target="_blank">
+                                                                    <i class="fa fa-twitter"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" class="btn-share btn-share-facebook"
+                                                                   target="_blank">
+                                                                    <i class="fa fa-facebook"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"
+                                                                   class="btn-share btn-share-google-plus"
+                                                                   target="_blank">
+                                                                    <i class="fa fa-google-plus"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-share-title">ارسال به ایمیل</div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <label class="ui-input ui-input-send-to-email">
+                                                            <input class="ui-input-field" type="email"
+                                                                   placeholder="آدرس ایمیل را وارد نمایید.">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <button class="btn-primary">ارسال</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form class="form-share-url default">
+                                                <div class="form-share-url-title">آدرس صفحه</div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <label class="ui-url">
+                                                            <input class="ui-url-field"
+                                                                   value="https://www.digikala.com">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Core -->
+                        </div>
+                        <div class="col-lg-7 col-md-6 col-sm-12 center-breakpoint">
+                            <div class="product-title default">
+                                <h1>
+                                    @Model.Title
+                                    @* <span>Apple iPhone X 256GB Mobile Phone</span> *@
+                                </h1>
+                            </div>
+                            <div class="product-directory default">
+                                <ul>
+                                    @foreach (var item in Model.Categories)
+                                    {
+                                        <li>
+                                            <span>دسته ‌بندی</span> :
+                                            <a href="/Shop?slug=@item.Slug" class="btn-link-border">
+                                                @item.Title
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            @* <div class="product-guaranteed default">
+                                بیش از ۱۸۰ نفر از خریداران این محصول را پیشنهاد داده‌اند
+                            </div> *@
+                            <div class="product-params default">
+                                <ul data-title="ویژگی‌های محصول">
+                                    <li>
+                                        <span>وزن (گرم): </span>
+                                        <span> 256 گیگابایت </span>
+                                    </li>
+                                    @foreach(var item in Model.Features){
+                                        <li>
+                                            <span>@item.Title : </span>
+                                            <span> @item.Value </span>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="col-12 default no-padding">
+                    <div class="product-tabs default">
+                        <div class="box-tabs default">
+                            <ul class="nav" role="tablist">
+                                <li class="box-tabs-tab">
+                                    <a class="active" data-toggle="tab" href="#desc" role="tab"
+                                       aria-expanded="true">
+                                        <i class="now-ui-icons design_bullet-list-67"></i> توضیحات
+                                    </a>
+                                </li>
+                                <li class="box-tabs-tab">
+                                    <a data-toggle="tab" href="#comments" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons ui-2_chat-round"></i> نظرات کاربران
+                                    </a>
+                                </li>
+                                <li class="box-tabs-tab">
+                                    <a data-toggle="tab" href="#questions" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons travel_info"></i> پرسش و پاسخ
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="card-body default">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="desc" role="tabpanel"
+                                         aria-expanded="true">
+                                        <article>
+                                           @Html.Raw(Model.Description)
+                                        </article>
+                                    </div>
+                                    <div class="tab-pane fade" id="comments" role="tabpanel"
+                                         aria-expanded="false">
+                                        <article>
+                                            <h2 class="comments-headline">
+                                                امتیاز کاربران به:
+                                                <span>
+                                                    <span>
+                                                        ماشین لباسشویی سامسونگ مدل J1466 ظرفیت 7 کیلوگرم
+                                                    </span>
+                                                    <span> |</span>
+                                                    <span>۴</span>
+                                                    <span> / ۵</span>
+                                                    <span>
+                                                        (۱۵ نفر)
+                                                    </span>
+                                                </span>
+                                            </h2>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <ul class="content-expert-rating">
+                                                        <li>
+                                                            <div class="cell">طراحی</div>
+                                                            <div class="cell">
+                                                                <div class="rating rating--general"
+                                                                     data-rate-digit="عالی">
+                                                                    <div class="rating-rate"
+                                                                         data-rate-value="100%"
+                                                                         style="width: 70%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="cell">ارزش خرید</div>
+                                                            <div class="cell">
+                                                                <div class="rating rating--general"
+                                                                     data-rate-digit="عالی">
+                                                                    <div class="rating-rate"
+                                                                         data-rate-value="100%"
+                                                                         style="width: 20%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="cell">کیفیت ساخت</div>
+                                                            <div class="cell">
+                                                                <div class="rating rating--general"
+                                                                     data-rate-digit="عالی">
+                                                                    <div class="rating-rate"
+                                                                         data-rate-value="100%"
+                                                                         style="width: 100%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="cell">صدای مزاحم</div>
+                                                            <div class="cell">
+                                                                <div class="rating rating--general"
+                                                                     data-rate-digit="عالی">
+                                                                    <div class="rating-rate"
+                                                                         data-rate-value="100%"
+                                                                         style="width: 100%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="cell">مصرف انرژی و آب</div>
+                                                            <div class="cell">
+                                                                <div class="rating rating--general"
+                                                                     data-rate-digit="عالی">
+                                                                    <div class="rating-rate"
+                                                                         data-rate-value="100%"
+                                                                         style="width: 100%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="cell">امکانات و قابلیت ها</div>
+                                                            <div class="cell">
+                                                                <div class="rating rating--general"
+                                                                     data-rate-digit="عالی">
+                                                                    <div class="rating-rate"
+                                                                         data-rate-value="100%"
+                                                                         style="width: 100%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="comments-summary-note">
+                                                        <span>
+                                                            شما هم می‌توانید در مورد این کالا نظر
+                                                            بدهید.
+                                                        </span>
+                                                        <p>
+                                                            برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود
+                                                            شوید. اگر این محصول را قبلا از دیجی‌کالا خریده
+                                                            باشید، نظر
+                                                            شما به عنوان مالک محصول ثبت خواهد شد.
+                                                        </p>
+                                                        <div class="parent-btn">
+                                                            <a href="#" class="dk-btn dk-btn-grey"
+                                                               data-toggle="modal" data-target="#loginModal">
+                                                                افزودن نظر جدید
+                                                                <i class="now-ui-icons ui-2_chat-round"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h2 class="param-title mt-5">
+                                                نظرات کاربران
+                                                <span>۱۲۳ نظر</span>
+                                            </h2>
+                                            <div class="comments-area default">
+                                                <ol class="comment-list">
+                                                    <!-- #comment-## -->
+                                                    <li>
+                                                        <div class="comment-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3 col-sm-12">
+                                                                    <div class="message-light message-light--purchased">
+                                                                        خریدار این محصول
+                                                                    </div>
+                                                                    <ul class="comments-user-shopping">
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                رنگ خریداری
+                                                                                شده:
+                                                                            </div>
+                                                                            <div class="cell color-cell">
+                                                                                <span class="shopping-color-value"
+                                                                                      style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                خریداری شده
+                                                                                از:
+                                                                            </div>
+                                                                            <div class="cell seller-cell">
+                                                                                <span class="o-text-blue">دیجی‌کالا</span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="message-light message-light--opinion-positive">
+                                                                        خرید این محصول را توصیه می‌کنم
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9 col-sm-12 comment-content">
+                                                                    <div class="comment-title">
+                                                                        لباسشویی سامسونگ
+                                                                    </div>
+                                                                    <div class="comment-author">
+                                                                        توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
+                                                                    </div>
+
+                                                                    <p>لورم ایپسوم متن ساختگی</p>
+
+                                                                    <div class="footer">
+                                                                        <div class="comments-likes">
+                                                                            آیا این نظر برایتان مفید بود؟
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۱۱">
+                                                                                بله
+                                                                            </button>
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۶">
+                                                                                خیر
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <!-- #comment-## -->
+                                                    <li>
+                                                        <div class="comment-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3 col-sm-12">
+                                                                    <div class="message-light message-light--purchased">
+                                                                        خریدار این محصول
+                                                                    </div>
+                                                                    <ul class="comments-user-shopping">
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                رنگ خریداری
+                                                                                شده:
+                                                                            </div>
+                                                                            <div class="cell color-cell">
+                                                                                <span class="shopping-color-value"
+                                                                                      style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                خریداری شده
+                                                                                از:
+                                                                            </div>
+                                                                            <div class="cell seller-cell">
+                                                                                <span class="o-text-blue">دیجی‌کالا</span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="message-light message-light--opinion-positive">
+                                                                        خرید این محصول را توصیه می‌کنم
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9 col-sm-12 comment-content">
+                                                                    <div class="comment-title">
+                                                                        لباسشویی سامسونگ
+                                                                    </div>
+                                                                    <div class="comment-author">
+                                                                        توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 col-sm-6 col-12">
+                                                                            <div class="content-expert-evaluation-positive">
+                                                                                <span>نقاط قوت</span>
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        دوربین‌های 4گانه پرقدرت
+                                                                                    </li>
+                                                                                    <li>باتری باظرفیت بالا</li>
+                                                                                    <li>
+                                                                                        حسگر اثرانگشت زیر قاب
+                                                                                        جلویی
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-6 col-12">
+                                                                            <div class="content-expert-evaluation-negative">
+                                                                                <span>نقاط ضعف</span>
+                                                                                <ul>
+                                                                                    <li>نرم‌افزار دوربین</li>
+                                                                                    <li>
+                                                                                        نبودن Nano SD در بازار
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p>
+                                                                        بعد از چندین هفته بررسی تصمیم به خرید
+                                                                        این مدل از ماشین لباسشویی گرفتم ولی
+                                                                        متاسفانه نتونست انتظارات منو برآورده کنه
+                                                                        .
+                                                                        دو تا ایراد داره یکی اینکه حدودا تا 20
+                                                                        دقیقه اول شستشو یه صدایی شبیه به صدای
+                                                                        پمپ تخلیه همش به گوش میاد که رو مخه یکی
+                                                                        هم با اینکه خشک کنش تا 1400 دور در دقیقه
+                                                                        میچرخه، ولی اون طوری که دوستان تعریف
+                                                                        میکردن لباسها رو خشک نمیکنه .ضمنا برای
+                                                                        این صدایی که گفتم زنگ زدم نمایندگی اومدن
+                                                                        دیدن، وتعمیرکار گفتش که این صدا طبیعیه و
+                                                                        تا چند دقیقه اول شستشو عادیه.بدجوری خورد
+                                                                        تو ذوقم. اگه بیشتر پول میذاشتم میتونستم
+                                                                        یه مدل میان رده از مارکهای بوش یا آ ا گ
+                                                                        میخریدم که خیلی بهتر از جنس مونتاژی کره
+                                                                        ای هستش.
+                                                                    </p>
+
+                                                                    <div class="footer">
+                                                                        <div class="comments-likes">
+                                                                            آیا این نظر برایتان مفید بود؟
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۱۱">
+                                                                                بله
+                                                                            </button>
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۶">
+                                                                                خیر
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <!-- #comment-## -->
+                                                    <li>
+                                                        <div class="comment-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3 col-sm-12">
+                                                                    <div class="message-light message-light--purchased">
+                                                                        خریدار این محصول
+                                                                    </div>
+                                                                    <ul class="comments-user-shopping">
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                رنگ خریداری
+                                                                                شده:
+                                                                            </div>
+                                                                            <div class="cell color-cell">
+                                                                                <span class="shopping-color-value"
+                                                                                      style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                خریداری شده
+                                                                                از:
+                                                                            </div>
+                                                                            <div class="cell seller-cell">
+                                                                                <span class="o-text-blue">دیجی‌کالا</span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="message-light message-light--opinion-positive">
+                                                                        خرید این محصول را توصیه می‌کنم
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9 col-sm-12 comment-content">
+                                                                    <div class="comment-title">
+                                                                        لباسشویی سامسونگ
+                                                                    </div>
+                                                                    <div class="comment-author">
+                                                                        توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
+                                                                    </div>
+
+                                                                    <p>لورم ایپسوم متن ساختگی</p>
+
+                                                                    <div class="footer">
+                                                                        <div class="comments-likes">
+                                                                            آیا این نظر برایتان مفید بود؟
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۱۱">
+                                                                                بله
+                                                                            </button>
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۶">
+                                                                                خیر
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <!-- #comment-## -->
+                                                    <li>
+                                                        <div class="comment-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3 col-sm-12">
+                                                                    <div class="message-light message-light--purchased">
+                                                                        خریدار این محصول
+                                                                    </div>
+                                                                    <ul class="comments-user-shopping">
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                رنگ خریداری
+                                                                                شده:
+                                                                            </div>
+                                                                            <div class="cell color-cell">
+                                                                                <span class="shopping-color-value"
+                                                                                      style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                خریداری شده
+                                                                                از:
+                                                                            </div>
+                                                                            <div class="cell seller-cell">
+                                                                                <span class="o-text-blue">دیجی‌کالا</span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="message-light message-light--opinion-positive">
+                                                                        خرید این محصول را توصیه می‌کنم
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9 col-sm-12 comment-content">
+                                                                    <div class="comment-title">
+                                                                        لباسشویی سامسونگ
+                                                                    </div>
+                                                                    <div class="comment-author">
+                                                                        توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
+                                                                    </div>
+
+                                                                    <p>لورم ایپسوم متن ساختگی</p>
+
+                                                                    <div class="footer">
+                                                                        <div class="comments-likes">
+                                                                            آیا این نظر برایتان مفید بود؟
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۱۱">
+                                                                                بله
+                                                                            </button>
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۶">
+                                                                                خیر
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <!-- #comment-## -->
+                                                    <li>
+                                                        <div class="comment-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3 col-sm-12">
+                                                                    <div class="message-light message-light--purchased">
+                                                                        خریدار این محصول
+                                                                    </div>
+                                                                    <ul class="comments-user-shopping">
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                رنگ خریداری
+                                                                                شده:
+                                                                            </div>
+                                                                            <div class="cell color-cell">
+                                                                                <span class="shopping-color-value"
+                                                                                      style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="cell">
+                                                                                خریداری شده
+                                                                                از:
+                                                                            </div>
+                                                                            <div class="cell seller-cell">
+                                                                                <span class="o-text-blue">دیجی‌کالا</span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="message-light message-light--opinion-positive">
+                                                                        خرید این محصول را توصیه می‌کنم
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9 col-sm-12 comment-content">
+                                                                    <div class="comment-title">
+                                                                        لباسشویی سامسونگ
+                                                                    </div>
+                                                                    <div class="comment-author">
+                                                                        توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
+                                                                    </div>
+
+                                                                    <p>لورم ایپسوم متن ساختگی</p>
+
+                                                                    <div class="footer">
+                                                                        <div class="comments-likes">
+                                                                            آیا این نظر برایتان مفید بود؟
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۱۱">
+                                                                                بله
+                                                                            </button>
+                                                                            <button class="btn-like"
+                                                                                    data-counter="۶">
+                                                                                خیر
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="tab-pane fade form-comment" id="questions" role="tabpanel"
+                                         aria-expanded="false">
+                                        <article>
+                                            <h2 class="param-title">
+                                                افزودن نظر
+                                                <span>نظر خود را در مورد محصول مطرح نمایید</span>
+                                            </h2>
+                                            <form action="" class="comment">
+                                                <textarea class="form-control" placeholder="نظر"
+                                                          rows="5"></textarea>
+                                                <button class="btn btn-default">ارسال نظر</button>
+                                            </form>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

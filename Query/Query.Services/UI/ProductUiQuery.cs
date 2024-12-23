@@ -1,6 +1,7 @@
 ﻿using Blogs.Domain.BlogCategoryAgg;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using PostModule.Infrastracture.EF;
 using Query.Contract.UI;
 using Query.Contract.UI.Product;
 using Seos.Domain;
@@ -14,10 +15,12 @@ internal class ProductUiQuery : IProductUiQuery
 {
     private readonly ShopContext _shopContext;
     private readonly ISeoRepository _seoRepository;
-    public ProductUiQuery(ShopContext shopContext, ISeoRepository seoRepository)
+    private readonly Post_Context _postContext; 
+    public ProductUiQuery(ShopContext shopContext, ISeoRepository seoRepository, Post_Context post_Context)
     {
         _shopContext = shopContext;
         _seoRepository = seoRepository; 
+        _postContext = post_Context;
     }
     private List<BreadCrumbQueryModel> GetProductBreadCrumb(string? categorySlug,string? productSlug)
     {
@@ -54,7 +57,47 @@ internal class ProductUiQuery : IProductUiQuery
         }
         else if (!string.IsNullOrWhiteSpace(productSlug))
         {
-            return new();
+            List<BreadCrumbQueryModel> model = new()
+            {
+                 new BreadCrumbQueryModel(){Number = 1 , Title ="خانه" , Url = "/"} ,
+                 new BreadCrumbQueryModel(){Number = 2, Title = "محصولات" , Url = "/Shop"}
+            };
+            var product = _shopContext.Products.Include(p=>p.ProductCategoryRelations).SingleOrDefault(p=>p.Slug.Trim().ToLower() ==  productSlug.ToLower().Trim());
+            if (product == null) return model;
+            int i = 3;
+            if (product.ProductCategoryRelations.Any())
+            {
+                var categoryId = product.ProductCategoryRelations.First().ProductCategoryId;
+                var category = _shopContext.ProductCategories.SingleOrDefault(c => c.Id == categoryId);
+                if (category != null)
+                {
+                    if (category.Parent > 0)
+                    {
+                        var parent = _shopContext.ProductCategories.Find(category.Parent);
+                        model.Add(new BreadCrumbQueryModel
+                        {
+                            Number = i,
+                            Title = parent.Title,
+                            Url = $"/Shop?slug={parent.Slug}"
+                        });
+                        i++;
+                    }
+                    model.Add(new BreadCrumbQueryModel
+                    {
+                        Number = i,
+                        Title = category.Title,
+                        Url = $"/Shop?slug={category.Slug}"
+                    });
+                    i++;
+                }
+            }
+            model.Add(new BreadCrumbQueryModel
+            {
+                Number = i,
+                Title = product.Title,
+                Url = ""
+            });
+            return model;
         }
         else
         {
@@ -153,8 +196,68 @@ internal class ProductUiQuery : IProductUiQuery
             }).ToList()
         }).ToList();
         model.BreadCrumb = GetProductBreadCrumb(model.CategorySlug, "");
-        var seo = _seoRepository.GetSeoForUi(ownerSeoId, WhereSeo.BlogCategory, seoTitle);
+        var seo = _seoRepository.GetSeoForUi(ownerSeoId, WhereSeo.ProductCategory, seoTitle);
         model.Seo = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
+        return model;
+    }
+
+    public SingleProductUIQueryModel GetSingleProductForUi(int id)
+    {
+        var product = _shopContext.Products.Include(p=>p.ProductCategoryRelations).ThenInclude(p=>p.ProductCategory)
+            .Include(p=>p.ProductFeatures)
+            .Include(p=>p.ProductGalleries)
+            .Include(p=>p.ProductSells.Where(s=>s.Active))
+            .SingleOrDefault(c=>c.Id == id);
+        if (product == null) return null;
+        SingleProductUIQueryModel model = new()
+        {
+            ImageAlt = product.ImageAlt,
+            BreadCrumb = new(),
+            Categories = product.ProductCategoryRelations.Select(r=> new CategoryForProductSingleQueryModel
+            {
+                Slug = r.ProductCategory.Slug,
+                Title = r.ProductCategory.Title,
+            }).ToList(),
+            Description = product.Description,
+            Features = product.ProductFeatures.Select(f=> new FeatureForProductSingleQueryModel
+            {
+                Title = f.Title,
+                Value = f.Value,
+            }).ToList(),
+            Galleries = product.ProductGalleries.Select(g=> new GalleryForProductSingleQueryModel
+            {
+                ImageAlt= g.ImageAlt,
+                ImageName= g.ImageName,
+            }).ToList(),
+            Id = product.Id,
+            ImageName = product.ImageName,
+            ProductSells = product.ProductSells.Select(s=> new ProductSellForProductSingleQueryModel
+            {
+                Amount = s.Amount,
+                SellerAddress = "",
+                Price = s.Price,
+                PriceAfterOff = s.Price - 1,
+                SellerId = s.SellerId,
+                SellerName = "",
+                Unit = s.Unit,
+                Weight = s.Weight
+            }).ToList(),
+            Seo = null,
+            Slug = product.Slug,
+            Title = product.Title,
+            Weight= product.Weight
+        };
+        model.BreadCrumb = GetProductBreadCrumb(null, product.Slug);
+        var seo = _seoRepository.GetSeoForUi(product.Id, WhereSeo.Product, product.Title);
+        model.Seo = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
+        model.ProductSells.ForEach(x =>
+        {
+            var seller = _shopContext.Sellers.Find(x.SellerId);
+            x.SellerName = seller.Title;
+            var city = _postContext.Cities.Include(c => c.State).SingleOrDefault(c => c.Id == seller.CityId && c.StateId == seller.StateId);
+            if (city != null)
+                x.SellerAddress = $"{city.State.Title} {city.Title} {seller.Address}";
+        });
         return model;
     }
 }

@@ -25,10 +25,12 @@ namespace Shop.Application.Services
 					return new OperationResult(false, ValidationMessages.ImageErrorMessage, nameof(command.ImageFile));
 
 			_fileService.ResizeImage(imageName, FileDirectories.ProductGalleryImageFolder, 100);
+            _fileService.ResizeImage(imageName, FileDirectories.ProductGalleryImageFolder, 500);
             var gallery = new ProductGallery(command.ProductId, imageName, command.ImageAlt);
             if (await _productGalleryRepository.CreateAsync(gallery)) return new(true);
 			_fileService.DeleteImage($"{FileDirectories.ProductGalleryImageDirectory}{imageName}");
 			_fileService.DeleteImage($"{FileDirectories.ProductGalleryImageDirectory100}{imageName}");
+			_fileService.DeleteImage($"{FileDirectories.ProductGalleryImageDirectory500}{imageName}");
             return new(false, ValidationMessages.SystemErrorMessage);
 		}
 
@@ -40,6 +42,7 @@ namespace Shop.Application.Services
 			{
 				_fileService.DeleteImage($"{FileDirectories.ProductGalleryImageDirectory}{imageName}");
 				_fileService.DeleteImage($"{FileDirectories.ProductGalleryImageDirectory100}{imageName}");
+				_fileService.DeleteImage($"{FileDirectories.ProductGalleryImageDirectory500}{imageName}");
                 return true;
 			}
             return false;

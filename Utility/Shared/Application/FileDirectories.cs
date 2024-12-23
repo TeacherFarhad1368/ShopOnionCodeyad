@@ -66,6 +66,7 @@ namespace Shared.Application
 
 		public const string ProductGalleryImageFolder = "ProductGallery";
 		public const string ProductGalleryImageDirectory = "/Images/ProductGallery/";
+		public const string ProductGalleryImageDirectory500 = "/Images/ProductGallery/500/";
 		public const string ProductGalleryImageDirectory100 = "/Images/ProductGallery/100/";
 
 		public const string SellerImageFolder = "Seller";

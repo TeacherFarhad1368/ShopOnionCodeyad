@@ -27,13 +27,13 @@
                         <div class="price-value-wrapper">
                             @if(Model.PriceAfterOff != Model.Price){
                                 <del class="text-danger">
-                                    @Model.Price 
+                                    @Model.Price.ToString("#,0")
                                 </del>
-                                @Model.PriceAfterOff.ToString("3,0") <span class="price-currency">تومان</span>
+                                @Model.PriceAfterOff.ToString("#,0") <span class="price-currency">تومان</span>
                             }
                             else
                             {
-                                @Model.Price.ToString("3,0") <span class="price-currency">تومان</span>
+                                @Model.Price.ToString("#,0") <span class="price-currency">تومان</span>
                             }
                         </div>
                     </div>

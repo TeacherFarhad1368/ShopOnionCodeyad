@@ -18,5 +18,13 @@ namespace ShopBoloor.WebApplication.Controllers
             var model = _productUiQuery.GetProductsForUi(pageId,filter,slug,id == null ? 0 : id.Value,orderBy);
             return View(model);
         }
+        [Route("/Product/{id}/{slug}")]
+        public IActionResult Single(int id,string slug)
+        {
+            var model = _productUiQuery.GetSingleProductForUi(id);
+            if (model == null) return NotFound();
+            if (model.Slug != slug) return Redirect($"/Product/{id}/{model.Slug}");
+            return View(model);
+        }
     }
 }
