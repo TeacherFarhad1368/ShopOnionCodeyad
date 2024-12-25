@@ -2,6 +2,7 @@
 using Comments.Domain.CommentAgg;
 using Query.Contract.Admin.Comment;
 using Shared.Domain.Enum;
+using Shop.Domain.ProductAgg;
 using Site.Domain.SitePageAgg;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,15 @@ namespace Query.Services.Admin
 		private readonly IUserRepository _userRepository;
 		private readonly IBlogRepository _blogRepository;
 		private readonly ISitePageRepository _sitePageRepository ;
+		private readonly IProductRepository _productRepository;
 		public CommentAdminQuery(ICommentRepository commentRepository, IUserRepository userRepository,
-			IBlogRepository blogRepository,ISitePageRepository sitePageRepository)
+			IBlogRepository blogRepository,ISitePageRepository sitePageRepository, IProductRepository productRepository)
 		{
 			_commentRepository = commentRepository;
 			_userRepository = userRepository;
 			_blogRepository = blogRepository;
 			_sitePageRepository = sitePageRepository;
+			_productRepository = productRepository;
 		}
 
 		public List<CommentAdminQueryModel> GetAllUnSeenCommentsForAdmin()
@@ -62,7 +65,9 @@ namespace Query.Services.Admin
 						x.CommentTitle = $"نظر برای مقاله  {blog.Title}";
 						break;
 					case CommentFor.محصول:
-						break;
+						var product = _productRepository.GetById(x.OwnerId);
+                        x.CommentTitle = $"نظر برای محصول  {product.Title}";
+                        break;
                     case CommentFor.صفحه:
 						var site = _sitePageRepository.GetById(x.OwnerId);
                         x.CommentTitle = $"نظر برای صفحه  {site.Title}";
