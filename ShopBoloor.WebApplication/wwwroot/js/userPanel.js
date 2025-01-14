@@ -145,3 +145,54 @@ function GetProductsFotCategory() {
         });
     }
 }
+function OpenAjaxModal(url, title) {
+    $.get(url, function (res) {
+        $("h4#myuserPanelModal").text(title);
+        var content = $("div#myuserPanelModalBody");
+        content.html(res);
+        var titleModal = $("h4#ajax-modal-title");
+        titleModal.text(title);
+        openUserPanelAjaxModal();
+        var form = $("form#form-ajax-userPanel");
+        $.validator.unobtrusive.parse(form);
+        if (url.includes('Discount/Create')) {
+            $("input#StartDate").persianDatepicker();
+            $("input#EndDate").persianDatepicker();
+        }
+    });
+}
+function openUserPanelAjaxModal() {
+    var modal = $("div#userPanelModal");
+    modal.removeClass("close-modal-form");
+    modal.addClass("show");
+    modal.addClass("open-modal-form");
+}
+function closeUserPanelAjaxModal() {
+    var content = $("div#myuserPanelModalBody");
+    content.html("");
+    var titleModal = $("h4#ajax-modal-title");
+    titleModal.text("");
+    var modal = $("div#userPanelModal");
+    modal.addClass("close-modal-form");
+    modal.removeClass("show");
+    modal.removeClass("open-modal-form");
+}
+function AjaxUserPanelSucceded(model) {
+    debugger;
+    var res = JSON.parse(model);
+    if (res.Success) {
+        closeUserPanelAjaxModal();
+        AlertSweetTimer("عملیات موفقیت آمیز بود .", "success", 3000);
+        setTimeout(function () {
+            location.reload();
+        }, 3000);
+    }
+    else {
+        var span = $("span#ajax-userPanel-modal-valid");
+        span.text(res.Message);
+    }
+}
+function AjaxUserPanelFaild() {
+    closeUserPanelAjaxModal();
+    AlertSweet("عملیات ناموفق", "خطای سیستمی !!!", "error");
+}

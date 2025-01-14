@@ -75,6 +75,9 @@
                                         <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">
                                             ویرایش
                                         </a>
+                                        <a class="btn btn-success btn-sm" onclick="OpenAjaxModal('/UserPanel/Discount/Create/@item.Id','افزودن تخفیف برای @item.Unit - @item.ProductTitle')">
+                                            افزودن تخفیف
+                                        </a>
                                     </td>
                                 </tr>
                             }

@@ -9,6 +9,7 @@ namespace Shop.Application.Contract.ProductApplication
 {
     public interface IProductQuery
     {
+        Task<int> GetProductIdByProductSellIdAsync(int productSellId);
         List<ProductForAddProductSellQueryModel> GetProductsForAddProductSells(int id);
         ProductAdminPaging GetProductsForAdmin(int pageId, int take, int categoryId, string filter, ProductAdminOrderBy orderBy);
     }

@@ -57,7 +57,8 @@ namespace ShopBoloor.WebApplication.Services
             ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             AuthenticationProperties authenticationProperties = new()
             {
-                IsPersistent = true
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
             };
             _contextAccessor.HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authenticationProperties);
         }

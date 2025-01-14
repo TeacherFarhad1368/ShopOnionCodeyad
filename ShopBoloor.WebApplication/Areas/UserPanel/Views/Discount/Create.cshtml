@@ -1,0 +1,41 @@
+﻿@model Discounts.Application.Contract.ProductDiscountApplication.Command.CreateProductSellDiscount
+<form id="form-ajax-userPanel"
+      asp-action="Create" asp-route-id="@Model.ProductSellId"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-failure="AjaxUserPanelFaild"
+      data-ajax-success="AjaxUserPanelSucceded"
+      class="form-account">
+    <input asp-for="ProductSellId"
+           type="hidden">
+    <div class="row">
+        <span class="text-danger" id="ajax-userPanel-modal-valid"></span>
+        <div class="col-12">
+            <div class="form-account-title">تاریخ شروع</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="StartDate" 
+                       type="text">
+            </div>
+            <span class="text-danger" asp-validation-for="StartDate"></span>
+        </div>
+        <div class="col-12">
+            <div class="form-account-title">تاریخ پایان</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="EndDate"
+                       type="text">
+            </div>
+            <span class="text-danger" asp-validation-for="EndDate"></span>
+        </div>
+        <div class="col-12">
+            <div class="form-account-title">درصد تخفیف</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="Percent"
+                       type="text">
+            </div>
+            <span class="text-danger" asp-validation-for="Percent"></span>
+        </div>
+    </div>
+    <div class="col-12 text-center">
+        <button class="btn btn-success btn-lg" type="submit">ذخیره</button>
+    </div>
+</form>

@@ -20,6 +20,12 @@ namespace Shop.Query.Services
             _context = context;
         }
 
+        public async Task<int> GetProductIdByProductSellIdAsync(int productSellId)
+        {
+            var sell = await _context.ProductSells.FindAsync(productSellId);
+            return sell.ProductId;
+        }
+
         public List<ProductForAddProductSellQueryModel> GetProductsForAddProductSells(int id)
         {
             return _context.Products.Include(c=>c.ProductCategoryRelations)

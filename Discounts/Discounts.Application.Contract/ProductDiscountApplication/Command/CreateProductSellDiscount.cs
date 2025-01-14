@@ -9,10 +9,10 @@ public class CreateProductSellDiscount
     public int ProductSellId { get; set; }
     [Display(Name = "تاریخ شروع")]
     [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
-    public DateTime StartDate { get; set; }
+    public string StartDate { get; set; }
     [Display(Name = "تاریخ پایان")]
     [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
-    public DateTime EndDate { get; set; }
+    public string EndDate { get; set; }
     [Display(Name = "درصد تخفیف")]
     public int Percent { get; set; }
 }

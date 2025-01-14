@@ -20,7 +20,8 @@ namespace Discounts.Domain.OrderDiscountAgg
             Type = type;
             StartDate = startDate;
             EndDate = endDate;
-            ShopId = shopId;    
+            ShopId = shopId;
+            Use = 0;
         }
         public void Edit(int percent, string title, string code, int count,
             DateTime startDate, DateTime endDate)

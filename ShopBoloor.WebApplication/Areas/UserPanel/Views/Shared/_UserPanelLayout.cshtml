@@ -9,6 +9,17 @@
     <title>@ViewData["Title"]</title>
     <partial name="_Css" />
     <link rel="stylesheet" href="/css/select2.min.css" asp-append-version="true" />
+    <style>
+        .open-modal-form{
+            display: block;
+            padding-right: 15px;
+        }
+
+        .close-modal-form {
+            display: none;
+            padding-right: unset;
+        }
+    </style>
 </head>
 @{
     var SuccessLogin = TempData["SuccessLogin"] != null;
@@ -34,7 +45,8 @@
                 </div>
             </div>
         </main>
-        <partial name="_Footer" /> <div class="modal-share modal-width-custom modal fade" id="myModalCreateTransaction" tabindex="-1"
+        <partial name="_Footer" /> 
+        <div class="modal-share modal-width-custom modal fade" id="myModalCreateTransaction" tabindex="-1"
                                         role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -74,6 +86,25 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+
+        <div class="modal-share modal-width-custom modal fade" id="userPanelModal" tabindex="-1"
+             role="dialog" aria-labelledby="myuserPanelModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="closeUserPanelAjaxModal()">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myuserPanelModal"></h4>
+                    </div>
+                    <div class="modal-body" id="myuserPanelModalBody">
+                     
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <partial name="_Js" />
