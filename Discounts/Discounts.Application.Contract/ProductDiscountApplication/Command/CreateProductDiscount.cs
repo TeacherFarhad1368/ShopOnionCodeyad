@@ -7,6 +7,7 @@ public class CreateProductDiscount
 {
     [Display(Name = "انتخاب محصول")]
     public int ProductId { get; set; }
+    public int ProductSellId { get; set; }
     [Display(Name = "تاریخ شروع")]
     [Required(ErrorMessage = ValidationMessages.RequiredMessage)]
     public string StartDate { get; set; }

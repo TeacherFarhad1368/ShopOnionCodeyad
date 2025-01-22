@@ -1,5 +1,5 @@
-﻿@model Shop.Application.Contract.ProductApplication.ProductAdminPaging
-@using Shop.Application.Contract.ProductApplication;
+﻿@model ProductAdminPaging
+@using Query.Contract.Admin.Product;
 @using Shared.Application;
 @{
     ViewData["Title"] = Model.PageTitle;
@@ -68,6 +68,7 @@
                             <th> تصویر </th>
                             <th> نام </th>
                             <th> لینک سریرگ </th>
+                            <th> تخفیف </th>
                             <th> فعال </th>
                             <th>تاریخ ثبت</th>
                             <th>تاریخ ویرایش</th>
@@ -88,6 +89,9 @@
                                     </td>
                                     <td>
                                         @item.Slug
+                                    </td>
+                                    <td>
+                                        @item.ProductDiscountPercent %
                                     </td>
                                     <td>
                                         @{
@@ -129,6 +133,10 @@
                                         <a class="btn btn-default" title="ویژگی های @item.Title"
                                            asp-controller="ProductGallery" asp-action="Index" asp-route-id="@item.Id">
                                             <i class="fa fa-picture-o"></i>
+                                        </a>
+                                        <a class="btn btn-warning" title="ویرایش تخفیف @item.Title"
+                                           onclick="AjaxAdminGet('/Admin/ProductDiscount/Create/@item.Id','ویرایش تخفیف برای @item.Title')">
+                                            <i class="fa fa-percent"></i>
                                         </a>
                                     </td>
                                 </tr>

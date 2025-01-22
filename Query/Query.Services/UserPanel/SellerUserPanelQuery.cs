@@ -7,6 +7,7 @@ using Shop.Domain.SellerAgg;
 using Shared.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Shop.Infrastructure;
+using Discounts.Infrastructure;
 
 namespace Query.Services.UserPanel;
 internal class SellerUserPanelQuery : ISellerUserPanelQuery
@@ -16,14 +17,17 @@ internal class SellerUserPanelQuery : ISellerUserPanelQuery
     private readonly ICityRepository _cityRepository;
     private readonly IProductSellRepository _productSellRepository;
     private readonly ShopContext _shopContext;
+    private readonly DiscountContext _discountContext;
     public SellerUserPanelQuery(ISellerRepository sellerRepository, IStateRepository stateRepository, 
-        ICityRepository cityRepository, IProductSellRepository productSellRepository, ShopContext shopContext)
+        ICityRepository cityRepository, IProductSellRepository productSellRepository, ShopContext shopContext,
+        DiscountContext discountContext)
     {
         _sellerRepository = sellerRepository;
         _stateRepository = stateRepository;
         _cityRepository = cityRepository;
         _productSellRepository = productSellRepository; 
         _shopContext = shopContext; 
+        _discountContext = discountContext;
     }
 
     public SellerDetailForUserPanelQueryModel GetSellerDetailForSeller(int id, int userId)
@@ -90,8 +94,28 @@ internal class SellerUserPanelQuery : ISellerUserPanelQuery
                     i.OrderSeller.Status == OrderSellerStatus.ارسال_شده).Sum(o=>o.Count),
                     SellerId = r.SellerId,
                     Unit = r.Unit,
-                    Weight = r.Weight
+                    Weight = r.Weight,
+                    ProductDiscountPercent = 0,
+                    ProductSellDiscountPercent = 0,
+                    PriceAfterDiscount = r.Price
                 }).ToList();
+            model.Products.ForEach(x =>
+            {
+                var productDiscounts = _discountContext.ProductDiscounts.Where(p => (p.ProductId == x.ProductId || p.ProductSellId == x.Id)
+                && (p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date));
+                if(productDiscounts.Any(p=>p.ProductId == x.ProductId && p.ProductSellId == 0))
+                {
+                    var dis = productDiscounts.OrderBy(p => p.Id).Last(p => p.ProductId == x.ProductId && p.ProductSellId == 0);
+                    x.ProductDiscountPercent = dis.Percent;
+                    x.PriceAfterDiscount = x.PriceAfterDiscount - (dis.Percent * x.Price / 100);
+                }
+                if (productDiscounts.Any(p => p.ProductId == x.ProductId && p.ProductSellId == x.Id))
+                {
+                    var dis = productDiscounts.OrderBy(p => p.Id).Last(p => p.ProductId == x.ProductId && p.ProductSellId == x.Id);
+                    x.ProductSellDiscountPercent = dis.Percent;
+                    x.PriceAfterDiscount = x.PriceAfterDiscount - (dis.Percent * x.Price / 100);
+                }
+            });
         }
         return model;
     }
@@ -119,6 +143,22 @@ internal class SellerUserPanelQuery : ISellerUserPanelQuery
             x.CityName = $"{state.Title} - {city.Title}";
         });
         return model;
+    }
+
+    public List<SellersForAddDiscountUserPanelQueryModel> GetSellersForUserForAddDiscount(int userId)
+    {
+        var res = _sellerRepository.GetAllByQuery(c => c.UserId == userId);
+        List<SellersForAddDiscountUserPanelQueryModel> model = res.Select(r => new SellersForAddDiscountUserPanelQueryModel
+        {
+            Id = r.Id,
+            Title = r.Title
+        }).ToList();
+        return model;
+    }
+
+    public List<int> GetUserSellerIds(int userId)
+    {
+        return _shopContext.Sellers.Where(s=>s.UserId == userId).Select(s => s.Id).ToList();    
     }
 
     public async Task<bool> IsProductSellForUser(int userId, int id)

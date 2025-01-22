@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Windows.Markup;
 
 namespace Shared.Application
 {
@@ -31,7 +32,12 @@ namespace Shared.Application
             var pc = new PersianCalendar();
             return $"{pc.GetYear(date)} {MonthNames[pc.GetMonth(date) - 1]} {pc.GetDayOfMonth(date):00}";
         }
-
+        public static string ToPersainDatePicker(this DateTime date)
+        {
+            if (date == new DateTime()) return "";
+            var pc = new PersianCalendar();
+            return $"{pc.GetYear(date):0000}/{pc.GetMonth(date):00}/{pc.GetDayOfMonth(date):00}";
+        }
         public static string ToDiscountFormat(this DateTime date)
         {
             if (date == new DateTime()) return "";
@@ -61,10 +67,12 @@ namespace Shared.Application
         public static DateTime ToEnglishDateTime(this string persianDate)
         {
             persianDate = persianDate.ToEnglishNumber();
-            var year = Convert.ToInt32(persianDate.Substring(0, 4));
-            var month = Convert.ToInt32(persianDate.Substring(5, 2));
-            var day = Convert.ToInt32(persianDate.Substring(8, 2));
-            return new DateTime(year, month, day, new PersianCalendar());
+            var strign = persianDate.Split("/").ToList();
+            var year = Convert.ToInt32(strign.First());
+            var month = Convert.ToInt32(strign.Skip(1).First());
+            var day = Convert.ToInt32(strign.Skip(2).First());
+            var x = new DateTime(year, month, day, new PersianCalendar());
+            return x;
         }
 
 

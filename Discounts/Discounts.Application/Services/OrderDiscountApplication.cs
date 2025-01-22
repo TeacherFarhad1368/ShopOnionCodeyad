@@ -13,23 +13,53 @@ internal class OrderDiscountApplication : IOrderDiscountApplication
         _orderDiscountRepository = orderDiscountRepository;
     }
 
-    public Task<OperationResult> CreateAsync(CreateOrderDiscount command, OrderDiscountType type, int shopId)
+    public async Task<OperationResult> CreateAsync(CreateOrderDiscount command, OrderDiscountType type, int shopId)
     {
-        throw new NotImplementedException();
+        DateTime startDate = command.StartDate.ToEnglishDateTime();
+        DateTime endDate = command.EndDate.ToEnglishDateTime();
+        if (endDate.Date < DateTime.Now.Date || endDate.Date < startDate.Date) return new(false, "تاریخ پایان باید حد اقل امروز باشد .");
+        if (command.Percent < 1 || command.Percent > 99) return new(false, "درصد تخفیف باید از 1 تا 99 باشد . .");
+        if(command.Count < 1) return new(false, "تعداد تخفیف باید بیشتر از 0 باشد . .");
+        if(await _orderDiscountRepository.ExistByAsync(d=>d.Code == command.Code.Trim())) return new(false, "کد تخفیف تکراری است .");
+        OrderDiscount discount = new(command.Percent, command.Title, command.Code, command.Count, type, startDate, endDate,shopId);
+        if (await _orderDiscountRepository.CreateAsync(discount)) return new(true);
+        return new(false,ValidationMessages.SystemErrorMessage);
     }
 
-    public Task<OperationResult> EditAsync(EditOrderDiscount command)
+    public async Task<OperationResult> EditAsync(EditOrderDiscount command)
     {
-        throw new NotImplementedException();
+        var orderDiscount = await _orderDiscountRepository.GetByIdAsync(command.Id);
+        DateTime startDate = command.StartDate.ToEnglishDateTime();
+        DateTime endDate = command.EndDate.ToEnglishDateTime();
+        if (endDate.Date < DateTime.Now.Date || endDate.Date < startDate.Date) return new(false, "تاریخ پایان باید حد اقل امروز باشد .");
+        if (command.Percent < 1 || command.Percent > 99) return new(false, "درصد تخفیف باید از 1 تا 99 باشد . .");
+        if (command.Count < 1) return new(false, "تعداد تخفیف باید بیشتر از 0 باشد . .");
+        if (await _orderDiscountRepository.ExistByAsync(d => d.Code == command.Code.Trim() && d.Id != command.Id)) return new(false, "کد تخفیف تکراری است .");
+        orderDiscount.Edit(command.Percent, command.Title, command.Code, command.Count, startDate, endDate);
+        if (await _orderDiscountRepository.SaveAsync()) return new(true);
+        return new(false, ValidationMessages.SystemErrorMessage);
     }
 
-    public Task<EditOrderDiscount> GetForEditAsync(int id)
+    public async Task<EditOrderDiscount> GetForEditAsync(int id)
     {
-        throw new NotImplementedException();
+        var discount = await _orderDiscountRepository.GetByIdAsync(id);
+        if (discount == null || discount.Type == OrderDiscountType.OrderSeller) return null;
+        return new EditOrderDiscount
+        {
+            Code = discount.Code,
+            Count = discount.Count,
+            EndDate = discount.EndDate.ToPersainDatePicker(),
+            Id = id,
+            Percent = discount.Percent, 
+            Title = discount.Title,
+            StartDate = discount.StartDate.ToPersainDatePicker()
+        };
     }
 
-    public Task<bool> UseOrderDiscount(int id, int count)
+    public async Task<bool> UseOrderDiscount(int id)
     {
-        throw new NotImplementedException();
+        var orderDiscount = await _orderDiscountRepository.GetByIdAsync(id);
+        orderDiscount.UsePlus();
+        return await _orderDiscountRepository.SaveAsync();
     }
 }

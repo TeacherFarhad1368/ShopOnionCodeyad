@@ -4,24 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Shared.Application.Services.Auth;
 using Shop.Application.Contract.ProductApplication;
+using Query.Contract.Admin.Product;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Product
 {
     [Area("Admin")]
     public class ProductController : Controller
     {
-        private readonly IProductQuery _ProductQuery;
+        private readonly IProductAdminQuery _productAdminQuery;
         private readonly IProductApplication _ProductApplication;
         private readonly IProductCategoryQuery _ProductCategoryQuery;
-        public ProductController(IProductQuery ProductQuery, IProductApplication ProductApplication, IProductCategoryQuery ProductCategoryQuery)
+        public ProductController(IProductAdminQuery productAdminQuery, IProductApplication ProductApplication, 
+            IProductCategoryQuery ProductCategoryQuery)
         {
-            _ProductQuery = ProductQuery;
+            _productAdminQuery = productAdminQuery;
             _ProductApplication = ProductApplication;
             _ProductCategoryQuery = ProductCategoryQuery;
         }
         public IActionResult Index(int pageId = 1,int take = 10,
             int categoryId = 0,string filter = "",ProductAdminOrderBy orderBy = ProductAdminOrderBy.تاریخ_ثبت_از_آخر)
-            => View(_ProductQuery.GetProductsForAdmin(pageId,take,categoryId,filter,orderBy));
+            => View(_productAdminQuery.GetProductsForAdmin(pageId,take,categoryId,filter,orderBy));
         public async Task<IActionResult> Create()
         {
             ViewData["Categories"] = await _ProductCategoryQuery.GetCategoriesForAddProduct();

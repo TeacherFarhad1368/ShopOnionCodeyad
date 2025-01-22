@@ -1,0 +1,52 @@
+﻿@model Discounts.Application.Contract.OrderDiscountApplication.Command.EditOrderDiscount
+<div class="modal-header">
+    <button type="button" class="close" onclick="closeAjaxModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="ajax-modal-title"></h4>
+</div>
+<form asp-action="Edit" asp-route-id="@Model.Id"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-failure="AjaxAdminFaild"
+      data-ajax-success="AjaxAdminSucceded"
+      id="form-ajax-admin">
+     <input type="hidden" asp-for="Id" /> 
+    <div class="modal-body">
+        <span class="text-danger" id="ajax-modal-valid"></span>
+        <div class="form-group">
+            <label asp-for="StartDate"></label>
+            <input class="form-control" asp-for="StartDate">
+            <span class="text-danger" asp-validation-for="StartDate"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate"></label>
+            <input class="form-control" asp-for="EndDate">
+            <span class="text-danger" asp-validation-for="EndDate"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Percent"></label>
+            <input class="form-control" asp-for="Percent">
+            <span class="text-danger" asp-validation-for="Percent"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control" asp-for="Title">
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Code"></label>
+            <input class="form-control" asp-for="Code">
+            <span class="text-danger" asp-validation-for="Code"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Count"></label>
+            <input class="form-control" asp-for="Count">
+            <span class="text-danger" asp-validation-for="Count"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">ذخیره</button>
+        <button type="button" class="btn btn-danger pull-left" onclick="closeAjaxModal()">خروج</button>
+    </div>
+</form>

@@ -152,10 +152,26 @@ function OpenAjaxModal(url, title) {
         content.html(res);
         var titleModal = $("h4#ajax-modal-title");
         titleModal.text(title);
+
+        if (url.includes('CreateDiscount')) {
+            $.ajax({
+                type: "Get",
+                url: '/UserPanel/Seller/GetSellersForAddDiscount'
+            }).done(function (result) {
+                debugger;
+                var model = JSON.parse(result);
+                var xxx = $("select#shopId");
+                xxx.html(`<option value="0" >انتخاب فروشگاه</option>`);
+                model.forEach(x => {
+                    var x = `<option value="${x.Id}" >${x.Title}</option>`;
+                    xxx.append(x);
+                });
+            });
+        }
         openUserPanelAjaxModal();
         var form = $("form#form-ajax-userPanel");
         $.validator.unobtrusive.parse(form);
-        if (url.includes('Discount/Create')) {
+        if (url.includes('Discount')) {
             $("input#StartDate").persianDatepicker();
             $("input#EndDate").persianDatepicker();
         }

@@ -1,0 +1,39 @@
+﻿@model Discounts.Application.Contract.ProductDiscountApplication.Command.CreateProductDiscount
+<div class="modal-header">
+    <button type="button" class="close" onclick="closeAjaxModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="ajax-modal-title"></h4>
+</div>
+<form asp-action="Create" asp-route-id="@Model.ProductId"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-failure="AjaxAdminFaild"
+      data-ajax-success="AjaxAdminSucceded"
+      id="form-ajax-admin">
+    <input type="hidden" asp-for="ProductId" />
+    <input type="hidden" asp-for="ProductSellId" />
+    <div class="modal-body">
+        <span class="text-danger" id="ajax-modal-valid"></span>
+        <div class="form-group">
+            <label asp-for="StartDate"></label>
+            <input class="form-control" asp-for="StartDate">
+            <span class="text-danger" asp-validation-for="StartDate"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate"></label>
+            <input class="form-control" asp-for="EndDate">
+            <span class="text-danger" asp-validation-for="EndDate"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Percent"></label>
+            <input class="form-control" asp-for="Percent">
+            <span class="text-danger" asp-validation-for="Percent"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">ذخیره</button>
+        <button type="button" class="btn btn-danger pull-left" onclick="closeAjaxModal()">خروج</button>
+    </div>
+</form>
+

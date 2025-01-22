@@ -1,0 +1,96 @@
+﻿@model List<Query.Contract.OrderDiscount.OrderAdminQueryModel>
+
+@{
+    ViewData["Title"] = "لیست تخفیفات غیر فعال فاکتور";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <a class="btn btn-success" onclick="AjaxAdminGet('/Admin/OrderDiscount/Create','افزودن تخفیف جدید برای فاکتور ها')">
+                    <i class=" fa fa-plus mx-2"></i> تخفیف جدید
+                </a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> عنوان</th>
+                            <th> کد تخفیف</th>
+                            <th> تعداد تخفیف</th>
+                            <th> تعداد استفاده شده</th>
+                            <th>تاریخ شروع</th>
+                            <th>تاریخ پایان</th>
+                            <th>تاریخ ثبت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr id="Deleted_@item.Id">
+                                    <td>
+                                       @item.Title
+                                    </td>
+                                    <td>
+                                        @item.Code
+                                    </td>
+                                    <td>
+                                        @item.Count
+                                    </td>
+                                    <td>
+                                        @item.Use
+                                    </td>
+                                    <td>
+                                        @item.StartDate
+                                    </td>
+                                    <td>
+                                        @item.EndDate
+                                    </td>
+                                    <td>
+                                        @item.CreationDate
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" title="ویرایش @item.Title"
+                                           onclick="AjaxAdminGet('/Admin/OrderDiscount/Edit/@item.Id','ویرایش تخفیف @item.Title')">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th> عنوان</th>
+                            <th> کد تخفیف</th>
+                            <th> تعداد تخفیف</th>
+                            <th> تعداد استفاده شده</th>
+                            <th>تاریخ شروع</th>
+                            <th>تاریخ پایان</th>
+                            <th>تاریخ ثبت</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+        })
+    </script>
+}

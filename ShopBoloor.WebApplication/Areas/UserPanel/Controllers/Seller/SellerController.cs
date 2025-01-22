@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PostModule.Application.Contract.StateQuery;
 using Query.Contract.UserPanel.Seller;
 using Shared.Application.Services.Auth;
@@ -81,5 +82,12 @@ public class SellerController : Controller
         var model = _sellerUserPanelQuery.GetSellerDetailForSeller(id, _userId);
         if(model == null) return NotFound();
         return View(model); 
+    }
+    public JsonResult GetSellersForAddDiscount()
+    {
+        _userId = _authService.GetLoginUserId();
+        var model = _sellerUserPanelQuery.GetSellersForUserForAddDiscount(_userId);
+        var res = JsonConvert.SerializeObject(model);
+        return Json(res);
     }
 }

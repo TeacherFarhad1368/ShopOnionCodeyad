@@ -207,6 +207,10 @@ function AjaxAdminGet(url, title) {
         openAjaxModal();
         var titleModal = $("h4#ajax-modal-title");
         titleModal.text(title);
+        if (url.includes('Discount')) {
+            $("input#StartDate").persianDatepicker();
+            $("input#EndDate").persianDatepicker();
+        }
         var form = $("form#form-ajax-admin");
         $.validator.unobtrusive.parse(form);
     });
@@ -227,7 +231,9 @@ function closeAjaxModal() {
 
 }
 function AjaxAdminSucceded(res) {
-    if (res.success) {
+    debugger;
+    var model = JSON.parse(res);
+    if (model.Success) {
         closeAjaxModal();
         AlertSweetTimer("عملیات موفقیت آمیز بود .", "success", 3000);
         setTimeout(function () {
@@ -236,7 +242,7 @@ function AjaxAdminSucceded(res) {
     }
     else {
         var span = $("span#ajax-modal-valid");
-        span.text(res.message);
+        span.text(model.Message);
     }
 }
 function AjaxAdminFaild() {

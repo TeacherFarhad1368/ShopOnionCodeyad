@@ -55,7 +55,12 @@
                     <a href="/UserPanel/Store/Index" class="dropdown-item
                @(route.ToString().ToLower().Contains("/userpanel/store")  ? "active-menu" : "")">
                         <i class="now-ui-icons shopping_basket"></i>
-                        انبارداری فروشگاه  
+                        انبارداری فروشگاه
+                    </a>
+                    <a href="/UserPanel/Discount/Active" class="dropdown-item
+               @(route.ToString().ToLower().Contains("/userpanel/discount")  ? "active-menu" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                        مدیریت تخفیفات
                     </a>
                 }
                 @if (Model.HaveUserOrderPost)
@@ -130,6 +135,13 @@
                  @(route.ToString().ToLower().Contains("/userpanel/store")  ? "active" : "")">
                         <i class="now-ui-icons shopping_basket"></i>
                         انبارداری فروشگاه
+                    </a>
+                </li>
+                <li>
+                    <a href="/UserPanel/Discount/Active" class="
+               @(route.ToString().ToLower().Contains("/userpanel/discount")  ? "active" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                        مدیریت تخفیفات
                     </a>
                 </li>
             }

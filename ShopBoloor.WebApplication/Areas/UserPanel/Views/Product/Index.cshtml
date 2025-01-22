@@ -23,6 +23,10 @@
                             <th scope="col">وزن</th>
                             <th scope="col">تعداد فروش</th>
                             <th scope="col">فعال</th>
+                            <th scope="col">قیمت</th>
+                            <th scope="col">تخفیف ادمین</th>
+                            <th scope="col">تخفیف شما</th>
+                            <th scope="col">قیمت بعد از تخفیف</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -53,6 +57,10 @@
                                             <span class="text-danger">غیر فعال</span>
                                         }
                                     </td>
+                                    <td>@item.Price.ToString("#,0")</td>
+                                    <td>@item.ProductDiscountPercent %</td>
+                                    <td>@item.ProductSellDiscountPercent %</td>
+                                    <td>@item.PriceAfterDiscount.ToString("#,0")</td>
                                     <td>
                                         @if(item.Active){
                                             <a class="btn btn-danger btn-sm text-light" style="cursor:pointer"
@@ -75,8 +83,8 @@
                                         <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">
                                             ویرایش
                                         </a>
-                                        <a class="btn btn-success btn-sm" onclick="OpenAjaxModal('/UserPanel/Discount/Create/@item.Id','افزودن تخفیف برای @item.Unit - @item.ProductTitle')">
-                                            افزودن تخفیف
+                                        <a class="btn btn-warning btn-sm" onclick="OpenAjaxModal('/UserPanel/Discount/Create/@item.Id','افزودن تخفیف برای @item.Unit - @item.ProductTitle')">
+                                            ویرایش تخفیف
                                         </a>
                                     </td>
                                 </tr>
@@ -85,7 +93,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="7" class="text-center text-danger">
+                                <td colspan="11" class="text-center text-danger">
                                     محصولی برای نمایش موجود نیست
                                 </td>
                             </tr>

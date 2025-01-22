@@ -83,6 +83,23 @@
                     </li>
                 </ul>
             </li>
+            <li class="@(route.ToString().ToLower().Trim().Contains("/admin/orderdiscount")
+              ? "active" : "") treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>مدیریت تخفیفات</span>
+                    <span class="pull-left-container">
+                        <i class="fa fa-angle-right pull-left"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/orderdiscount/active") ? "active" : "")>
+                        <a href="/Admin/OrderDiscount/Active"><i class="fa fa-user-secret"></i>  تخفیفات فعال</a>
+                    </li>
+                    <li class=@(route.ToString().ToLower().Trim().Contains("/admin/orderdiscount/inactive") ? "active" : "")>
+                        <a href="/Admin/OrderDiscount/InActive"><i class="fa fa-user-secret"></i>  تخفیفات غیر فعال</a>
+                    </li>
+                </ul>
+            </li>
             <li class="@(route.ToString().ToLower().Trim().Contains("/admin/blog")
               ? "active" : "") treeview">
                 <a href="#">

@@ -1,4 +1,4 @@
-﻿@model Discounts.Application.Contract.ProductDiscountApplication.Command.CreateProductSellDiscount
+﻿@model Discounts.Application.Contract.ProductDiscountApplication.Command.CreateProductDiscount
 <form id="form-ajax-userPanel"
       asp-action="Create" asp-route-id="@Model.ProductSellId"
       data-ajax="true"
@@ -6,8 +6,8 @@
       data-ajax-failure="AjaxUserPanelFaild"
       data-ajax-success="AjaxUserPanelSucceded"
       class="form-account">
-    <input asp-for="ProductSellId"
-           type="hidden">
+    <input asp-for="ProductSellId" type="hidden">
+    <input asp-for="ProductId" type="hidden">
     <div class="row">
         <span class="text-danger" id="ajax-userPanel-modal-valid"></span>
         <div class="col-12">
@@ -30,7 +30,7 @@
             <div class="form-account-title">درصد تخفیف</div>
             <div class="form-account-row">
                 <input class="input-field text-right" asp-for="Percent"
-                       type="text">
+                       type="number">
             </div>
             <span class="text-danger" asp-validation-for="Percent"></span>
         </div>

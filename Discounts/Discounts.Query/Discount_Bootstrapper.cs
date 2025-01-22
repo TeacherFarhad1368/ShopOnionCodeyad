@@ -1,4 +1,5 @@
-﻿using Discounts.Infrastructure;
+﻿
+using Discounts.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Discount.Query
