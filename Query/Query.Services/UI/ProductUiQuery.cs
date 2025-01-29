@@ -262,6 +262,7 @@ internal class ProductUiQuery : IProductUiQuery
                 PriceAfterOff = s.Price,
                 SellerId = s.SellerId,
                 SellerName = "",
+                ProductId = s.ProductId,
                 Unit = s.Unit,
                 Weight = s.Weight,
                 Id = s.Id,

@@ -1,5 +1,8 @@
 ﻿const cookieCartName = "boloorShop-cart-items";
-function AddToBasket(productSellId, title,shopTitle, price, priceAfterOff, slug, imageName, amount) {
+$(function () {
+    UpdateBasket();
+})
+function AddToBasket(productId,productSellId, title,shopTitle, price, priceAfterOff, slug, imageName, amount) {
     swal.fire({
         title: "افزودن به سبد خرید",
         text: `${title} از فروشگاه ${shopTitle} به سبد شما اضافه شود ؟`,
@@ -40,6 +43,7 @@ function AddToBasket(productSellId, title,shopTitle, price, priceAfterOff, slug,
                     var count = 1;
                     if (amount > 0) {
                         const product = {
+                            productId,
                             productSellId,
                             title,
                             shopTitle,
@@ -60,9 +64,35 @@ function AddToBasket(productSellId, title,shopTitle, price, priceAfterOff, slug,
                         AlertSweet("عملیات نا موفق !!", "موجودی نداریم .", "error");
                     }
                 }
+
                 UpdateBasket();
             }
         });
+
+}
+function DeleteFromBasket(productSellId) {
+    let products = $.cookie(cookieCartName);
+
+    if (products === undefined) {
+        return;
+    }
+    else {
+        products = JSON.parse(products);
+    }
+    const itemRemove = products.find(x => x.productSellId == productSellId);
+
+    if (itemRemove !== undefined) {
+        products.splice(itemRemove, 1);
+        $.cookie(cookieCartName, JSON.stringify(products), {
+            expires: 7, path: "/"
+        });
+        AlertSweet("عملیات موفق", "محصول از سبد خرید شما حذف شد .", "success");
+        UpdateBasket();
+
+    }
+    else {
+        return;
+    }
 
 }
 function UpdateBasket() {
@@ -76,4 +106,38 @@ function UpdateBasket() {
     }
     var count = products.length;
     $("span#cartBasketCount").text(count);
+    $("ul#ParentCartProducts").html("");
+    if (products.length > 0) {
+
+        var price = 0;
+        products.forEach(x => {
+            var liProduct = ` <li>
+                                <div class="basket-item">
+                                    <button onclick="DeleteFromBasket('${x.productSellId}')" class="basket-item-remove"></button>
+                                    <div class="basket-item-content">
+                                        <div class="basket-item-image">
+                                            <img alt="" src="${x.imageName}">
+                                        </div>
+                                        <div class="basket-item-details">
+                                        <div class="basket-item-title">
+                                             ${x.title} 
+                                            </div>
+                                            <div class="basket-item-params">
+                                                <div class="basket-item-props">
+                                                    <span> ${x.count} عدد</span>
+                                                    <span> ${x.shopTitle}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>`;
+            $("ul#ParentCartProducts").append(liProduct);
+            var p = parseInt(x.priceAfterOff);
+            var c = parseInt(x.count);
+            price = price + (c * p);
+        });
+    }
+
+    $("span#priceSumCart").text(separate(price));
 }

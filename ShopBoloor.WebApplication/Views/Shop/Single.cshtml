@@ -419,7 +419,7 @@
                                                                     <td>@item.Weight.ToString("#,0") گرم</td>
                                                                     <td>
                                                                         @if(item.Amount > 0){
-                                                                            <button class="btn btn-success" onclick="AddToBasket('@item.Id','@Model.Title','@item.SellerName','@item.Price','@item.PriceAfterOff','@Model.Slug','@FileDirectories.ProductImageDirectory500@Model.ImageName','@item.Amount')">
+                                                                            <button class="btn btn-success" onclick="AddToBasket('@Model.Id','@item.Id','@Model.Title','@item.SellerName','@item.Price','@item.PriceAfterOff','@Model.Slug','@FileDirectories.ProductImageDirectory500@Model.ImageName','@item.Amount')">
                                                                                 افزودن به سبد
                                                                             </button>
                                                                         }
