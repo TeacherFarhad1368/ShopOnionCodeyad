@@ -18,6 +18,7 @@
                         <tr>
                             <th scope="col">عنوان</th>
                             <th scope="col">کد تخفیف</th>
+                            <th scope="col">درصد</th>
                             <th scope="col"> تعداد</th>
                             <th scope="col">استفاده شده</th>
                             <th scope="col">تاریخ شروع</th>
@@ -39,6 +40,7 @@
                                     <td>
                                         @item.Code
                                     </td>
+                                    <td>@item.Percent %</td>
                                     <td>
                                         @item.Count
                                     </td>
@@ -55,6 +57,9 @@
                                         @item.CreationDate
                                     </td>
                                     <td>
+                                        <a class="btn btn-warning" onclick="OpenAjaxModal('/UserPanel/Discount/EditDiscount/@item.Id','ویرایش تخفیف فاکتور @item.Title')">
+                                            ویرایش تخفیف
+                                        </a>
                                         
                                     </td>
                                 </tr>
@@ -63,7 +68,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="8" class="text-center text-danger">
+                                <td colspan="9" class="text-center text-danger">
                                     تخفیفی برای نمایش موجود نیست
                                 </td>
                             </tr>

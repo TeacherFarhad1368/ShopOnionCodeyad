@@ -6,6 +6,8 @@ public interface IOrderDiscountApplication
 {
     Task<OperationResult> CreateAsync(CreateOrderDiscount command, OrderDiscountType type, int shopId);
     Task<OperationResult> EditAsync(EditOrderDiscount command);
+    Task<OperationResult> EditBySellerAsync(EditOrderDiscount command, List<int> sellerIds);
     Task<EditOrderDiscount> GetForEditAsync(int id);
+    EditOrderDiscount GetForEditBySeller(int id, List<int> sellerIds);
     Task<bool> UseOrderDiscount(int id);
 }

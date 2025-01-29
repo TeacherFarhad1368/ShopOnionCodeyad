@@ -103,5 +103,27 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers.Seller
             res = await _orderDiscountApplication.CreateAsync(model, OrderDiscountType.OrderSeller, shopId);
             return Json(JsonConvert.SerializeObject(res));
         }
+        [HttpGet]
+        public IActionResult EditDiscount(int id)
+        {
+            _userId = _authService.GetLoginUserId();
+            List<int> sellerIds = _sellerUserPanelQuery.GetUserSellerIds(_userId);
+            EditOrderDiscount model = _orderDiscountApplication.GetForEditBySeller(id, sellerIds);
+            return PartialView("EditDiscount", model);  
+        }
+        [HttpPost]
+        public async Task<JsonResult> EditDiscount(int id,EditOrderDiscount model)
+        {
+            _userId = _authService.GetLoginUserId();
+            List<int> sellerIds = _sellerUserPanelQuery.GetUserSellerIds(_userId);
+            OperationResult res = new(false);
+            if (!ModelState.IsValid)
+            {
+                res.Message = "لطفا اطلاعات را درست وارد کنید .";
+                return Json(JsonConvert.SerializeObject(res));
+            }
+            res = await _orderDiscountApplication.EditBySellerAsync(model, sellerIds);
+            return Json(JsonConvert.SerializeObject(res));
+        }
     }
 }

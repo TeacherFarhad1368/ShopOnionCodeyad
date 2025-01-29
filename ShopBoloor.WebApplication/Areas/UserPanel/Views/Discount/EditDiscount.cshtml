@@ -1,0 +1,67 @@
+﻿@model Discounts.Application.Contract.OrderDiscountApplication.Command.EditOrderDiscount
+<form id="form-ajax-userPanel"
+      asp-action="EditDiscount" asp-route-id="@Model.Id"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-failure="AjaxUserPanelFaild"
+      data-ajax-success="AjaxUserPanelSucceded"
+      class="form-account">
+      <input type="hidden" asp-for="Id" />
+    <div class="row" style="overflow-y:auto">
+        <div class="col-12">
+
+            <span class="text-danger" id="ajax-userPanel-modal-valid"></span>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-account-title">عنوان تخفیف</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="Title"
+                       type="text">
+            </div>
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-account-title">کد تخفیف</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="Code"
+                       type="text">
+            </div>
+            <span class="text-danger" asp-validation-for="Code"></span>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-account-title">تاریخ شروع</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="StartDate" 
+                       type="text">
+            </div>
+            <span class="text-danger" asp-validation-for="StartDate"></span>
+        </div>
+        <div class="col-12  col-md-6">
+            <div class="form-account-title">تاریخ پایان</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="EndDate"
+                       type="text">
+            </div>
+            <span class="text-danger" asp-validation-for="EndDate"></span>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-account-title">تعداد تخفیف</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="Count"
+                       type="number">
+            </div>
+            <span class="text-danger" asp-validation-for="Count"></span>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-account-title">درصد تخفیف</div>
+            <div class="form-account-row">
+                <input class="input-field text-right" asp-for="Percent"
+                       type="number">
+            </div>
+            <span class="text-danger" asp-validation-for="Percent"></span>
+        </div>
+    </div>
+    <div class="col-12 text-center">
+        <button class="btn btn-warning btn-lg" type="submit">ذخیره</button>
+    </div>
+</form>
