@@ -37,6 +37,7 @@ public class CategoryForProductSingleQueryModel
 }
 public class ProductSellForProductSingleQueryModel
 {
+    public int Id { get; set; }
     public int SellerId { get; set; }
     public int Price { get; set; }
     public int PriceAfterOff { get; set; }

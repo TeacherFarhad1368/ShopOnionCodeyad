@@ -1,4 +1,5 @@
 ﻿using Blogs.Domain.BlogCategoryAgg;
+using Discounts.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PostModule.Infrastracture.EF;
@@ -15,12 +16,15 @@ internal class ProductUiQuery : IProductUiQuery
 {
     private readonly ShopContext _shopContext;
     private readonly ISeoRepository _seoRepository;
-    private readonly Post_Context _postContext; 
-    public ProductUiQuery(ShopContext shopContext, ISeoRepository seoRepository, Post_Context post_Context)
+    private readonly Post_Context _postContext;
+    private readonly DiscountContext _discountContext;
+    public ProductUiQuery(ShopContext shopContext, ISeoRepository seoRepository, Post_Context post_Context,
+        DiscountContext discountContext)
     {
         _shopContext = shopContext;
         _seoRepository = seoRepository; 
         _postContext = post_Context;
+        _discountContext = discountContext;
     }
     private List<BreadCrumbQueryModel> GetProductBreadCrumb(string? categorySlug,string? productSlug)
     {
@@ -174,7 +178,7 @@ internal class ProductUiQuery : IProductUiQuery
                 .Select(p => new ProductShopUiQueryModel
                 {
                     ImageAlt = p.ImageAlt,
-                    PriceAfterOff = p.ProductSells.OrderByDescending(b => b.OrderItems.Count).First().Price -1,
+                    PriceAfterOff = p.ProductSells.OrderByDescending(b => b.OrderItems.Count).First().Price,
                     Id = p.Id,
                     ImageName = FileDirectories.ProductImageDirectory500 + p.ImageName,
                     Price = p.ProductSells.OrderByDescending(b => b.OrderItems.Count).First().Price,
@@ -182,6 +186,25 @@ internal class ProductUiQuery : IProductUiQuery
                     Slug = p.Slug,
                     Title = p.Title
                 }).ToList();
+            model.Products.ForEach(x =>
+            {
+                if(_discountContext.ProductDiscounts.Any(p=>p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date))
+                {
+                    var discount = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                    .First(p => p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date);
+                    if(discount.ProductSellId > 0)
+                    {
+                        var sellProduct = _shopContext.ProductSells.Find(discount.ProductSellId);
+                        x.Shop = _shopContext.Sellers.Find(sellProduct.SellerId).Title;
+                        x.Price = sellProduct.Price;
+                        x.PriceAfterOff = sellProduct.Price - (discount.Percent * sellProduct.Price / 100);
+                    }
+                    else
+                    {
+                        x.PriceAfterOff = x.Price - (discount.Percent * x.Price / 100);
+                    }
+                }
+            });
         }
         var cat = _shopContext.ProductCategories.Where(c => c.Active);
         model.Categories = cat.Where(c=>c.Parent == 0).Select(c => new ProductCategoryUiQueryModel
@@ -236,11 +259,12 @@ internal class ProductUiQuery : IProductUiQuery
                 Amount = s.Amount,
                 SellerAddress = "",
                 Price = s.Price,
-                PriceAfterOff = s.Price - 1,
+                PriceAfterOff = s.Price,
                 SellerId = s.SellerId,
                 SellerName = "",
                 Unit = s.Unit,
-                Weight = s.Weight
+                Weight = s.Weight,
+                Id = s.Id,
             }).ToList(),
             Seo = null,
             Slug = product.Slug,
@@ -257,6 +281,21 @@ internal class ProductUiQuery : IProductUiQuery
             var city = _postContext.Cities.Include(c => c.State).SingleOrDefault(c => c.Id == seller.CityId && c.StateId == seller.StateId);
             if (city != null)
                 x.SellerAddress = $"{city.State.Title} {city.Title} {seller.Address}";
+
+            var discount = _discountContext.ProductDiscounts.FirstOrDefault(d => d.ProductSellId == x.Id && d.StartDate.Date <= DateTime.Now.Date && d.EndDate.Date >= DateTime.Now.Date);
+            if(discount  != null)
+            {
+                x.PriceAfterOff = x.Price - (discount.Percent * x.Price / 100);
+            }
+            else
+            {
+                var productDiscount = _discountContext.ProductDiscounts.FirstOrDefault(d => d.ProductId == model.Id && d.ProductSellId == 0 && d.StartDate.Date <= DateTime.Now.Date && d.EndDate.Date >= DateTime.Now.Date);
+                if(productDiscount != null)
+                {
+                    x.PriceAfterOff = x.Price - (productDiscount.Percent * x.Price / 100);
+                }
+
+            }
         });
         return model;
     }
