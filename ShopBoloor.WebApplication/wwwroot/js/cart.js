@@ -2,7 +2,11 @@
 $(function () {
     UpdateBasket();
 })
-function AddToBasket(productId,productSellId, title,shopTitle, price, priceAfterOff, slug, imageName, amount) {
+function AddToBasket(pId, psId, title, shopTitle, p, pAO, slug, imageName, amount) {
+    var productId = parseInt(pId);
+    var productSellId = parseInt(psId);
+    var price = parseInt(p);
+    var priceAfterOff = parseInt(pAO);
     swal.fire({
         title: "افزودن به سبد خرید",
         text: `${title} از فروشگاه ${shopTitle} به سبد شما اضافه شود ؟`,
@@ -87,6 +91,11 @@ function DeleteFromBasket(productSellId) {
             expires: 7, path: "/"
         });
         AlertSweet("عملیات موفق", "محصول از سبد خرید شما حذف شد .", "success");
+        if (products.length == 0) {
+            $("div#basketTotalCart").addClass("d-none");
+            $("a#linkCart").addClass("d-none");
+
+        }
         UpdateBasket();
 
     }
@@ -96,6 +105,7 @@ function DeleteFromBasket(productSellId) {
 
 }
 function UpdateBasket() {
+    debugger;
     let products = $.cookie(cookieCartName);
 
     if (products === undefined) {
@@ -108,7 +118,8 @@ function UpdateBasket() {
     $("span#cartBasketCount").text(count);
     $("ul#ParentCartProducts").html("");
     if (products.length > 0) {
-
+        $("div#basketTotalCart").removeClass("d-none");
+        $("a#linkCart").removeClass("d-none");
         var price = 0;
         products.forEach(x => {
             var liProduct = ` <li>
@@ -137,7 +148,16 @@ function UpdateBasket() {
             var c = parseInt(x.count);
             price = price + (c * p);
         });
+        $("span#priceSumCart").text(separate(price));
     }
-
-    $("span#priceSumCart").text(separate(price));
+    else {
+        var liProduct = ` <li>
+                                <div class="basket-item">
+                                    <div class="basket-item-content">
+                                        <p class="text-danger">سبد خرید خالی است</p>
+                                    </div>
+                                </div>
+                            </li>`;
+        $("ul#ParentCartProducts").append(liProduct);
+    }
 }

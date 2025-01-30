@@ -207,7 +207,8 @@ namespace Users.Application.Services
 
         public bool Register(RegisterUser command)
         {
-            var key = GenerateRandomCode.GenerateUserRegisterCode().ToString();
+           // var key = GenerateRandomCode.GenerateUserRegisterCode().ToString();
+            var key = "22222";
             var pass = Sha256Hasher.Hash(key);
             try
             {
