@@ -33,15 +33,15 @@ namespace ShopBoloor.WebApplication.Controllers
         [Route("/Cart")]
         public IActionResult Cart()
         {
-            List<ShopCartViewModel> model = new();
-            string cookieName = "boloorShop-cart-items";
-            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
-            {
-                // تبدیل JSON به لیست محصولات
-                 model = JsonSerializer.Deserialize<List<ShopCartViewModel>>(cartJson);
+            //List<ShopCartViewModel> model = new();
+            //string cookieName = "boloorShop-cart-items";
+            //if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            //{
+            //    // تبدیل JSON به لیست محصولات
+            //     model = JsonSerializer.Deserialize<List<ShopCartViewModel>>(cartJson);
 
-            }
-            return View(model);
+            //}
+            return View();
         }
     }
 }

@@ -1,0 +1,62 @@
+﻿
+@using Query.Contract.UI.Product;
+@{
+    ViewData["Title"] = "سبد خرید";
+}
+<main class="cart-page default">
+    <div class="container">
+        <div class="row">
+            <div class="cart-page-content col-xl-9 col-lg-8 col-md-12 order-1">
+                <div class="cart-page-title">
+                    <h1>سبد خرید</h1>
+                </div>
+                <div class="table-responsive checkout-content default">
+                    <table class="table">
+                        <tbody id="orderItemsTable">
+                           
+                            @* <tr class="checkout-item"> *@
+                            @*     <td> *@
+                            @*         <img src="assets/img/cart/1335154.jpg" alt=""> *@
+                            @*         <button class="checkout-btn-remove"></button> *@
+                            @*     </td> *@
+                            @*     <td> *@
+                            @*         <h3 class="checkout-title"> *@
+                            @*             گوشی موبایل اپل مدل iPhone X ظرفیت 256 گیگابایت *@
+                            @*         </h3> *@
+                            @*     </td> *@
+                            @*     <td>۱ عدد</td> *@
+                            @*     <td>۱۵,۳۹۰,۰۰۰ تومان</td> *@
+                            @* </tr> *@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <aside class="cart-page-aside col-xl-3 col-lg-4 col-md-6 center-section order-2">
+                <div class="checkout-aside">
+                    <div class="checkout-summary">
+                        <div class="checkout-summary-main">
+                            <ul class="checkout-summary-summary">
+                                <li><span id="countProduct">مبلغ کل (۱ کالا)</span><span id="sumPrice">۱۵,۳۹۰,۰۰۰ تومان</span></li>
+                              
+                            </ul>
+                            <div class="checkout-summary-devider">
+                                <div></div>
+                            </div>
+                            <div class="checkout-summary-content">
+                                <div class="checkout-summary-price-title">مبلغ قابل پرداخت:</div>
+                                <div class="checkout-summary-price-value">
+                                    <span class="checkout-summary-price-value-amount" id="sumPriceAfterOff">۱۵,۳۹۰,۰۰۰</span>تومان
+                                </div>
+                                <a asp-area="UserPanel" asp-controller="Order" asp-action="Order" class="btn btn-primary d-block w-full">
+                                   ورود و ثبت فاکتور
+                                </a>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>

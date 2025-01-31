@@ -74,6 +74,50 @@ function AddToBasket(pId, psId, title, shopTitle, p, pAO, slug, imageName, amoun
         });
 
 }
+function plusCart(id,amount) {
+    let products = $.cookie(cookieCartName);
+
+    if (products === undefined) {
+        return;
+    }
+    else {
+        products = JSON.parse(products);
+    }
+    const item = products.find(x => x.productSellId == id);
+    if (item === undefined) {
+        return;
+    }
+    if (item.count >= amount) {
+        AlertSweet("عملیات نا موفق","موجودی نداریم !!","error")
+    }
+    item.count = item.count + 1;
+    $.cookie(cookieCartName, JSON.stringify(products), {
+        expires: 7, path: "/"
+    });
+    AlertSweet("عملیات موفق", `یک عدد به محصول ${item.title} از فروشگاه ${item.shopTitle} اضافه شد`, "success")
+}
+function minusCart(id) {
+    let products = $.cookie(cookieCartName);
+
+    if (products === undefined) {
+        return;
+    }
+    else {
+        products = JSON.parse(products);
+    }
+    const item = products.find(x => x.productSellId == id);
+    if (item === undefined) {
+        return;
+    }
+    if (item.count == 1) {
+        DeleteFromBasket
+    }
+    item.count = item.count - 1;
+    $.cookie(cookieCartName, JSON.stringify(products), {
+        expires: 7, path: "/"
+    });
+    AlertSweet("عملیات موفق", `یک عدد از محصول ${item.title} از فروشگاه ${item.shopTitle} کم شد`, "success")
+}
 function DeleteFromBasket(productSellId) {
     let products = $.cookie(cookieCartName);
 
@@ -84,28 +128,47 @@ function DeleteFromBasket(productSellId) {
         products = JSON.parse(products);
     }
     const itemRemove = products.find(x => x.productSellId == productSellId);
-
-    if (itemRemove !== undefined) {
-        products.splice(itemRemove, 1);
-        $.cookie(cookieCartName, JSON.stringify(products), {
-            expires: 7, path: "/"
-        });
-        AlertSweet("عملیات موفق", "محصول از سبد خرید شما حذف شد .", "success");
-        if (products.length == 0) {
-            $("div#basketTotalCart").addClass("d-none");
-            $("a#linkCart").addClass("d-none");
-
-        }
-        UpdateBasket();
-
-    }
-    else {
+    if (itemRemove === undefined) {
         return;
     }
+    swal.fire({
+        title: "حذف از سبد خرید",
+        text: `${itemRemove.title} از فروشگاه ${itemRemove.shopTitle} از سبد شما حذف شود ؟`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "حذف شود ",
+        cancelButtonText: "انصراف"
+    })
+        .then((willDelete) => {
+            if (willDelete.isConfirmed) {
+               
+                if (itemRemove !== undefined) {
+                    products.splice(itemRemove, 1);
+                    $.cookie(cookieCartName, JSON.stringify(products), {
+                        expires: 7, path: "/"
+                    });
+                    AlertSweet("عملیات موفق", "محصول از سبد خرید شما حذف شد .", "success");
+                    if (products.length == 0) {
+                        $("div#basketTotalCart").addClass("d-none");
+                        $("a#linkCart").addClass("d-none");
+
+                    }
+                    UpdateBasket();
+
+                }
+                else {
+                    return;
+                }
+            }
+        });
+    
 
 }
 function UpdateBasket() {
     debugger;
+    var route = window.location.pathname.toLowerCase();
     let products = $.cookie(cookieCartName);
 
     if (products === undefined) {
@@ -117,10 +180,14 @@ function UpdateBasket() {
     var count = products.length;
     $("span#cartBasketCount").text(count);
     $("ul#ParentCartProducts").html("");
+    if (route === "/cart") {
+        $("tbody#orderItemsTable").html("");
+    }
     if (products.length > 0) {
         $("div#basketTotalCart").removeClass("d-none");
         $("a#linkCart").removeClass("d-none");
         var price = 0;
+        var priceAfterOff = 0;
         products.forEach(x => {
             var liProduct = ` <li>
                                 <div class="basket-item">
@@ -144,11 +211,36 @@ function UpdateBasket() {
                                 </div>
                             </li>`;
             $("ul#ParentCartProducts").append(liProduct);
+            if (route === "/cart") {
+                var priceTd = `<td><span class="text-success">${separate(x.price)} تومان</span></td>`;
+                if (x.price > x.priceAfterOff) {
+                    priceTd = `<td><del class="text-danger">${separate(x.price)} </del>
+                    <br />
+                    <span class="text-success">${separate(x.priceAfterOff)} تومان</span>
+                    </td>`;
+                }
+                var trProduct = ` <tr class="checkout-item">
+                                <td>
+                                    <img src="assets/img/cart/1335154.jpg" alt="">
+                                    <button class="checkout-btn-remove"></button>
+                                </td>
+                                <td>
+                                    <h3 class="checkout-title">
+                                       ${x.title} - ${x.shopTitle}
+                                    </h3>
+                                </td>
+                                <td>${x.count} عدد</td>
+                                ${priceTd}
+                            </tr>`;
+                $("tbody#orderItemsTable").append(trProduct);
+            }
             var p = parseInt(x.priceAfterOff);
+            var p1 = parseInt(x.price);
             var c = parseInt(x.count);
-            price = price + (c * p);
+            priceAfterOff = priceAfterOff + (c * p);
+            price = price + (c * p1);
         });
-        $("span#priceSumCart").text(separate(price));
+        $("span#priceSumCart").text(separate(priceAfterOff));
     }
     else {
         var liProduct = ` <li>
