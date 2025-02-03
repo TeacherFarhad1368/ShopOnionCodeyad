@@ -93,5 +93,10 @@ namespace Shop.Domain.OrderAgg
             DiscountPercent = percent;
             UpdateEntity();
         }
+        public void AddOrderSeller(OrderSeller seller)
+        {
+            seller.OrderId = Id;
+            OrderSellers.Add(seller);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ShopBoloor.WebApplication.Models
+﻿namespace Shop.Application.Contract.OrderApplication.Command
 {
     public class ShopCartViewModel
     {
@@ -9,6 +9,7 @@
         public int count { get; set; }
         public string title { get; set; }
         public string shopTitle { get; set; }
+        public string unit { get; set; }
         public string slug { get; set; }
         public string imageName { get; set; }
     }

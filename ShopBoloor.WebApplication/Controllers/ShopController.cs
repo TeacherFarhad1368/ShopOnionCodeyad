@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Query.Contract.UI.Product;
 using Shop.Domain.ProductAgg;
-using ShopBoloor.WebApplication.Models;
 using System.Collections.Generic;
 using System.Text.Json;
 
@@ -33,14 +32,6 @@ namespace ShopBoloor.WebApplication.Controllers
         [Route("/Cart")]
         public IActionResult Cart()
         {
-            //List<ShopCartViewModel> model = new();
-            //string cookieName = "boloorShop-cart-items";
-            //if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
-            //{
-            //    // تبدیل JSON به لیست محصولات
-            //     model = JsonSerializer.Deserialize<List<ShopCartViewModel>>(cartJson);
-
-            //}
             return View();
         }
     }

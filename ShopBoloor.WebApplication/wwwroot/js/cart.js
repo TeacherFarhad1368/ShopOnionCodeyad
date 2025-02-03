@@ -74,7 +74,8 @@ function AddToBasket(pId, psId, title, shopTitle, p, pAO, slug, imageName, amoun
         });
 
 }
-function plusCart(id,amount) {
+function plusCart(id) {
+    var route = window.location.pathname.toLowerCase();
     let products = $.cookie(cookieCartName);
 
     if (products === undefined) {
@@ -87,16 +88,33 @@ function plusCart(id,amount) {
     if (item === undefined) {
         return;
     }
-    if (item.count >= amount) {
-        AlertSweet("عملیات نا موفق","موجودی نداریم !!","error")
-    }
     item.count = item.count + 1;
     $.cookie(cookieCartName, JSON.stringify(products), {
         expires: 7, path: "/"
     });
+    debugger;
+    $(`span#liliCount_${id}`).text(`${item.count}`);
+    $(`span#divCount_${id}`).text(`${item.count}`);
+    var price = 0;
+    var priceAfterOff = 0;
+    products.forEach(x => {
+        var p = parseInt(x.priceAfterOff);
+        var p1 = parseInt(x.price);
+        var c = parseInt(x.count);
+        priceAfterOff = priceAfterOff + (c * p);
+        price = price + (c * p1);
+    });
+    $("span#priceSumCart").text(separate(priceAfterOff));
+    $("span#cartBasketCount").text(products.length);
+    if (route === "/cart") {
+        $("span#sumPrice").text(`${separate(price)} تومان`);
+        $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
+        $("span#countProduct").text(`مبلغ کل (${products.length} کالا`);
+    }
     AlertSweet("عملیات موفق", `یک عدد به محصول ${item.title} از فروشگاه ${item.shopTitle} اضافه شد`, "success")
 }
 function minusCart(id) {
+    var route = window.location.pathname.toLowerCase();
     let products = $.cookie(cookieCartName);
 
     if (products === undefined) {
@@ -110,15 +128,37 @@ function minusCart(id) {
         return;
     }
     if (item.count == 1) {
-        DeleteFromBasket
+        DeleteFromBasket(id);
     }
-    item.count = item.count - 1;
-    $.cookie(cookieCartName, JSON.stringify(products), {
-        expires: 7, path: "/"
-    });
-    AlertSweet("عملیات موفق", `یک عدد از محصول ${item.title} از فروشگاه ${item.shopTitle} کم شد`, "success")
+    else {
+
+        item.count = item.count - 1;
+        $.cookie(cookieCartName, JSON.stringify(products), {
+            expires: 7, path: "/"
+        });
+        $(`span#liliCount_${id}`).text(item.count);
+        $(`span#divCount_${id}`).text(item.count);
+        var price = 0;
+        var priceAfterOff = 0;
+        products.forEach(x => {
+            var p = parseInt(x.priceAfterOff);
+            var p1 = parseInt(x.price);
+            var c = parseInt(x.count);
+            priceAfterOff = priceAfterOff + (c * p);
+            price = price + (c * p1);
+        });
+        $("span#priceSumCart").text(separate(priceAfterOff));
+        $("span#cartBasketCount").text(products.length);
+        if (route === "/cart") {
+            $("span#sumPrice").text(`${separate(price)} تومان`);
+            $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
+            $("span#countProduct").text(`مبلغ کل (${products.length} کالا`);
+        }
+        AlertSweet("عملیات موفق", `یک عدد از محصول ${item.title} از فروشگاه ${item.shopTitle} کم شد`, "success")
+    }
 }
 function DeleteFromBasket(productSellId) {
+    var route = window.location.pathname.toLowerCase();
     let products = $.cookie(cookieCartName);
 
     if (products === undefined) {
@@ -155,8 +195,25 @@ function DeleteFromBasket(productSellId) {
                         $("a#linkCart").addClass("d-none");
 
                     }
-                    UpdateBasket();
-
+                    // UpdateBasket();
+                    var price = 0;
+                    var priceAfterOff = 0;
+                    products.forEach(x => {
+                        var p = parseInt(x.priceAfterOff);
+                        var p1 = parseInt(x.price);
+                        var c = parseInt(x.count);
+                        priceAfterOff = priceAfterOff + (c * p);
+                        price = price + (c * p1);
+                    });
+                    $("span#priceSumCart").text(separate(priceAfterOff));
+                    $(`li#lili_${productSellId}`).hide('slow');
+                    $("span#cartBasketCount").text(products.length);
+                    if (route === "/cart") {
+                        $("span#sumPrice").text(`${separate(price)} تومان`);
+                        $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
+                        $("span#countProduct").text(`مبلغ کل (${products.length} کالا`);
+                        $(`tr#tr_${productSellId}`).hide('slow');
+                    }
                 }
                 else {
                     return;
@@ -189,7 +246,7 @@ function UpdateBasket() {
         var price = 0;
         var priceAfterOff = 0;
         products.forEach(x => {
-            var liProduct = ` <li>
+            var liProduct = ` <li id="lili_${x.productSellId}">
                                 <div class="basket-item">
                                     <button onclick="DeleteFromBasket('${x.productSellId}')" class="basket-item-remove"></button>
                                     <div class="basket-item-content">
@@ -202,7 +259,7 @@ function UpdateBasket() {
                                             </div>
                                             <div class="basket-item-params">
                                                 <div class="basket-item-props">
-                                                    <span> ${x.count} عدد</span>
+                                                    <span id="liliCount_${x.productSellId}"> ${x.count} عدد</span>
                                                     <span> ${x.shopTitle}</span>
                                                 </div>
                                             </div>
@@ -219,17 +276,28 @@ function UpdateBasket() {
                     <span class="text-success">${separate(x.priceAfterOff)} تومان</span>
                     </td>`;
                 }
-                var trProduct = ` <tr class="checkout-item">
+                var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
                                 <td>
                                     <img src="assets/img/cart/1335154.jpg" alt="">
-                                    <button class="checkout-btn-remove"></button>
+                                    <button  onclick="DeleteFromBasket('${x.productSellId}')" class="checkout-btn-remove"></button>
                                 </td>
                                 <td>
                                     <h3 class="checkout-title">
                                        ${x.title} - ${x.shopTitle}
                                     </h3>
                                 </td>
-                                <td>${x.count} عدد</td>
+                                <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                
+                                <a class="btn btn-sm btn-success mx-1"  onclick="plusCart('${x.productSellId}')">
+                                <i class="fa fa-plus"></i>
+                                </a>
+                                <span id="divCount_${x.productSellId}">${x.count}</span>
+                                 <a class="btn btn-sm btn-danger mx-1"  onclick="minusCart('${x.productSellId}')">
+                                <i class="fa fa-minus"></i>
+                                </a>
+                                </div>
+                                </td>
                                 ${priceTd}
                             </tr>`;
                 $("tbody#orderItemsTable").append(trProduct);
@@ -241,6 +309,11 @@ function UpdateBasket() {
             price = price + (c * p1);
         });
         $("span#priceSumCart").text(separate(priceAfterOff));
+        if (route === "/cart") {
+            $("span#sumPrice").text(`${separate(price)} تومان`);
+            $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
+            $("span#countProduct").text(`مبلغ کل (${count} کالا`);
+        }
     }
     else {
         var liProduct = ` <li>
@@ -251,5 +324,24 @@ function UpdateBasket() {
                                 </div>
                             </li>`;
         $("ul#ParentCartProducts").append(liProduct);
+        $("span#priceSumCart").text(separate(priceAfterOff));
+        if (route === "/cart") {
+            $("span#sumPrice").text(`0 تومان`);
+            $("span#sumPriceAfterOff").text(`0`);
+            $("span#countProduct").text(`مبلغ کل (0 کالا`);
+            var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
+                                <td colspan="2">
+                                  <div class="alert alert-warning">'
+                                  <h4>سبد خرید خالی است</h4>
+                                  </div>
+                                </td>
+                                <td  colspan="2">
+                                <a class="btn btn-info" href="/shop">
+                                فروشگاه
+                                </a>
+                                </td>
+                            </tr>`;
+            $("tbody#orderItemsTable").append(trProduct);
+        }
     }
 }

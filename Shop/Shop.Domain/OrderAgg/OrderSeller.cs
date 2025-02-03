@@ -6,11 +6,12 @@ namespace Shop.Domain.OrderAgg
 {
     public class OrderSeller : BaseEntity<int>
     {
-        public int OrderId { get; private set; }
+        public int OrderId { get; internal set; }
         public int SellerId { get; private set; }
         public OrderSellerStatus Status { get; private set; }
         public int DiscountId { get; private set; }
         public int DiscountPercent { get; private set; }
+        public string DiscountTitle { get; private set; }
         public int PostPrice { get; private set; }
         public Order Order { get; private set; }
         public List<OrderItem> OrderItems { get; private set; }
@@ -22,14 +23,15 @@ namespace Shop.Domain.OrderAgg
             Seller = new();
         }
 
-        public OrderSeller(int orderId, int sellerId)
+        public OrderSeller(int sellerId)
         {
-            OrderId = orderId;
             SellerId = sellerId;
             Status = OrderSellerStatus.پرداخت_نشده;
             DiscountId = 0;
             DiscountPercent = 0;
             PostPrice = 0;
+            OrderItems = new();
+            DiscountTitle = "";
         }
         public void AddPostPrice(int price)
         {
@@ -65,6 +67,11 @@ namespace Shop.Domain.OrderAgg
                 var discountPrice = DiscountPercent * PriceAfterOff / 100;
                 return PriceAfterOff - discountPrice;
             }
+        }
+        public void AddOrderItem(OrderItem item)
+        {
+            item.OrderSellerId = Id;
+            OrderItems.Add(item);
         }
     }
 }

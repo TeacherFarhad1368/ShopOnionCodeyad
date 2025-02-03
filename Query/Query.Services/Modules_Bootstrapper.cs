@@ -34,6 +34,7 @@ using Query.Contract.UserPanel.Store;
 using Query.Contract.UI.Product;
 using Query.Contract.Admin.Product;
 using Query.Contract.OrderDiscount;
+using Query.Contract.UserPanel.Order;
 namespace Query.Services
 {
 	public static class Modules_Bootstrapper
@@ -77,6 +78,7 @@ namespace Query.Services
             services.AddTransient<ISellerUserPanelQuery, SellerUserPanelQuery>();
             services.AddTransient<IStoreUserPanelQuery, StoreUserPanelQuery>();
             services.AddTransient<IProductUiQuery, ProductUiQuery>();
+            services.AddTransient<IOrderUserPanelQuery, OrderUserPanelQuery>();
             #endregion
             services.AddTransient<IOrderDiscountQuery, OrderDiscountQuery>();
         }

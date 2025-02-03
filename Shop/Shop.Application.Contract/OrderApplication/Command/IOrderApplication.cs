@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shop.Application.Contract.OrderApplication.Command
+﻿namespace Shop.Application.Contract.OrderApplication.Command;
+public interface IOrderApplication
 {
-    public interface IOrderApplication
-    {
-    }
+    Task<bool> UbsertOpenOrderForUserAsync(int _userId,List<ShopCartViewModel> cart);
 }

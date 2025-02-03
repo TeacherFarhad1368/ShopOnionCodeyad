@@ -8,7 +8,7 @@ namespace Shared.Domain
 {
     public class BaseEntity<TKey>
     {
-        public TKey Id { get; private set; }
+        public TKey Id { get; set; }
     }
     public class BaseEntityCreate<Tkey> : BaseEntity<Tkey>
     {
