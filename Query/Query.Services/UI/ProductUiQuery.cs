@@ -115,7 +115,7 @@ internal class ProductUiQuery : IProductUiQuery
     public ShopPaging GetProductsForUi(int pageId, string filter, string categorySlug, int Id, ShopOrderBy orderBy)
     {
         int ownerSeoId = 0;
-        string shopTitle = "محصولات ";
+        string shopTitle = "محصولات "; 
         string seoTitle = "محصولات ";
         var res = _shopContext.Products.Include(p => p.ProductSells).ThenInclude(s=>s.OrderItems)
             .Include(p => p.ProductSells).ThenInclude(s => s.Seller)

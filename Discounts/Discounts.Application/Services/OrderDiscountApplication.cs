@@ -88,6 +88,29 @@ internal class OrderDiscountApplication : IOrderDiscountApplication
         };
     }
 
+    public async Task<OperationResultOrderDiscount> GetOrderDiscountForAddOrderSellerdiscountAsync(int id, string code)
+    {
+        var orderDiscount = await _orderDiscountRepository.GetByCodeAsync(code);
+        if (orderDiscount == null || orderDiscount.ShopId != id)
+            return new(false, $"تخفیفی با کد {code} یافت نشد .");
+        if(orderDiscount.StartDate.Date > DateTime.Now.Date)
+            return new(false, $"تاریخ شروع تخفیف {code} از {DateTime.Now.ToPersainDate()} است .");
+        if(orderDiscount.EndDate.Date < DateTime.Now.Date)
+            return new(false, $"  تخفیف {code} در تاریخ {DateTime.Now.ToPersainDate()} به اتمام رسیده است .");
+        if (orderDiscount.Use == orderDiscount.Count)
+            return new(false, $"تعداد استفاده از کد تخفیف {code} به اتمام رسیده است .");
+        orderDiscount.UsePlus();
+        await _orderDiscountRepository.SaveAsync();
+        return new OperationResultOrderDiscount(true, $"کد تخفیف {code} با موفقیت اضافه شد .", $"تخفیف {orderDiscount.Title} با کد {orderDiscount.Code}", orderDiscount.Id, orderDiscount.Percent);
+    }
+
+    public async Task MinusUseAsync(int id)
+    {
+        var discount= await _orderDiscountRepository.GetByIdAsync(id);
+        discount.UseMinus();
+        await _orderDiscountRepository.SaveAsync();
+    }
+
     public async Task<bool> UseOrderDiscount(int id)
     {
         var orderDiscount = await _orderDiscountRepository.GetByIdAsync(id);

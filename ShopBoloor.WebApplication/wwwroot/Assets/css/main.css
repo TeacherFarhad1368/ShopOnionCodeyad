@@ -526,7 +526,7 @@ header.main-header .cart .dropdown-menu .basket-item-remove {
     transform: translateY(-50%);
     right: -5px;
     border-radius: 50%;
-    background-color: #eaeaea;
+    background-color: red;
     width: 20px;
     height: 20px;
     border: none;
@@ -536,17 +536,17 @@ header.main-header .cart .dropdown-menu .basket-item-remove {
     outline: none;
 }
 
-header.main-header .cart .dropdown-menu .basket-item-remove:before {
-    content: "\f00d";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #959595;
-    font-size: 8px;
-    font-size: .571rem;
-    line-height: 8px;
-}
+    header.main-header .cart .dropdown-menu .basket-item-remove:before {
+        content: "\f00d";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 8px;
+        font-size: .571rem;
+        line-height: 8px;
+    }
 
 header.main-header .cart .dropdown-menu .basket-item-content {
     display: flex;
@@ -3526,11 +3526,10 @@ footer.main-footer .copyright p {
     text-align: center;
     border: none;
     border-radius: 13px;
-    color: #999;
-    background: #f5f5f5;
-    right: 10px;
+    color: white;
+    background: red;
+    right: 0px;
     top: 50%;
-    -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     cursor: pointer;
 }

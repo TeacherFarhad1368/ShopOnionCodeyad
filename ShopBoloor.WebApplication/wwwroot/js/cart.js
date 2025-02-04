@@ -2,7 +2,7 @@
 $(function () {
     UpdateBasket();
 })
-function AddToBasket(pId, psId, title, shopTitle, p, pAO, slug, imageName, amount) {
+function AddToBasket(pId, psId, title, shopTitle, p, pAO, slug, imageName, amount,unit) {
     var productId = parseInt(pId);
     var productSellId = parseInt(psId);
     var price = parseInt(p);
@@ -55,7 +55,8 @@ function AddToBasket(pId, psId, title, shopTitle, p, pAO, slug, imageName, amoun
                             imageName,
                             price,
                             priceAfterOff,
-                            count
+                            count,
+                            unit
                         }
                         products.push(product);
                         $.cookie(cookieCartName, JSON.stringify(products), {
@@ -111,7 +112,6 @@ function plusCart(id) {
         $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
         $("span#countProduct").text(`مبلغ کل (${products.length} کالا`);
     }
-    AlertSweet("عملیات موفق", `یک عدد به محصول ${item.title} از فروشگاه ${item.shopTitle} اضافه شد`, "success")
 }
 function minusCart(id) {
     var route = window.location.pathname.toLowerCase();
@@ -154,7 +154,6 @@ function minusCart(id) {
             $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
             $("span#countProduct").text(`مبلغ کل (${products.length} کالا`);
         }
-        AlertSweet("عملیات موفق", `یک عدد از محصول ${item.title} از فروشگاه ${item.shopTitle} کم شد`, "success")
     }
 }
 function DeleteFromBasket(productSellId) {
@@ -255,7 +254,7 @@ function UpdateBasket() {
                                         </div>
                                         <div class="basket-item-details">
                                         <div class="basket-item-title">
-                                             ${x.title} 
+                                             ${x.title} - ${x.unit}
                                             </div>
                                             <div class="basket-item-params">
                                                 <div class="basket-item-props">
@@ -283,7 +282,7 @@ function UpdateBasket() {
                                 </td>
                                 <td>
                                     <h3 class="checkout-title">
-                                       ${x.title} - ${x.shopTitle}
+                                       ${x.title} - ${x.unit} - ${x.shopTitle}
                                     </h3>
                                 </td>
                                 <td>
@@ -343,5 +342,96 @@ function UpdateBasket() {
                             </tr>`;
             $("tbody#orderItemsTable").append(trProduct);
         }
+    }
+}
+function DeleteOrderItem(id, title) {
+    swal.fire({
+        title: "حذف از فاکتور",
+        text: `${title} از فاکتور شما حذف شود ؟`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "حذف شود ",
+        cancelButtonText: "انصراف"
+    })
+        .then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                Loding();
+                $.ajax({
+                    type: "Get",
+                    url: `/UserPanel/Order/DeleteOrderItem/${id}`
+                }).done(function (res) {
+                    if (res) {
+                        AlertSweetTimer("عملیات موفق", "success", 3000);
+                    }
+                    else {
+                        AlertSweetTimer("عملیات نا موفق", "error", 3000);
+                    }
+                    setTimeout(
+                        () => { location.reload(); }
+                        , 3000);
+                });
+            }
+        });
+}
+function OrderItemMinus(id) {
+    $.ajax({
+        type: "Get",
+        url: `/UserPanel/Order/OrderItemMinus/${id}`
+    }).done(function (res) {
+        var model = JSON.parse(res);
+        if (!model.Success) {
+            AlertSweetTimer(model.Message, "error", 3000);
+            setTimeout(
+                () => { location.reload(); }
+                , 3000);
+        }
+        else {
+            location.reload();
+        }
+    });
+}
+function OrderItemPlus(id) {
+    $.ajax({
+        type: "Get",
+        url: `/UserPanel/Order/OrderItemPlus/${id}`
+    }).done(function (res) {
+        var model = JSON.parse(res);
+        if (!model.Success) {
+            AlertSweetTimer(model.Message, "error", 3000);
+            setTimeout(
+                () => { location.reload(); }
+                , 3000);
+        }
+        else {
+            location.reload();
+        }
+    });
+}
+function AddOrderSellerDiscount(id) {
+    var codeInput = $(`input#discountCode_${id}`);
+    if (codeInput === undefined || codeInput.val() === null || codeInput.val() === "") {
+        AlertSweetTimer("لطفا کد تخفیف را وارد کنید .", "error", 2000);
+    }
+    else {
+        $.ajax({
+            type: "Post",
+            url: `/UserPanel/Order/AddOrderSellerDiscount/${id}`,
+            data: {
+                code: codeInput.val()
+            }
+        }).done(function (res) {
+            var model = JSON.parse(res);
+            if (!model.Success) {
+                AlertSweetTimer(model.Message, "error", 3000);
+            }
+            else {
+                AlertSweetTimer(model.Message, "success", 3000);
+            }
+            setTimeout(
+                () => { location.reload(); }
+                , 3000);
+        });
     }
 }

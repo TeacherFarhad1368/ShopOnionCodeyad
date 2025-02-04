@@ -1,4 +1,5 @@
-﻿using Shop.Application.Contract.OrderApplication.Command;
+﻿using Shared.Application;
+using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Domain.OrderAgg;
 using Shop.Domain.ProductAgg;
 using Shop.Domain.ProductSellAgg;
@@ -19,6 +20,28 @@ internal class OrderApplication : IOrderApplication
         _productSellRepository = productSellRepository;
         _sellerRepository = sellerRepository;   
     }
+
+    public async Task<bool> AddOrderSellerDiscountAsync(int userId, int sellerId, int discountId, string title, 
+        int percent)
+    {
+        var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
+        if (order.OrderSellers.Any(s => s.SellerId == sellerId) == false) return false;
+        var orderSeller = order.OrderSellers.Single(s => s.SellerId == sellerId);
+        orderSeller.AddDiscount(discountId, percent, title);
+        return await _orderRepository.SaveAsync();
+    }
+
+    public async Task CheckOrderEmpty(int userId)=>
+        await _orderRepository.CheckOrderEmpty(userId); 
+
+    public async Task<bool> DeleteOrderItemAsync(int id, int userId) =>
+        await _orderRepository.DeleteOrderItemAsync(id,userId);
+
+    public async Task<OperationResult> OrderItemMinus(int id, int userId)=>
+        await _orderRepository.OrderItemMinus(id,userId);
+
+    public async Task<OperationResult> OrderItemPlus(int id, int userId) =>
+       await _orderRepository.OrderItemPlus(id, userId);
 
     public async Task<bool> UbsertOpenOrderForUserAsync(int _userId, List<ShopCartViewModel> cart)
     {

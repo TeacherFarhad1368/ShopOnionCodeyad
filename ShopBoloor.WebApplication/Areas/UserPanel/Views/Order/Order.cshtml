@@ -28,11 +28,11 @@
                                  <td>
                                             <img src="@item.ProductImageAddress" alt="@item.ProductTitle" 
                                             style="max-height:50px !important;max-width:100px !important">
-                                            <button class="checkout-btn-remove" onclick="DeleteOrderItem('@item.Id')"></button>
+                                            <button class="checkout-btn-remove" onclick="DeleteOrderItem('@item.Id','@item.ProductTitle')"></button>
                                         </td>
                                  <td>
                                             <h3 class="checkout-title">
-                                                @item.ProductTitle
+                                                @item.ProductTitle - @item.Unit
                                             </h3>
                                         </td>
                                  <td>
@@ -42,9 +42,18 @@
                                                     <i class="fa fa-plus"></i>
                                                 </a>
                                                 <span>@item.Count</span>
-                                                <a class="btn btn-sm btn-danger mx-1" onclick="OrderItemMinus('@item.Id')">
-                                                    <i class="fa fa-minus"></i>
-                                                </a>
+                                                @if (item.Count == 1)
+                                                {
+                                                    <a class="btn btn-sm btn-danger mx-1" onclick="DeleteOrderItem('@item.Id','@item.ProductTitle')">
+                                                        <i class="fa fa-minus"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-sm btn-danger mx-1" onclick="OrderItemMinus('@item.Id')">
+                                                        <i class="fa fa-minus"></i>
+                                                    </a>
+                                                }
                                             </div>
                                         </td>
                                  <td>
@@ -70,9 +79,46 @@
                                         </td>
                             </tr>
                            }
-                           <tr>
-
-                           </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center py-2">
+                                        @if(seller.Price > seller.PriceAfterOff){
+                                            <del class="text-danger"> @seller.Price.ToString("#,0")</del>
+                                            <span> - </span>
+                                            <span class="text-success">@seller.PriceAfterOff.ToString("#,0")</span>
+                                        }
+                                       else{
+                                            <span class="text-success">@seller.Price.ToString("#,0")</span>
+                                       }
+                                        </td>
+                                </tr>
+                                @if (seller.DiscountId > 0)
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center py-2">
+                                            <span class="text-success">@seller.DiscountPercent % تخفیف ( @seller.DiscountTitle )</span>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center py-2">
+                                            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center">
+                                                <label>کد تخفیف فروشگاه @seller.SellerTitle : </label>
+                                                <input class="form-control form-control-sm w-50 mx-2" id="discountCode_@seller.SellerId" />
+                                                <button class="btn btn-sm btn-success" onclick="AddOrderSellerDiscount('@seller.SellerId')">
+                                                    افزودن تخفیف
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="5" class="text-center py-2"> هزینه ارسال @seller.PostPrice.ToString("#,0")</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center py-2"> مبلغ پرداختی @seller.PaymentPrice.ToString("#,0")</td>
+                                </tr>
                         </tbody>
                     </table>
                 </div>

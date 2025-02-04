@@ -2,6 +2,7 @@
 @using Query.Contract.UI.Product;
 @{
     ViewData["Title"] = Model.ShopTitle;
+    var noOpenOrder = TempData["noOpenOrder"] != null;
 }
 <main class="search-page default">
     <div class="container">
@@ -154,3 +155,11 @@
         </div>
     </div>
 </main>
+@section Scripts {
+    @if (noOpenOrder)
+    {
+        <script>
+            AlertSweet("عملیات نا موفق", "فاکتور بازی ندارید . محصولی برای افزودن به فاکتور انتخاب کنید  .", "error");
+        </script>
+    }
+}

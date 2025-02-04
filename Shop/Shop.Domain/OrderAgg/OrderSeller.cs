@@ -37,10 +37,11 @@ namespace Shop.Domain.OrderAgg
         {
             PostPrice = price;
         }
-        public void AddDiscount(int discountId, int discountPercent)
+        public void AddDiscount(int discountId, int discountPercent,string discountTitle)
         {
             DiscountId = discountId;
             DiscountPercent = discountPercent;
+            DiscountTitle = discountTitle;  
         }
         public void ChangeStatus(OrderSellerStatus status)
         {

@@ -18,11 +18,12 @@ namespace Shop.Domain.OrderAgg
             OrderSeller = new();
             ProductSell = new();
         }
-        public void Edit(int count, int price, int priceAfterOff)
+        public void Edit(int count, int price, int priceAfterOff, string unit)
         {
             Count = count;
             Price = price;
             PriceAfterOff = priceAfterOff;
+            Unit = unit;
         }
         public OrderItem( int productSellId, int count, int price, int priceAfterOff, string unit)
         {
