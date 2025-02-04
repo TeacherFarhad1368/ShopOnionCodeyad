@@ -85,6 +85,7 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
                   bool ok =  await _orderApplication.AddOrderSellerDiscountAsync(_userId, id, res.Id, res.Title, res.Percent);
                     if (ok)
                     {
+                        model.Success = true;
                         model.Message = res.Message;
                     }
                     else
@@ -103,6 +104,37 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             {
                 model.Message = result.Message;
             }
+            var json = JsonSerializer.Serialize(model);
+            return Json(json);
+        }
+        [HttpPost]
+        public async Task<JsonResult> AddOrderDiscount(string code)
+        {
+            OperationResult model = new(false);
+            _userId = _authService.GetLoginUserId();
+            bool ok = await _orderUserPanelQuery.HaveUserOpenOrderAsync(_userId);
+            if (ok)
+            {
+                OperationResultOrderDiscount res = await _orderDiscountApplication.GetOrderDiscountForAddOrderdiscountAsync(code);
+                if (res.Success)
+                {
+                    bool add = await _orderApplication.AddOrderDiscountAsync(_userId, res.Id, res.Title, res.Percent);
+                    if(add)
+                    {
+                        model.Success = true;
+                        model.Message = res.Message;
+                    }
+                    else
+                    {
+                        await _orderDiscountApplication.MinusUseAsync(res.Id);
+                        model.Message = "عملیات نا موفق !! مجددا تلاش کنید ";
+                    }
+                }
+                else
+                    model.Message = res.Message;
+            }
+            else
+                model.Message = "شما فاکتور بازی ندارید .";
             var json = JsonSerializer.Serialize(model);
             return Json(json);
         }

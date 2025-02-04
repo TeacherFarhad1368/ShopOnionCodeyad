@@ -9,6 +9,7 @@ public interface IOrderDiscountApplication
     Task<OperationResult> EditBySellerAsync(EditOrderDiscount command, List<int> sellerIds);
     Task<EditOrderDiscount> GetForEditAsync(int id);
     EditOrderDiscount GetForEditBySeller(int id, List<int> sellerIds);
+    Task<OperationResultOrderDiscount> GetOrderDiscountForAddOrderdiscountAsync(string code);
     Task<OperationResultOrderDiscount> GetOrderDiscountForAddOrderSellerdiscountAsync(int id, string code);
     Task MinusUseAsync(int id);
     Task<bool> UseOrderDiscount(int id);

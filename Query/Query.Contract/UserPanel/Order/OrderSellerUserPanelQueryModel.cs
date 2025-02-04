@@ -12,5 +12,6 @@ public class OrderSellerUserPanelQueryModel
     public int Price { get; set; }
     public int PriceAfterOff { get; set; }
     public int PaymentPrice { get; set; }
+    public int DiscountPrice { get; set; }
     public List<OrderItemUserPanelQueryModel> OrderItems { get; set; }
 }

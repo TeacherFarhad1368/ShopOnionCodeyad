@@ -95,7 +95,7 @@
                                 {
                                     <tr>
                                         <td colspan="5" class="text-center py-2">
-                                            <span class="text-success">@seller.DiscountPercent % تخفیف ( @seller.DiscountTitle )</span>
+                                            <span class="text-success">@seller.DiscountPercent % تخفیف ( @seller.DiscountTitle ) - @seller.DiscountPrice.ToString("#,0") تومان</span>
                                         </td>
                                     </tr>
                                 }
@@ -133,6 +133,38 @@
                                 <li><span>مبلغ کل محصولات (@Model.Ordersellers.Sum(s => s.OrderItems.Count) کالا)</span><span>@Model.Price.ToString("#,0") تومان</span></li>
                                 <li><span>مبلغ کل با تخفیف </span><span>@Model.PriceAfterOff.ToString("#,0") تومان</span></li>
                                 <li><span>جمع کل </span><span>@Model.PaymentPriceSeller.ToString("#,0") تومان</span></li>
+                                @if(Model.DiscountId > 0){
+                                    <li>
+                                        <span>تخفیف</span>
+                                        <span>@Model.DiscountTitle</span>
+                                    </li>
+                                    <li>
+                                        <span>درصد تخفیف</span>
+                                        <span>@Model.DiscountPercent</span>
+                                    </li>
+                                    <li>
+                                        <span>مبلغ تخفیف</span>
+                                        <span>@Model.DiscountPrice.ToString("#,0")</span>
+                                    </li>
+                                }
+                            </ul>
+                            @if (Model.DiscountId == 0){
+                                <div class="checkout-summary-devider">
+                                    <div></div>
+                                </div>
+                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                     <label class="my-1">کد تخفیف فروشگاه فاکتور : </label>
+                                     <input class="form-control form-control-sm w-75 my-1" id="orderDiscountCode" />
+                                     <span class="my-1 text-danger" id="orderDiscountCodeValid"></span>
+                                     <button class="btn btn-sm btn-success my-2" onclick="AddOrderDiscount()">
+                                         افزودن تخفیف
+                                     </button>
+                                </div>
+                            }
+                            <div class="checkout-summary-devider">
+                                <div></div>
+                            </div>
+                            <ul class="checkout-summary-summary">
                                 <li>
                                     <span>هزینه ارسال</span>
                                     <span>@Model.PostPrice.ToString("#,0") تومان</span>

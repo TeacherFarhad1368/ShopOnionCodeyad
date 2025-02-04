@@ -435,3 +435,31 @@ function AddOrderSellerDiscount(id) {
         });
     }
 }
+function AddOrderDiscount() {
+    var inputCode = $("input#orderDiscountCode");
+    var spanText = $("span#orderDiscountCodeValid");
+    if (inputCode === undefined || inputCode.val() === null || inputCode.val() === "") {
+        spanText.text("لطفا کد تخفیف را وارد کنید .");
+    }
+    else {
+        spanText.text("");
+        $.ajax({
+            type: "Post",
+            url: `/UserPanel/Order/AddOrderDiscount`,
+            data: {
+                code: inputCode.val()
+            }
+        }).done(function (res) {
+            var model = JSON.parse(res);
+            if (!model.Success) {
+                spanText.text(model.Message);
+            }
+            else {
+                AlertSweetTimer(model.Message, "success", 3000);
+                setTimeout(
+                    () => { location.reload(); }
+                    , 3000);
+            }
+        });
+    }
+}

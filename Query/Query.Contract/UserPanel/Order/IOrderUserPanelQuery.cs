@@ -5,5 +5,6 @@ public interface IOrderUserPanelQuery
 {
     Task CheckOrderItemDataAsync(int userId);
     Task<OrderUserPanelQueryModel> GetOpenOrderForUserAsync(int userId);
+    Task<bool> HaveUserOpenOrderAsync(int userId);
     Task<OperationResultWithKey> HaveUserOpenOrderSellerAsyncByOrderSellerIdAsync(int userId, int id);
 }

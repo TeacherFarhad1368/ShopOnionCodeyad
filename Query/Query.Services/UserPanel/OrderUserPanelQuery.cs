@@ -75,6 +75,7 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
             DiscountPercent = order.DiscountPercent,
             OrderId = order.Id,
             OrderPayment = order.OrderPayment,
+            DiscountTitle = order.DiscountTitle,
             Ordersellers = order.OrderSellers.Select(s=> new OrderSellerUserPanelQueryModel
             {
                 PriceAfterOff = s.PriceAfterOff,
@@ -100,14 +101,16 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
                 PostPrice = s.PostPrice,
                 Price = s.Price,
                 SellerId = s.SellerId,
-                SellerTitle = ""
+                SellerTitle = "",
+                DiscountPrice = s.DiscountPercent * s.PriceAfterOff / 100
             }).ToList(),
             PaymentPrice = order.PaymentPrice,
             PaymentPriceSeller = order.PaymentPriceSeller,
             PostId = order.PostId,  
             PostPrice = order.PostPrice,
             PostTitle = order.PostTitle,    
-            Price = order.Price
+            Price = order.Price,
+            DiscountPrice = order.DiscountPercent * order.PaymentPriceSeller / 100
         };
         foreach(var item in model.Ordersellers)
         {
@@ -124,6 +127,10 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
         }
         return model;   
     }
+
+    public async Task<bool> HaveUserOpenOrderAsync(int userId) =>
+        await _shopContext.Orders.AnyAsync(s => s.UserId == userId &&
+            s.OrderStatus == Shared.Domain.Enum.OrderStatus.پرداخت_نشده);
 
     public async Task<OperationResultWithKey> HaveUserOpenOrderSellerAsyncByOrderSellerIdAsync(int userId, int id)
     {

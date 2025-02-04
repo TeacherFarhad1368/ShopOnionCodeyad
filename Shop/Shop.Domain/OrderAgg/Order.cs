@@ -13,6 +13,7 @@ namespace Shop.Domain.OrderAgg
         public string? PostTitle { get; private set; }
         public int DiscountId { get; private set; }
         public int DiscountPercent { get; private set; }
+        public string DiscountTitle { get; private set; }
         public List<OrderSeller> OrderSellers { get; private set; }
         public int Price
         {
@@ -46,7 +47,7 @@ namespace Shop.Domain.OrderAgg
         {
             get
             {
-                var discountPrice = DiscountPercent * PriceAfterOff / 100;
+                var discountPrice = DiscountPercent * PaymentPriceSeller / 100;
 
 
                 return PaymentPriceSeller - discountPrice - PostPrice;
@@ -87,10 +88,11 @@ namespace Shop.Domain.OrderAgg
             PostTitle = postTitle;
             UpdateEntity();
         }
-        public void AddDiscount(int discountId, int percent)
+        public void AddDiscount(int discountId, int percent,string title)
         {
             DiscountId = discountId;
             DiscountPercent = percent;
+            DiscountTitle = title;  
             UpdateEntity();
         }
         public void AddOrderSeller(OrderSeller seller)

@@ -9,6 +9,7 @@ public class OrderUserPanelQueryModel
     public int OrderAddressId { get; set; }
     public int PostId { get; set; }
     public string? PostTitle { get; set; }
+    public string? DiscountTitle { get; set; }
     public int DiscountId { get; set; }
     public int DiscountPercent { get; set; }
     public int Price { get; set; }
@@ -16,6 +17,7 @@ public class OrderUserPanelQueryModel
     public int PaymentPriceSeller { get; set; }
     public int PostPrice { get; set; }
     public int PaymentPrice { get; set; }
+    public int DiscountPrice { get; set; }
     public OrderAddressForOrderUserPanelQueryModel? OrderAddress { get; set; }
     public List<OrderSellerUserPanelQueryModel> Ordersellers { get; set; }
 }

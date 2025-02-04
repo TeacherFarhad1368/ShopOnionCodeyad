@@ -21,6 +21,13 @@ internal class OrderApplication : IOrderApplication
         _sellerRepository = sellerRepository;   
     }
 
+    public async Task<bool> AddOrderDiscountAsync(int userId, int id, string title, int percent)
+    {
+        var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
+        order.AddDiscount(id, percent, title);
+        return await _orderRepository.SaveAsync();
+    }
+
     public async Task<bool> AddOrderSellerDiscountAsync(int userId, int sellerId, int discountId, string title, 
         int percent)
     {
