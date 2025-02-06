@@ -223,29 +223,31 @@ function DeleteFromBasket(productSellId) {
 
 }
 function UpdateBasket() {
-    debugger;
-    var route = window.location.pathname.toLowerCase();
-    let products = $.cookie(cookieCartName);
-
-    if (products === undefined) {
-        products = [];
-    }
-    else {
-        products = JSON.parse(products);
-    }
-    var count = products.length;
-    $("span#cartBasketCount").text(count);
-    $("ul#ParentCartProducts").html("");
-    if (route === "/cart") {
-        $("tbody#orderItemsTable").html("");
-    }
-    if (products.length > 0) {
-        $("div#basketTotalCart").removeClass("d-none");
-        $("a#linkCart").removeClass("d-none");
-        var price = 0;
-        var priceAfterOff = 0;
-        products.forEach(x => {
-            var liProduct = ` <li id="lili_${x.productSellId}">
+    let products =[];
+    $.ajax({
+        type: "Get",
+        url: `/Auth/IsUserLogin`
+    }).done(function (res) {
+        if (res) {
+            $.ajax({
+                type: "Get",
+                url: `/UserPanel/Order/OpenOrderItems`
+            }).done(function (res) {
+                debugger;
+                products = JSON.parse(res);
+                var count = products.length;
+                $("span#cartBasketCount").text(count);
+                $("ul#ParentCartProducts").html("");
+                if (route === "/cart") {
+                    $("tbody#orderItemsTable").html("");
+                }
+                if (products.length > 0) {
+                    $("div#basketTotalCart").removeClass("d-none");
+                    $("a#linkCart").removeClass("d-none");
+                    var price = 0;
+                    var priceAfterOff = 0;
+                    products.forEach(x => {
+                        var liProduct = ` <li id="lili_${x.productSellId}">
                                 <div class="basket-item">
                                     <button onclick="DeleteFromBasket('${x.productSellId}')" class="basket-item-remove"></button>
                                     <div class="basket-item-content">
@@ -266,16 +268,16 @@ function UpdateBasket() {
                                     </div>
                                 </div>
                             </li>`;
-            $("ul#ParentCartProducts").append(liProduct);
-            if (route === "/cart") {
-                var priceTd = `<td><span class="text-success">${separate(x.price)} تومان</span></td>`;
-                if (x.price > x.priceAfterOff) {
-                    priceTd = `<td><del class="text-danger">${separate(x.price)} </del>
+                        $("ul#ParentCartProducts").append(liProduct);
+                        if (route === "/cart") {
+                            var priceTd = `<td><span class="text-success">${separate(x.price)} تومان</span></td>`;
+                            if (x.price > x.priceAfterOff) {
+                                priceTd = `<td><del class="text-danger">${separate(x.price)} </del>
                     <br />
                     <span class="text-success">${separate(x.priceAfterOff)} تومان</span>
                     </td>`;
-                }
-                var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
+                            }
+                            var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
                                 <td>
                                     <img src="assets/img/cart/1335154.jpg" alt="">
                                     <button  onclick="DeleteFromBasket('${x.productSellId}')" class="checkout-btn-remove"></button>
@@ -299,36 +301,36 @@ function UpdateBasket() {
                                 </td>
                                 ${priceTd}
                             </tr>`;
-                $("tbody#orderItemsTable").append(trProduct);
-            }
-            var p = parseInt(x.priceAfterOff);
-            var p1 = parseInt(x.price);
-            var c = parseInt(x.count);
-            priceAfterOff = priceAfterOff + (c * p);
-            price = price + (c * p1);
-        });
-        $("span#priceSumCart").text(separate(priceAfterOff));
-        if (route === "/cart") {
-            $("span#sumPrice").text(`${separate(price)} تومان`);
-            $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
-            $("span#countProduct").text(`مبلغ کل (${count} کالا`);
-        }
-    }
-    else {
-        var liProduct = ` <li>
+                            $("tbody#orderItemsTable").append(trProduct);
+                        }
+                        var p = parseInt(x.priceAfterOff);
+                        var p1 = parseInt(x.price);
+                        var c = parseInt(x.count);
+                        priceAfterOff = priceAfterOff + (c * p);
+                        price = price + (c * p1);
+                    });
+                    $("span#priceSumCart").text(separate(priceAfterOff));
+                    if (route === "/cart") {
+                        $("span#sumPrice").text(`${separate(price)} تومان`);
+                        $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
+                        $("span#countProduct").text(`مبلغ کل (${count} کالا`);
+                    }
+                }
+                else {
+                    var liProduct = ` <li>
                                 <div class="basket-item">
                                     <div class="basket-item-content">
                                         <p class="text-danger">سبد خرید خالی است</p>
                                     </div>
                                 </div>
                             </li>`;
-        $("ul#ParentCartProducts").append(liProduct);
-        $("span#priceSumCart").text(separate(priceAfterOff));
-        if (route === "/cart") {
-            $("span#sumPrice").text(`0 تومان`);
-            $("span#sumPriceAfterOff").text(`0`);
-            $("span#countProduct").text(`مبلغ کل (0 کالا`);
-            var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
+                    $("ul#ParentCartProducts").append(liProduct);
+                    $("span#priceSumCart").text(separate(priceAfterOff));
+                    if (route === "/cart") {
+                        $("span#sumPrice").text(`0 تومان`);
+                        $("span#sumPriceAfterOff").text(`0`);
+                        $("span#countProduct").text(`مبلغ کل (0 کالا`);
+                        var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
                                 <td colspan="2">
                                   <div class="alert alert-warning">'
                                   <h4>سبد خرید خالی است</h4>
@@ -340,9 +342,129 @@ function UpdateBasket() {
                                 </a>
                                 </td>
                             </tr>`;
-            $("tbody#orderItemsTable").append(trProduct);
+                        $("tbody#orderItemsTable").append(trProduct);
+                    }
+                }
+            });
         }
-    }
+        else {
+            var route = window.location.pathname.toLowerCase();
+            debugger;
+            if ($.cookie(cookieCartName) !== undefined) {
+                products = JSON.parse($.cookie(cookieCartName));
+                var count = products.length;
+                $("span#cartBasketCount").text(count);
+                $("ul#ParentCartProducts").html("");
+                if (route === "/cart") {
+                    $("tbody#orderItemsTable").html("");
+                }
+                if (products.length > 0) {
+                    $("div#basketTotalCart").removeClass("d-none");
+                    $("a#linkCart").removeClass("d-none");
+                    var price = 0;
+                    var priceAfterOff = 0;
+                    products.forEach(x => {
+                        var liProduct = ` <li id="lili_${x.productSellId}">
+                                <div class="basket-item">
+                                    <button onclick="DeleteFromBasket('${x.productSellId}')" class="basket-item-remove"></button>
+                                    <div class="basket-item-content">
+                                        <div class="basket-item-image">
+                                            <img alt="" src="${x.imageName}">
+                                        </div>
+                                        <div class="basket-item-details">
+                                        <div class="basket-item-title">
+                                             ${x.title} - ${x.unit}
+                                            </div>
+                                            <div class="basket-item-params">
+                                                <div class="basket-item-props">
+                                                    <span id="liliCount_${x.productSellId}"> ${x.count} عدد</span>
+                                                    <span> ${x.shopTitle}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>`;
+                        $("ul#ParentCartProducts").append(liProduct);
+                        if (route === "/cart") {
+                            var priceTd = `<td><span class="text-success">${separate(x.price)} تومان</span></td>`;
+                            if (x.price > x.priceAfterOff) {
+                                priceTd = `<td><del class="text-danger">${separate(x.price)} </del>
+                    <br />
+                    <span class="text-success">${separate(x.priceAfterOff)} تومان</span>
+                    </td>`;
+                            }
+                            var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
+                                <td>
+                                    <img src="assets/img/cart/1335154.jpg" alt="">
+                                    <button  onclick="DeleteFromBasket('${x.productSellId}')" class="checkout-btn-remove"></button>
+                                </td>
+                                <td>
+                                    <h3 class="checkout-title">
+                                       ${x.title} - ${x.unit} - ${x.shopTitle}
+                                    </h3>
+                                </td>
+                                <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                
+                                <a class="btn btn-sm btn-success mx-1"  onclick="plusCart('${x.productSellId}')">
+                                <i class="fa fa-plus"></i>
+                                </a>
+                                <span id="divCount_${x.productSellId}">${x.count}</span>
+                                 <a class="btn btn-sm btn-danger mx-1"  onclick="minusCart('${x.productSellId}')">
+                                <i class="fa fa-minus"></i>
+                                </a>
+                                </div>
+                                </td>
+                                ${priceTd}
+                            </tr>`;
+                            $("tbody#orderItemsTable").append(trProduct);
+                        }
+                        var p = parseInt(x.priceAfterOff);
+                        var p1 = parseInt(x.price);
+                        var c = parseInt(x.count);
+                        priceAfterOff = priceAfterOff + (c * p);
+                        price = price + (c * p1);
+                    });
+                    $("span#priceSumCart").text(separate(priceAfterOff));
+                    if (route === "/cart") {
+                        $("span#sumPrice").text(`${separate(price)} تومان`);
+                        $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
+                        $("span#countProduct").text(`مبلغ کل (${count} کالا`);
+                    }
+                }
+                else {
+                    var liProduct = ` <li>
+                                <div class="basket-item">
+                                    <div class="basket-item-content">
+                                        <p class="text-danger">سبد خرید خالی است</p>
+                                    </div>
+                                </div>
+                            </li>`;
+                    $("ul#ParentCartProducts").append(liProduct);
+                    $("span#priceSumCart").text(separate(priceAfterOff));
+                    if (route === "/cart") {
+                        $("span#sumPrice").text(`0 تومان`);
+                        $("span#sumPriceAfterOff").text(`0`);
+                        $("span#countProduct").text(`مبلغ کل (0 کالا`);
+                        var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
+                                <td colspan="2">
+                                  <div class="alert alert-warning">'
+                                  <h4>سبد خرید خالی است</h4>
+                                  </div>
+                                </td>
+                                <td  colspan="2">
+                                <a class="btn btn-info" href="/shop">
+                                فروشگاه
+                                </a>
+                                </td>
+                            </tr>`;
+                        $("tbody#orderItemsTable").append(trProduct);
+                    }
+                }
+            }
+        }
+    });
 }
 function DeleteOrderItem(id, title) {
     swal.fire({

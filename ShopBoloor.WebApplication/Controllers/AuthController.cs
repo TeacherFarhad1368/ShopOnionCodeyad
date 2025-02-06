@@ -10,9 +10,11 @@ namespace ShopBoloor.WebApplication.Controllers
     public class AuthController : Controller
     {
         private readonly IUserApplication _userApplication;
-        public AuthController(IUserApplication userApplication)
+        private readonly IAuthService _authService;
+        public AuthController(IUserApplication userApplication, IAuthService authService)
         {
             _userApplication = userApplication;
+            _authService = authService;
         }
 
         public IActionResult Login(string returnUrl = "/")
@@ -56,5 +58,6 @@ namespace ShopBoloor.WebApplication.Controllers
             _userApplication.Logout();
             return RedirectToAction("Login");
         }
+        public bool IsUserLogin() => _authService.IsUserLogin();    
     }
 }

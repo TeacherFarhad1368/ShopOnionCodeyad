@@ -281,7 +281,7 @@ internal class ProductUiQuery : IProductUiQuery
             x.SellerName = seller.Title;
             var city = _postContext.Cities.Include(c => c.State).SingleOrDefault(c => c.Id == seller.CityId && c.StateId == seller.StateId);
             if (city != null)
-                x.SellerAddress = $"{city.State.Title} {city.Title} {seller.Address}";
+                x.SellerAddress = $"{city.State.Title} {city.Title}";
 
             var discount = _discountContext.ProductDiscounts.FirstOrDefault(d => d.ProductSellId == x.Id && d.StartDate.Date <= DateTime.Now.Date && d.EndDate.Date >= DateTime.Now.Date);
             if(discount  != null)

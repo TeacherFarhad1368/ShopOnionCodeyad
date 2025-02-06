@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Query.Contract.UI.Product;
+using Shared.Application.Services.Auth;
 using Shop.Domain.ProductAgg;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -9,10 +10,11 @@ namespace ShopBoloor.WebApplication.Controllers
     public class ShopController : Controller
     {
         private readonly IProductUiQuery _productUiQuery;
-
-        public ShopController(IProductUiQuery productUiQuery)
+        private readonly IAuthService _authService;
+        public ShopController(IProductUiQuery productUiQuery, IAuthService authService)
         {
             _productUiQuery = productUiQuery;
+            _authService = authService;
         }
 
         [Route("/Shop/{id?}")]
@@ -32,6 +34,8 @@ namespace ShopBoloor.WebApplication.Controllers
         [Route("/Cart")]
         public IActionResult Cart()
         {
+            if (_authService.IsUserLogin())
+                return Redirect("/UserPanel/Order/Order");
             return View();
         }
     }

@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Query.Contract.UserPanel.Order;
 using Shared.Application;
+using Shop.Application.Contract.OrderApplication.Command;
+using Shop.Domain.SellerAgg;
 using Shop.Infrastructure;
 using Stores.Infrastructure;
 
@@ -30,27 +32,29 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
                 {
                     var productSell = await _shopContext.ProductSells.Include(s => s.Product)
                         .SingleAsync(s => s.Id == item.ProductSellId);
-                    int price = item.Price;
-                    int priceAfterOff = item.PriceAfterOff;
+                    int price = productSell.Price;
+                    int priceAfterOff = productSell.Price;
                     string unit = productSell.Unit;
                     int count = item.Count;
                     if (count > productSell.Amount)
                         count = productSell.Amount;
-                    if (_discountContext.ProductDiscounts.Any(p => p.ProductId == productSell.ProductId && 
-                    p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date))
-                    {
-                        
-                        var discount = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
-                        .First(p => p.ProductId == productSell.ProductId && p.StartDate.Date <= DateTime.Now.Date && 
+
+
+                    var discount1 = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                        .FirstOrDefault(p => p.ProductId == productSell.ProductId && p.ProductSellId == productSell.Id && p.StartDate.Date <= DateTime.Now.Date &&
                         p.EndDate.Date >= DateTime.Now.Date);
-                        if (discount.ProductSellId > 0)
+                    if(discount1 != null)
+                    {
+                        priceAfterOff = productSell.Price - (discount1.Percent * productSell.Price / 100);
+                    }
+                    else
+                    {
+                        var discount2 = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                        .FirstOrDefault(p => p.ProductId == productSell.ProductId && p.ProductSellId == 0 && p.StartDate.Date <= DateTime.Now.Date &&
+                        p.EndDate.Date >= DateTime.Now.Date);
+                        if(discount2 != null)
                         {
-                            price = productSell.Price;
-                            priceAfterOff = productSell.Price - (discount.Percent * productSell.Price / 100);
-                        }
-                        else
-                        {
-                            priceAfterOff = productSell.Price - (discount.Percent * productSell.Price / 100);
+                            priceAfterOff = productSell.Price - (discount2.Percent * productSell.Price / 100);
                         }
                     }
                     item.Edit(count, price, priceAfterOff,unit);
@@ -126,6 +130,38 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
             }
         }
         return model;   
+    }
+
+    public async Task<List<ShopCartViewModel>> GetOpenOrderItemsAsync(int userId)
+    {
+        List<ShopCartViewModel> model = new();
+        var order = await _shopContext.Orders.Include(o => o.OrderSellers)
+           .ThenInclude(s => s.OrderItems).SingleOrDefaultAsync(s => s.UserId == userId &&
+           s.OrderStatus == Shared.Domain.Enum.OrderStatus.پرداخت_نشده);
+        if (order == null) return model;
+        foreach(var seller in order.OrderSellers)
+        {
+            var shop = _shopContext.Sellers.Find(seller.SellerId);
+            foreach (var item in seller.OrderItems)
+            {
+                
+                var productSell = _shopContext.ProductSells.Include(p => p.Product).Single(p => p.Id == item.ProductSellId);
+                model.Add(new ShopCartViewModel
+                {
+                    priceAfterOff = item.PriceAfterOff,
+                    count = item.Count,
+                    imageName = FileDirectories.ProductImageDirectory500 + productSell.Product.ImageName,
+                    price = item.Price,
+                    productId = productSell.ProductId,
+                    productSellId = item.ProductSellId,
+                    shopTitle = shop.Title,
+                    slug = productSell.Product.Slug,
+                    title = productSell.Product.Title,
+                    unit = item.Unit
+                });
+            }
+        }
+        return model;
     }
 
     public async Task<bool> HaveUserOpenOrderAsync(int userId) =>

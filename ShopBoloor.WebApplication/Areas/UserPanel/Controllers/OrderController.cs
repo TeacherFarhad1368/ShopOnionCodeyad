@@ -138,5 +138,22 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             var json = JsonSerializer.Serialize(model);
             return Json(json);
         }
+        public async Task<JsonResult> OpenOrderItems()
+        {
+            _userId = _authService.GetLoginUserId();
+            List<ShopCartViewModel> model = new();
+            string cookieName = "boloorShop-cart-items";
+            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            {
+                model = JsonSerializer.Deserialize<List<ShopCartViewModel>>(cartJson);
+                var ok = await _orderApplication.UbsertOpenOrderForUserAsync(_userId, model);
+                Response.Cookies.Delete(cookieName);
+            }
+            await _orderUserPanelQuery.CheckOrderItemDataAsync(_userId);
+            await _orderApplication.CheckOrderEmpty(_userId);
+            var res = await _orderUserPanelQuery.GetOpenOrderItemsAsync(_userId);
+            var json = JsonSerializer.Serialize(res);
+            return Json(json);
+        }
     }
 }

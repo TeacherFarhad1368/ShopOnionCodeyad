@@ -64,7 +64,7 @@
                                     <td>
                                         @if(item.Active){
                                             <a class="btn btn-danger btn-sm text-light" style="cursor:pointer"
-                                               onclick="AjaxSweetNotDelete('غیر فعال کردن',
+                                               onclick="AjaxSweetRefresh('غیر فعال کردن',
                                                'بعد از غیر فعال کردن , محصول دیگر به نمایش در نمیآید و فروش آن بسته میشود ',
                                                'warning','غیر فعال شود','فعال بماند',
                                                '/UserPanel/Product/Active/@item.Id')">
@@ -73,7 +73,7 @@
                                         }
                                         else{
                                             <a class="btn btn-success btn-sm text-light" style="cursor:pointer"
-                                               onclick="AjaxSweetNotDelete(' فعال کردن',
+                                               onclick="AjaxSweetRefresh(' فعال کردن',
                                                'بعد از  فعال کردن , محصول  به نمایش در میآید و فروش آن آزاد میشود ',
                                                'warning',' فعال شود','غیر فعال بماند',
                                                '/UserPanel/Product/Active/@item.Id')">
