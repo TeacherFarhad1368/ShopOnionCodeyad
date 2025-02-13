@@ -5,13 +5,13 @@
             <div class="col-lg-2 col-md-3 col-sm-4 col-5">
 
                 @await Component.InvokeAsync("LogoHeader")
-               
+
             </div>
             <div class="col-lg-6 col-md-5 col-sm-8 col-7 d-flex align-items-center">
                 <div class="search-area default w-75">
                     <form action="" class="search">
                         <input type="text" id="gsearchsimple"
-                               placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+                        placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
                         <ul class="list-group search-box-list">
                             <li class="list-group-item contsearch">
                                 <a href="#" class="gsearch">
@@ -59,7 +59,7 @@
                     @if (_auth.IsUserLogin())
                     {
                         <a href="#" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown"
-                           id="navbarDropdownMenuLink1">
+                        id="navbarDropdownMenuLink1">
                             داشبرد کاربر
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
@@ -87,7 +87,7 @@
                     else
                     {
                         <a href="#" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown"
-                           id="navbarDropdownMenuLink1">
+                        id="navbarDropdownMenuLink1">
                             ورود / ثبت نام
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
@@ -109,15 +109,26 @@
                             </div>
                         </ul>
                     }
-                    
-                    
+
+
                 </div>
                 <div class="cart dropdown">
-                    <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
-                        <img src="/Assets/img/shopping-cart.png" alt="">
-                        سبد خرید
-                        <span class="count-cart" id="cartBasketCount">0</span>
-                    </a>
+                    @if (_auth.IsUserLogin())
+                    {
+                        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
+                            <img src="/Assets/img/shopping-cart.png" alt="">
+                            فاکتور
+                            <span class="count-cart" id="cartBasketCount">0</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
+                            <img src="/Assets/img/shopping-cart.png" alt="">
+                            سبد خرید
+                            <span class="count-cart" id="cartBasketCount">0</span>
+                        </a>
+                    }
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
                         <div class="basket-header">
                             <div id="basketTotalCart" class="basket-total d-none">
@@ -131,7 +142,14 @@
                         </div>
                         <ul class="basket-list" id="ParentCartProducts">
                         </ul>
-                        <a id="linkCart" href="/Cart" class="basket-submit d-none">سبد خرید</a>
+                        @if (_auth.IsUserLogin())
+                        {
+                            <a id="linkCart" href="/Cart" class="basket-submit d-none">فاکتور </a>
+                        }
+                        else
+                        {
+                            <a id="linkCart" href="/Cart" class="basket-submit d-none">سبد خرید</a>
+                        }
                     </ul>
                 </div>
             </div>

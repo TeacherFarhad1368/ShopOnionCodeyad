@@ -50,6 +50,38 @@ internal class OrderApplication : IOrderApplication
     public async Task<OperationResult> OrderItemPlus(int id, int userId) =>
        await _orderRepository.OrderItemPlus(id, userId);
 
+    public async Task<OperationResult> AddOrderItemAsync(int userId, int id)
+    {
+       var productSell = await _productSellRepository.GetByIdAsync(id);
+        if (productSell.Amount < 1) return new OperationResult(false, "موجودی نداریم .");
+        var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
+        if (order.OrderSellers.Any(o => o.SellerId == productSell.SellerId) == false)
+        {
+            OrderSeller orderSeller = new(productSell.SellerId);
+            OrderItem orderItem = new(productSell.Id,1, productSell.Price, productSell.Price, productSell.Unit);
+            orderSeller.AddOrderItem(orderItem);
+            order.AddOrderSeller(orderSeller);
+        }
+        else
+        {
+            OrderSeller orderSeller = order.OrderSellers.Single(o => o.SellerId == productSell.SellerId);
+            if (orderSeller.OrderItems.Any(i => i.ProductSellId == productSell.Id) == false)
+            {
+                OrderItem orderItem = new(productSell.Id, 1, productSell.Price, productSell.Price, productSell.Unit);
+                orderSeller.AddOrderItem(orderItem);
+            }
+            else
+            {
+                OrderItem orderItem = orderSeller.OrderItems.Single(i => i.ProductSellId == productSell.Id);
+                if (productSell.Amount < (orderItem.Count + 1)) return new OperationResult(false, "موجودی نداریم .");
+                orderItem.PlusCount(1);
+            }
+        }
+        if (await _orderRepository.SaveAsync())
+            return new(true);
+        return new(false,ValidationMessages.SystemErrorMessage);
+    }
+
     public async Task<bool> UbsertOpenOrderForUserAsync(int _userId, List<ShopCartViewModel> cart)
     {
         var order = await _orderRepository.GetOpenOrderForUserAsync(_userId); 

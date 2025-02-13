@@ -4,6 +4,7 @@ namespace Shop.Application.Contract.OrderApplication.Command;
 public interface IOrderApplication
 {
     Task<bool> AddOrderDiscountAsync(int userId, int id, string title, int percent);
+    Task<OperationResult> AddOrderItemAsync(int userId, int id);
     Task<bool> AddOrderSellerDiscountAsync(int userId, int sellerId, int discountId, string title,
         int percent);
     Task CheckOrderEmpty(int userId);

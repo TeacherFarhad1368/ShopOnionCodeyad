@@ -2,7 +2,7 @@
 @using Query.Contract.UI.Product;
 @using Shared.Application;
 @using Shared.Domain.Enum;
-
+@inject Shared.Application.Services.Auth.IAuthService _authService;
 @{
     ViewData["Title"] = Model.Seo.MetaTitle;
     var SuccessCreateComment = TempData["SuccessCreateComment"] != null;
@@ -419,11 +419,19 @@
                                                                     <td>@item.Weight.ToString("#,0") گرم</td>
                                                                     <td>
                                                                         @if(item.Amount > 0){
-                                                                            <button class="btn btn-success" onclick="AddToBasket('@Model.Id','@item.Id','@Model.Title','@item.SellerName','@item.Price',
+                                                                            if(_authService.IsUserLogin()){
+                                                                                <button class="btn btn-success" onclick="AddToFactor('@Model.Id','@item.Id','@Model.Title','@item.SellerName')">
+                                                                                    افزودن به فاکتور
+                                                                                </button>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <button class="btn btn-success" onclick="AddToBasket('@Model.Id','@item.Id','@Model.Title','@item.SellerName','@item.Price',
                                                                            '@item.PriceAfterOff','@Model.Slug','@FileDirectories.ProductImageDirectory500@Model.ImageName','@item.Amount'
                                                                            ,'@item.Unit')">
-                                                                                افزودن به سبد
-                                                                            </button>
+                                                                                    افزودن به سبد
+                                                                                </button>
+                                                                            }
                                                                         }
                                                                         else
                                                                         {

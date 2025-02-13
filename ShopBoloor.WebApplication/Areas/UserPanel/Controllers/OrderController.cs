@@ -155,5 +155,13 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             var json = JsonSerializer.Serialize(res);
             return Json(json);
         }
+        public async Task<JsonResult> AddOrderItem(int id)
+        {
+            _userId = _authService.GetLoginUserId();
+            OperationResult res = await _orderApplication.AddOrderItemAsync(_userId, id);
+            if(res.Success) await _orderUserPanelQuery.CheckOrderItemDataAsync(_userId);
+            var json = JsonSerializer.Serialize(res);
+            return Json(json);
+        }
     }
 }

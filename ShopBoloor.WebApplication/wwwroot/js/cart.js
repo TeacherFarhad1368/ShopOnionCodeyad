@@ -249,7 +249,7 @@ function UpdateBasket() {
                     products.forEach(x => {
                         var liProduct = ` <li id="lili_${x.productSellId}">
                                 <div class="basket-item">
-                                    <button onclick="DeleteFromBasket('${x.productSellId}')" class="basket-item-remove"></button>
+                                    <button onclick="DeleteOrderItem('${x.productSellId}','${x.title}')" class="basket-item-remove"></button>
                                     <div class="basket-item-content">
                                         <div class="basket-item-image">
                                             <img alt="" src="${x.imageName}">
@@ -269,40 +269,6 @@ function UpdateBasket() {
                                 </div>
                             </li>`;
                         $("ul#ParentCartProducts").append(liProduct);
-                        if (route === "/cart") {
-                            var priceTd = `<td><span class="text-success">${separate(x.price)} تومان</span></td>`;
-                            if (x.price > x.priceAfterOff) {
-                                priceTd = `<td><del class="text-danger">${separate(x.price)} </del>
-                    <br />
-                    <span class="text-success">${separate(x.priceAfterOff)} تومان</span>
-                    </td>`;
-                            }
-                            var trProduct = ` <tr class="checkout-item" id="tr_${x.productSellId}">
-                                <td>
-                                    <img src="assets/img/cart/1335154.jpg" alt="">
-                                    <button  onclick="DeleteFromBasket('${x.productSellId}')" class="checkout-btn-remove"></button>
-                                </td>
-                                <td>
-                                    <h3 class="checkout-title">
-                                       ${x.title} - ${x.unit} - ${x.shopTitle}
-                                    </h3>
-                                </td>
-                                <td>
-                                <div class="d-flex justify-content-center align-items-center">
-                                
-                                <a class="btn btn-sm btn-success mx-1"  onclick="plusCart('${x.productSellId}')">
-                                <i class="fa fa-plus"></i>
-                                </a>
-                                <span id="divCount_${x.productSellId}">${x.count}</span>
-                                 <a class="btn btn-sm btn-danger mx-1"  onclick="minusCart('${x.productSellId}')">
-                                <i class="fa fa-minus"></i>
-                                </a>
-                                </div>
-                                </td>
-                                ${priceTd}
-                            </tr>`;
-                            $("tbody#orderItemsTable").append(trProduct);
-                        }
                         var p = parseInt(x.priceAfterOff);
                         var p1 = parseInt(x.price);
                         var c = parseInt(x.count);
@@ -310,11 +276,6 @@ function UpdateBasket() {
                         price = price + (c * p1);
                     });
                     $("span#priceSumCart").text(separate(priceAfterOff));
-                    if (route === "/cart") {
-                        $("span#sumPrice").text(`${separate(price)} تومان`);
-                        $("span#sumPriceAfterOff").text(`${separate(priceAfterOff)} `);
-                        $("span#countProduct").text(`مبلغ کل (${count} کالا`);
-                    }
                 }
                 else {
                     var liProduct = ` <li>
@@ -349,7 +310,6 @@ function UpdateBasket() {
         }
         else {
             var route = window.location.pathname.toLowerCase();
-            debugger;
             if ($.cookie(cookieCartName) !== undefined) {
                 products = JSON.parse($.cookie(cookieCartName));
                 var count = products.length;
@@ -584,4 +544,38 @@ function AddOrderDiscount() {
             }
         });
     }
+}
+function AddToFactor(pId, psId, title, shopTitle) {
+    var productSellId = parseInt(psId);
+    swal.fire({
+        title: "افزودن به فاکتور",
+        text: `${title} از فروشگاه ${shopTitle} به فاکتور شما اضافه شود ؟`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "اضافه شود ",
+        cancelButtonText: "انصراف"
+    })
+        .then((willDelete) => {
+            Loding();
+            if (willDelete.isConfirmed) {
+                $.ajax({
+                    type: "Get",
+                    url: `/UserPanel/Order/AddOrderItem/${productSellId}`
+                })
+                    .done(function (res) {
+                        var model = JSON.parse(res);
+                        if (model.Success) {
+                            AlertSweetTimer("عملیات موفق", "success", 3000);
+                            EndLoading();
+                            UpdateBasket();
+                        }
+                        else {
+                            AlertSweetTimer(model.Message, "error", 3000);
+                            EndLoading();
+                        }
+                    });
+            }
+        });
 }

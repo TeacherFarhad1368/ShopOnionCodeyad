@@ -37,13 +37,19 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
 
     public async Task<bool> DeleteOrderItemAsync(int id, int userId)
     {
-        var item = await _context.OrderItems.Include(i=>i.OrderSeller)
-            .ThenInclude(s=>s.Order).SingleOrDefaultAsync(o=>o.Id == id && o.OrderSeller.Order.UserId == userId);
-        if(item == null || item.OrderSeller.Order.OrderStatus != OrderStatus.پرداخت_نشده)
+        var order =
+          await _context.Orders.Include(o => o.OrderSellers).ThenInclude(o => o.OrderItems)
+           .SingleOrDefaultAsync(o => o.UserId == userId && o.OrderStatus == OrderStatus.پرداخت_نشده);
+        if(order == null) return false; 
+        foreach(var seller in order.OrderSellers)
+            if(seller.OrderItems.Any(i=>i.ProductSellId == id))
+            {
+                var item1 = seller.OrderItems.Single(o => o.ProductSellId == id);
+                _context.OrderItems.Remove(item1);
+                return await SaveAsync();
+            }
+       
             return false;
-
-        _context.OrderItems.Remove(item);
-        return await SaveAsync();
     }
 
     public async Task<Order> GetOpenOrderForUserAsync(int userId)
