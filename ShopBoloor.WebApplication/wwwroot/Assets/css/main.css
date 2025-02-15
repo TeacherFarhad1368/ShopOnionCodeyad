@@ -4254,7 +4254,7 @@ ul.gallery-options li:hover .tooltip-option {
     width: auto;
     height: auto;
     border-radius: 0;
-    background-color: #fff;
+    background-color: whitesmoke;
     border: 0;
     color: #565656;
     cursor: pointer;

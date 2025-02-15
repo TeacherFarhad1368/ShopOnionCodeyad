@@ -164,12 +164,67 @@
                             <div class="checkout-summary-devider">
                                 <div></div>
                             </div>
+                            <div class="checkout-summary-content">
+                                @if (Model.OrderAddress != null)
+                                {
+                                    <ul class="checkout-summary-summary">
+                                    <li>
+                                        <span>شهرستان: </span>
+                                        <span>@Model.OrderAddress.StateName - @Model.OrderAddress.CityName</span>
+                                    </li>
+                                    <li>
+                                        <span>آدرس:</span>
+                                        <span>@Model.OrderAddress.AddressDetail</span>
+                                    </li>
+                                    <li>
+                                        <span>کد پستی:</span>
+                                        <span>@Model.OrderAddress.PostalCode</span>
+                                    </li>
+                                    <li>
+                                        <span>تام کامل:</span>
+                                        <span>@Model.OrderAddress.FullName</span>
+                                    </li>
+                                    <li>
+                                        <span>شماره:</span>
+                                        <span>@Model.OrderAddress.Phone</span>
+                                    </li>
+                                    <li>
+                                        <span>کد ملی:</span>
+                                        <span>@Model.OrderAddress.IranCode</span>
+                                    </li>
+                                    </ul>
+                                    <a style="cursor:pointer;color: #fff !important"
+                                       onclick="OpenFactorModal('/UserPanel/Order/AddOrderAddress',' ثبت آدرس')"
+                                       class="btn btn-warning d-block w-full">
+                                        ویرایش آدرس
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a style="cursor:pointer;color: #fff !important"
+                                       onclick="OpenFactorModal('/UserPanel/Order/AddOrderAddress',' ثبت آدرس')"
+                                       class="btn btn-warning d-block w-full">
+                                        ثبت آدرس
+                                    </a>
+                                }
+                            </div>
+                            <div class="checkout-summary-devider">
+                                <div></div>
+                            </div>
+                            <div class="checkout-summary-content">
+                                
                             <ul class="checkout-summary-summary">
                                 <li>
                                     <span>هزینه ارسال</span>
                                     <span>@Model.PostPrice.ToString("#,0") تومان</span>
                                 </li>
                             </ul>
+                                <a style="cursor:pointer;color: #fff !important"
+                                   onclick="OpenFactorModal('/UserPanel/Order/ChoosePost',' نحوه ارسال')"
+                                   class="btn btn-primary d-block w-full">
+                                    ثبت آدرس
+                                </a>
+                            </div>
                             <div class="checkout-summary-devider">
                                 <div></div>
                             </div>

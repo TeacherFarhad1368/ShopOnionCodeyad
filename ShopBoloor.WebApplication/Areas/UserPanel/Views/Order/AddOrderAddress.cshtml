@@ -1,0 +1,116 @@
+﻿@model List<Query.Contract.UserPanel.Address.UserAddressForPanelQueryModel>
+<div class="row text-center">
+        @if(Model.Count > 0){
+            <h5>
+                میتوانید از لیست آدرس هایتان یکی را انتخاب کنید یا از فرم زیر یک آدرس جدید وارد کنید .
+            </h5>
+            @foreach(var item in Model){
+                <div class="w-50 d-flex flex-column align-items-center p-3">
+                    <div class="w-75 m-1 rounded-1 p-3 border border-1">
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">شهر:</span>
+                        <span class="font-weight-bold">@item.StateName - @item.CityName</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">آدرس:</span>
+                        <span class="font-weight-bold">@item.AddressDetail</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">کد پستی:</span>
+                        <span class="font-weight-bold">@item.PostalCode</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">نام کامل:</span>
+                        <span class="font-weight-bold">@item.FullName</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">شماره تماس:</span>
+                        <span class="font-weight-bold">@item.Phone</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">کد ملی:</span>
+                        <span class="font-weight-bold">@item.IranCode</span>
+                    </div>
+                    <button type="button" class="btn btn-success btn-block" 
+                            onclick="ChangeOrderAddress('@item.Id','@item.StateName','@item.CityName','@item.AddressDetail','@item.PostalCode')">
+                        انتخاب آدرس
+                    </button>
+                    </div>
+                </div>
+            }
+        }
+        else{
+            <div class="row alert alert-warning">
+                <h3>
+                    آدرسی در لیست آدرس های شما ذخیره نشده .
+                </h3>
+            </div>
+        }
+</div>
+<form>
+    <div class="row" style="overflow-y:auto">
+        <div class="col-12">
+
+            <span class="text-danger" id="ajax-userPanel-modal-valid"></span>
+        </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-account-title">انتخاب استان *</div>
+                <div class="form-account-row">
+                    <Select class="input-field text-right"
+                        id="StateId" name="StateId" onchange="GetCitiesForSelectBox('StateId','CityId')">
+                        <option value=0>انتخاب استان</option>
+                </Select>
+                <span class="text-danger" id="StateIdValid"></span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-account-title">انتخاب شهر *</div>
+                <div class="form-account-row">
+                <Select class="input-field text-right" name="CityId" id="CityId" >
+                </Select>
+                <span class="text-danger" id="CityIdValid"></span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-account-title">جزییات ادرس *</div>
+                <div class="form-account-row">
+                <input class="input-field text-right" type="text" id="AddressDetail">
+                <span class="text-danger" id="AddressDetailValid"></span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-account-title">کد پستی *</div>
+                <div class="form-account-row">
+                    <input class="input-field text-right" type="text" id="PostalCode"
+                       onkeypress="return isNumber(event)">
+                <span class="text-danger" id="PostalCodeValid"></span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-account-title">شماره تماس *</div>
+                <div class="form-account-row">
+                    <input class="input-field" type="text" id="Phone"
+                       onkeypress="return isNumber(event)">
+                <span class="text-danger" id="PhoneValid"></span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-account-title">نام و نام خانوادگی *</div>
+                <div class="form-account-row">
+                <input class="input-field" type="text" id="FullName">
+                <span class="text-danger" id="FullNameValid"></span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-account-title">کد ملی</div>
+                <div class="form-account-row">
+                <input class="input-field" type="text" id="IranCode" onkeypress="return isNumber(event)">
+                <span class="text-danger" id="IranCodeValid"></span>
+                </div>
+            </div>
+    </div>
+</form>
+
+<div class="col-12 text-center">
+    <button class="btn btn-warning btn-lg" type="button" onclick="AddOrderAddressToAddress()">ذخیره</button>
+</div>

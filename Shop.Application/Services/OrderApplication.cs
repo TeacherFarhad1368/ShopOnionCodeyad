@@ -112,4 +112,54 @@ internal class OrderApplication : IOrderApplication
         }
         return await _orderRepository.SaveAsync();
     }
+
+    public async Task<OperationResult> CreateOrderAddressAsync(CreateOrderAddress model, int userId)
+    {
+        var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
+        if(order.OrderAddressId > 0)
+        {
+            OrderAddress address = await _orderRepository.GetOrderAddressByIdAsync(order.OrderAddressId);
+            if (address != null)
+            {
+                address.Edit(model.StateId, model.CityId, model.AddressDetail, model.PostalCode, model.Phone, model.Phone, model.IranCode);
+                if(await  _orderRepository.SaveAsync()) 
+                    return new(true);
+                else
+                    return new(false, ValidationMessages.SystemErrorMessage);
+            }
+            else
+            {
+                OrderAddress orderAddress = new(model.StateId, model.CityId, model.AddressDetail, model.PostalCode, model.Phone, model.FullName, model.IranCode, order.Id);
+                var key = await _orderRepository.CreateOrderaddressReturnKey(orderAddress);
+                if (key > 0)
+                {
+                    order.ChangeAddress(key);
+                    if (await _orderRepository.SaveAsync())
+                        return new(true);
+                    else
+                        return new(false, ValidationMessages.SystemErrorMessage);
+                }
+                else
+                    return new(false, ValidationMessages.SystemErrorMessage);
+            }
+        }
+        else
+        {
+
+            OrderAddress orderAddress = new(model.StateId, model.CityId, model.AddressDetail, model.PostalCode, model.Phone, model.FullName, model.IranCode, order.Id);
+            var key = await _orderRepository.CreateOrderaddressReturnKey(orderAddress);
+            if (key > 0)
+            {
+                order.ChangeAddress(key);
+                if (await _orderRepository.SaveAsync())
+                    return new(true);
+
+                return new(false, ValidationMessages.SystemErrorMessage);
+            }
+            else
+            {
+                return new(false, ValidationMessages.SystemErrorMessage);
+            }
+        }
+    }
 }

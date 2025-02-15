@@ -11,5 +11,7 @@ namespace Users.Application.Contract.UserAddressApplication.Command
     {
         OperationResult Create(CreateAddress command, int userId);
         bool Delete(int id,int userId);
+        Task<CreateAddress> GetAddressForAddToFactor(int id);
+        Task<bool> IsAddressForUser(int id, int userId);
     }
 }

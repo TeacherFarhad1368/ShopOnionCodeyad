@@ -22,6 +22,22 @@
         <partial name="_Header" />
         @RenderBody()
         <partial name="_Footer" />
+        <div class="modal-share modal-width-custom modal fade" id="factorModal" tabindex="-1"
+             role="dialog" aria-labelledby="factorModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="closeFactorAjaxModal()">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="ajax-modal-title"></h4>
+                    </div>
+                    <div class="modal-body" id="myFactorModalBody">
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
      <partial name="_Js" />
     @if (SuccessLogin)

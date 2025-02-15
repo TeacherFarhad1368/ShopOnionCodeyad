@@ -100,5 +100,10 @@ namespace Shop.Domain.OrderAgg
             seller.OrderId = Id;
             OrderSellers.Add(seller);
         }
+
+        public void ChangeAddress(int key)
+        {
+            OrderAddressId = key;
+        }
     }
 }

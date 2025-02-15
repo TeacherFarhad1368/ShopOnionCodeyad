@@ -35,6 +35,13 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
         }
     }
 
+    public async Task<int> CreateOrderaddressReturnKey(OrderAddress orderAddress)
+    {
+        await _context.OrderAddresses.AddAsync(orderAddress);
+        await SaveAsync();
+        return orderAddress.Id;
+    }
+
     public async Task<bool> DeleteOrderItemAsync(int id, int userId)
     {
         var order =
@@ -67,6 +74,9 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
         else
         return order;
     }
+
+    public async Task<OrderAddress> GetOrderAddressByIdAsync(int orderAddressId)=>
+        await _context.OrderAddresses.SingleOrDefaultAsync(a => a.Id == orderAddressId);
 
     public async Task<OperationResult> OrderItemMinus(int id, int userId)
     {

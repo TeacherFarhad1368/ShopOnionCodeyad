@@ -233,7 +233,6 @@ function UpdateBasket() {
                 type: "Get",
                 url: `/UserPanel/Order/OpenOrderItems`
             }).done(function (res) {
-                debugger;
                 products = JSON.parse(res);
                 var count = products.length;
                 $("span#cartBasketCount").text(count);
@@ -578,4 +577,164 @@ function AddToFactor(pId, psId, title, shopTitle) {
                     });
             }
         });
+}
+function OpenFactorModal(url, title) {
+    $.get(url, function (res) {
+        //$("h4#myFactorModal").text(title);
+        var content = $("div#myFactorModalBody");
+        content.html(res);
+        var titleModal = $("h4#ajax-modal-title");
+        titleModal.text(title);
+        GetStatesForSelectBox('StateId');
+        openFactorAjaxModal();
+    });
+}
+function openFactorAjaxModal() {
+    var modal = $("div#factorModal");
+    modal.removeClass("close-modal-form");
+    modal.addClass("show");
+    modal.addClass("open-modal-form");
+}
+function closeFactorAjaxModal() {
+    var content = $("div#myFactorModalBody");
+    content.html("");
+    var titleModal = $("h4#ajax-modal-title");
+    titleModal.text("");
+    var modal = $("div#factorModal");
+    modal.addClass("close-modal-form");
+    modal.removeClass("show");
+    modal.removeClass("open-modal-form");
+}
+function AddOrderAddressToAddress() {
+    var stateId = $("select#StateId").val();
+    var cityId = $("select#CityId").val();
+    var addressDetail = $("input#AddressDetail").val();
+    var postalCode = $("input#PostalCode").val();
+    var phone = $("input#Phone").val();
+    var fullName = $("input#FullName").val();
+    var iranCode = $("input#IranCode").val();
+
+    var stateIdValid = $("span#StateIdValid");
+    var cityIdValid = $("span#CityIdValid");
+    var addressDetailValid = $("span#AddressDetailValid");
+    var postalCodeValid = $("span#PostalCodeValid");
+    var phoneValid = $("span#PhoneValid");
+    var fullNameValid = $("span#FullNameValid");
+    var iranCodeValid = $("span#IranCodeValid");
+    if (parseInt(stateId) == 0) {
+        stateIdValid.text("استان را انتخاب کنید");
+    }
+    else {
+        stateIdValid.text("");
+        if (parseInt(cityId) == 0) {
+            cityIdValid.text("شهر را انتخاب کنید");
+        }
+        else {
+            cityIdValid.text("");
+            if (addressDetail.length < 10) {
+                addressDetailValid.text("جزییات آدرس حد اقل 10 حرف دارد");
+            }
+            else {
+                addressDetailValid.text("");
+                if (postalCode.length < 10 || postalCode.length > 10) {
+                    postalCodeValid.text("یک کد پستی 10 رقمی وارد کنید ");
+                }
+                else {
+                    postalCodeValid.text("");
+                    if (phone.length != 11) {
+                        phoneValid.text("یک شماره تماس وارد کنید .");
+                    }
+                    else {
+                        phoneValid.text("");
+                    }
+                    if (fullName === "" || fullName === null) {
+                        fullNameValid.text("نام کامل  گیرنده را وارد کنید .");
+                    }
+                    else {
+                        fullNameValid.text("");
+                        if (iranCode !== null && iranCode !== "" && iranCode.length != 10) {
+                            iranCodeValid.text("کد ملی باید 10 رقمی باشد .");
+                        }
+                        else {
+                            iranCodeValid.text("");
+                            Loding();
+                            $.ajax({
+                                type: "Post",
+                                url: `/UserPanel/Order/AddOrderAddress`,
+                                data: {
+                                    StateId: stateId,
+                                    CityId: cityId,
+                                    AddressDetail: addressDetail,
+                                    PostalCode: postalCode,
+                                    Phone: phone,
+                                    FullName: fullName,
+                                    IranCode: iranCode
+                                }
+                            }).done(function (res) {
+                                var model = JSON.parse(res);
+                                if (model.Success) {
+                                    AlertSweet("عملیات موفق", "آدرس با موفقیت به فاکتور شما اضافه شد .", "success");
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 3000);
+                                }
+                                else {
+                                    $("span#ajax-userPanel-modal-valid").text(res.Message);
+                                    EndLoading();
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+function ChangeOrderAddress(id, state, city, address, postalCode) {
+    Swal.fire({
+        title: "<strong>انتخاب <u> آدرس </u></strong>",
+        icon: "question",
+        html: `
+        <p>از انتخاب آدرس اطمینان دارید ؟</p>
+    <ul>
+    <li>استان : ${state}</li>
+    <li>شهر : ${city}</li>
+    <li>جزییات آدرس : ${address}</li>
+    <li>کد پستی : ${postalCode}</li>
+    </ul>
+  `,
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: `
+    <i class="fa fa-thumbs-up"></i> آره !
+  `,
+        confirmButtonAriaLabel: "Thumbs up, great!",
+        cancelButtonText: `
+    <i class="fa fa-thumbs-down"></i> خیر
+  `,
+        cancelButtonAriaLabel: "Thumbs down"
+    }).then((result) => {
+        debugger;
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "Get",
+                url: `/UserPanel/Order/ChangeOrderAddress/${id}`
+            }).done(function (res) {
+                if (res) {
+                    Loding();
+                    Swal.fire("عملیات موفق!", "", "success");
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                }
+                else {
+                    Swal.fire("عملیات ناموفق!", "", "error");
+                }
+            });
+        } else if (result.isDenied) {
+            Swal.fire("آدرس برای فاکتور ثبت نشد .", "", "info");
+        }
+    });
 }

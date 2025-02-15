@@ -12,5 +12,4 @@ public class OrderAddressForOrderUserPanelQueryModel
     public string Phone { get; set; }
     public string FullName { get; set; }
     public string IranCode { get; set; }
-    public string CreationDate { get; set; }
 }

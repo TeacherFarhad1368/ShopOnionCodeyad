@@ -28,7 +28,6 @@
         }
     })
 }
-
 function AjaxSweetNotDelete(title1, text1, icon1, confirmButtonText1, cancelButtonText1, url1) {
     Swal.fire({
         title: title1,
@@ -213,6 +212,17 @@ function OpenAjaxModal(url, title) {
             $("input#StartDate").persianDatepicker();
             $("input#EndDate").persianDatepicker();
         }
+    });
+}
+function OpenFactorModal(url, title) {
+    $.get(url, function (res) {
+        $("h4#myuserPanelModal").text(title);
+        var content = $("div#myuserPanelModalBody");
+        content.html(res);
+        var titleModal = $("h4#ajax-modal-title");
+        titleModal.text(title);
+
+        openUserPanelAjaxModal();
     });
 }
 function openUserPanelAjaxModal() {

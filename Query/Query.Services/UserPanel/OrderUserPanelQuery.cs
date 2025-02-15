@@ -1,5 +1,6 @@
 ﻿using Discounts.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using PostModule.Infrastracture.EF;
 using Query.Contract.UserPanel.Order;
 using Shared.Application;
 using Shop.Application.Contract.OrderApplication.Command;
@@ -12,11 +13,17 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
 {
     private readonly ShopContext _shopContext;  
     private readonly DiscountContext _discountContext;
-
-    public OrderUserPanelQuery(ShopContext shopContext, DiscountContext discountContext)
+    private readonly Post_Context _post_Context;
+    public OrderUserPanelQuery(ShopContext shopContext, DiscountContext discountContext, Post_Context post_Context)
     {
         _shopContext = shopContext;
         _discountContext = discountContext;
+        _post_Context = post_Context;
+    }
+
+    public Task<PostPriceForOpenOrder> CalculatePostPrices(int userId)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task CheckOrderItemDataAsync(int userId)
@@ -127,6 +134,27 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
                 p.ProductId = product.Id;
                 p.ProductTitle = product.Title;
                 p.ProductImageAddress = p.ProductImageAddress + product.ImageName;
+            }
+        }
+        if(order.OrderAddressId > 0)
+        {
+            var address = await _shopContext.OrderAddresses.SingleOrDefaultAsync(a=>a.Id == order.OrderAddressId);
+            if(address != null)
+            {
+                var city = await _post_Context.Cities.Include(c=>c.State).SingleAsync(c=>c.Id == address.CityId);
+                model.OrderAddress = new OrderAddressForOrderUserPanelQueryModel
+                {
+                    AddressDetail = address.AddressDetail,
+                    CityId = address.CityId,
+                    CityName = city.Title,
+                    FullName = address.FullName,
+                    Id = address.Id,
+                    IranCode = address.IranCode,
+                    Phone = address.Phone,
+                    PostalCode = address.PostalCode,
+                    StateId = address.StateId,
+                    StateName = city.State.Title
+                };
             }
         }
         return model;   

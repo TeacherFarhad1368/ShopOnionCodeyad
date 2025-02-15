@@ -1,12 +1,15 @@
 ﻿using Discounts.Application.Contract.OrderDiscountApplication.Command;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PostModule.Application.Contract.StateQuery;
+using Query.Contract.UserPanel.Address;
 using Query.Contract.UserPanel.Order;
 using Shared.Application;
 using Shared.Application.Services.Auth;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.OrderApplication.Query;
 using System.Text.Json;
+using Users.Application.Contract.UserAddressApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
 {
@@ -20,14 +23,22 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
         private readonly IOrderQuery _orderQuery;
         private readonly IOrderUserPanelQuery _orderUserPanelQuery;
         private readonly IOrderDiscountApplication _orderDiscountApplication;
+        private readonly IUserAddressUserPanelQuery _userAddressUserPanelQuery;
+        private readonly IUserAddressApplication _userAddressApplication;
+        private readonly IStateQuery _stateQuery;   
         public OrderController(IAuthService authService, IOrderApplication orderApplication, IOrderQuery orderQuery,
-            IOrderUserPanelQuery orderUserPanelQuery, IOrderDiscountApplication orderDiscountApplication)
+            IOrderUserPanelQuery orderUserPanelQuery, IOrderDiscountApplication orderDiscountApplication,
+            IUserAddressUserPanelQuery userAddressUserPanelQuery, IUserAddressApplication userAddressApplication,
+            IStateQuery stateQuery)
         {
             _authService = authService;
             _orderApplication = orderApplication;
             _orderQuery = orderQuery;
             _orderUserPanelQuery = orderUserPanelQuery; 
             _orderDiscountApplication = orderDiscountApplication;
+            _userAddressUserPanelQuery = userAddressUserPanelQuery; 
+            _userAddressApplication = userAddressApplication;   
+            _stateQuery = stateQuery;
         }
 
         public async Task<IActionResult> Order()
@@ -162,6 +173,77 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             if(res.Success) await _orderUserPanelQuery.CheckOrderItemDataAsync(_userId);
             var json = JsonSerializer.Serialize(res);
             return Json(json);
+        }
+        public async Task<IActionResult> AddOrderAddress()
+        {
+            _userId = _authService.GetLoginUserId();
+            bool ok = await _orderUserPanelQuery.HaveUserOpenOrderAsync(_userId);
+            if(ok)
+            {
+                var model = _userAddressUserPanelQuery.GetAddresseForUserPanel(_userId);
+                return PartialView("AddOrderAddress", model);
+            }
+            return NotFound();
+        }
+        [HttpPost] 
+        public async Task<IActionResult> AddOrderAddress(CreateAddress model)
+        {
+            OperationResult res = new(false);
+            _userId = _authService.GetLoginUserId();
+            bool ok = await _orderUserPanelQuery.HaveUserOpenOrderAsync(_userId);
+            if (!ok)
+            {
+                res.Message = "شما فاکتور بازی ندارید .";
+            }
+            else
+            {
+                if (_stateQuery.IsStateCorrect(model.StateId) == false)
+                    res.Message = "لطفا یک استان انتخاب کنید";
+                else if (_stateQuery.IsCityCorrect(model.StateId, model.CityId) == false)
+                    res.Message = "لطفا یک شهر انتخاب کنید";
+                else
+                {
+                    res = _userAddressApplication.Create(model, _userId);
+                    if (res.Success)
+                        res = await _orderApplication.CreateOrderAddressAsync(new CreateOrderAddress
+                        {
+                            AddressDetail = model.AddressDetail,
+                            CityId = model.CityId,
+                            FullName = model.FullName,
+                            IranCode = model.IranCode,
+                            Phone = model.Phone,    
+                            PostalCode = model.PostalCode,
+                            StateId = model.StateId,
+                        }, _userId);
+                }
+            }
+            var json = JsonSerializer.Serialize(res);
+            return Json(json);
+        }
+        public async Task<bool> ChangeOrderAddress(int id)
+        {
+            _userId = _authService.GetLoginUserId();
+            bool isAddressForUser = await _userAddressApplication.IsAddressForUser(id,_userId);
+            if (!isAddressForUser) return false;
+            CreateAddress model = await _userAddressApplication.GetAddressForAddToFactor(id);
+            var res = await _orderApplication.CreateOrderAddressAsync(new CreateOrderAddress
+            {
+                AddressDetail = model.AddressDetail,
+                CityId = model.CityId,
+                FullName = model.FullName,
+                IranCode = model.IranCode,
+                Phone = model.Phone,
+                PostalCode = model.PostalCode,
+                StateId = model.StateId,
+            }, _userId);
+            return res.Success;
+        }
+        public async Task<IActionResult> ChoosePost()
+        {
+            _userId = _authService.GetLoginUserId();
+            var model = await _orderUserPanelQuery.CalculatePostPrices(_userId);
+            if(model == null) return NotFound();
+            return PartialView("ChoosePost",model)
         }
     }
 }

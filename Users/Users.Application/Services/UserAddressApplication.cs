@@ -35,5 +35,26 @@ namespace Users.Application.Services
             if(address.UserId != userId) return false;  
             return _userAdressRepository.Delete(address);
         }
+
+        public async Task<CreateAddress> GetAddressForAddToFactor(int id)
+        {
+            var a = await _userAdressRepository.GetByIdAsync(id);
+            return new CreateAddress
+            {
+                AddressDetail = a.AddressDetail,
+                CityId = a.CityId,
+                FullName = a.FullName,
+                IranCode = a.IranCode,
+                Phone = a.Phone,
+                PostalCode = a.PostalCode,
+                StateId = a.StateId
+            };
+        }
+
+        public async Task<bool> IsAddressForUser(int id, int userId)
+        {
+            var a = await _userAdressRepository.GetByIdAsync(id);
+            return a.UserId == userId;
+        }
     }
 }

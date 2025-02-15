@@ -4803,13 +4803,14 @@ Created using IcoMoon - icomoon.io
     box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.5);
 }
 
-.modal-content .modal-header {
-    border-bottom: none;
-    padding-top: 24px;
-    padding-right: 24px;
-    padding-bottom: 0;
-    padding-left: 24px;
-}
+    .modal-content .modal-header {
+        border-bottom: none;
+        padding-top: 24px;
+        padding-right: 24px;
+        padding-bottom: 0;
+        padding-left: 24px;
+        background: whitesmoke;
+    }
 
 .modal-content .modal-header button {
     position: absolute;
@@ -4823,13 +4824,16 @@ Created using IcoMoon - icomoon.io
     margin-bottom: 0;
 }
 
-.modal-content .modal-body {
-    padding-top: 24px;
-    padding-right: 24px;
-    padding-bottom: 16px;
-    padding-left: 24px;
-    line-height: 1.9;
-}
+    .modal-content .modal-body {
+        padding-top: 24px;
+        padding-right: 24px;
+        padding-bottom: 16px;
+        padding-left: 24px;
+        line-height: 1.9;
+        overflow-y: auto !important;
+        height: 75vh !important;
+        background: whitesmoke;
+    }
 
 .modal-content .modal-footer {
     border-top: none;
