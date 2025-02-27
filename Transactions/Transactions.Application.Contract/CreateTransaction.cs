@@ -12,5 +12,6 @@ namespace Transactions.Application.Contract
         public TransactionPortal Portal { get; set; }
         public TransactionFor TransactionFor { get; set; }
         public int OwnerId { get; set; }
+        public string Authority { get; set; }
     }
 }

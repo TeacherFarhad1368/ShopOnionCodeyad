@@ -8,7 +8,7 @@ namespace Transactions.Application.Contract
         Task<OperationResultWithKeylong> CreateAsync(CreateTransaction command);
         Task<bool> PaymentAsync(TransactionStatus status, long id,string refId);
         Task<bool> AddTransactionWalletId(long transactionId,int walletId);
-        Task<TransactionQueryModel> GetForCheckPaymentAsync(long id);
+        Task<TransactionQueryModel> GetForCheckPaymentAsync(string authority);
         Task<TransactionViewModel> GetTransactionForCheckPayment(long id);
     }
 }

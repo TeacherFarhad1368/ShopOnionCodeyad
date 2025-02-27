@@ -1,4 +1,5 @@
 ﻿using Shared.Application;
+using Shared.Domain.Enum;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Domain.OrderAgg;
 using Shop.Domain.ProductAgg;
@@ -76,6 +77,7 @@ internal class OrderApplication : IOrderApplication
                 if (productSell.Amount < (orderItem.Count + 1)) return new OperationResult(false, "موجودی نداریم .");
                 orderItem.PlusCount(1);
             }
+            orderSeller.AddPostPrice(0, 0, "");
         }
         if (await _orderRepository.SaveAsync())
             return new(true);
@@ -122,7 +124,9 @@ internal class OrderApplication : IOrderApplication
             if (address != null)
             {
                 address.Edit(model.StateId, model.CityId, model.AddressDetail, model.PostalCode, model.Phone, model.Phone, model.IranCode);
-                if(await  _orderRepository.SaveAsync()) 
+                foreach (var item in order.OrderSellers)
+                    item.AddPostPrice(0, 0, "");
+                if (await  _orderRepository.SaveAsync())
                     return new(true);
                 else
                     return new(false, ValidationMessages.SystemErrorMessage);
@@ -134,6 +138,8 @@ internal class OrderApplication : IOrderApplication
                 if (key > 0)
                 {
                     order.ChangeAddress(key);
+                    foreach (var item in order.OrderSellers)
+                        item.AddPostPrice(0, 0, "");
                     if (await _orderRepository.SaveAsync())
                         return new(true);
                     else
@@ -151,6 +157,8 @@ internal class OrderApplication : IOrderApplication
             if (key > 0)
             {
                 order.ChangeAddress(key);
+                foreach (var item in order.OrderSellers)
+                    item.AddPostPrice(0, 0, "");
                 if (await _orderRepository.SaveAsync())
                     return new(true);
 
@@ -161,5 +169,30 @@ internal class OrderApplication : IOrderApplication
                 return new(false, ValidationMessages.SystemErrorMessage);
             }
         }
+    }
+
+    public async Task<bool> AddPostToOrdersellerAsync(int userId, int id, int postId, int price, string title)
+    {
+        var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
+        var seller = order.OrderSellers.SingleOrDefault(s => s.Id == id);
+        if (seller == null) return false;
+        seller.AddPostPrice(price,postId,title);
+        return await _orderRepository.SaveAsync();
+    }
+
+    public async Task<OperationResult> ChangeOrderPayment(int userId, OrderPayment pay)
+    {
+        var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
+        order.ChangePayment(pay);
+        if(await _orderRepository.SaveAsync()) return new(true);
+        return new(false,ValidationMessages.SystemErrorMessage);
+    }
+
+    public async Task<bool> PaymentSuccessOrderAsync(int userId, int price)
+    {
+        var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
+        if(order.PaymentPrice != price) return false;   
+        order.ChamgeStatus(OrderStatus.پرداخت_شده); 
+        return await _orderRepository.SaveAsync();
     }
 }

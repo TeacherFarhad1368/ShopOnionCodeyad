@@ -53,6 +53,7 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
             {
                 var item1 = seller.OrderItems.Single(o => o.ProductSellId == id);
                 _context.OrderItems.Remove(item1);
+                seller.AddPostPrice(0, 0, "");
                 return await SaveAsync();
             }
        
@@ -92,6 +93,7 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
         {
 
             item.MinusCount(1);
+            item.OrderSeller.AddPostPrice(0, 0, "");
             await SaveAsync();
             return new(true);
         }
@@ -104,6 +106,7 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
         var productSell = await _context.ProductSells.FindAsync(item.ProductSellId);
         if (productSell.Amount <= item.Count) return new(false, "موجودی  نداریم");
         item.PlusCount(1);
+        item.OrderSeller.AddPostPrice(0, 0, "");
         await SaveAsync();
         return new(true);
     }

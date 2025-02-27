@@ -24,7 +24,7 @@ namespace Shop.Domain.OrderAgg
             Phone = phone;
             FullName = fullName;
             IranCode = iranCode;
-            OrderId = OrderId;
+            OrderId = orderId;
         }
         public void Edit(int stateId, int cityId, string addressDetail,
            string postalCode, string phone, string fullName, string? iranCode)

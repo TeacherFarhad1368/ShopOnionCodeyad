@@ -18,5 +18,8 @@ namespace Transactions.Infrastructure
                 return transaction.Id;
             return 0;
         }
+
+        public Task<Transaction> GetByAuthorityAsync(string authority)=>
+            _context.Transactions.SingleOrDefaultAsync(s=>s.Authority.ToLower().Trim() == authority.ToLower().Trim());
     }
 }

@@ -11,7 +11,6 @@ internal class OrderConfig : IEntityTypeConfiguration<Order>
 
         builder.Property(b => b.OrderStatus).IsRequired();
         builder.Property(b => b.OrderPayment).IsRequired();
-        builder.Property(b => b.PostTitle).IsRequired(false).HasMaxLength(600);
         builder.Property(b => b.DiscountTitle).IsRequired(false).HasMaxLength(355);
 
         builder.HasMany(o => o.OrderSellers).WithOne(s => s.Order).HasForeignKey(s => s.OrderId);

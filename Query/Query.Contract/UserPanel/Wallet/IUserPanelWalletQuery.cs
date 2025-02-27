@@ -9,5 +9,6 @@ namespace Query.Contract.UserPanel.Wallet;
 public interface IUserPanelWalletQuery
 {
     TransactionUserPanelPaging GetTransactionsForUserPanel(int userId, int pageId, string filter);
+    int GetUserWalletAmount(int userId);
     WalletUserPanelPaging GetWalletsForUserPanel(int userId, int pageId, string filter);
 }

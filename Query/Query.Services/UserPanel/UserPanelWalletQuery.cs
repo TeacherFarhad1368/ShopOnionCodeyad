@@ -59,6 +59,9 @@ namespace Query.Services.UserPanel
             return model;
         }
 
+        public int GetUserWalletAmount(int userId)=>
+            _walletRepository.GetWalletAmount(userId);
+
         public WalletUserPanelPaging GetWalletsForUserPanel(int userId, int pageId, string filter)
         {
             IQueryable<Wallet> result = _walletRepository.GetAllByQuery(w => w.UserId == userId && w.IsPay).OrderByDescending(w => w.Id);

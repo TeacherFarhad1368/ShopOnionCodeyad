@@ -24,7 +24,9 @@ namespace Transactions.Application
         {
             if (command.Price < 1000)
                 return new OperationResultWithKeylong(false, ValidationMessages.PaymentPriceError, nameof(command.Price));
-            Transaction transaction = new(command.UserId, command.Price, command.Portal, command.TransactionFor, command.OwnerId);
+            if(await _transactionRepository.ExistByAsync(t=>t.Authority == command.Authority || string.IsNullOrEmpty(command.Authority)))
+                return new OperationResultWithKeylong(false,"عملیات نا موفق !!!", nameof(command.Authority));
+            Transaction transaction = new(command.UserId, command.Price, command.Portal, command.TransactionFor, command.OwnerId,command.Authority);
             var res = await _transactionRepository.CreateAsyncReturnKey(transaction);
             if (res > 0)
                 return new(true,"","",res);
@@ -32,9 +34,10 @@ namespace Transactions.Application
 
         }
 
-        public async Task<TransactionQueryModel> GetForCheckPaymentAsync(long id)
+        public async Task<TransactionQueryModel> GetForCheckPaymentAsync(string authority)
         {
-            var tranaction = await _transactionRepository.GetByIdAsync(id);
+            var tranaction = await _transactionRepository.GetByAuthorityAsync(authority);
+            if (tranaction == null) return null;
             return new TransactionQueryModel(tranaction.Id,tranaction.UserId,tranaction.Price,tranaction.RefId,
                 tranaction.Portal,tranaction.Status,tranaction.TransactionFor,tranaction.OwnerId);
         }

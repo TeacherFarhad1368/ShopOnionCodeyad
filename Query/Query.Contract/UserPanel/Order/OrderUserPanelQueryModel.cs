@@ -7,8 +7,6 @@ public class OrderUserPanelQueryModel
     public int OrderId { get; set; }
     public OrderPayment OrderPayment { get; set; }
     public int OrderAddressId { get; set; }
-    public int PostId { get; set; }
-    public string? PostTitle { get; set; }
     public string? DiscountTitle { get; set; }
     public int DiscountId { get; set; }
     public int DiscountPercent { get; set; }

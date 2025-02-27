@@ -1,15 +1,24 @@
 ﻿using Discounts.Application.Contract.OrderDiscountApplication.Command;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using PostModule.Application.Contract.PostCalculate;
 using PostModule.Application.Contract.StateQuery;
 using Query.Contract.UserPanel.Address;
 using Query.Contract.UserPanel.Order;
+using Query.Contract.UserPanel.Wallet;
 using Shared.Application;
 using Shared.Application.Services.Auth;
+using Shared.Domain.Enum;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.OrderApplication.Query;
+using ShopBoloor.WebApplication.Utility;
 using System.Text.Json;
+using Transactions.Application.Contract;
 using Users.Application.Contract.UserAddressApplication.Command;
+using Users.Application.Contract.WalletApplication.Command;
+using ZarinpalSandbox;
+using ZarinpalSandbox;
 
 namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
 {
@@ -25,11 +34,17 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
         private readonly IOrderDiscountApplication _orderDiscountApplication;
         private readonly IUserAddressUserPanelQuery _userAddressUserPanelQuery;
         private readonly IUserAddressApplication _userAddressApplication;
-        private readonly IStateQuery _stateQuery;   
+        private readonly IStateQuery _stateQuery;
+        private readonly IPostCalculateApplication _postCalculateApplication;
+        private readonly SiteData _data;
+        private readonly ITransactionApplication _transactionApplication;
+        private readonly IUserPanelWalletQuery _userPanelWalletQuery;
+        private readonly IWalletApplication _walletApplication;
         public OrderController(IAuthService authService, IOrderApplication orderApplication, IOrderQuery orderQuery,
             IOrderUserPanelQuery orderUserPanelQuery, IOrderDiscountApplication orderDiscountApplication,
             IUserAddressUserPanelQuery userAddressUserPanelQuery, IUserAddressApplication userAddressApplication,
-            IStateQuery stateQuery)
+            IStateQuery stateQuery, IPostCalculateApplication postCalculateApplication, ITransactionApplication transactionApplication,
+            IOptions<SiteData> option, IUserPanelWalletQuery userPanelWalletQuery, IWalletApplication walletApplication)
         {
             _authService = authService;
             _orderApplication = orderApplication;
@@ -39,6 +54,11 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             _userAddressUserPanelQuery = userAddressUserPanelQuery; 
             _userAddressApplication = userAddressApplication;   
             _stateQuery = stateQuery;
+            _postCalculateApplication = postCalculateApplication;
+            _transactionApplication = transactionApplication;
+            _data = option.Value;
+            _userPanelWalletQuery = userPanelWalletQuery;   
+            _walletApplication = walletApplication; 
         }
 
         public async Task<IActionResult> Order()
@@ -238,12 +258,193 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             }, _userId);
             return res.Success;
         }
-        public async Task<IActionResult> ChoosePost()
+        public async Task<JsonResult> CalculatePostPrice(int id)
+        {
+            PostResposeModel model = new() { success = false ,sellerId = id};
+            _userId = _authService.GetLoginUserId();
+            var res = await _orderUserPanelQuery.GetOpenOrderForUserAsync(_userId);
+            if(res == null)
+                model.message = "";
+            else
+            {
+                if (res.OrderAddress == null || res.OrderAddress.CityId == 0)
+                    model.message = "";
+                else
+                {
+                    var orderseller = res.Ordersellers.SingleOrDefault(s => s.Id == id);
+                    if (orderseller == null) model.message = "";
+                    else
+                    {
+                        int sourceCity = await _orderUserPanelQuery.GetCityOfSeller(orderseller.SellerId);
+                        if (sourceCity == 0) model.message = "";
+                        else
+                        {
+                            int weight = await _orderUserPanelQuery.CalculateOrdersellerWeight(id);
+                            if (weight == 0) model.message = "";
+                            else
+                            {
+                                var posts = await _postCalculateApplication.CalculatePost(new PostPriceRequestModel
+                                {
+                                    DestinationCityId = res.OrderAddress.CityId,
+                                    SourceCityId = sourceCity,
+                                    Weight = weight
+                                });
+                                model.success = true;
+                                model.posts = posts;    
+                            }
+                        }
+                    }
+                }
+            } 
+            var json = JsonSerializer.Serialize(model);
+            return Json(json);
+        }
+        [HttpPost]
+        public async Task<bool> ChoosePostPrice(int id,int post,string postTitle)
         {
             _userId = _authService.GetLoginUserId();
-            var model = await _orderUserPanelQuery.CalculatePostPrices(_userId);
-            if(model == null) return NotFound();
-            return PartialView("ChoosePost",model)
+            var res = await _orderUserPanelQuery.GetOpenOrderForUserAsync(_userId);
+            if (res == null) return false;
+            else
+            {
+                if (res.OrderAddress == null || res.OrderAddress.CityId == 0) return false;
+                else
+                {
+                    var orderseller = res.Ordersellers.SingleOrDefault(s => s.Id == id);
+                    if (orderseller == null) return false;
+                    else
+                    {
+                        int sourceCity = await _orderUserPanelQuery.GetCityOfSeller(orderseller.SellerId);
+                        if (sourceCity == 0) return false;
+                        else
+                        {
+                            int weight = await _orderUserPanelQuery.CalculateOrdersellerWeight(id);
+                            if (weight == 0) return false;
+                            else
+                            {
+                                if (post == 0)
+                                    if (!string.IsNullOrEmpty(postTitle))
+                                        return await _orderApplication.AddPostToOrdersellerAsync(_userId, id, 0, 0, postTitle);
+                                    else return false;
+                                var posts = await _postCalculateApplication.CalculatePost(new PostPriceRequestModel
+                                {
+                                    DestinationCityId = res.OrderAddress.CityId,
+                                    SourceCityId = sourceCity,
+                                    Weight = weight
+                                });
+                                var postChoose = posts.SingleOrDefault(s => s.PostId == post);
+                                if(postChoose == null) return false;
+                                bool ok = await _orderApplication.AddPostToOrdersellerAsync(_userId, id, postChoose.PostId, postChoose.Price, postChoose.Title);
+                                return ok;
+                            }
+                        }
+                    }
+                }
+            }
         }
+        public async Task<JsonResult> ChangePayment(OrderPayment? pay)
+        {
+            _userId = _authService.GetLoginUserId();
+            OperationResult res = new(false);
+            if (pay == null)
+                res.Message = "";
+            else
+            {
+                res = await _orderApplication.ChangeOrderPayment(_userId ,pay.Value);  
+            }
+            var json = JsonSerializer.Serialize(res);
+            return Json(json);
+        }
+        public async Task<IActionResult> PaymentFactor()
+        {
+            _userId = _authService.GetLoginUserId();
+            OperationResultfactor res = new(false);
+            var model = await _orderUserPanelQuery.GetOpenOrderForUserAsync(_userId);
+            if (model.OrderAddress == null) res.Message = "آدرس را وارد کنید ";
+            else
+            {
+                bool ok = true;
+                foreach (var item in model.Ordersellers)
+                    if (string.IsNullOrEmpty(item.PostTitle))
+                    {
+                        res.Message = "برای هر فاکتور فروشنده پست را انتخاب کنید .";
+                        ok = false;
+                    }
+                if (ok)
+                {
+                    if(model.OrderPayment == OrderPayment.پرداخت_از_درگاه)
+                    {
+                        CreateTransaction createTransaction = new CreateTransaction()
+                        {
+                            OwnerId = model.OrderId,
+                            Portal = TransactionPortal.زرین_پال,
+                            Price = model.PaymentPrice,
+                            TransactionFor = TransactionFor.Order,
+                            UserId = _userId
+                        };
+                        var result = await _transactionApplication.CreateAsync(createTransaction);
+                        var payment = new Payment(model.PaymentPrice);
+                        var resultPayment = await payment.PaymentRequest("شارژ کیف پول", $"{_data.SiteUrl}Wallet/Payment/{result.Id}");
+
+                        if (resultPayment.Status == 100)
+                        {
+                            res.Success = true;
+                            res.Message = "در حال انتقال به درگاه پرداخت";
+                            res.Url = $"https://sandbox.zarinpal.com/pg/StartPay/{resultPayment.Authority}";
+                        }
+                        else
+                        {
+                            res.Message = "خطای درگاه پرداخت !!! پس از دقایقی مجددا تلاش کنید .";
+                        }
+                    }
+                    else
+                    {
+                        int walletUserAmount = _userPanelWalletQuery.GetUserWalletAmount(_userId);
+                        if (walletUserAmount < model.PaymentPrice)
+                        {
+                            int price = model.PaymentPrice - walletUserAmount;
+                            res.Message = $"کیف پول شما مبلغ {price.ToString("#,0")}کم دارد لطفا کیف پول خور را شارژ کنید .";
+                            res.Url = "/UserPanel/Wallet/Index";
+                        }
+                        else
+                        {
+                           var result = await _walletApplication.WithdrawalAsync(new CreateWalletWithWhy
+                            {
+                                Description = $"پرداخت فاکتور شماره {model.OrderId}",
+                                Price = model.PaymentPrice,
+                                UserId = _userId,
+                                WalletWhy = WalletWhy.خرید_از_سایت
+                            });
+                            if (result.Success)
+                            {
+                                if(await _orderApplication.PaymentSuccessOrderAsync(_userId, model.PaymentPrice))
+                                {
+                                    res.Success = true;
+                                    res.Message = "فاکتور با موفقیت از کیف پول شما پرداخت شد ";
+                                    res.Url = $"/UserPanel/Order/Detail/{model.OrderId}";
+                                }
+                                else
+                                {
+                                    res.Message = "خطای سیستم !! تماس با سایت .";
+                                }
+                            }
+                            else
+                            {
+                                res.Message = "خطای سیستم !! تماس با سایت .";
+                            }
+                        }
+                    }
+                }
+            }
+            var json = JsonSerializer.Serialize(res);
+            return Json(json);
+        }
+    }
+    public class PostResposeModel
+    {
+        public bool success { get; set; }
+        public string message { get; set; }
+        public int sellerId { get; set; }
+        public List<PostPriceResponseModel> posts { get; set; }
     }
 }

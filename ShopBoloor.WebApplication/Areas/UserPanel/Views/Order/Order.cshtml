@@ -1,5 +1,5 @@
 ﻿@model Query.Contract.UserPanel.Order.OrderUserPanelQueryModel
-
+@using Shared.Domain.Enum;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "فاکتور یاز شما";
@@ -114,7 +114,25 @@
                                     </tr>
                                 }
                                 <tr>
-                                    <td colspan="5" class="text-center py-2"> هزینه ارسال @seller.PostPrice.ToString("#,0")</td>
+                                    @if (!string.IsNullOrEmpty(seller.PostTitle))
+                                    {
+                                        <td colspan="2" style="align-content: center;" class="text-center py-2"> پست @seller.PostTitle</td>
+                                        <td colspan="2" style="align-content: center;" class="text-center py-2"> هزینه ارسال @seller.PostPrice.ToString("#,0")</td>
+                                        <td class="text-center py-2">
+                                            <button type="button" class="btn btn-info" onclick="OpenPostModal('/UserPanel/Order/CalculatePostPrice/@seller.Id','  تغییر پست برای @seller.SellerTitle')">
+                                                تغییر پست
+                                            </button>
+                                        </td>
+                                    }
+                                    else{
+                                        <td colspan="2" style="align-content: center;" class="text-center py-2"> انتخاب نشده</td>
+                                        <td colspan="2" style="align-content: center;" class="text-center py-2"> هزینه ارسال 0</td>
+                                        <td class="text-center py-2">
+                                            <button type="button" class="btn btn-info" onclick="OpenPostModal('/UserPanel/Order/CalculatePostPrice/@seller.Id','  انتخاب پست برای @seller.SellerTitle')">
+                                                انتخاب پست
+                                            </button>
+                                        </td>
+                                    }
                                 </tr>
                                 <tr>
                                     <td colspan="5" class="text-center py-2"> مبلغ پرداختی @seller.PaymentPrice.ToString("#,0")</td>
@@ -212,6 +230,27 @@
                                 <div></div>
                             </div>
                             <div class="checkout-summary-content">
+                                <ul class="checkout-summary-summary">
+                                    <li>
+                                        <span>
+                                            <input type="checkbox" checked="@(Model.OrderPayment == OrderPayment.پرداخت_از_درگاه ? "checked":false)"
+                                                   onclick="ChangeOrderPayment('پرداخت_از_درگاه','@Model.OrderPayment.ToString()')" id="GateWayPayment"/>
+                                        </span>
+                                        <span>پرداخت از درگاه</span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="checkbox" checked="@(Model.OrderPayment == OrderPayment.پرداخت_از_کیف_پول ? "checked":false)"
+                                                   onclick="ChangeOrderPayment('پرداخت_از_کیف_پول','@Model.OrderPayment.ToString()')" id="WalletPayment" />
+                                        </span>
+                                        <span>پرداخت از کیف پول</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="checkout-summary-devider">
+                                <div></div>
+                            </div>
+                                <div class="checkout-summary-content">
                                 
                             <ul class="checkout-summary-summary">
                                 <li>
@@ -219,11 +258,6 @@
                                     <span>@Model.PostPrice.ToString("#,0") تومان</span>
                                 </li>
                             </ul>
-                                <a style="cursor:pointer;color: #fff !important"
-                                   onclick="OpenFactorModal('/UserPanel/Order/ChoosePost',' نحوه ارسال')"
-                                   class="btn btn-primary d-block w-full">
-                                    ثبت آدرس
-                                </a>
                             </div>
                             <div class="checkout-summary-devider">
                                 <div></div>
@@ -233,48 +267,11 @@
                                 <div class="checkout-summary-price-value">
                                     <span class="checkout-summary-price-value-amount">@Model.PaymentPrice.ToString("#,0")</span>تومان
                                 </div>
-                                <a href="#" class="btn btn-primary d-block w-full">
+                                <a onclick="PaymentFactor()" class="btn btn-primary d-block w-full text-light">
                                     ادامه ثبت سفارش
                                 </a>
-                                <div>
-                                    <span>
-                                        کالاهای موجود در سبد شما ثبت و رزرو نشده‌اند، برای ثبت سفارش مراحل بعدی
-                                        را تکمیل
-                                        کنید.
-                                    </span>
-                                    <span class="wiki wiki-holder">
-                                        <span class="wiki-sign"></span>
-                                        <div class="wiki-container is-right">
-                                            <div class="wiki-arrow"></div>
-                                            <p class="wiki-text">
-                                                محصولات موجود در سبد خرید شما تنها در صورت ثبت و پرداخت سفارش
-                                                برای شما رزرو
-                                                می‌شوند. در
-                                                صورت عدم ثبت سفارش، تاپ کالا هیچگونه مسئولیتی در قبال تغییر
-                                                قیمت یا موجودی
-                                                این کالاها
-                                                ندارد.
-                                            </p>
-                                        </div>
-                                    </span>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="checkout-feature-aside">
-                        <ul>
-                            <li class="checkout-feature-aside-item checkout-feature-aside-item-guarantee">
-                                هفت روز
-                                ضمانت تعویض
-                            </li>
-                            <li class="checkout-feature-aside-item checkout-feature-aside-item-cash">
-                                پرداخت در محل با
-                                کارت بانکی
-                            </li>
-                            <li class="checkout-feature-aside-item checkout-feature-aside-item-express">
-                                تحویل اکسپرس
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </aside>

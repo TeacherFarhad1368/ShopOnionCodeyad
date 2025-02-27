@@ -11,9 +11,12 @@ public class CreateWalletWithWhy
         Description = description;
         WalletWhy = walletWhy;
     }
-
-    public int UserId { get; private set; }
-    public int Price { get; private set; }
-    public string Description { get; private set; }
-    public WalletWhy WalletWhy { get; private set; }
+    public CreateWalletWithWhy()
+    {
+        
+    }
+    public int UserId { get; set; }
+    public int Price { get; set; }
+    public string Description { get; set; }
+    public WalletWhy WalletWhy { get; set; }
 }

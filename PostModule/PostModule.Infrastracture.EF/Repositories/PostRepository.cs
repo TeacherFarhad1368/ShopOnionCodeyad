@@ -58,7 +58,7 @@ internal class PostRepository : Repository<int,Post> , IPostRepository
             foreach (var item in posts1) 
             {
                 int price = item.Calculate(calculatePost, command.Weight);
-                PostPriceResponseModel postPrice = new(item.Title, item.Status, price);
+                PostPriceResponseModel postPrice = new(item.Title, item.Status, price,item.Id);
                 model.Add(postPrice);
             }
         }

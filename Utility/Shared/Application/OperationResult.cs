@@ -18,6 +18,18 @@ namespace Shared.Application
             ModelName = modelName;
         }
     }
+    public class OperationResultfactor
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string Url { get; set; }
+        public OperationResultfactor(bool success, string? message = "", string? url = "")
+        {
+            Success = success;
+            Message = message;
+            Url = url;
+        }
+    }
     public class OperationResultOrderDiscount
     {
         public bool Success { get; set; }

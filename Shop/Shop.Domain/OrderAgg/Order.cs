@@ -9,8 +9,6 @@ namespace Shop.Domain.OrderAgg
         public OrderStatus OrderStatus { get; private set; }
         public OrderPayment OrderPayment { get; private set; }
         public int OrderAddressId { get; private set; }
-        public int PostId { get; private set; }
-        public string? PostTitle { get; private set; }
         public int DiscountId { get; private set; }
         public int DiscountPercent { get; private set; }
         public string DiscountTitle { get; private set; }
@@ -50,7 +48,7 @@ namespace Shop.Domain.OrderAgg
                 var discountPrice = DiscountPercent * PaymentPriceSeller / 100;
 
 
-                return PaymentPriceSeller - discountPrice - PostPrice;
+                return PaymentPriceSeller - discountPrice + PostPrice;
             }
         }
         public Order()
@@ -63,8 +61,6 @@ namespace Shop.Domain.OrderAgg
             OrderStatus = OrderStatus.پرداخت_نشده;
             OrderPayment = OrderPayment.پرداخت_از_درگاه;
             OrderAddressId = 0;
-            PostId = 0;
-            PostTitle = "";
             DiscountId = 0;
             DiscountPercent = 0;
         }
@@ -80,12 +76,6 @@ namespace Shop.Domain.OrderAgg
         public void AddAddress(int addressId)
         {
             OrderAddressId = addressId;
-            UpdateEntity();
-        }
-        public void ChangeShipping(int postId, string postTitle)
-        {
-            PostId = postId;
-            PostTitle = postTitle;
             UpdateEntity();
         }
         public void AddDiscount(int discountId, int percent,string title)

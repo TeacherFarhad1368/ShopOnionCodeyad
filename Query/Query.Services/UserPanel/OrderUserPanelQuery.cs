@@ -21,9 +21,18 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
         _post_Context = post_Context;
     }
 
-    public Task<PostPriceForOpenOrder> CalculatePostPrices(int userId)
+    public async Task<int> CalculateOrdersellerWeight(int id)
     {
-        throw new NotImplementedException();
+        var seller = await _shopContext.OrderSellers.Include(s=>s.OrderItems).ThenInclude(i=>i.ProductSell)
+            .SingleOrDefaultAsync(s=>s.Id == id);
+        if (seller == null) return 0;
+        int weight = 0;
+        foreach(var item in seller.OrderItems)
+        {
+            int w = item.Count * item.ProductSell.Weight;
+            weight=  weight + w;
+        }
+        return weight;
     }
 
     public async Task CheckOrderItemDataAsync(int userId)
@@ -71,6 +80,13 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
         }
     }
 
+    public async Task<int> GetCityOfSeller(int sellerId)
+    {
+        var seller = await _shopContext.Sellers.SingleOrDefaultAsync(s => s.Id == sellerId);
+        if (seller == null) return 0;
+        return seller.CityId;
+    }
+
     public async Task<OrderUserPanelQueryModel> GetOpenOrderForUserAsync(int userId)
     {
         var order = await _shopContext.Orders.Include(o=>o.OrderSellers)
@@ -93,6 +109,8 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
                 DiscountId= s.DiscountId,   
                 DiscountPercent= s.DiscountPercent,
                 Id = s.Id,
+                PostId = s.PostId,
+                PostTitle = s.PostTitle,
                 DiscountTitle = s.DiscountTitle,    
                 OrderItems = s.OrderItems.Select(i=> new OrderItemUserPanelQueryModel
                 {
@@ -117,9 +135,7 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
             }).ToList(),
             PaymentPrice = order.PaymentPrice,
             PaymentPriceSeller = order.PaymentPriceSeller,
-            PostId = order.PostId,  
             PostPrice = order.PostPrice,
-            PostTitle = order.PostTitle,    
             Price = order.Price,
             DiscountPrice = order.DiscountPercent * order.PaymentPriceSeller / 100
         };
@@ -204,5 +220,13 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
         bool ok = order != null && order.OrderSellers.Any(s => s.SellerId == id);
         if (ok) return new(true);
         return new(false, "فروشگاهی یافت نشد .");
+    }
+
+    public async Task<bool> IsOpenOrderSellerForUser(int id, int userId)
+    {
+        var seller = await _shopContext.OrderSellers.Include(s=>s.Order)
+            .SingleOrDefaultAsync(s=>
+            s.Id == id && s.Order.UserId == userId && s.Order.OrderStatus == Shared.Domain.Enum.OrderStatus.پرداخت_نشده);
+        return seller != null;
     }
 }

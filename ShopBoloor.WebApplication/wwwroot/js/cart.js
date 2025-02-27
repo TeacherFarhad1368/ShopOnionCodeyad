@@ -589,6 +589,108 @@ function OpenFactorModal(url, title) {
         openFactorAjaxModal();
     });
 }
+function OpenPostModal(url, title) {
+    $.get(url, function (res) {
+        var model = JSON.parse(res);
+        if (model.success) {
+            debugger;
+            var content = $("div#myFactorModalBody");
+            var titleModal = $("h4#ajax-modal-title");
+            titleModal.text(title);
+            var divParent = `<div class="row text-center" id="diveParent"></div>`;
+            content.html(divParent);
+            var parent = $("div#diveParent");
+            var titleChoose = `<h5>
+                میتوانید از لیست پست های زیر یکی را انتخاب کنید .
+            </h5>`;
+            parent.append(titleChoose);
+            model.posts.forEach(x => {
+                var div = ` <div class="w-50 d-flex flex-column align-items-center p-3">
+                    <div class="w-75 m-1 rounded-1 p-3 border border-1">
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">عنوان:</span>
+                        <span class="font-weight-bold">${x.Title}</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">توضیح:</span>
+                        <span class="font-weight-bold">${x.Status}</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">قیمت:</span>
+                        <span class="font-weight-bold">${separate(x.Price)}</span>
+                    </div>
+                    <button type="button" class="btn btn-success btn-block" 
+                            onclick="ChangeOrderSellerPost('${x.PostId}','${model.sellerId}','${x.Title}')">
+                        انتخاب پست
+                    </button>
+                    </div>
+                </div>`;
+                parent.append(div);
+            });
+            var div1 = ` <div class="w-50 d-flex flex-column align-items-center p-3">
+                    <div class="w-75 m-1 rounded-1 p-3 border border-1">
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">عنوان:</span>
+                        <span class="font-weight-bold">ارسال با تیباکس</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">توضیح:</span>
+                        <span class="font-weight-bold">پردلخت درب منزل</span>
+                    </div>
+                    <div class="w-100 d-flex flex-colomn justify-content-between align-items-center">
+                        <span class="font-weight-bold">قیمت:</span>
+                        <span class="font-weight-bold">پردلخت درب منزل</span>
+                    </div>
+                    <button type="button" class="btn btn-success btn-block" 
+                            onclick="ChangeOrderSellerPost('0','${model.sellerId}','تیباکس')">
+                        انتخاب تیباکس
+                    </button>
+                    </div>
+                </div>`;
+            parent.append(div1);
+        }
+        else {
+            AlertSweetTimer(model.message, error, 3000);
+        }
+        openFactorAjaxModal();
+    });
+}
+function ChangeOrderSellerPost(postId, sellerId, title) {
+    swal.fire({
+        title: "انتخاب پست",
+        text: `${title}به عنوان پست انتخاب شود؟`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "انتخاب شود ",
+        cancelButtonText: "انصراف"
+    })
+        .then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                Loding();
+                $.ajax({
+                    type: "Post",
+                    url: `/UserPanel/Order/ChoosePostPrice/${sellerId}`,
+                    data: {
+                        post: postId,
+                        postTitle: title
+                    }
+                }).done(function (res) {
+                    if (res) {
+                        AlertSweetTimer("عملیات موفق", "success", 3000);
+                        setTimeout(
+                            () => { location.reload(); }
+                            , 3000);
+                    }
+                    else {
+                        AlertSweetTimer("عملیات نا موفق", "error", 3000);
+                        EndLoading();
+                    }
+                });
+            }
+        });
+}
 function openFactorAjaxModal() {
     var modal = $("div#factorModal");
     modal.removeClass("close-modal-form");
@@ -737,4 +839,98 @@ function ChangeOrderAddress(id, state, city, address, postalCode) {
             Swal.fire("آدرس برای فاکتور ثبت نشد .", "", "info");
         }
     });
+}
+function ChangeOrderPayment(payment, orderPayment) {
+    if (payment == 'پرداخت_از_درگاه' && payment == orderPayment) {
+        Loding();
+        Swal.fire("پرداخت روی درگاه است .", "", "info");
+        setTimeout(
+            () => {
+                EndLoading();
+                location.reload();
+            }
+            , 2000);
+    }
+    else if (payment == 'پرداخت_از_کیف_پول' && payment == orderPayment) {
+        Loding();
+        Swal.fire("پرداخت روی کیف پول است .", "", "info");
+        setTimeout(
+            () => {
+
+                EndLoading();
+                location.reload();
+            }
+            , 2000);
+    }
+    else {
+        Loding();
+        $.ajax({
+            type: "Post",
+            url: `/UserPanel/Order/ChangePayment`,
+            data: {pay:payment}
+        }).done(function (res) {
+            var model = JSON.parse(res);
+            if (model.Success) {
+                Swal.fire("عملیات موفق ", "", "success");
+                setTimeout(
+                    () => { location.reload(); }
+                    , 3000);
+            }
+            else {
+                AlertSweetTimer(model.Message, "error", 3000);
+                EndLoading();
+            }
+        });
+    }
+}
+function PaymentFactor() {
+    swal.fire({
+        title: "پرداخت فاکتور",
+        text: `از پرداخت فاکتور اطمینان دارید ؟`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "پرداخت شود ",
+        cancelButtonText: "انصراف"
+    })
+        .then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                Loding();
+                $.ajax({
+                    type: "Get",
+                    url: `/UserPanel/Order/PaymentFactor`
+                }).done(function (res) {
+                    var model = JSON.parse(res);
+                    if (model.Success) {
+                        AlertSweetTimer(model.Message, "success", 3000);
+                        if (model.Url === null || model.Url === "") {
+                            setTimeout(
+                                () => { location.reload() }
+                                , 3000);
+                        }
+                        else {
+                            setTimeout(
+                                () => { location.href = model.Url; }
+                                , 3000);
+                        }
+                       
+                    }
+                    else {
+                        AlertSweetTimer(model.Message, "error", 3000);
+                        if (model.Url === null || model.Url === "") {
+                            setTimeout(
+                                () => { location.reload() }
+                                , 3000);
+                        }
+                        else {
+                            setTimeout(
+                                () => { location.href = model.Url; }
+                                , 3000);
+                        }
+                        EndLoading();
+                    }
+                });
+            }
+        });
 }

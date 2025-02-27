@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Transactions.Infrastructure;
 
@@ -11,9 +12,11 @@ using Transactions.Infrastructure;
 namespace Transactions.Infrastructure.Migrations
 {
     [DbContext(typeof(TransactionContext))]
-    partial class TransactionContextModelSnapshot : ModelSnapshot
+    [Migration("20250227171809_AddAuthority")]
+    partial class AddAuthority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
