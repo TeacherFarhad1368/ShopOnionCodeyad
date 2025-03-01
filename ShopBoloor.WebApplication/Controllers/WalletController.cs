@@ -8,6 +8,9 @@ using System.Text.Json;
 using Transactions.Application.Contract;
 using Users.Application.Contract.WalletApplication.Command;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
+using System.Text;
+using Azure;
 namespace ShopBoloor.WebApplication.Controllers
 {
     public class WalletController : Controller
@@ -37,13 +40,13 @@ namespace ShopBoloor.WebApplication.Controllers
                 return View(model);
             else
             {
-                var url = "https://sandbox.zarinpal.com/pg/v4/payment/verify.json";
-                Leaf.xNet.HttpRequest httpRequest = new Leaf.xNet.HttpRequest();
                 model.Price = transactiom.Price;
                 model.TransactionFor = transactiom.TransactionFor;
                 model.OwnerId = transactiom.OwnerId;
                 if (transactiom.Status ==TransactionStatus.نا_موفق)
                 {
+                    var url = "https://sandbox.zarinpal.com/pg/v4/payment/verify.json";
+                    Leaf.xNet.HttpRequest httpRequest = new Leaf.xNet.HttpRequest();
                     ZarinPalPaymentRequestModel payment = new()
                     {
                         amount = transactiom.Price,
@@ -51,48 +54,72 @@ namespace ShopBoloor.WebApplication.Controllers
                         merchant_id = _data.MerchentZarinPall
                     };
                     string jsonData = JsonSerializer.Serialize(payment);
-                    Leaf.xNet.HttpResponse response = httpRequest.Post(url, jsonData, "application/json");
-                    var x = response.StatusCode;
-                    //model.RefId = res.RefId.ToString();
-                    //if (res.Status == 100)
-                    //{
-                    //    model.Success = true;
-                    //    await _transactionApplication.PaymentAsync(TransactionStatus.موفق, transactiom.Id, res.RefId.ToString());
-                    //    switch (transactiom.TransactionFor)
-                    //    {
-                    //        case TransactionFor.Wallet:
-                    //            var create = new CreateWalletWithWhy(transactiom.UserId, transactiom.Price, "شارژ کیف پول", WalletWhy.پرداخت_از_درگاه);
-                    //            var resCreateWallet = await _walletApplication.DepositByUserAsync(create);
-                    //            await _transactionApplication.AddTransactionWalletId(transactiom.Id, resCreateWallet.Id);
-                    //            var wallet = await _walletApplication.GetWalletForCheckPaymentAsync(resCreateWallet.Id);
-                    //            model.Description = wallet.Description;
+                    byte[] requestData = Encoding.UTF8.GetBytes(jsonData);
+                    try
+                    {
+                        using (WebClient client = new WebClient())
+                        {
+                            client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                            byte[] responseData = client.UploadData(url, "POST", requestData);
+                            string responseString = Encoding.UTF8.GetString(responseData);
+                            ZarinpalPaymentResponseModel response = JsonSerializer.Deserialize<ZarinpalPaymentResponseModel>(responseString);
+                            if (response.data.code == 100 && response.data.message.ToLower() == "paid")
+                            {
+                                model.Success = true;
+                                model.RefId = response.data.ref_id.ToString();
+                                await _transactionApplication.PaymentAsync(TransactionStatus.موفق, transactiom.Id, response.data.ref_id.ToString());
+                                switch (transactiom.TransactionFor)
+                                {
+                                    case TransactionFor.Wallet:
+                                        var create = new CreateWalletWithWhy(transactiom.UserId, transactiom.Price, "شارژ کیف پول", WalletWhy.پرداخت_از_درگاه);
+                                        var resCreateWallet = await _walletApplication.DepositByUserAsync(create);
+                                        await _transactionApplication.AddTransactionWalletId(transactiom.Id, resCreateWallet.Id);
+                                        var wallet = await _walletApplication.GetWalletForCheckPaymentAsync(resCreateWallet.Id);
+                                        model.Description = wallet.Description;
 
-                    //            if (wallet.IsPay == false)
-                    //            {
-                    //                await _walletApplication.SuccessPaymentAsync(wallet.Id);
-                    //            }
-                    //            break;
-                    //        case TransactionFor.Order:
-                    //            break;
-                    //        default:
-                    //            break;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    await _transactionApplication.PaymentAsync(TransactionStatus.نا_موفق, transactiom.Id, res.RefId.ToString());
-                    //    switch (transactiom.TransactionFor)
-                    //    {
-                    //        case TransactionFor.Wallet:
+                                        if (wallet.IsPay == false)
+                                        {
+                                            await _walletApplication.SuccessPaymentAsync(wallet.Id);
+                                        }
+                                        break;
+                                    case TransactionFor.Order:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                await _transactionApplication.PaymentAsync(TransactionStatus.نا_موفق, transactiom.Id, response.data.ref_id.ToString());
+                                switch (transactiom.TransactionFor)
+                                {
+                                    case TransactionFor.Wallet:
 
-                    //            model.Description = "شارژ کیف پول";
-                    //            break;
-                    //        case TransactionFor.Order:
-                    //            break;
-                    //        default:
-                    //            break;
-                    //    }
-                    //}
+                                        model.Description = "شارژ کیف پول";
+                                        break;
+                                    case TransactionFor.Order:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        await _transactionApplication.PaymentAsync(TransactionStatus.نا_موفق, transactiom.Id, "");
+                        switch (transactiom.TransactionFor)
+                        {
+                            case TransactionFor.Wallet:
+
+                                model.Description = "شارژ کیف پول";
+                                break;
+                            case TransactionFor.Order:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
 
                 return View(model);
