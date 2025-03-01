@@ -6,6 +6,7 @@ using PostModule.Application.Contract.PostCalculate;
 using PostModule.Application.Contract.StateQuery;
 using Query.Contract.UserPanel.Address;
 using Query.Contract.UserPanel.Order;
+using Query.Contract.UserPanel.User;
 using Query.Contract.UserPanel.Wallet;
 using Shared.Application;
 using Shared.Application.Services.Auth;
@@ -13,12 +14,12 @@ using Shared.Domain.Enum;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.OrderApplication.Query;
 using ShopBoloor.WebApplication.Utility;
+using System.Net;
+using System.Text;
 using System.Text.Json;
 using Transactions.Application.Contract;
 using Users.Application.Contract.UserAddressApplication.Command;
 using Users.Application.Contract.WalletApplication.Command;
-using ZarinpalSandbox;
-using ZarinpalSandbox;
 
 namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
 {
@@ -40,8 +41,9 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
         private readonly ITransactionApplication _transactionApplication;
         private readonly IUserPanelWalletQuery _userPanelWalletQuery;
         private readonly IWalletApplication _walletApplication;
+        private readonly IUserPanelQuery _userPanelQuery;
         public OrderController(IAuthService authService, IOrderApplication orderApplication, IOrderQuery orderQuery,
-            IOrderUserPanelQuery orderUserPanelQuery, IOrderDiscountApplication orderDiscountApplication,
+            IOrderUserPanelQuery orderUserPanelQuery, IOrderDiscountApplication orderDiscountApplication, IUserPanelQuery userPanelQuery,
             IUserAddressUserPanelQuery userAddressUserPanelQuery, IUserAddressApplication userAddressApplication,
             IStateQuery stateQuery, IPostCalculateApplication postCalculateApplication, ITransactionApplication transactionApplication,
             IOptions<SiteData> option, IUserPanelWalletQuery userPanelWalletQuery, IWalletApplication walletApplication)
@@ -58,7 +60,8 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             _transactionApplication = transactionApplication;
             _data = option.Value;
             _userPanelWalletQuery = userPanelWalletQuery;   
-            _walletApplication = walletApplication; 
+            _walletApplication = walletApplication;
+            _userPanelQuery = userPanelQuery;
         }
 
         public async Task<IActionResult> Order()
@@ -374,27 +377,54 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
                 {
                     if(model.OrderPayment == OrderPayment.پرداخت_از_درگاه)
                     {
-                        CreateTransaction createTransaction = new CreateTransaction()
-                        {
-                            OwnerId = model.OrderId,
-                            Portal = TransactionPortal.زرین_پال,
-                            Price = model.PaymentPrice,
-                            TransactionFor = TransactionFor.Order,
-                            UserId = _userId
-                        };
-                        var result = await _transactionApplication.CreateAsync(createTransaction);
-                        var payment = new Payment(model.PaymentPrice);
-                        var resultPayment = await payment.PaymentRequest("شارژ کیف پول", $"{_data.SiteUrl}Wallet/Payment/{result.Id}");
+                        var user = _userPanelQuery.GetUserInfoForPanel(_userId);
 
-                        if (resultPayment.Status == 100)
+                        var requestZarinPalUrl = "https://sandbox.zarinpal.com/pg/v4/payment/request.json";
+                        ZarinPalRequestModel data = new ZarinPalRequestModel
                         {
-                            res.Success = true;
-                            res.Message = "در حال انتقال به درگاه پرداخت";
-                            res.Url = $"https://sandbox.zarinpal.com/pg/StartPay/{resultPayment.Authority}";
-                        }
-                        else
+                            amount = model.PaymentPrice,
+                            callback_url = $"{_data.SiteUrl}Wallet/Payment",
+                            currency = "IRT",
+                            description = "شارژ کیف پول",
+                            merchant_id = _data.MerchentZarinPall,
+                            mobile = user.Mobile
+                        };
+                        using (WebClient client = new WebClient())
                         {
-                            res.Message = "خطای درگاه پرداخت !!! پس از دقایقی مجددا تلاش کنید .";
+                            // تنظیم هدرها (اگر لازم است)
+                            client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                            string jsonData = JsonSerializer.Serialize(data);
+                            // تبدیل داده‌های JSON به بایت‌ها
+                            byte[] requestData = Encoding.UTF8.GetBytes(jsonData);
+
+                            // ارسال درخواست POST و دریافت پاسخ
+                            byte[] responseData = client.UploadData(requestZarinPalUrl, "POST", requestData);
+
+                            // تبدیل پاسخ به رشته
+                            string responseString = Encoding.UTF8.GetString(responseData);
+                            ZarinPalResponseModel response = JsonSerializer.Deserialize<ZarinPalResponseModel>(responseString);
+
+                            if (response.data.code == 100 && response.data.message.ToLower() == "success")
+                            {
+                                CreateTransaction createTransaction = new CreateTransaction()
+                                {
+                                    OwnerId = model.OrderId,
+                                    Portal = TransactionPortal.زرین_پال,
+                                    Price = model.PaymentPrice,
+                                    TransactionFor = TransactionFor.Order,
+                                    UserId = _userId,
+                                    Authority = response.data.authority
+                                };
+                                var result = await _transactionApplication.CreateAsync(createTransaction);
+                                res.Success = true;
+                                res.Message = "در حال انتقال به درگاه ";
+                                res.Url = $"https://sandbox.zarinpal.com/pg/StartPay/{response.data.authority}";
+                            }
+                            else
+                            {
+
+                                res.Message = "خطای درگاه پرداخت !!! پس از دقایقی مجددا تلاش کنید .";
+                            }
                         }
                     }
                     else

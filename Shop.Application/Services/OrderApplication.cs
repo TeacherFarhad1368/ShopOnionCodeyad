@@ -192,7 +192,9 @@ internal class OrderApplication : IOrderApplication
     {
         var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
         if(order.PaymentPrice != price) return false;   
-        order.ChamgeStatus(OrderStatus.پرداخت_شده); 
+        order.ChamgeStatus(OrderStatus.پرداخت_شده);
+        foreach (var item in order.OrderSellers)
+            item.ChangeStatus(OrderSellerStatus.پرداخت_شده);
         return await _orderRepository.SaveAsync();
     }
 }

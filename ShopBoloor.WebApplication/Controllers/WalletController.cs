@@ -11,6 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net;
 using System.Text;
 using Azure;
+using Shop.Application.Contract.OrderApplication.Command;
 namespace ShopBoloor.WebApplication.Controllers
 {
     public class WalletController : Controller
@@ -18,12 +19,15 @@ namespace ShopBoloor.WebApplication.Controllers
         private readonly SiteData _data;
         private readonly ITransactionApplication _transactionApplication;
         private readonly IWalletApplication _walletApplication;
+        private readonly IOrderApplication _orderApplication;
 
-        public WalletController(IOptions<SiteData> option, ITransactionApplication transactionApplication, IWalletApplication walletApplication)
+        public WalletController(IOptions<SiteData> option, ITransactionApplication transactionApplication,
+            IWalletApplication walletApplication,IOrderApplication orderApplication)
         {
             _data = option.Value;
             _transactionApplication = transactionApplication;
             _walletApplication = walletApplication;
+            _orderApplication = orderApplication;   
         }
 
         public async Task<IActionResult> Payment( string authority, string status)
@@ -83,6 +87,7 @@ namespace ShopBoloor.WebApplication.Controllers
                                         }
                                         break;
                                     case TransactionFor.Order:
+                                        await _orderApplication.PaymentSuccessOrderAsync(transactiom.UserId, transactiom.Price);
                                         break;
                                     default:
                                         break;
