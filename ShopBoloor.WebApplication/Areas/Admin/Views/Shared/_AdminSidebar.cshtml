@@ -66,6 +66,20 @@
                     </li>
                 </ul>
             </li>
+            <li class="@(route.ToString().ToLower().Trim().Contains("/admin/order") ? "active" : "") treeview" >
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>مدیریت سفارشات</span>
+                    <span class="pull-left-container">
+                        <i class="fa fa-angle-right pull-left"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class=@(route.ToString().ToLower().Trim() =="/admin/order/index" ||
+                    route.ToString().ToLower().Trim() =="/admin/order" ? "active" : "") >
+                        <a href="/Admin/Order" ><i class="fa fa-user-secret"></i> سفارشات</a>
+                    </li>
+                </ul>
+            </li>
             <li class="@(route.ToString().ToLower().Trim().Contains("/admin/product")
               ? "active" : "") treeview">
                 <a href="#">

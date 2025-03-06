@@ -593,7 +593,6 @@ function OpenPostModal(url, title) {
     $.get(url, function (res) {
         var model = JSON.parse(res);
         if (model.success) {
-            debugger;
             var content = $("div#myFactorModalBody");
             var titleModal = $("h4#ajax-modal-title");
             titleModal.text(title);
@@ -648,11 +647,12 @@ function OpenPostModal(url, title) {
                     </div>
                 </div>`;
             parent.append(div1);
+
+            openFactorAjaxModal();
         }
         else {
-            AlertSweetTimer(model.message, error, 3000);
+            AlertSweetTimer(model.message, "error", 3000);
         }
-        openFactorAjaxModal();
     });
 }
 function ChangeOrderSellerPost(postId, sellerId, title) {

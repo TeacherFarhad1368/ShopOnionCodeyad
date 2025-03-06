@@ -1,0 +1,129 @@
+﻿@model Query.Contract.UserPanel.Order.Seller.OrderSellerDetailForSellerPanelQueryModel
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "جزییات فاکتور ";
+}
+<style>
+    .table td, .table th{
+        padding:0 !important;
+    }
+</style>
+<main class="cart-page default">
+    <div class="container">
+        <div class="row">
+            <div class="cart-page-content col-xl-12 col-lg-12 col-md-12">
+                <h5>فاکتور شماره @Model.Id</h5>
+                <p>
+                    @if(Model.Status == OrderSellerStatus.پرداخت_شده){
+                        <a class="btn btn-sm btn-success" onclick="AjaxSweetRefresh(' در حال آماده سازی ؟','آیا فاکتور در حال آماده سازی است ؟','question','بله ','انصراف','/UserPanel/OrderSeller/ChangeStatus/@Model.Id?status=@OrderSellerStatus.در_حال_آماده_سازی')">
+                            در حال آماده سازی ؟
+                        </a>
+                        <a class="btn btn-sm btn-danger" onclick="AjaxSweetRefresh(' لغو شود ؟','آیا فاکتور لغو شود ؟','question','لغو شود ','لغو نشود','/UserPanel/OrderSeller/ChangeStatus/@Model.Id?status=@OrderSellerStatus.لغو_شده_توسط_فروشنده')">
+                            لغو
+                        </a>
+                    }
+                    else if (Model.Status == OrderSellerStatus.در_حال_آماده_سازی)
+                    {
+                        <a class="btn btn-sm btn-danger" onclick="AjaxSweetRefresh(' لغو شود ؟','آیا فاکتور لغو شود ؟','question','لغو شود ','لغو نشود','/UserPanel/OrderSeller/ChangeStatus/@Model.Id?status=@OrderSellerStatus.لغو_شده_توسط_فروشنده')">
+                            لغو
+                        </a>
+                        <a class="btn btn-sm btn-success" onclick="AjaxSweetRefresh('  ارسال شد ؟','آیا فاکتور  ارسال شد ؟','question',' ارسال شد ','خیر','/UserPanel/OrderSeller/ChangeStatus/@Model.Id?status=@OrderSellerStatus.ارسال_شده')">
+                            ارسال شد
+                        </a>
+                    }
+                </p>
+                <div class="table-responsive checkout-content default m-2 p-2 border border-1">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="text-center py-2">فروشگاه :  @Model.SellerAddress</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2">
+                                    @if (Model.Price > Model.PriceAfterOff)
+                                    {
+                                        <del class="text-danger"> @Model.Price.ToString("#,0")</del>
+                                        <span> - </span>
+                                        <span class="text-success">@Model.PriceAfterOff.ToString("#,0")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-success">@Model.Price.ToString("#,0")</span>
+                                    }
+                                </td>
+                            </tr>
+                            @if (Model.DiscountId > 0)
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center py-2">
+                                        <span class="text-success">@Model.DiscountPercent % تخفیف ( @Model.DiscountTitle ) - @Model.DiscountPrice.ToString("#,0") تومان</span>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                @if (!string.IsNullOrEmpty(Model.PostTitle))
+                                {
+                                    <td colspan="2" style="align-content: center;" class="text-center py-2"> پست : @Model.PostTitle</td>
+                                    <td colspan="2" style="align-content: center;" class="text-center py-2"> هزینه ارسال : @Model.PostPrice.ToString("#,0")</td>
+                                }
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> مبلغ پرداختی : @Model.PaymentPrice.ToString("#,0")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> وضعیت : @Model.Status.ToString().Replace("_", " ")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> تاریخ ثبت : @Model.CreationDate</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> تاریخ ویرایش : @Model.UpdateDate</td>
+                            </tr>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr class="checkout-item">
+                                    <td>
+                                        <img src="@item.ProductImageName" alt="@item.ProductTitle"
+                                             style="max-height:50px !important;max-width:100px !important">
+                                    </td>
+                                    <td>
+                                        <h3 class="checkout-title">
+                                            @item.ProductTitle - @item.Unit
+                                        </h3>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <span>@item.Count</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (item.Price != item.PriceAfterOff)
+                                        {
+                                            <del class="text-danger">@item.Price.ToString("#,0")</del>
+                                            <span class="text-info">@item.PriceAfterOff.ToString("#,0")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-info">@item.Price.ToString("#,0")</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.SumPrice != item.SumPriceAfterOff)
+                                        {
+                                            <del class="text-danger">@item.SumPrice.ToString("#,0")</del>
+                                            <span class="text-info">@item.SumPriceAfterOff.ToString("#,0")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-info">@item.SumPrice.ToString("#,0")</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

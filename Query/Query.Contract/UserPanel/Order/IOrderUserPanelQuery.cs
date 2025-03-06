@@ -9,13 +9,9 @@ public interface IOrderUserPanelQuery
     Task<int> GetCityOfSeller(int sellerId);
     Task<OrderUserPanelQueryModel> GetOpenOrderForUserAsync(int userId);
     Task<List<ShopCartViewModel>> GetOpenOrderItemsAsync(int userId);
+    OrderDetailForUserPanelQueryModel GetOrderDetailForUserPanel(int id, int userId);
     Task<bool> HaveUserOpenOrderAsync(int userId);
     Task<OperationResultWithKey> HaveUserOpenOrderSellerAsyncByOrderSellerIdAsync(int userId, int id);
     Task<bool> IsOpenOrderSellerForUser(int id, int userId);
-}
-public class PostPriceForOpenOrder
-{
-    public string Title { get; set; }
-    public string Status { get; set; }
-    public int Price { get; set; }
+    OrderUserPanelPaging GetOrdersForUserPanel(int userId, int pageId, int take);
 }

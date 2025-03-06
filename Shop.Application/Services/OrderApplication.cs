@@ -197,4 +197,7 @@ internal class OrderApplication : IOrderApplication
             item.ChangeStatus(OrderSellerStatus.پرداخت_شده);
         return await _orderRepository.SaveAsync();
     }
+
+    public async Task<bool> ChnageOrderSellerStatusBySellerAsync(int orderSellerId, OrderSellerStatus status, int userId)=>
+        await _orderRepository.ChnageOrderSellerStatusBySellerAsync(orderSellerId, status, userId); 
 }

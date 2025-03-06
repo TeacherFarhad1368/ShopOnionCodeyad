@@ -1,0 +1,158 @@
+﻿@model OrderAdminPaging
+@using Query.Contract.Admin.Order;
+@using Shared.Application;
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">جست و جو</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="display:none">
+                <form id="formSearchAdmin">
+                    <input type="hidden" name="userId" value="@Model.UserId" />
+                    <input type="hidden" id="inputPageId" name="pageId" value="1" />
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>وضعیت  </label>
+                            <select class="form-control" name="status">
+                                <option value="@OrderAdminStatus.همه" selected="@(Model.Status == OrderAdminStatus.همه ? "selected" : false)">
+                                    همه
+                                </option>
+                                <option value="@OrderAdminStatus.پرداخت_شده" selected="@(Model.Status == OrderAdminStatus.پرداخت_شده ? "selected" : false)">
+                                    پرداخت شده
+                                </option>
+                                <option value="@OrderAdminStatus.لغو_شده_توسط_مشتری" selected="@(Model.Status == OrderAdminStatus.لغو_شده_توسط_مشتری ? "selected" : false)">
+                                    لغو شده توسط مشتری
+                                </option>
+                                <option value="@OrderAdminStatus.لغو_شده_توسط_ادمین" selected="@(Model.Status == OrderAdminStatus.لغو_شده_توسط_ادمین ? "selected" : false)">
+                                    لغو شده توسط ادمین
+                                </option>
+                                <option value="@OrderAdminStatus.ارسال_شده" selected="@(Model.Status == OrderAdminStatus.ارسال_شده ? "selected" : false)">
+                                    ارسال شده
+                                </option>
+                                <option value="@OrderAdminStatus.پرداخت_نشده" selected="@(Model.Status == OrderAdminStatus.پرداخت_نشده ? "selected" : false)">
+                                    پرداخت نشده
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>شماره فاکتور</label>
+                            <input type="number" class="form-control" name="filter" value="@Model.OrderId">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>تعداد نمایش در هر صفحه</label>
+                            <input type="number" id="chooseImage" class="form-control" name="take" value="@Model.Take">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label></label>
+                        <button type="submit" class="btn btn-info">
+                            جست و جو
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-body">
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th> شماره فاکتور </th>
+                            <th>  کاربر </th>
+                            <th> وضعیت </th>
+                            <th> جمع کل </th>
+                            <th> جمع کل با تخفیف </th>
+                            <th> هزینه پست </th>
+                            <th> جمع ریز فاکتور </th>
+                            <th> تخفیف </th>
+                            <th> مبلغ پرداختی </th>
+                            <th>تاریخ ثبت</th>
+                            <th>تاریخ ویرایش</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Orders.Count() > 0)
+                        {
+                            foreach (var item in Model.Orders)
+                            {
+                                <tr style="background-color:@item.BackgroundColor">
+                                    <td>f_@item.Id</td>
+                                    <td>@item.UserName</td>
+                                    <td class="order-code">@item.OrderStatus.ToString().Replace("_", " ")</td>
+                                    <td>@item.Price.ToString("#,0")</td>
+                                    <td>@item.PriceAfterOff.ToString("#,0")</td>
+                                    <td>@item.PostPrice.ToString("#,0")</td>
+                                    <td>@item.PaymentPriceSeller.ToString("#,0")</td>
+                                    <td>
+                                        @if (item.DiscountId > 0)
+                                        {
+                                            <span>
+                                                @item.DiscountPercent % - @item.DiscountTitle
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span> - </span>
+                                        }
+                                    </td>
+                                    <td>@item.PaymentPrice.ToString("#,0")</td>
+                                    <td>@item.CreationDate</td>
+                                    <td>@item.UpdateDate</td>
+                                    <td>
+                                        <a class="btn btn-info" asp-action="Detail" asp-route-id="@item.Id">جزییات</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+                <div class="col-12 text-center">
+                    @if (Model.PageCount > 1)
+                    {
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            @if (Model.PageId > 1)
+                            {
+                                <li><a style="cursor:pointer" onclick="ChangePagination('@(Model.PageId - 1)')">«</a></li>
+                            }
+                            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                            {
+                                if (i == Model.PageId)
+                                {
+                                    <li class="bg-info"><a>@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a onclick="ChangePagination('@i')">@i</a></li>
+                                }
+                            }
+                            @if (Model.PageId < Model.PageCount)
+                            {
+                                <li><a onclick="ChangePagination('@(Model.PageId + 1)')">»</a></li>
+                            }
+                            @if (Model.PageCount > Model.EndPage)
+                            {
+                                <li><a onclick="ChangePagination('@Model.PageCount')">@Model.PageCount</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

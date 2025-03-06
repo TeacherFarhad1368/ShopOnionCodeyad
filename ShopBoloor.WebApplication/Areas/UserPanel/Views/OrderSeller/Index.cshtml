@@ -1,0 +1,117 @@
+﻿@model Query.Contract.UserPanel.Order.Seller.OrderSellerPaging
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "فروش شما";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-12">
+            <h1 class="title-tab-content">لیست فروش شما</h1>
+        </div>
+        <div class="content-section default">
+            <div class="table-responsive">
+                <table class="table table-order">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">شماره</th>
+                            <th scope="col">فروشگاه</th>
+                            <th scope="col">وضعیت</th>
+                            <th scope="col">جمع کل</th>
+                            <th scope="col">جمع کل با تخفیف</th>
+                            <th scope="col">هزینه پست</th>
+                            <th scope="col">کد تخفیف</th>
+                            <th scope="col">مبلغ قابل پرداخت</th>
+                            <th scope="col">تاریخ ویرایش</th>
+                            <th scope="col"> - </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.OrderSellers.Count() > 0){
+                            foreach (var item in Model.OrderSellers)
+                            {
+                                <tr>
+                                    <td>f_@item.Id</td>
+                                    <td>@item.SellerName</td>
+                                    <td class="order-code">@item.Status.ToString().Replace("_"," ")</td>
+                                    <td>@item.Price.ToString("#,0")</td>
+                                    <td>@item.PriceAfterOff.ToString("#,0")</td>
+                                    <td>@item.PostPrice.ToString("#,0")</td>
+                                    <td>
+                                        @if (item.DiscountPercent > 0)
+                                        {
+                                            <span class="text-success">
+                                                @item.DiscountPercent % - @item.DiscountTitle - @item.DiscountPrice.ToString("#,0") تومان
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger"> - </span>
+                                        }
+                                    </td>
+                                    <td>@item.PaymentPrice.ToString("#,0")</td>
+                                    <td>@item.UpdateDate</td>
+                                    <td>
+                                        @if(item.Status != OrderSellerStatus.پرداخت_نشده){
+                                            <a title="جزییات و ویرایش" class="btn btn-sm btn-info" asp-action="Detail" asp-route-id="@item.Id">
+                                                <i class="now-ui-icons ui-2_settings-90">
+
+                                                </i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else{
+                            <tr>
+                                <td colspan="10" class="text-center">
+                                    موردی  برای نمایش نیست
+                                </td>
+                            </tr>
+                        }
+                       
+                    </tbody>
+                </table>
+            </div>
+            @if (Model.PageCount > 1)
+            {
+                <div class="pager default text-center">
+                    <ul class="pager-items mb-0">
+                        <li>
+                            <a class="pager-item" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=1">1</a>
+                        </li>
+                        @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                        {
+                            if (i > 1)
+                            {
+                                if (i == Model.PageId)
+                                {
+                                    <li>
+                                        <a class="pager-item is-active">@i</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a class="pager-item" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=@i">@i</a>
+                                    </li>
+                                }
+                            }
+
+                        }
+                        @if (Model.PageId < Model.PageCount)
+                        {
+                            <line class="pager-items--partition"></line>
+                            <li>
+                                <a class="pager-next" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=@(Model.PageId + 1)"></a>
+                            </li>
+                        }
+                        <li>
+                            <a class="pager-item is-active" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=@Model.PageCount">@Model.PageCount</a>
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+</div>

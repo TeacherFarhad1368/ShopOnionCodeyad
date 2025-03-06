@@ -35,6 +35,31 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
         }
     }
 
+    public async Task<bool> ChnageOrderSellerStatusBySellerAsync(int orderSellerId, OrderSellerStatus status, int userId)
+    {
+        var orderSeller = await _context.OrderSellers.Include(s => s.Order).Include(s=>s.Seller)
+            .SingleOrDefaultAsync(s => s.Id == orderSellerId);
+        if (orderSeller == null || orderSeller.Seller.UserId != userId ) return false;
+        switch (orderSeller.Status)
+        {
+            case OrderSellerStatus.پرداخت_شده:
+                if (status == OrderSellerStatus.لغو_شده_توسط_فروشنده || status == OrderSellerStatus.در_حال_آماده_سازی)
+                {
+                    orderSeller.ChangeStatus(status);
+                    return await SaveAsync();
+                }
+                break;
+            case OrderSellerStatus.در_حال_آماده_سازی:
+                if (status == OrderSellerStatus.لغو_شده_توسط_فروشنده || status == OrderSellerStatus.ارسال_شده)
+                {
+                    orderSeller.ChangeStatus(status);
+                    return await SaveAsync();
+                }
+                break;
+        }
+        return false;
+    }
+
     public async Task<int> CreateOrderaddressReturnKey(OrderAddress orderAddress)
     {
         await _context.OrderAddresses.AddAsync(orderAddress);
@@ -83,7 +108,7 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
     {
         var item = await _context.OrderItems.Include(i => i.OrderSeller)
             .ThenInclude(s => s.Order).SingleOrDefaultAsync(o => o.Id == id && o.OrderSeller.Order.UserId == userId);
-        if (item == null) return new(false, "موردی یافت نشد");
+        if (item == null || item.OrderSeller.Order.OrderStatus != OrderStatus.پرداخت_نشده) return new(false, "موردی یافت نشد");
         if(item.Count == 1)
         {
             bool oh = await DeleteOrderItemAsync(id,userId);
@@ -102,7 +127,7 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
     {
         var item = await _context.OrderItems.Include(i => i.OrderSeller)
             .ThenInclude(s => s.Order).SingleOrDefaultAsync(o => o.Id == id && o.OrderSeller.Order.UserId == userId);
-        if (item == null) return new(false, "موردی یافت نشد");
+        if (item == null || item.OrderSeller.Order.OrderStatus != OrderStatus.پرداخت_نشده) return new(false, "موردی یافت نشد");
         var productSell = await _context.ProductSells.FindAsync(item.ProductSellId);
         if (productSell.Amount <= item.Count) return new(false, "موجودی  نداریم");
         item.PlusCount(1);

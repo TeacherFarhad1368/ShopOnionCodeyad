@@ -17,4 +17,5 @@ public interface IOrderApplication
     Task<OperationResult> OrderItemPlus(int id, int userId);
     Task<bool> UbsertOpenOrderForUserAsync(int _userId,List<ShopCartViewModel> cart);
     Task<bool> PaymentSuccessOrderAsync(int userId, int price);
+    Task<bool> ChnageOrderSellerStatusBySellerAsync(int orderSellerId, OrderSellerStatus status, int userId);
 }

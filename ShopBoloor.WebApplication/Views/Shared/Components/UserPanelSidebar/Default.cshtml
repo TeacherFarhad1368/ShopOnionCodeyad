@@ -62,6 +62,11 @@
                         <i class="now-ui-icons shopping_basket"></i>
                         مدیریت تخفیفات
                     </a>
+                    <a href="/UserPanel/OrderSeller" class="dropdown-item
+               @(route.ToString().ToLower().Contains("/userpanel/orderseller")  ? "active-menu" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                       فاکتور های فروشگاه
+                    </a>
                 }
                 @if (Model.HaveUserOrderPost)
                 {
@@ -76,6 +81,11 @@
                         راهنمای Api پست
                     </a>
                 }
+                <a href="/UserPanel/Order/Orders" class="dropdown-item
+            @(route.ToString().ToLower().Contains("/userpanel/order")  ? "active-menu" : "")">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                    فاکتور ها
+                </a>
                 <a href="/UserPanel/Wallet" class="dropdown-item
             @(route.ToString().ToLower().Contains("/userpanel/wallet")  ? "active-menu" : "")">
                     <i class="now-ui-icons files_single-copy-04"></i>
@@ -144,6 +154,13 @@
                         مدیریت تخفیفات
                     </a>
                 </li>
+                <li>
+                    <a href="/UserPanel/OrderSeller" class="
+               @(route.ToString().ToLower().Contains("/userpanel/orderseller")  ? "active" : "")">
+                        <i class="now-ui-icons shopping_basket"></i>
+                        فاکتور های فروشگاه
+                    </a>
+                </li>
             }
             @if (Model.HaveUserOrderPost)
             {
@@ -162,6 +179,13 @@
                     </a>
                 </li>
             }
+            <li>
+                <a href="/UserPanel/Order/Orders" class="
+                 @(route.ToString().ToLower().Contains("/userpanel/order")  ? "active" : "")">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                    فاکتور ها
+                </a>
+            </li>
             <li>
                 <a href="/UserPanel/Wallet" class="
                  @(route.ToString().ToLower().Contains("/userpanel/wallet")  ? "active" : "")">

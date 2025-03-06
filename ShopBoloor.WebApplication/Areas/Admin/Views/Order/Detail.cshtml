@@ -1,0 +1,168 @@
+﻿@model Query.Contract.Admin.Order.OrderDetailForAdminQueryModel
+
+@{
+    ViewData["Title"] = "جزییات فاکتور";
+}
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"> جزییات فاکتور شماره F_@Model.Id</h3>
+                    <hr />
+                    <div class="alert" style="color:white !important;background-color:#3a3a3a !important;border:none !important">
+                        وضعیت سفارش = @Model.OrderStatus.ToString().Replace('_', ' ')
+                    </div>
+                </div>
+                <div class="box-body table-overflow">
+                    <div class="alert" style="color:white !important;background-color:orangered !important;border:none !important;text-align:center !important">
+                        <h3>کاربر</h3>
+                        <p>نام کاربر : @Model.User.FullName </p>
+                        <p>موبایل کاربر : @Model.User.Mobile</p>
+                        <p>ایمیل کاربر : @Model.User.Email</p>
+                    </div>
+                    <p>
+                        <b>آدرس : </b>
+                        @if(Model.OrderAddress == null)
+                        {
+                            <span>
+                                آدرس وارد نشده است .
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+
+                                آدرس تحویل سفارش :استان =   @Model.OrderAddress.State - شهر = @Model.OrderAddress.City - آدرس =
+                                @Model.OrderAddress.AddressDetail - کد پستی = @Model.OrderAddress.PostalCode
+                            </span>
+                        }
+
+                    </p>
+                    <p>
+                        <b> گیرنده</b>
+                        @if (Model.OrderAddress == null)
+                        {
+                        <span>
+                                آدرس وارد نشده است .
+                        </span>
+                        }
+                        else
+                        {
+                            <span>
+                                :  نام ونام خانوادگی تحویل گیرنده @Model.OrderAddress.FullName ,
+                                شماره تماس تحویل گیرنده :  @Model.OrderAddress.Phone ,
+                                کد ملی : @Model.OrderAddress.IranCode
+                            </span>
+                        }
+                        
+                    </p>
+                    <hr />
+                    <p><b>  پست :</b> @Model.PostPrice.ToString("#,0") تومان</p>
+                    <p><b> جمع هزینه محصولات :</b> @Model.Price.ToString("#,0") تومان</p>
+                    <p><b> جمع هزینه محصولات پس از تخفیف :</b> @Model.PriceAfterOff.ToString("#,0") تومان</p>
+                    <p><b> جمع هزینه ریز فاکتور ها :</b> @Model.PaymentPriceSeller.ToString("#,0") تومان</p>
+                    @if (Model.DiscountPercent > 0)
+                    {
+                        <p>
+                            <b>
+                                تخفیف : @Model.DiscountTitle
+                            </b> 
+                        </p>
+                    }
+                    <p><b> جمع سفارش :</b> @Model.PaymentPrice.ToString("#,0") تومان</p>
+                    <hr />
+                    @foreach (var seller in Model.OrderSellers)
+                    {
+                        <div class="table-responsive m-2 p-2" style="margin-top:15px !important;border: 2px solid black !important">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="5" class="text-center py-2">فروشگاه :  @seller.SellerAddress</td>
+                                    </tr>
+                                    @foreach (var item in seller.OrderItems)
+                                    {
+                                        <tr class="checkout-item">
+                                            <td>
+                                                <img src="@item.ProductImageName" alt="@item.ProductTitle"
+                                                     style="max-height:50px !important;max-width:100px !important">
+                                            </td>
+                                            <td>
+                                                <h3 class="checkout-title">
+                                                    @item.ProductTitle - @item.Unit
+                                                </h3>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <span>@item.Count</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @if (item.Price != item.PriceAfterOff)
+                                                {
+                                                    <del class="text-danger">@item.Price.ToString("#,0")</del>
+                                                    <span class="text-info">@item.PriceAfterOff.ToString("#,0")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-info">@item.Price.ToString("#,0")</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.SumPrice != item.SumPriceAfterOff)
+                                                {
+                                                    <del class="text-danger">@item.SumPrice.ToString("#,0")</del>
+                                                    <span class="text-info">@item.SumPriceAfterOff.ToString("#,0")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-info">@item.SumPrice.ToString("#,0")</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td colspan="5" class="text-center py-2">
+                                            @if (seller.Price > seller.PriceAfterOff)
+                                            {
+                                                <del class="text-danger"> @seller.Price.ToString("#,0")</del>
+                                                <span> - </span>
+                                                <span class="text-success">@seller.PriceAfterOff.ToString("#,0")</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-success">@seller.Price.ToString("#,0")</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                    @if (seller.DiscountId > 0)
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center py-2">
+                                                <span class="text-success">@seller.DiscountPercent % تخفیف ( @seller.DiscountTitle ) - @seller.DiscountPrice.ToString("#,0") تومان</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        @if (!string.IsNullOrEmpty(seller.PostTitle))
+                                        {
+                                            <td colspan="2" style="align-content: center;" class="text-center py-2"> پست : @seller.PostTitle</td>
+                                            <td colspan="2" style="align-content: center;" class="text-center py-2"> هزینه ارسال : @seller.PostPrice.ToString("#,0")</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="text-center py-2"> مبلغ پرداختی : @seller.PaymentPrice.ToString("#,0")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="text-center py-2"> وضعیت : @seller.Status.ToString().Replace("_", " ")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                   }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -208,6 +208,114 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
         return model;
     }
 
+    public OrderDetailForUserPanelQueryModel GetOrderDetailForUserPanel(int id, int userId)
+    {
+        var order = _shopContext.Orders.Include(o=>o.OrderSellers).ThenInclude(s=>s.OrderItems)
+            .SingleOrDefault(o=>o.Id == id && o.UserId == userId);
+        if (order == null) return null;
+        OrderDetailForUserPanelQueryModel model = new()
+        {
+            OrderAddress = new(),
+            PriceAfterOff = order.PriceAfterOff,
+            DiscountPercent = order.DiscountPercent,
+            DiscountTitle = order.DiscountTitle,
+            Id = order.Id,
+            OrderPayment = order.OrderPayment,
+            OrderSellers = order.OrderSellers.Select(s=> new OrderSellerDetailForUserPanelQueryModel
+            {
+                PriceAfterOff= s.PriceAfterOff,
+                SellerAddress = "",
+                DiscountId = s.DiscountId,
+                DiscountPercent= s.DiscountPercent,
+                DiscountTitle= s.DiscountTitle,
+                Id= s.Id,
+                DiscountPrice = s.DiscountPercent * s.PriceAfterOff / 100,
+                OrderId = s.OrderId,
+                OrderItems = s.OrderItems.Select(i=> new OrderItemDetailForUserPanelQueryModel
+                {
+                    PriceAfterOff = i.PriceAfterOff,
+                    SumPriceAfterOff= i.SumPriceAfterOff,
+                    Count = i.Count,
+                    Id= i.Id,
+                    OrderSellerId = i.OrderSellerId,
+                    Price = i.Price,
+                    ProductId = 0,
+                    ProductImageName = "",
+                    ProductSellId = i.ProductSellId,
+                    ProductTitle = "",
+                    SumPrice = i.SumPrice,
+                    Unit = i.Unit
+                }).ToList(),
+                PaymentPrice = s.PaymentPrice,
+                PostId = s.PostId,
+                PostPrice = s.PostPrice,
+                PostTitle = s.PostTitle,
+                Price = s.Price,
+                SellerId = s.SellerId,
+                Status = s.Status,
+            }).ToList(),
+            OrderStatus = order.OrderStatus,
+            PaymentPrice = order.PaymentPrice,
+            PaymentPriceSeller = order.PaymentPriceSeller,
+            PostPrice = order.PostPrice,
+            Price = order.Price,    
+            UpdateDate = order.UpdateDate.ToPersainDate()
+        };
+        var address = _shopContext.OrderAddresses.Single(o => o.Id == order.OrderAddressId);
+        var city = _post_Context.Cities.Include(c => c.State).Single(c => c.Id == address.CityId && c.StateId == address.StateId);
+        model.OrderAddress = new()
+        {
+            AddressDetail = address.AddressDetail,
+            City = city.Title,
+            CityId = address.CityId,    
+            FullName = address.FullName,    
+            IranCode = address.IranCode,
+            Phone = address.Phone,
+            PostalCode = address.PostalCode,
+            State = city.State.Title,
+            StateId = address.StateId
+        };
+        foreach(var seller in model.OrderSellers)
+        {
+            var s = _shopContext.Sellers.Find(seller.SellerId);
+            var c = _post_Context.Cities.Include(c => c.State).Single(c => c.Id == s.CityId && c.StateId == s.StateId);
+            seller.SellerAddress = $"{s.Title} - {c.State.Title} - {c.Title} - {s.Address}";
+            foreach(var item in seller.OrderItems)
+            {
+                var productSell = _shopContext.ProductSells.Include(p => p.Product).Single(s => s.Id == item.ProductSellId);
+                item.ProductId = productSell.ProductId;
+                item.ProductTitle = productSell.Product.Title;
+                item.ProductImageName = $"{FileDirectories.ProductImageDirectory100}{productSell.Product.ImageName}";
+            }
+        }
+        return model;   
+    }
+
+    public OrderUserPanelPaging GetOrdersForUserPanel(int userId, int pageId, int take)
+    {
+        var res = _shopContext.Orders.Include(o=>o.OrderSellers).ThenInclude(s=>s.OrderItems).Where(o => o.UserId == userId).OrderByDescending(o=>o.Id);
+        OrderUserPanelPaging model = new();
+        model.GetData(res, pageId, take,2);
+        model.Orders = new();
+        if (res.Count() > 0)
+            model.Orders = res.Skip(model.Skip).Take(model.Take)
+                .Select(o => new OrderForUserPanelQueryModel
+                {
+                    PriceAfterOff = o.PriceAfterOff,
+                    CreationDate = o.CreateDate.ToPersainDate(),
+                    DiscountPercent = o.DiscountPercent,
+                    DiscountTitle = o.DiscountTitle,
+                    Id = o.Id,
+                    OrderStatus = o.OrderStatus,
+                    PaymentPrice = o.PaymentPrice,
+                    PaymentPriceSeller = o.PaymentPriceSeller,
+                    PostPrice = o.PostPrice,
+                    Price = o.Price,
+                    UpdateDate = o.UpdateDate.ToPersainDate()
+                }).ToList();
+        return model;
+    }
+
     public async Task<bool> HaveUserOpenOrderAsync(int userId) =>
         await _shopContext.Orders.AnyAsync(s => s.UserId == userId &&
             s.OrderStatus == Shared.Domain.Enum.OrderStatus.پرداخت_نشده);

@@ -1,0 +1,146 @@
+﻿@model Query.Contract.UserPanel.Order.OrderDetailForUserPanelQueryModel
+@using Shared.Domain.Enum;
+@{
+    ViewData["Title"] = "جزییات فاکتور ";
+}
+<style>
+    .table td, .table th{
+        padding:0 !important;
+    }
+</style>
+<main class="cart-page default">
+    <div class="container">
+        <div class="row">
+            <div class="cart-page-content col-xl-12 col-lg-12 col-md-12">
+                <div>
+                    <div class="table-responsive checkout-content default m-2 p-2 border border-1">
+                        <h5 class="text-center">جزییات فاکتور شماره @Model.Id</h5>
+                        <table class="table">
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> وضعیت : @Model.OrderStatus.ToString().Replace("_", " ")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> پرداخت : @Model.OrderPayment.ToString().Replace("_", " ")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2">@Model.DiscountPercent % برای کد تخفیف @Model.DiscountTitle</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> جمع کل : @Model.Price.ToString("#,0")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> جمع کل با تخفیف : @Model.PriceAfterOff.ToString("#,0")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> هزینه پست : @Model.PostPrice.ToString("#,0")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> پرداختی ریز فاکتور ها : @Model.PaymentPriceSeller.ToString("#,0")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> مبلغ پرداختی : @Model.PaymentPrice.ToString("#,0")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2"> تاریخ ویرایش : @Model.UpdateDate</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2">
+                                    آدرس : @Model.OrderAddress.State - @Model.OrderAddress.City =
+                                    @Model.OrderAddress.AddressDetail - @Model.OrderAddress.PostalCode  - @Model.OrderAddress.Phone -
+                                    @Model.OrderAddress.FullName - @Model.OrderAddress.IranCode
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                @foreach (var seller in Model.OrderSellers)
+                {
+                    
+                    <div class="table-responsive checkout-content default m-2 p-2 border border-1">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="text-center py-2">فروشگاه :  @seller.SellerAddress</td>
+                                </tr>
+                                @foreach(var item in seller.OrderItems)
+                                {
+                             <tr class="checkout-item">
+                                 <td>
+                                            <img src="@item.ProductImageName" alt="@item.ProductTitle" 
+                                            style="max-height:50px !important;max-width:100px !important">
+                                        </td>
+                                 <td>
+                                            <h3 class="checkout-title">
+                                                @item.ProductTitle - @item.Unit
+                                            </h3>
+                                        </td>
+                                 <td>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <span>@item.Count</span>
+                                            </div>
+                                        </td>
+                                 <td>
+                                            @if(item.Price != item.PriceAfterOff){
+                                                <del class="text-danger">@item.Price.ToString("#,0")</del>
+                                                <span class="text-info">@item.PriceAfterOff.ToString("#,0")</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-info">@item.Price.ToString("#,0")</span>
+                                            }
+                                        </td>
+                                 <td>
+                                            @if (item.SumPrice != item.SumPriceAfterOff)
+                                            {
+                                                <del class="text-danger">@item.SumPrice.ToString("#,0")</del>
+                                                <span class="text-info">@item.SumPriceAfterOff.ToString("#,0")</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-info">@item.SumPrice.ToString("#,0")</span>
+                                            }
+                                        </td>
+                            </tr>
+                           }
+                                <tr>
+                                    <td colspan="5" class="text-center py-2">
+                                        @if(seller.Price > seller.PriceAfterOff){
+                                            <del class="text-danger"> @seller.Price.ToString("#,0")</del>
+                                            <span> - </span>
+                                            <span class="text-success">@seller.PriceAfterOff.ToString("#,0")</span>
+                                        }
+                                       else{
+                                            <span class="text-success">@seller.Price.ToString("#,0")</span>
+                                       }
+                                        </td>
+                                </tr>
+                                @if (seller.DiscountId > 0)
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center py-2">
+                                            <span class="text-success">@seller.DiscountPercent % تخفیف ( @seller.DiscountTitle ) - @seller.DiscountPrice.ToString("#,0") تومان</span>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    @if (!string.IsNullOrEmpty(seller.PostTitle))
+                                    {
+                                        <td colspan="2" style="align-content: center;" class="text-center py-2"> پست : @seller.PostTitle</td>
+                                        <td colspan="2" style="align-content: center;" class="text-center py-2"> هزینه ارسال : @seller.PostPrice.ToString("#,0")</td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center py-2"> مبلغ پرداختی : @seller.PaymentPrice.ToString("#,0")</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center py-2"> وضعیت : @seller.Status.ToString().Replace("_"," ")</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+                }
+               
+            </div>
+        </div>
+    </div>
+</main>

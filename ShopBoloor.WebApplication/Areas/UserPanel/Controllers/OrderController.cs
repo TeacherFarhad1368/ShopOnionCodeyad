@@ -271,7 +271,7 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             else
             {
                 if (res.OrderAddress == null || res.OrderAddress.CityId == 0)
-                    model.message = "";
+                    model.message = "برای محاسبه قیمت پست ابتدا آدرس را وارد کنید .";
                 else
                 {
                     var orderseller = res.Ordersellers.SingleOrDefault(s => s.Id == id);
@@ -468,6 +468,20 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             }
             var json = JsonSerializer.Serialize(res);
             return Json(json);
+        }
+        public IActionResult Detail(int id)
+        {
+            _userId = _authService.GetLoginUserId();
+            var model = _orderUserPanelQuery.GetOrderDetailForUserPanel(id, _userId);
+            if (model == null) return NotFound();
+            if (model.OrderStatus == OrderStatus.پرداخت_نشده) return RedirectToAction("Order");
+            return View(model); 
+        }
+        public IActionResult Orders(int pageId = 1)
+        {
+            _userId = _authService.GetLoginUserId();
+            var model = _orderUserPanelQuery.GetOrdersForUserPanel(_userId, pageId, 15);
+            return View(model);
         }
     }
     public class PostResposeModel
