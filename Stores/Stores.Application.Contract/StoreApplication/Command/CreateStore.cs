@@ -10,10 +10,13 @@ public class CreateStore
         Description = description;
         Products = products;
     }
-
-    public int SellerId { get; private set; }
-    public string Description { get; private set; }
-    public List<CreateStoreProduct> Products { get; private set; }
+    public CreateStore()
+    {
+        
+    }
+    public int SellerId { get; set; }
+    public string Description { get; set; }
+    public List<CreateStoreProduct> Products { get; set; }
 }
 public class CreateStoreProduct
 {
@@ -23,8 +26,11 @@ public class CreateStoreProduct
         Type = type;
         Count = count;
     }
-
-    public int ProductSellId { get; private set; }
-    public StoreProductType Type { get; private set; }
-    public int Count { get; private set; }
+    public CreateStoreProduct()
+    {
+        
+    }
+    public int ProductSellId { get; set; }
+    public StoreProductType Type { get; set; }
+    public int Count { get; set; }
 }

@@ -156,6 +156,12 @@ internal class SellerUserPanelQuery : ISellerUserPanelQuery
         return model;
     }
 
+    public int GetSellerUserId(int sellerId)
+    {
+        var seller= _sellerRepository.GetById(sellerId);
+        return seller.UserId;
+    }
+
     public List<int> GetUserSellerIds(int userId)
     {
         return _shopContext.Sellers.Where(s=>s.UserId == userId).Select(s => s.Id).ToList();    

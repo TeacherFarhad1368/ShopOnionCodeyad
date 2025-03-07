@@ -188,14 +188,15 @@ internal class OrderApplication : IOrderApplication
         return new(false,ValidationMessages.SystemErrorMessage);
     }
 
-    public async Task<bool> PaymentSuccessOrderAsync(int userId, int price)
+    public async Task<int> PaymentSuccessOrderAsync(int userId, int price)
     {
         var order = await _orderRepository.GetOpenOrderForUserAsync(userId);
-        if(order.PaymentPrice != price) return false;   
+        if(order.PaymentPrice != price) return 0;   
         order.ChamgeStatus(OrderStatus.پرداخت_شده);
         foreach (var item in order.OrderSellers)
             item.ChangeStatus(OrderSellerStatus.پرداخت_شده);
-        return await _orderRepository.SaveAsync();
+        if (await _orderRepository.SaveAsync()) return order.Id;
+        return 0;   
     }
 
     public async Task<bool> ChnageOrderSellerStatusBySellerAsync(int orderSellerId, OrderSellerStatus status, int userId)=>

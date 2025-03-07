@@ -12,6 +12,11 @@ using System.Net;
 using System.Text;
 using Azure;
 using Shop.Application.Contract.OrderApplication.Command;
+using Query.Contract.UserPanel.Store;
+using Shop.Application.Contract.ProductSellApplication.Command;
+using Stores.Application.Contract.StoreApplication.Command;
+using Query.Contract.UserPanel.Order;
+using Query.Contract.UserPanel.Seller;
 namespace ShopBoloor.WebApplication.Controllers
 {
     public class WalletController : Controller
@@ -20,14 +25,23 @@ namespace ShopBoloor.WebApplication.Controllers
         private readonly ITransactionApplication _transactionApplication;
         private readonly IWalletApplication _walletApplication;
         private readonly IOrderApplication _orderApplication;
-
+        private readonly IOrderUserPanelQuery _orderUserPanelQuery;
+        private readonly ISellerUserPanelQuery _sellerUserPanelQuery;
+        private readonly IStoreApplication _storeApplication;
+        private readonly IProductSellApplication _productSellApplication;
         public WalletController(IOptions<SiteData> option, ITransactionApplication transactionApplication,
-            IWalletApplication walletApplication,IOrderApplication orderApplication)
+            IWalletApplication walletApplication,IOrderApplication orderApplication, IOrderUserPanelQuery orderUserPanelQuery,
+            ISellerUserPanelQuery sellerUserPanelQuery, IStoreApplication storeApplication,
+            IProductSellApplication productSellApplication)
         {
             _data = option.Value;
             _transactionApplication = transactionApplication;
             _walletApplication = walletApplication;
             _orderApplication = orderApplication;   
+            _orderUserPanelQuery = orderUserPanelQuery;
+            _sellerUserPanelQuery = sellerUserPanelQuery; 
+            _productSellApplication = productSellApplication;   
+            _storeApplication = storeApplication;
         }
 
         public async Task<IActionResult> Payment( string authority, string status)
@@ -87,7 +101,8 @@ namespace ShopBoloor.WebApplication.Controllers
                                         }
                                         break;
                                     case TransactionFor.Order:
-                                        await _orderApplication.PaymentSuccessOrderAsync(transactiom.UserId, transactiom.Price);
+                                       var orderId = await _orderApplication.PaymentSuccessOrderAsync(transactiom.UserId, transactiom.Price);
+                                        await CheckProductAmoutsAfterPaymentAsync(orderId);
                                         break;
                                     default:
                                         break;
@@ -128,6 +143,40 @@ namespace ShopBoloor.WebApplication.Controllers
                 }
 
                 return View(model);
+            }
+        }
+        public async Task CheckProductAmoutsAfterPaymentAsync(int orderId)
+        {
+            var model = _orderUserPanelQuery.GetOrderDetailForUserPanel(orderId);
+            foreach(var orderSeller in model.OrderSellers)
+            {
+                var userId = _sellerUserPanelQuery.GetSellerUserId(orderSeller.SellerId);
+                CreateStore res = new()
+                {
+                    Description = $"پرداخت فاکتور شماره {orderSeller.Id}",
+                    SellerId = orderSeller.SellerId,
+                    Products = new List<CreateStoreProduct>()
+                };
+                foreach(var item in orderSeller.OrderItems)
+                {
+                    CreateStoreProduct create = new()
+                    {
+                        Count = item.Count,
+                        ProductSellId = item.ProductSellId,
+                        Type = StoreProductType.کاهش
+                    };
+                    res.Products.Add(create);
+                }
+                var result = await _storeApplication.CreateAsync(userId, res);
+                if (result.Success)
+                {
+                    await _productSellApplication.EditProductSellAmountAsync(res.Products.Select(r => new EditProdoctSellAmount
+                    {
+                        count = r.Count,
+                        SellId = r.ProductSellId,
+                        Type = r.Type
+                    }).ToList());
+                }
             }
         }
     }

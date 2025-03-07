@@ -6,6 +6,7 @@ using PostModule.Application.Contract.PostCalculate;
 using PostModule.Application.Contract.StateQuery;
 using Query.Contract.UserPanel.Address;
 using Query.Contract.UserPanel.Order;
+using Query.Contract.UserPanel.Seller;
 using Query.Contract.UserPanel.User;
 using Query.Contract.UserPanel.Wallet;
 using Shared.Application;
@@ -13,7 +14,9 @@ using Shared.Application.Services.Auth;
 using Shared.Domain.Enum;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.OrderApplication.Query;
+using Shop.Application.Contract.ProductSellApplication.Command;
 using ShopBoloor.WebApplication.Utility;
+using Stores.Application.Contract.StoreApplication.Command;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -42,11 +45,15 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
         private readonly IUserPanelWalletQuery _userPanelWalletQuery;
         private readonly IWalletApplication _walletApplication;
         private readonly IUserPanelQuery _userPanelQuery;
+        private readonly ISellerUserPanelQuery _sellerUserPanelQuery;
+        private readonly IStoreApplication _storeApplication;
+        private readonly IProductSellApplication _productSellApplication;
         public OrderController(IAuthService authService, IOrderApplication orderApplication, IOrderQuery orderQuery,
             IOrderUserPanelQuery orderUserPanelQuery, IOrderDiscountApplication orderDiscountApplication, IUserPanelQuery userPanelQuery,
             IUserAddressUserPanelQuery userAddressUserPanelQuery, IUserAddressApplication userAddressApplication,
             IStateQuery stateQuery, IPostCalculateApplication postCalculateApplication, ITransactionApplication transactionApplication,
-            IOptions<SiteData> option, IUserPanelWalletQuery userPanelWalletQuery, IWalletApplication walletApplication)
+            IOptions<SiteData> option, IUserPanelWalletQuery userPanelWalletQuery, IWalletApplication walletApplication,
+            ISellerUserPanelQuery sellerUserPanelQuery,IStoreApplication storeApplication,IProductSellApplication productSellApplication)
         {
             _authService = authService;
             _orderApplication = orderApplication;
@@ -62,6 +69,9 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             _userPanelWalletQuery = userPanelWalletQuery;   
             _walletApplication = walletApplication;
             _userPanelQuery = userPanelQuery;
+            _sellerUserPanelQuery = sellerUserPanelQuery;
+            _storeApplication = storeApplication;
+            _productSellApplication = productSellApplication;
         }
 
         public async Task<IActionResult> Order()
@@ -447,8 +457,10 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
                             });
                             if (result.Success)
                             {
-                                if(await _orderApplication.PaymentSuccessOrderAsync(_userId, model.PaymentPrice))
+                                var orderId = await _orderApplication.PaymentSuccessOrderAsync(_userId, model.PaymentPrice);
+                                if (orderId > 0)
                                 {
+                                    await CheckProductAmoutsAfterPaymentAsync(orderId);
                                     res.Success = true;
                                     res.Message = "فاکتور با موفقیت از کیف پول شما پرداخت شد ";
                                     res.Url = $"/UserPanel/Order/Detail/{model.OrderId}";
@@ -482,6 +494,41 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
             _userId = _authService.GetLoginUserId();
             var model = _orderUserPanelQuery.GetOrdersForUserPanel(_userId, pageId, 15);
             return View(model);
+        }
+
+        public async Task CheckProductAmoutsAfterPaymentAsync(int orderId)
+        {
+            var model = _orderUserPanelQuery.GetOrderDetailForUserPanel(orderId);
+            foreach (var orderSeller in model.OrderSellers)
+            {
+                var userId = _sellerUserPanelQuery.GetSellerUserId(orderSeller.SellerId);
+                CreateStore res = new()
+                {
+                    Description = $"پرداخت فاکتور شماره {orderSeller.Id}",
+                    SellerId = orderSeller.SellerId,
+                    Products = new List<CreateStoreProduct>()
+                };
+                foreach (var item in orderSeller.OrderItems)
+                {
+                    CreateStoreProduct create = new()
+                    {
+                        Count = item.Count,
+                        ProductSellId = item.ProductSellId,
+                        Type = StoreProductType.کاهش
+                    };
+                    res.Products.Add(create);
+                }
+                var result = await _storeApplication.CreateAsync(userId, res);
+                if (result.Success)
+                {
+                    await _productSellApplication.EditProductSellAmountAsync(res.Products.Select(r => new EditProdoctSellAmount
+                    {
+                        count = r.Count,
+                        SellId = r.ProductSellId,
+                        Type = r.Type
+                    }).ToList());
+                }
+            }
         }
     }
     public class PostResposeModel

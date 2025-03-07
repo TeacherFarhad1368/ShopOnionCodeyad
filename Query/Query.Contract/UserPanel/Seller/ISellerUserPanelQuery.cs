@@ -11,6 +11,7 @@ public interface ISellerUserPanelQuery
     List<int> GetUserSellerIds(int userId);
     Task<bool> IsProductSellForUser(int userId, int id);
     bool IsSellerForUser(int id, int userId);
+    int GetSellerUserId(int sellerId);
 }
 
 public class SellersForAddDiscountUserPanelQueryModel
