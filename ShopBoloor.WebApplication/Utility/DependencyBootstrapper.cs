@@ -18,6 +18,7 @@ namespace ShopBoloor.WebApplication.Utility
     {
         public static void Config(IServiceCollection services1,string connection)
         {
+            services1.AddHttpClient();
             services1.AddHttpContextAccessor();
             services1.AddAuthentication(x =>
             {

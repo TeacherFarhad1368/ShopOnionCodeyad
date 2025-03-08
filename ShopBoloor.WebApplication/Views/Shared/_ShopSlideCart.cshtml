@@ -1,0 +1,71 @@
+﻿@model ProductCartForIndexQueryModel
+@using Query.Contract.UI.Product;
+<div class="item">
+    <div class="el-product-card">
+        <div class="el-product-thumbnail">
+            <a href="/Product/@Model.Id/@Model.Slug">
+                <img src="@Model.ImageName" alt="@Model.ImageAlt">
+            </a>
+            <div class="el-product-actions">
+                <ul>
+                    <li>
+                        <a href="#" data-toggle="tooltip" data-placement="bottom"
+                           title="افزودن به لیست علاقمندی">
+                            <i class="fad fa-heart"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Product/@Model.Id/@Model.Slug" data-toggle="tooltip" data-placement="bottom"
+                           title="جزییات و خرید">
+                            <i class="fad fa-eye"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="el-product-card-body">
+            <div class="el-product-title">
+                <h6>
+                    <a href="/Product/@Model.Id/@Model.Slug">
+                       @Model.Title
+                    </a>
+                </h6>
+            </div>
+            <div class="el-product-info">
+                <div class="el-product-status">
+                    <i class="fad fa-box-check"></i> موجود
+                    در انبار
+                </div>
+                <div class="el-product-rating">
+                    <i class="fas fa-stars star"></i>
+                    <strong>۴.۴</strong>
+                    <span>(@Model.Amount)</span>
+                </div>
+            </div>
+            <div class="el-product-price">
+                @if(Model.Price > Model.PriceAfterOff){
+                    <del class="text-danger">
+                        @Model.Price.ToString("#,0")
+                    </del>
+                    <br />
+                    <span class="el-price-value">@Model.PriceAfterOff.ToString("#,0")</span>
+                    <span class="el-price-currency">تومان</span>
+                }
+                else{
+                    <span class="el-price-value">@Model.Price.ToString("#,0")</span>
+                    <span class="el-price-currency">تومان</span>
+                }
+            </div>
+        </div>
+        <div class="el-product-card-footer">
+            <div class="el-product-seller-details">
+                <i class="fad fa-store-alt"></i>
+                <span class="el-product-seller-details-label">فروشنده:</span>
+                <span class="el-product-seller-details--name">@Model.Shop</span>
+                <img src="./Assets/img/seller-logo-small.svg"
+                     class="el-product-seller-details--logo-small"
+                     alt="seller-details--logo-small">
+            </div>
+        </div>
+    </div>
+</div>

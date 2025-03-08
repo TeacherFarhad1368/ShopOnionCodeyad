@@ -2,6 +2,8 @@
 using Shop.Domain.ProductCategoryRelationAgg;
 using Shop.Domain.ProductGalleryAgg;
 using Shop.Domain.ProductSellAgg;
+using Shop.Domain.ProductVisitAgg;
+using Shop.Domain.WishListAgg;
 namespace Shop.Domain.ProductAgg
 {
     public class Product : BaseEntityCreateUpdateActive<int>
@@ -17,6 +19,8 @@ namespace Shop.Domain.ProductAgg
         public List<ProductFeature> ProductFeatures { get; private set; }
         public List<ProductGallery> ProductGalleries { get; private set; }
         public List<ProductSell> ProductSells { get; private set; }
+        public List<ProductVisit> ProductVisits { get; private set; }
+        public List<WishList> WishLists { get; private set; }
         public void EditCategoryRelations(List<ProductCategoryRelation> categoryRelations)
         {
             ProductCategoryRelations = categoryRelations;   
@@ -27,6 +31,8 @@ namespace Shop.Domain.ProductAgg
             ProductFeatures = new();
             ProductGalleries = new();
             ProductSells = new();
+            ProductVisits = new();
+            WishLists = new();
         }
 
         public void Edit(string title, string slug, string shortDescription,

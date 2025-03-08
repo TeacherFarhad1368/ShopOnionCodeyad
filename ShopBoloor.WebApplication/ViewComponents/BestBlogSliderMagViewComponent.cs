@@ -1,19 +1,18 @@
 ﻿using Blogs.Application.Contract.BlogApplication.Query;
 using Microsoft.AspNetCore.Mvc;
-using Site.Application.Contract.SiteSettingApplication.Query;
 
 namespace ShopBoloor.WebApplication.ViewComponents;
 
-public class LastBlogViewComponent : ViewComponent
+public class BestBlogSliderMagViewComponent : ViewComponent
 {
     private readonly IBlogQuery _query;
-    public LastBlogViewComponent(IBlogQuery query)
+    public BestBlogSliderMagViewComponent(IBlogQuery query)
     {
         _query = query;
     }
     public IViewComponentResult Invoke()
     {
-        var model = _query.GetLastBlogForMagUi();
+        var model = _query.GetBestBlogForSliderUi();
         return View(model);
     }
 }

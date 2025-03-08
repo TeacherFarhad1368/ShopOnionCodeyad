@@ -1,4 +1,5 @@
 ﻿using Shared.Infrastructure;
+using Shop.Application.Contract.ProductVisitApplication.Command;
 using Shop.Domain.ProductCategoryRelationAgg;
 
 namespace Shop.Infrastructure.Services;

@@ -300,4 +300,93 @@ internal class ProductUiQuery : IProductUiQuery
         });
         return model;
     }
+
+    public List<ProductCartForIndexQueryModel> GetBestPeoductSellForIndex()
+    {
+        var model = _shopContext.Products
+    .Include(p => p.ProductSells).ThenInclude(s => s.OrderItems)
+    .Include(p => p.ProductSells).ThenInclude(s => s.Seller)
+    .Where(p => p.Active && p.ProductSells.Any()) 
+    .AsEnumerable() 
+    .OrderByDescending(p => p.ProductSells.Sum(s => s.OrderItems.Count))
+    .Take(10).Select(s => new ProductCartForIndexQueryModel
+      {
+        Id = s.Id,
+        Title = s.Title,
+        Amount = s.ProductSells.Sum(s=>s.Amount),
+        ImageAlt = s.ImageAlt,
+        PriceAfterOff = s.ProductSells.First().Price,
+        ImageName =FileDirectories.ProductImageDirectory500 + s.ImageName,
+        Price = s.ProductSells.First().Price,
+        Shop = s.ProductSells.First().Seller.Title,
+        Slug = s.Slug
+       }).ToList();
+        if(model.Count > 0)
+        {
+            model.ForEach(x =>
+            {
+                if (_discountContext.ProductDiscounts.Any(p => p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date))
+                {
+                    var discount = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                    .First(p => p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date);
+                    if (discount.ProductSellId > 0)
+                    {
+                        var sellProduct = _shopContext.ProductSells.Find(discount.ProductSellId);
+                        x.Shop = _shopContext.Sellers.Find(sellProduct.SellerId).Title;
+                        x.Price = sellProduct.Price;
+                        x.PriceAfterOff = sellProduct.Price - (discount.Percent * sellProduct.Price / 100);
+                    }
+                    else
+                    {
+                        x.PriceAfterOff = x.Price - (discount.Percent * x.Price / 100);
+                    }
+                }
+            });
+        }
+        return model;   
+    }
+
+    public List<ProductCartForIndexQueryModel> GetNewPeoductForIndex()
+    {
+        var model = _shopContext.Products
+    .Include(p => p.ProductSells).ThenInclude(s => s.Seller)
+    .Where(p => p.Active && p.ProductSells.Any())
+    .AsEnumerable()
+    .OrderByDescending(p => p.Id)
+    .Take(10).Select(s => new ProductCartForIndexQueryModel
+    {
+        Id = s.Id,
+        Title = s.Title,
+        Amount = s.ProductSells.Sum(s => s.Amount),
+        ImageAlt = s.ImageAlt,
+        PriceAfterOff = s.ProductSells.First().Price,
+        ImageName = FileDirectories.ProductImageDirectory500 + s.ImageName,
+        Price = s.ProductSells.First().Price,
+        Shop = s.ProductSells.First().Seller.Title,
+        Slug = s.Slug
+    }).ToList();
+        if (model.Count > 0)
+        {
+            model.ForEach(x =>
+            {
+                if (_discountContext.ProductDiscounts.Any(p => p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date))
+                {
+                    var discount = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                    .First(p => p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date);
+                    if (discount.ProductSellId > 0)
+                    {
+                        var sellProduct = _shopContext.ProductSells.Find(discount.ProductSellId);
+                        x.Shop = _shopContext.Sellers.Find(sellProduct.SellerId).Title;
+                        x.Price = sellProduct.Price;
+                        x.PriceAfterOff = sellProduct.Price - (discount.Percent * sellProduct.Price / 100);
+                    }
+                    else
+                    {
+                        x.PriceAfterOff = x.Price - (discount.Percent * x.Price / 100);
+                    }
+                }
+            });
+        }
+        return model;
+    }
 }

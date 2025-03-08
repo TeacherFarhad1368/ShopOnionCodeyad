@@ -7,9 +7,11 @@ using Shop.Domain.ProductCategoryAgg;
 using Shop.Domain.ProductCategoryRelationAgg;
 using Shop.Domain.ProductGalleryAgg;
 using Shop.Domain.ProductSellAgg;
+using Shop.Domain.ProductVisitAgg;
 using Shop.Domain.SellerAgg;
 using Shop.Domain.SellerPackageAgg;
 using Shop.Domain.SellerPackageFeatureAgg;
+using Shop.Domain.WishListAgg;
 using Shop.Infrastructure.Services;
 
 namespace Shop.Infrastructure
@@ -30,6 +32,8 @@ namespace Shop.Infrastructure
             services.AddTransient<ISellerPackageRepository, SellerPackageRepository>();  
             services.AddTransient<ISellerPackageFeatureRepository, SellerPackageFeatureRepository>();  
             services.AddTransient<ISellerRepository, SellerRepository>();
+            services.AddTransient<IWishListRepository, WishListRepository>();
+            services.AddTransient<IProductVisitRepository, ProductVisitRepository>();
 
             services.AddDbContext<ShopContext>(x =>
             {

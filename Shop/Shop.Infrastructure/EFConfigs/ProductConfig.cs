@@ -21,5 +21,7 @@ internal class ProductConfig : IEntityTypeConfiguration<Product>
         builder.HasMany(o => o.ProductFeatures).WithOne(s => s.Product).HasForeignKey(s => s.ProductId);
         builder.HasMany(o => o.ProductCategoryRelations).WithOne(s => s.Product).HasForeignKey(s => s.ProductId);
         builder.HasMany(o => o.ProductSells).WithOne(s => s.Product).HasForeignKey(s => s.ProductId);
+        builder.HasMany(o => o.ProductVisits).WithOne(s => s.Product).HasForeignKey(s => s.ProductId);
+        builder.HasMany(o => o.WishLists).WithOne(s => s.Product).HasForeignKey(s => s.ProductId);
     }
 }
