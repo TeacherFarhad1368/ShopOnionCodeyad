@@ -310,7 +310,7 @@ header.main-header .search-area form.search button img {
 
 header.main-header .dropdown {
     float: right;
-    width: 50%;
+    width: 35%;
     text-align: center;
     position: relative;
     margin-top: -6px;
@@ -403,7 +403,12 @@ header.main-header .cart a.btn {
     background-color: #00bfd6;
     border-radius: 10px;
 }
-
+header.main-header .cart a.btnWish {
+    color: #fff;
+    font-size: 14px;
+    background-color: aqua !important;
+    border-radius: 10px;
+}
 header.main-header .cart a.btn img {
     width: 21px;
 }

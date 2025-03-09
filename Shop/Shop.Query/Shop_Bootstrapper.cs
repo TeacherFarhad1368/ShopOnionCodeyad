@@ -7,6 +7,7 @@ using Shop.Application.Contract.ProductGalleryApplication.Query;
 using Shop.Application.Contract.ProductSellApplication.Query;
 using Shop.Application.Contract.SellerApplication.Query;
 using Shop.Application.Contract.SellerPackegaApplication.Query;
+using Shop.Application.Contract.WishListApplication.Query;
 using Shop.Infrastructure;
 using Shop.Query.Services;
 
@@ -26,6 +27,7 @@ namespace Shop.Query
             services.AddTransient<IProductSellQuery, ProductSellQuery>();
             services.AddTransient<ISellerQuery, SellerQuery>();
             services.AddTransient<ISellerPackegaQuery, SellerPackegaQuery>();
+            services.AddTransient<IWishListQuery, WishListQuery>();
         }
     }
 }

@@ -17,4 +17,11 @@ internal class WishListRepository : Repository<int, WishList>, IWishListReposito
         _context.WishLists.RemoveRange(wishes);
         return await SaveAsync();
     }
+
+    public bool DeleteUserProductWishList(int userId, int id)
+    {
+        var wish = _context.WishLists.SingleOrDefault(s=>s.ProductId == id && s.UserId == userId);
+        if(wish == null) return false;
+        return Delete(wish);
+    }
 }

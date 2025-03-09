@@ -1,0 +1,99 @@
+﻿@model List<WishListProductQueryModel>
+@using Query.Contract.UI.Product;
+@{
+    ViewData["Title"] = "لیست علاقه مندی ها";
+}
+<main class="search-page default">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="breadcrumb-section default">
+                    <ul class="breadcrumb-list">
+                        <li class="breadcrumbs__item">
+                            <a href="/">
+                                <span>خانه</span>
+                            </a>
+                        </li>
+                        <li><span>علاقه مندی ها</span></li>
+                    </ul>
+                </div>
+
+                <div class="listing default">
+                    <div class="listing-counter">@Model.Count.ToString("0,#") کالا</div>
+                    
+                    <div class="tab-content default text-center">
+                        <div class="tab-pane active">
+                            <div class="container no-padding-right">
+                                <ul class="row listing-items">
+                                    @if (Model.Count() > 0)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <li class="col-lg-4 col-md-6 col-12 no-padding">
+                                                <div class="product-box">
+                                                    <div class="product-seller-details product-seller-details-item-grid">
+                                                        <span class="product-main-seller">
+                                                            <span class="product-seller-details-label">
+                                                                فروشنده:
+                                                            </span> @item.Shop
+                                                            <a style="cursor:pointer" class="btn btn-danger" 
+                                                            title="حذف از علاقه مندی ها" 
+                                                            onclick="UbsertToWishList('@item.ProductId')">
+                                                                <i class="fad fa-trash" style="color:white"></i>
+                                                            </a>
+                                                        </span>
+                                                        <span class="product-seller-details-badge-container"></span>
+                                                    </div>
+                                                    <a class="product-box-img" href="/Product/@item.ProductId/@item.Slug">
+                                                        <img src="@item.ImageName" alt="@item.ImageAlt">
+                                                    </a>
+                                                    <div class="product-box-content">
+                                                        <div class="product-box-content-row">
+                                                            <div class="product-box-title">
+                                                                <a href="/Product/@item.ProductId/@item.Slug">
+                                                                    @item.Title
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-box-row product-box-row-price">
+                                                            <div class="price">
+                                                                <div class="price-value">
+                                                                    <div class="price-value-wrapper">
+                                                                        @if (item.PriceAfterOff != item.Price)
+                                                                        {
+                                                                            <del class="text-danger">
+                                                                                @item.Price.ToString("#,0")
+                                                                            </del>
+                                                                            @item.PriceAfterOff.ToString("#,0") <span class="price-currency">تومان</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @item.Price.ToString("#,0") <span class="price-currency">تومان</span>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <div class="row text-center alert alert-warning">
+                                                <h4>محصولی برای نمایش موجود نیست</h4>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

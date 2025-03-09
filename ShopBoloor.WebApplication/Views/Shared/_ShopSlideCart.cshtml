@@ -9,9 +9,13 @@
             <div class="el-product-actions">
                 <ul>
                     <li>
-                        <a href="#" data-toggle="tooltip" data-placement="bottom"
-                           title="افزودن به لیست علاقمندی">
-                            <i class="fad fa-heart"></i>
+                        @{
+                            string wishTitle = !Model.isWishList ? "افزودن به لیست علاقمندی" : "حذف از لیست علاقمندی";
+                        }
+                        <a onclick="UbsertToWishList('@Model.Id')" style="cursor:pointer !important" data-toggle="tooltip" 
+                        data-placement="bottom"
+                           title="@wishTitle">
+                            <i class="fad fa-heart" style=@(Model.isWishList ? "color:green;" : "color:red;")></i>
                         </a>
                     </li>
                     <li>

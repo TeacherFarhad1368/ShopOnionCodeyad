@@ -10,6 +10,8 @@ using Seos.Infrastructure;
 using Shared.Application;
 using Shared.Domain.Enum;
 using Shop.Infrastructure;
+using System.Linq;
+using Users.Domain.UserAgg;
 
 namespace Query.Services.UI;
 internal class ProductUiQuery : IProductUiQuery
@@ -223,7 +225,6 @@ internal class ProductUiQuery : IProductUiQuery
         model.Seo = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
         return model;
     }
-
     public SingleProductUIQueryModel GetSingleProductForUi(int id)
     {
         var product = _shopContext.Products.Include(p=>p.ProductCategoryRelations).ThenInclude(p=>p.ProductCategory)
@@ -300,7 +301,6 @@ internal class ProductUiQuery : IProductUiQuery
         });
         return model;
     }
-
     public List<ProductCartForIndexQueryModel> GetBestPeoductSellForIndex()
     {
         var model = _shopContext.Products
@@ -319,7 +319,8 @@ internal class ProductUiQuery : IProductUiQuery
         ImageName =FileDirectories.ProductImageDirectory500 + s.ImageName,
         Price = s.ProductSells.First().Price,
         Shop = s.ProductSells.First().Seller.Title,
-        Slug = s.Slug
+        Slug = s.Slug,
+        isWishList = false
        }).ToList();
         if(model.Count > 0)
         {
@@ -345,14 +346,14 @@ internal class ProductUiQuery : IProductUiQuery
         }
         return model;   
     }
-
-    public List<ProductCartForIndexQueryModel> GetNewPeoductForIndex()
+    public List<ProductCartForIndexQueryModel> GetBestPeoductVisitForIndex()
     {
         var model = _shopContext.Products
+    .Include(p => p.ProductVisits)
     .Include(p => p.ProductSells).ThenInclude(s => s.Seller)
     .Where(p => p.Active && p.ProductSells.Any())
     .AsEnumerable()
-    .OrderByDescending(p => p.Id)
+    .OrderByDescending(p => p.ProductVisits.Sum(v=>v.Count))
     .Take(10).Select(s => new ProductCartForIndexQueryModel
     {
         Id = s.Id,
@@ -363,7 +364,8 @@ internal class ProductUiQuery : IProductUiQuery
         ImageName = FileDirectories.ProductImageDirectory500 + s.ImageName,
         Price = s.ProductSells.First().Price,
         Shop = s.ProductSells.First().Seller.Title,
-        Slug = s.Slug
+        Slug = s.Slug,
+        isWishList = false
     }).ToList();
         if (model.Count > 0)
         {
@@ -388,5 +390,209 @@ internal class ProductUiQuery : IProductUiQuery
             });
         }
         return model;
+    }
+    public List<ProductCartForIndexQueryModel> GetNewPeoductForIndex()
+    {
+        var model = _shopContext.Products
+    .Include(p => p.ProductSells).ThenInclude(s => s.Seller)
+    .Where(p => p.Active && p.ProductSells.Any())
+    .AsEnumerable()
+    .OrderByDescending(p => p.Id)
+    .Take(10).Select(s => new ProductCartForIndexQueryModel
+    {
+        Id = s.Id,
+        Title = s.Title,
+        Amount = s.ProductSells.Sum(s => s.Amount),
+        ImageAlt = s.ImageAlt,
+        PriceAfterOff = s.ProductSells.First().Price,
+        ImageName = FileDirectories.ProductImageDirectory500 + s.ImageName,
+        Price = s.ProductSells.First().Price,
+        Shop = s.ProductSells.First().Seller.Title,
+        Slug = s.Slug,
+        isWishList = false
+    }).ToList();
+        if (model.Count > 0)
+        {
+            model.ForEach(x =>
+            {
+                if (_discountContext.ProductDiscounts.Any(p => p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date))
+                {
+                    var discount = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                    .First(p => p.ProductId == x.Id && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date);
+                    if (discount.ProductSellId > 0)
+                    {
+                        var sellProduct = _shopContext.ProductSells.Find(discount.ProductSellId);
+                        x.Shop = _shopContext.Sellers.Find(sellProduct.SellerId).Title;
+                        x.Price = sellProduct.Price;
+                        x.PriceAfterOff = sellProduct.Price - (discount.Percent * sellProduct.Price / 100);
+                    }
+                    else
+                    {
+                        x.PriceAfterOff = x.Price - (discount.Percent * x.Price / 100);
+                    }
+                }
+            });
+        }
+        return model;
+    }
+    public List<WishListProductQueryModel> GetWishListForUserLoggedIn(int userId)
+    {
+        var model = _shopContext.Products
+            .Include(c=>c.WishLists)
+    .Include(p => p.ProductSells).ThenInclude(s => s.OrderItems)
+    .Include(p => p.ProductSells).ThenInclude(s => s.Seller)
+    .Where(p => p.Active && p.WishLists.Any(w=>w.UserId == userId))
+    .AsEnumerable()
+    .OrderByDescending(p => p.ProductSells.Sum(s => s.OrderItems.Count))
+    .Take(10).Select(s => new WishListProductQueryModel
+    {
+        ProductId = s.Id,
+        Title = s.Title,
+        Amount = s.ProductSells.Sum(s => s.Amount),
+        ImageAlt = s.ImageAlt,
+        PriceAfterOff = s.ProductSells.First().Price,
+        ImageName = FileDirectories.ProductImageDirectory500 + s.ImageName,
+        Price = s.ProductSells.First().Price,
+        Shop = s.ProductSells.First().Seller.Title,
+        Slug = s.Slug
+    }).ToList();
+        if (model.Count > 0)
+        {
+            model.ForEach(x =>
+            {
+                if (_discountContext.ProductDiscounts.Any(p => p.ProductId == x.ProductId && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date))
+                {
+                    var discount = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                    .First(p => p.ProductId == x.ProductId && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date);
+                    if (discount.ProductSellId > 0)
+                    {
+                        var sellProduct = _shopContext.ProductSells.Find(discount.ProductSellId);
+                        x.Shop = _shopContext.Sellers.Find(sellProduct.SellerId).Title;
+                        x.Price = sellProduct.Price;
+                        x.PriceAfterOff = sellProduct.Price - (discount.Percent * sellProduct.Price / 100);
+                    }
+                    else
+                    {
+                        x.PriceAfterOff = x.Price - (discount.Percent * x.Price / 100);
+                    }
+                }
+            });
+        }
+        return model;
+    }
+    public List<WishListProductQueryModel> GetWishListForUserFromCppkie(List<int> productIds)
+    {
+        var model = _shopContext.Products
+           .Include(c => c.WishLists)
+   .Include(p => p.ProductSells).ThenInclude(s => s.OrderItems)
+   .Include(p => p.ProductSells).ThenInclude(s => s.Seller)
+   .Where(p => p.Active && productIds.Any(w => w == p.Id))
+   .AsEnumerable()
+   .OrderByDescending(p => p.ProductSells.Sum(s => s.OrderItems.Count))
+   .Take(10).Select(s => new WishListProductQueryModel
+   {
+       ProductId = s.Id,
+       Title = s.Title,
+       Amount = s.ProductSells.Sum(s => s.Amount),
+       ImageAlt = s.ImageAlt,
+       PriceAfterOff = s.ProductSells.First().Price,
+       ImageName = FileDirectories.ProductImageDirectory500 + s.ImageName,
+       Price = s.ProductSells.First().Price,
+       Shop = s.ProductSells.First().Seller.Title,
+       Slug = s.Slug
+   }).ToList();
+        if (model.Count > 0)
+        {
+            model.ForEach(x =>
+            {
+                if (_discountContext.ProductDiscounts.Any(p => p.ProductId == x.ProductId && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date))
+                {
+                    var discount = _discountContext.ProductDiscounts.OrderByDescending(p => p.Percent)
+                    .First(p => p.ProductId == x.ProductId && p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date);
+                    if (discount.ProductSellId > 0)
+                    {
+                        var sellProduct = _shopContext.ProductSells.Find(discount.ProductSellId);
+                        x.Shop = _shopContext.Sellers.Find(sellProduct.SellerId).Title;
+                        x.Price = sellProduct.Price;
+                        x.PriceAfterOff = sellProduct.Price - (discount.Percent * sellProduct.Price / 100);
+                    }
+                    else
+                    {
+                        x.PriceAfterOff = x.Price - (discount.Percent * x.Price / 100);
+                    }
+                }
+            });
+        }
+        return model;
+    }
+
+    public List<AmazingSliderQueryModel> GetAmazingSliderData()
+    {
+        List<AmazingSliderQueryModel> model1 = new List<AmazingSliderQueryModel>();
+        List <AmazingSliderQueryModel> model = _discountContext.ProductDiscounts.
+            Where(p => p.EndDate.Date >= DateTime.Now.Date && p.ProductSellId == 0)
+            .Take(9).Select(r => new AmazingSliderQueryModel
+        {
+            Amount = 0,
+            ImageAlt = "",
+            PriceAfterOff = 0,
+            EndDate = r.EndDate,
+            Features = new List<FeatureForProductSingleQueryModel>(),
+            Id = r.ProductId,
+            ImageName = "",
+            Percent = r.Percent,
+            Price = 0,
+            Slug = "",
+            IsFinished = false,
+            Title = "",
+            isWishList = false
+            }).ToList();
+        if (model.Count() < 9)
+        {
+            var x = 9 - model.Count();
+            var result = _discountContext.ProductDiscounts.Where(p => p.EndDate.Date < DateTime.Now.Date && p.ProductSellId == 0)
+                .OrderByDescending(c => c.EndDate).Take(x).Select(r => new AmazingSliderQueryModel
+                {
+                    Amount = 0,
+                    ImageAlt = "",
+                    PriceAfterOff = 0,
+                    EndDate = r.EndDate,
+                    Features = new List<FeatureForProductSingleQueryModel>(),
+                    Id = r.ProductId,
+                    ImageName = "",
+                    Percent = r.Percent,
+                    Price = 0,
+                    Slug = "",
+                    IsFinished = true,
+                    Title = "",
+                    isWishList = false
+                }).ToList();
+            model.AddRange(result);
+        }
+        foreach (var item in model)
+        {
+            var product = _shopContext.Products.Include(p => p.ProductFeatures).
+                Include(p => p.ProductSells).Single(p=>p.Id == item.Id);
+            if (product.ProductSells.Count() > 0)
+            {
+                item.Slug = product.Slug;
+                item.Amount = product.ProductSells.Sum(c => c.Amount);
+                item.ImageAlt = product.ImageAlt;
+                item.Features = product.ProductFeatures.Take(4)
+                    .Select(f => new FeatureForProductSingleQueryModel
+                    {
+                        Title = f.Title,
+                        Value = f.Value
+                    }).ToList();
+                item.ImageName = FileDirectories.ProductImageDirectory500 + product.ImageName;
+                item.Price = product.ProductSells.First().Price;
+                item.Title = product.Title;
+                item.PriceAfterOff = item.Price - (item.Percent * item.Price / 100);
+                var sellerId = product.ProductSells.First().SellerId;
+                item.Shop = _shopContext.Sellers.Find(sellerId).Title;
+                model1.Add(item);
+            }
+        }
+        return model1;
     }
 }

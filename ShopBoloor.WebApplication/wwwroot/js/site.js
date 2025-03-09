@@ -1,4 +1,7 @@
-﻿function isNumber(event) {
+﻿$(function () {
+    CheckWishLists();
+});
+function isNumber(event) {
     var ASCIICode = (event.which) ? event.which : event.keyCode
     if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
         return false;
@@ -277,4 +280,85 @@ function ChangePagination(page) {
 function chnageOrderBy(orderBy) {
     $("input#inputOrderBy").val(orderBy);
     $("form#myForm").submit();
+}
+function UbsertToWishList(id) {
+    $.ajax({
+        type: "Get",
+        url: "/Home/CheckProductWishList/" + id
+    }).done(function (res) {
+        if (res) {
+            Swal.fire({
+                title: "حذف از علاقه مندی ها ؟ ",
+                text: "این محصول در لیست علاقه مندی های شما موجود میباشد . آیا میخواهید از لیست علاقه مندی های شما حذف شود ؟ ",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "حذف شود",
+                cancelButtonText: "انصراف"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "Get",
+                        url: "/Home/UbsertProductWishList/" + id
+                    }).done(function (res) {
+                        Loding();
+                        if (res) {
+                            AlertSweetTimer("عملیات موفق", "success", 3000);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000);
+                        }
+                        else {
+                            AlertSweetTimer("عملیات نا موفق", "error", 3000);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000);
+                        }
+                    });
+                }
+            })
+        }
+        else {
+            Swal.fire({
+                title: "افزودن از علاقه مندی ها ؟ ",
+                text: "این محصول در لیست علاقه مندی های شما موجود نیست . آیا میخواهید به لیست علاقه مندی های شما اضافه شود ؟ ",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "اضافه شود",
+                cancelButtonText: "انصراف"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "Get",
+                        url: "/Home/UbsertProductWishList/" + id
+                    }).done(function (res) {
+                        Loding();
+                        if (res) {
+                            AlertSweetTimer("عملیات موفق", "success", 3000);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000);
+                        }
+                        else {
+                            AlertSweetTimer("عملیات نا موفق", "error", 3000);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000);
+                        }
+                    });
+                }
+            })
+        }
+    });
+}
+function CheckWishLists() {
+    $.ajax({
+        type: "Get",
+        url: "/Home/GetWishListCount"
+    }).done(function (res) {
+        $("span#count-wish").text(res);
+    });
 }

@@ -138,16 +138,6 @@ public class ServicesViewComponent : ViewComponent
         return View(model);
     }
 }
-public class AmazingSliderViewComponent : ViewComponent
-{
-    public AmazingSliderViewComponent()
-    {
-    }
-    public IViewComponentResult Invoke()
-    {
-        return View();
-    }
-}
 public class FooterViewComponent : ViewComponent
 {
     private readonly ISiteSettingQuery _query;

@@ -2,10 +2,16 @@
 using Emails.Application.Contract.EmailUserApplication.Command;
 using Emails.Application.Contract.MessageUserApplication.Command;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
+using Query.Contract.UI.Product;
 using Query.Contract.UI.Site;
 using Shared.Application.Services.Auth;
 using Shared.Application.Validations;
+using Shop.Application.Contract.OrderApplication.Command;
+using Shop.Application.Contract.WishListApplication.Command;
+using Shop.Application.Contract.WishListApplication.Query;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 
@@ -17,13 +23,20 @@ public class HomeController : Controller
     private readonly IAuthService _authService;
     private readonly ISiteUiQuery _siteUiQuery;
     private readonly IMessageUserApplication _messageUserApplication;
-    public HomeController(IEmailUserApplication emailUserApplication, IAuthService authService,
-        ISiteUiQuery siteUiQuery, IMessageUserApplication messageUserApplication)
+    private readonly IWishListQuery _wishListQuery;
+    private readonly IWishListApplication _wishListApplication;
+    private readonly IProductUiQuery _productUiQuery;
+    public HomeController(IEmailUserApplication emailUserApplication, IAuthService authService, IWishListApplication wishListApplication,
+        ISiteUiQuery siteUiQuery, IMessageUserApplication messageUserApplication, IWishListQuery wishListQuery,
+        IProductUiQuery productUiQuery)
     {
         _emailUserApplication = emailUserApplication;
         _authService = authService;
+        _productUiQuery = productUiQuery;   
         _siteUiQuery = siteUiQuery;
         _messageUserApplication = messageUserApplication;
+        _wishListQuery = wishListQuery;
+        _wishListApplication = wishListApplication;
     }
     public IActionResult Index() => View(); 
     [Route("/Page/{slug}")]
@@ -95,10 +108,138 @@ public class HomeController : Controller
         if (res.Success) return "";
         return res.Message;
     }
-}
-
-
-    internal class GeoResponse
+    [HttpGet]
+    public int GetWishListCount()
     {
-        public string CountryCode { get; set; }
+        var userId = _authService.GetLoginUserId();
+        if (userId == 0)
+        {
+            string cookieName = "boloorShop-wishList-items";
+            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            {
+                List<int> wishesIds = System.Text.Json.JsonSerializer.Deserialize<List<int>>(cartJson);
+                if (wishesIds.Count > 0)
+                {
+                    return wishesIds.Count;
+                }
+                else return 0;
+            }
+            else return 0;
+        }
+        else
+        {
+            string cookieName = "boloorShop-wishList-items";
+            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            {
+                List<int> wishesIds = System.Text.Json.JsonSerializer.Deserialize<List<int>>(cartJson);
+                if (wishesIds.Count > 0)
+                {
+                    _wishListApplication.AddUsersWishList(userId,wishesIds);
+                    Response.Cookies.Delete(cookieName);
+                }
+            }
+            return _wishListQuery.GetUserWishListCount(userId);
+        }
     }
+    [HttpGet]
+    public bool CheckProductWishList(int id)
+    {
+        var userId = _authService.GetLoginUserId();
+        if (userId == 0)
+        {
+            string cookieName = "boloorShop-wishList-items";
+            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            {
+                List<int> wishesIds = System.Text.Json.JsonSerializer.Deserialize<List<int>>(cartJson);
+                if (wishesIds.Count > 0)
+                {
+                    return wishesIds.Any(w => w == id);
+                }
+                else return false;
+            }
+            else return false;
+        }
+        else
+            return _wishListQuery.IsUserHaveProductWishList(userId, id);
+    }
+    [HttpGet]
+    public bool UbsertProductWishList(int id)
+    {
+        var userId = _authService.GetLoginUserId();
+        if (userId == 0)
+        {
+            List<int> wishesIds = new List<int>();
+            string cookieName = "boloorShop-wishList-items";
+            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            {
+                 wishesIds = System.Text.Json.JsonSerializer.Deserialize<List<int>>(cartJson);
+                if (wishesIds.Count > 0 && wishesIds.Any(w => w == id))
+                {
+                    var x = wishesIds.Single(w => w == id);
+                    wishesIds.Remove(x);
+                }
+                else
+                    wishesIds.Add(id);
+            }
+            else
+                wishesIds.Add(id);
+            Response.Cookies.Delete(cookieName);
+            try
+            {
+                if(wishesIds.Count > 0)
+                {
+                    var serializedList = System.Text.Json.JsonSerializer.Serialize(wishesIds);
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict
+                    };
+
+                    Response.Cookies.Append(cookieName, serializedList, cookieOptions);
+                }
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+        else
+            return _wishListApplication.AddUserProductWishList(userId, id);
+    }
+    [HttpGet]
+    public IActionResult WishList()
+    {
+        var userId = _authService.GetLoginUserId();
+        List<WishListProductQueryModel> model = new();
+        if (userId == 0)
+        {
+            string cookieName = "boloorShop-wishList-items";
+            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            {
+                List<int> wishesIds = System.Text.Json.JsonSerializer.Deserialize<List<int>>(cartJson);
+                if (wishesIds.Count > 0)
+                {
+                    model = _productUiQuery.GetWishListForUserFromCppkie(wishesIds);
+                }
+            }
+        }
+        else
+        {
+            string cookieName = "boloorShop-wishList-items";
+            if (Request.Cookies.TryGetValue(cookieName, out var cartJson))
+            {
+                List<int> wishesIds = System.Text.Json.JsonSerializer.Deserialize<List<int>>(cartJson);
+                if (wishesIds.Count > 0)
+                {
+                    _wishListApplication.AddUsersWishList(userId, wishesIds);
+                    Response.Cookies.Delete(cookieName);
+                }
+            }
+            model = _productUiQuery.GetWishListForUserLoggedIn(userId);
+        }
+        return View(model);  
+    }
+}

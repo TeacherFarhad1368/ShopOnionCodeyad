@@ -1,4 +1,5 @@
 ﻿using Shop.Application.Contract.WishListApplication.Command;
+using Shop.Domain.ProductAgg;
 using Shop.Domain.WishListAgg;
 using System.ComponentModel.Design;
 
@@ -10,6 +11,28 @@ internal class WishListApplication : IWishListApplication
     public WishListApplication(IWishListRepository wishListRepository)
     {
         _wishListRepository = wishListRepository;
+    }
+
+    public bool AddUserProductWishList(int userId, int id)
+    {
+        if (_wishListRepository.ExistBy(c => c.ProductId == id && c.UserId == userId))
+        {
+            return _wishListRepository.DeleteUserProductWishList(userId, id);
+        }
+        else
+        {
+            WishList wish = new WishList(id, userId);
+            return _wishListRepository.Create(wish);
+        }
+    }
+
+    public bool AddUsersWishList(int userId, List<int> wishesIds)
+    {
+        if (wishesIds.Count > 0)
+            foreach (var item in wishesIds)
+                if (_wishListRepository.ExistBy(w => w.UserId == userId && w.ProductId == item) == false)
+                    _wishListRepository.Create(new WishList(item, userId));
+        return true;
     }
 
     public async Task<bool> DeleteWishList(int id, int userId)

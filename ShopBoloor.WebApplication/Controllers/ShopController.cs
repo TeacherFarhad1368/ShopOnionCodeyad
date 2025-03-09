@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Query.Contract.UI.Product;
 using Shared.Application.Services.Auth;
+using Shop.Application.Contract.ProductVisitApplication.Command;
 using Shop.Domain.ProductAgg;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -11,10 +12,12 @@ namespace ShopBoloor.WebApplication.Controllers
     {
         private readonly IProductUiQuery _productUiQuery;
         private readonly IAuthService _authService;
-        public ShopController(IProductUiQuery productUiQuery, IAuthService authService)
+        private readonly IProductVisitApplication _productVisitApplication;
+        public ShopController(IProductUiQuery productUiQuery, IAuthService authService, IProductVisitApplication productVisitApplication)
         {
             _productUiQuery = productUiQuery;
             _authService = authService;
+            _productVisitApplication = productVisitApplication;
         }
 
         [Route("/Shop/{id?}")]
@@ -24,11 +27,13 @@ namespace ShopBoloor.WebApplication.Controllers
             return View(model);
         }
         [Route("/Product/{id}/{slug}")]
-        public IActionResult Single(int id,string slug)
+        public async Task<IActionResult> Single(int id,string slug)
         {
             var model = _productUiQuery.GetSingleProductForUi(id);
             if (model == null) return NotFound();
             if (model.Slug != slug) return Redirect($"/Product/{id}/{model.Slug}");
+            var userId = _authService.GetLoginUserId();
+            await _productVisitApplication.CreateAsync(new CreateProductVisit(model.Id, userId, 1));
             return View(model);
         }
         [Route("/Cart")]
