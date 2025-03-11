@@ -107,7 +107,7 @@
                             </li>
                         }
                         <li>
-                            <a class="pager-item is-active" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=@Model.PageCount">@Model.PageCount</a>
+                            <a class="pager-item @(Model.PageId == Model.PageCount ? "is-active" : "")" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=@Model.PageCount">@Model.PageCount</a>
                         </li>
                     </ul>
                 </div>

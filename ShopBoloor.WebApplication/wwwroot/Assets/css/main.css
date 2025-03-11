@@ -5288,7 +5288,12 @@ main.profile-user-page .profile-recent-fav-price {
     line-height: 1.692;
     color: #fb3449;
 }
-
+main.profile-user-page .profile-recent-fav-priceIs  {
+    font-size: 13px;
+    font-size: .929rem;
+    line-height: 1.692;
+    color: green;
+}
 main.profile-user-page .profile-recent-fav-col-actions {
     -ms-flex: 0 0 15%;
     -webkit-box-flex: 0;

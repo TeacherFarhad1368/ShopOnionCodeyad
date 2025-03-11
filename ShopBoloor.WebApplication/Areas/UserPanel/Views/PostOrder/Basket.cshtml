@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "فاکتور Api";
+    var ZarrinPalError = TempData["ZarrinPalError"] != null;
 }
 <div class="row d-flex flex-column justify-content-center">
     <h2 class="my-2">
@@ -46,21 +47,13 @@
                 </div>
             </div>
         </div>
-      @*   <div class="checkout-feature-aside">
-            <ul>
-                <li class="checkout-feature-aside-item checkout-feature-aside-item-guarantee">
-                    هفت روز
-                    ضمانت تعویض
-                </li>
-                <li class="checkout-feature-aside-item checkout-feature-aside-item-cash">
-                    پرداخت در محل با
-                    کارت بانکی
-                </li>
-                <li class="checkout-feature-aside-item checkout-feature-aside-item-express">
-                    تحویل اکسپرس
-                </li>
-            </ul>
-        </div> *@
     </div>
 </div>
-
+@section Scripts {
+    @if (ZarrinPalError)
+    {
+        <script>
+            AlertSweetTimer("عملیات نا موفق !!! - خطای زرین پال", "error", 4000);
+        </script>
+    }
+}

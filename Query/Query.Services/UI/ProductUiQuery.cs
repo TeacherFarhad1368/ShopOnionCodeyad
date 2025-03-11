@@ -525,7 +525,6 @@ internal class ProductUiQuery : IProductUiQuery
         }
         return model;
     }
-
     public List<AmazingSliderQueryModel> GetAmazingSliderData()
     {
         List<AmazingSliderQueryModel> model1 = new List<AmazingSliderQueryModel>();
@@ -595,4 +594,19 @@ internal class ProductUiQuery : IProductUiQuery
         }
         return model1;
     }
+
+    public List<WishListForUserPanelQueryModel> GetLastWishListForUserPanel(int userId) =>
+        _shopContext.WishLists.Include(w => w.Product)
+            .ThenInclude(p => p.ProductSells)
+            .Where(w => w.UserId == userId).Take(4)
+            .Select(w => new WishListForUserPanelQueryModel
+            {
+                Amount = w.Product.ProductSells.Sum(s => s.Amount),
+                ImageAddress = FileDirectories.ProductImageDirectory100 + w.Product.ImageName,
+                ImageAlt = w.Product.ImageAlt,
+                Id = w.Id,
+                ProductId = w.ProductId,
+                Slug = w.Product.Slug,
+                Title = w.Product.Slug
+            }).ToList();
 }

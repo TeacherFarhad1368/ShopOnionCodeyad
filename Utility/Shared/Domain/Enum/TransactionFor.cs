@@ -3,6 +3,7 @@
     public enum TransactionFor
     {
         Wallet,
-        Order
+        Order,
+        PostOrder
     }
 }

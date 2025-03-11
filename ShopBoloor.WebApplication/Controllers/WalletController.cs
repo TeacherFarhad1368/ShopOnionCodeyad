@@ -17,6 +17,7 @@ using Shop.Application.Contract.ProductSellApplication.Command;
 using Stores.Application.Contract.StoreApplication.Command;
 using Query.Contract.UserPanel.Order;
 using Query.Contract.UserPanel.Seller;
+using PostModule.Application.Contract.UserPostApplication.Command;
 namespace ShopBoloor.WebApplication.Controllers
 {
     public class WalletController : Controller
@@ -29,15 +30,17 @@ namespace ShopBoloor.WebApplication.Controllers
         private readonly ISellerUserPanelQuery _sellerUserPanelQuery;
         private readonly IStoreApplication _storeApplication;
         private readonly IProductSellApplication _productSellApplication;
+        private readonly IUserPostApplication _userPostApplication;
         public WalletController(IOptions<SiteData> option, ITransactionApplication transactionApplication,
             IWalletApplication walletApplication,IOrderApplication orderApplication, IOrderUserPanelQuery orderUserPanelQuery,
             ISellerUserPanelQuery sellerUserPanelQuery, IStoreApplication storeApplication,
-            IProductSellApplication productSellApplication)
+            IProductSellApplication productSellApplication, IUserPostApplication userPostApplication)
         {
             _data = option.Value;
             _transactionApplication = transactionApplication;
             _walletApplication = walletApplication;
             _orderApplication = orderApplication;   
+            _userPostApplication = userPostApplication;
             _orderUserPanelQuery = orderUserPanelQuery;
             _sellerUserPanelQuery = sellerUserPanelQuery; 
             _productSellApplication = productSellApplication;   
@@ -101,8 +104,13 @@ namespace ShopBoloor.WebApplication.Controllers
                                         }
                                         break;
                                     case TransactionFor.Order:
-                                       var orderId = await _orderApplication.PaymentSuccessOrderAsync(transactiom.UserId, transactiom.Price);
+                                        var orderId = await _orderApplication.PaymentSuccessOrderAsync(transactiom.UserId, transactiom.Price);
                                         await CheckProductAmoutsAfterPaymentAsync(orderId);
+                                        break;
+                                    case TransactionFor.PostOrder:
+                                        var userPost = await _userPostApplication.GetPostOrderNotPaymentForUser(transactiom.UserId);
+                                        PaymentPostModel paymentPost = new(transactiom.UserId, 0, userPost.Price);
+                                        await _userPostApplication.PaymentPostOrderAsync(paymentPost);
                                         break;
                                     default:
                                         break;

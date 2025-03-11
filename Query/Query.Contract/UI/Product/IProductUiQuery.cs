@@ -9,4 +9,5 @@ public interface IProductUiQuery
     List<WishListProductQueryModel> GetWishListForUserLoggedIn(int userId);
     List<WishListProductQueryModel> GetWishListForUserFromCppkie(List<int> productIds);
     List<AmazingSliderQueryModel> GetAmazingSliderData();
+    List<WishListForUserPanelQueryModel> GetLastWishListForUserPanel(int userId);
 }

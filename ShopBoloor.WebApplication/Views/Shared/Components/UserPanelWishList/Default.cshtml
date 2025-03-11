@@ -1,0 +1,62 @@
+﻿@model List<Query.Contract.UI.Product.WishListForUserPanelQueryModel>
+<div class="col-12">
+    <h1 class="title-tab-content">لیست آخرین علاقمندی ها</h1>
+</div>
+<div class="content-section default">
+    @if (Model.Count > 0)
+    {
+        <div class="row">
+            <div class="col-12">
+                @foreach (var item in Model)
+                {
+                    <div class="profile-recent-fav-row">
+                        <a href="/Product/@item.ProductId/@item.Slug" class="profile-recent-fav-col profile-recent-fav-col-thumb">
+                            <img src="@item.ImageAddress" alt="@item.ImageAlt">
+                        </a>
+                        <div class="profile-recent-fav-col profile-recent-fav-col-title">
+                            <a href="/Product/@item.ProductId/@item.Slug">
+                                <h4 class="profile-recent-fav-name">
+                                    @item.Title
+                                </h4>
+                            </a>
+                            @if(item.Amount < 1)
+                            {
+                                <div class="profile-recent-fav-price">ناموجود</div>
+                            }
+                            else{
+                                <div class="profile-recent-fav-priceIs">موجود</div>
+                            }
+                        </div>
+                        <div class="profile-recent-fav-col profile-recent-fav-col-actions">
+                            <button class="btn-action btn-action-remove" onclick="UbsertToWishList('@item.ProductId')">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-12 text-center">
+                <a href="/Home/WishList" class="btn-link-border form-account-link">
+                    مشاهده و ویرایش لیست مورد علاقه
+                </a>
+            </div>
+        </div>
+    }
+    else{
+        <div class="row">
+            <div class="col-12">
+                <div class="profile-recent-fav-row">
+                    
+                    <div class="alert alert-warning">
+                        <h5>موردی برای نمایش نیست</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center">
+                <a href="/Shop" class="btn-link-border form-account-link">
+                    مشاهده محصولات و افزودن به لیست مورد علاقه
+                </a>
+            </div>
+        </div>
+    }
+</div>

@@ -78,7 +78,7 @@
                 <div class="pager default text-center">
                     <ul class="pager-items mb-0">
                         <li>
-                            <a class="pager-item" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=1">1</a>
+                            <a class="pager-item @(Model.PageId == 1 ? "is-active" : "")" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=1">1</a>
                         </li>
                         @for (int i = Model.StartPage; i <= Model.EndPage; i++)
                         {
@@ -107,7 +107,7 @@
                             </li>
                         }
                         <li>
-                            <a class="pager-item is-active" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=@Model.PageCount">@Model.PageCount</a>
+                            <a class="pager-item @(Model.PageId == Model.PageCount ? "is-active" : "")" style="cursor:pointer" href="/UserPanel/Order/Orders?pageId=@Model.PageCount">@Model.PageCount</a>
                         </li>
                     </ul>
                 </div>

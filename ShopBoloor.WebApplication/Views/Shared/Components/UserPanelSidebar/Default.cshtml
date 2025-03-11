@@ -35,13 +35,13 @@
                 <a href="/UserPanel" class="dropdown-item
                @(route.ToString().ToLower() == "/userpanel" ||
                 route.ToString().ToLower() == "/userpanel/home/index" ? "active-menu" : "")">
-                    <i class="now-ui-icons users_single-02"></i>
+                    <i class="fa fa-user"></i>
                     پروفایل
                 </a>
                 @if (Model.IsUserAdmin)
                 {
                     <a href="/UserPanel/PostOrder/orders" class="dropdown-item">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-user-secret"></i>
                        پنل ادمین
                     </a>
                 }
@@ -49,22 +49,22 @@
                 {
                     <a href="/UserPanel/Seller/Index" class="dropdown-item
                @(route.ToString().ToLower().Contains("/userpanel/seller")  ? "active-menu" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-bags-shopping"></i>
                        فروشگاه های شما
                     </a>
                     <a href="/UserPanel/Store/Index" class="dropdown-item
                @(route.ToString().ToLower().Contains("/userpanel/store")  ? "active-menu" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-store"></i>
                         انبارداری فروشگاه
                     </a>
                     <a href="/UserPanel/Discount/Active" class="dropdown-item
                @(route.ToString().ToLower().Contains("/userpanel/discount")  ? "active-menu" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-percent"></i>
                         مدیریت تخفیفات
                     </a>
                     <a href="/UserPanel/OrderSeller" class="dropdown-item
                @(route.ToString().ToLower().Contains("/userpanel/orderseller")  ? "active-menu" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-shopping-bag"></i>
                        فاکتور های فروشگاه
                     </a>
                 }
@@ -72,33 +72,33 @@
                 {
                     <a href="/UserPanel/PostOrder/orders" class="dropdown-item
                @(route.ToString().ToLower().Contains("/userpanel/postorder/orders")  ? "active-menu" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-shipping-fast"></i>
                         سفارش های Api پست
                     </a>
                     <a href="/UserPanel/PostOrder/UserPost" class="dropdown-item
                @(route.ToString().ToLower().Contains("/userpanel/postorder/userpost")  ? "active-menu" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-shipping-timed"></i>
                         راهنمای Api پست
                     </a>
                 }
                 <a href="/UserPanel/Order/Orders" class="dropdown-item
             @(route.ToString().ToLower().Contains("/userpanel/order")  ? "active-menu" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-shopping-basket"></i>
                     فاکتور ها
                 </a>
                 <a href="/UserPanel/Wallet" class="dropdown-item
             @(route.ToString().ToLower().Contains("/userpanel/wallet")  ? "active-menu" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-dollar-sign"></i>
                     کیف پول
                 </a>
                 <a href="/UserPanel/Wallet/Transactions" class="dropdown-item
             @(route.ToString().ToLower().Contains("/userpanel/wallet/transactions")  ? "active-menu" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-shopping-cart"></i>
                     تراکنش ها
                 </a>
                 <a href="/UserPanel/Address" class="dropdown-item 
             @(route.ToString().ToLower().Contains("/userpanel/address")  ? "active-menu" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-address-book"></i>
                     آدرس های شما
                 </a>
                 @*  <a href="profile-favorites.html" class="dropdown-item">
@@ -118,7 +118,7 @@
             <li>
                 <a href="/UserPanel" class="@(route.ToString().ToLower() == "/userpanel" ||
                 route.ToString().ToLower() == "/userpanel/home/index" ? "active" : "")">
-                    <i class="now-ui-icons users_single-02"></i>
+                    <i class="fa fa-user"></i>
                     پروفایل
                 </a>
             </li>
@@ -126,7 +126,7 @@
             {
                 <li>
                     <a href="/Admin">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-user-secret"></i>
                        پنل ادمین
                     </a>
                 </li>
@@ -136,28 +136,28 @@
                 <li>
                     <a href="/UserPanel/Seller/Index" class="
                  @(route.ToString().ToLower().Contains("/userpanel/seller")  ? "active" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-bags-shopping"></i>
                         فروشگاه های شما
                     </a>
                 </li>
                 <li>
                     <a href="/UserPanel/Store/Index" class="
                  @(route.ToString().ToLower().Contains("/userpanel/store")  ? "active" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-store"></i>
                         انبارداری فروشگاه
                     </a>
                 </li>
                 <li>
                     <a href="/UserPanel/Discount/Active" class="
                @(route.ToString().ToLower().Contains("/userpanel/discount")  ? "active" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-percent"></i>
                         مدیریت تخفیفات
                     </a>
                 </li>
                 <li>
                     <a href="/UserPanel/OrderSeller" class="
                @(route.ToString().ToLower().Contains("/userpanel/orderseller")  ? "active" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-shopping-bag"></i>
                         فاکتور های فروشگاه
                     </a>
                 </li>
@@ -167,14 +167,14 @@
                 <li>
                     <a href="/UserPanel/PostOrder/orders" class="
                  @(route.ToString().ToLower().Contains("/userpanel/postorder/orders")  ? "active" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-shipping-fast"></i>
                         سفارش های Api پست
                     </a>
                 </li>
                 <li>
                     <a href="/UserPanel/PostOrder/UserPost" class="
                  @(route.ToString().ToLower().Contains("/userpanel/postorder/userpost")  ? "active" : "")">
-                        <i class="now-ui-icons shopping_basket"></i>
+                        <i class="fa fa-shipping-timed"></i>
                         راهنمای Api پست
                     </a>
                 </li>
@@ -182,28 +182,28 @@
             <li>
                 <a href="/UserPanel/Order/Orders" class="
                  @(route.ToString().ToLower().Contains("/userpanel/order")  ? "active" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-shopping-basket"></i>
                     فاکتور ها
                 </a>
             </li>
             <li>
                 <a href="/UserPanel/Wallet" class="
                  @(route.ToString().ToLower().Contains("/userpanel/wallet")  ? "active" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-dollar-sign"></i>
                     کیف پول
                 </a>
             </li>
             <li>
                 <a href="/UserPanel/Wallet/Transactions" class="
                  @(route.ToString().ToLower().Contains("/userpanel/wallet/transactions")  ? "active" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-shopping-cart"></i>
                     تراکنش ها
                 </a>
             </li>
              <li>
                 <a href="/UserPanel/Address" class="
                  @(route.ToString().ToLower().Contains("/userpanel/address")  ? "active" : "")">
-                    <i class="now-ui-icons files_single-copy-04"></i>
+                    <i class="fa fa-address-book"></i>
                     آدرس های شما
                 </a>
             </li>
