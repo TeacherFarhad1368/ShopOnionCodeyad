@@ -67,77 +67,41 @@
                                     <div class="icon-success">
                                         <i class="fa fa-check"></i>
                                     </div>
+
+                                    <h1>پرداخت با موفقیت انجام شد .</h1>
+                                    <p>@Model.Description</p>
                                     @if(Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Wallet)
                                     {
-                                        <h1>پرداخت با موفقیت انجام شد .</h1>
-                                        <p>@Model.Description</p>
                                         <p>@Model.Price.ToString("#,0") تومان به کیف پول شما اضافه شد .</p>
                                     }
-                                    else
-                                    {
-                                        
-                                    }
                                 <p>کد تراکنش : @Model.RefId</p>
-                                <a class="btn btn-info" asp-area="UserPanel" asp-controller="Wallet" asp-action="Index">کیف پول شما</a>
+                                    @if (Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Wallet)
+                                    {
+                                        <a class="btn btn-info" asp-area="UserPanel" asp-controller="Wallet" asp-action="Index">کیف پول شما</a>
+                                    }
+                                    else if (Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Order)
+                                    {
+                                        <a class="btn btn-info" asp-area="UserPanel" asp-controller="Order" asp-action="Orders">فاکتور های شما </a>
+                                    }
+                                    else if (Model.TransactionFor == Shared.Domain.Enum.TransactionFor.PostOrder)
+                                    {
+                                        <a class="btn btn-info" asp-area="UserPanel" asp-controller="PostOrder" asp-action="Orders">فاکتور پست</a>
+                                    }
                             </div>
                                 }
                                 else
                                 {
                                     <div class="warning-checkout text-center default">
                                         <div class="icon-warning">
-                                            <i class="fa fa-close"></i>
+                                        <i class="fa fa-stop"></i>
                                         </div>
-                                        @if (Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Wallet)
-                                        {
-                                            <h1>پرداخت نا موفق .</h1>
-                                            <p>@Model.Description</p>
-                                        }
-                                        else
-                                        {
-                                            <h1>سفارش <a href="#">DKC-22222222</a>با موفقیت در سیستم ثبت شد.</h1>
-                                        }
+                                    <h1>پرداخت نا موفق .</h1>
+                                    <p>@Model.Description</p>
                                         <p>کد تراکنش : @Model.RefId</p>
-                                        <a class="btn btn-info" asp-area="UserPanel" asp-controller="Wallet" asp-action="Index">کیف پول شما</a>
+                                    <a class="btn btn-info" asp-area="UserPanel" asp-controller="Wallet" asp-action="Transactions">تراکنش ها</a>
                                     </div>
                                    
                                 }
-                            @if (Model.TransactionFor == Shared.Domain.Enum.TransactionFor.Order)
-                            {
-                                <div class="order-info default">
-                                    <h3>کد سفارش: <span>DKC-22222222</span></h3>
-                                    <p>
-                                        سفارش شما با موفقیت در سیستم ثبت شد و هم اکنون <span class="badge badge-success">تکمیل شده</span> است.جزئیات این سفارش را می توانید
-                                        با کلیک بر روی دکمه <a href="#" class="btn-link-border">پیگیری سفارش</a>مشاهده
-                                        نمایید.
-                                    </p>
-                                    <button type="button" class="btn-primary">
-                                        پیگیری سفارش
-                                    </button>
-                                    <div class="table-responsive default mt-3 mb-3">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">نام تحویل گیرنده : جلال بهرامی راد</th>
-                                                    <th scope="col">شماره تماس : 09030000000</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">تعداد مرسوله : 1</th>
-                                                    <td>مبلغ کل : 15390000</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">وضعیت پرداخت : پرداخت آنلاین(موفق)</th>
-                                                    <td>وضعیت سفارش: در انتظار پرداخت</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">آدرس : استان خراسان شمالی،بجنورد</th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            }
                         </section>
                     </div>
                 </div>

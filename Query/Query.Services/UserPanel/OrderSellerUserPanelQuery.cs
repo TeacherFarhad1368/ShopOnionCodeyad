@@ -33,6 +33,7 @@ internal class OrderSellerUserPanelQuery : IOrderSellerUserPanelQuery
             DiscountId = orderSeller.DiscountId,
             DiscountPercent = orderSeller.DiscountPercent,
             DiscountTitle = orderSeller.DiscountTitle,
+            UserCustomerId = orderSeller.Order.UserId,
             Id = orderSeller.Id,
             DiscountPrice = orderSeller.DiscountPercent * orderSeller.PriceAfterOff / 100,
             OrderId = orderSeller.OrderId,

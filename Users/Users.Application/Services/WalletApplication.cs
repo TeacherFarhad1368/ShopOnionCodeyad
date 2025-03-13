@@ -31,6 +31,15 @@ internal class WalletApplication : IWalletApplication
 
     }
 
+    public async Task<OperationResult> DepositForReportOrderSellerAsync(CreateWallet command)
+    {
+        Wallet wallet = Wallet.DepositForReportOrderSeller(command.UserId, command.Price, command.Description);
+        if (await _walletRepository.CreateAsync(wallet))
+            return new(true);
+
+        return new(false, ValidationMessages.SystemErrorMessage);
+    }
+
     public async Task<WalletForCheckPayemntQueryModel> GetWalletForCheckPaymentAsync(int id)
     {
         var wallet = await _walletRepository.GetByIdAsync(id);

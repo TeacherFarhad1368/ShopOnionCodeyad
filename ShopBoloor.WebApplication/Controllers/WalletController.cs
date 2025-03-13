@@ -1,9 +1,7 @@
-﻿//using Dto.Response.Payment;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Shared.Domain.Enum;
 using ShopBoloor.WebApplication.Utility;
-using Leaf.xNet;
 using System.Text.Json;
 using Transactions.Application.Contract;
 using Users.Application.Contract.WalletApplication.Command;
@@ -31,9 +29,10 @@ namespace ShopBoloor.WebApplication.Controllers
         private readonly IStoreApplication _storeApplication;
         private readonly IProductSellApplication _productSellApplication;
         private readonly IUserPostApplication _userPostApplication;
+        private readonly HttpClient _httpClient;
         public WalletController(IOptions<SiteData> option, ITransactionApplication transactionApplication,
             IWalletApplication walletApplication,IOrderApplication orderApplication, IOrderUserPanelQuery orderUserPanelQuery,
-            ISellerUserPanelQuery sellerUserPanelQuery, IStoreApplication storeApplication,
+            ISellerUserPanelQuery sellerUserPanelQuery, IStoreApplication storeApplication, HttpClient httpClient,
             IProductSellApplication productSellApplication, IUserPostApplication userPostApplication)
         {
             _data = option.Value;
@@ -41,6 +40,7 @@ namespace ShopBoloor.WebApplication.Controllers
             _walletApplication = walletApplication;
             _orderApplication = orderApplication;   
             _userPostApplication = userPostApplication;
+            _httpClient = httpClient;
             _orderUserPanelQuery = orderUserPanelQuery;
             _sellerUserPanelQuery = sellerUserPanelQuery; 
             _productSellApplication = productSellApplication;   
@@ -61,29 +61,26 @@ namespace ShopBoloor.WebApplication.Controllers
                 return View(model);
             else
             {
-                model.Price = transactiom.Price;
-                model.TransactionFor = transactiom.TransactionFor;
-                model.OwnerId = transactiom.OwnerId;
-                if (transactiom.Status ==TransactionStatus.نا_موفق)
+               await Task.Run(async () =>
                 {
-                    var url = "https://sandbox.zarinpal.com/pg/v4/payment/verify.json";
-                    Leaf.xNet.HttpRequest httpRequest = new Leaf.xNet.HttpRequest();
-                    ZarinPalPaymentRequestModel payment = new()
+                    model.Price = transactiom.Price;
+                    model.TransactionFor = transactiom.TransactionFor;
+                    model.OwnerId = transactiom.OwnerId;
+                    if (transactiom.Status == TransactionStatus.نا_موفق)
                     {
-                        amount = transactiom.Price,
-                        authority = authority,
-                        merchant_id = _data.MerchentZarinPall
-                    };
-                    string jsonData = JsonSerializer.Serialize(payment);
-                    byte[] requestData = Encoding.UTF8.GetBytes(jsonData);
-                    try
-                    {
-                        using (WebClient client = new WebClient())
+                        ZarinPalPaymentRequestModel payment = new()
                         {
-                            client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                            byte[] responseData = client.UploadData(url, "POST", requestData);
-                            string responseString = Encoding.UTF8.GetString(responseData);
-                            ZarinpalPaymentResponseModel response = JsonSerializer.Deserialize<ZarinpalPaymentResponseModel>(responseString);
+                            amount = transactiom.Price,
+                            authority = authority,
+                            merchant_id = _data.MerchentZarinPall
+                        };
+                        string data = JsonSerializer.Serialize(payment);
+                        HttpResponseMessage httpResponse = await _httpClient.PostAsync("https://sandbox.zarinpal.com/pg/v4/payment/verify.json",
+                            new StringContent(data, Encoding.UTF8, "application/json"));
+                        if (httpResponse.IsSuccessStatusCode)
+                        {
+                            string responseApi = await httpResponse.Content.ReadAsStringAsync();
+                            ZarinpalPaymentResponseModel response = JsonSerializer.Deserialize<ZarinpalPaymentResponseModel>(responseApi);
                             if (response.data.code == 100 && response.data.message.ToLower() == "paid")
                             {
                                 model.Success = true;
@@ -106,11 +103,13 @@ namespace ShopBoloor.WebApplication.Controllers
                                     case TransactionFor.Order:
                                         var orderId = await _orderApplication.PaymentSuccessOrderAsync(transactiom.UserId, transactiom.Price);
                                         await CheckProductAmoutsAfterPaymentAsync(orderId);
+                                        model.Description = $"فاکتور شماره f_{orderId} با موفقیت پرداخت شد .";
                                         break;
                                     case TransactionFor.PostOrder:
                                         var userPost = await _userPostApplication.GetPostOrderNotPaymentForUser(transactiom.UserId);
                                         PaymentPostModel paymentPost = new(transactiom.UserId, 0, userPost.Price);
                                         await _userPostApplication.PaymentPostOrderAsync(paymentPost);
+                                        model.Description = $"فاکتور Api پست با موفقیت پرداخت شد .";
                                         break;
                                     default:
                                         break;
@@ -132,24 +131,26 @@ namespace ShopBoloor.WebApplication.Controllers
                                 }
                             }
                         }
-                    }
-                    catch (Exception)
-                    {
-                        await _transactionApplication.PaymentAsync(TransactionStatus.نا_موفق, transactiom.Id, "");
-                        switch (transactiom.TransactionFor)
+                        else
                         {
-                            case TransactionFor.Wallet:
+                            await _transactionApplication.PaymentAsync(TransactionStatus.نا_موفق, transactiom.Id, "");
+                            switch (transactiom.TransactionFor)
+                            {
+                                case TransactionFor.Wallet:
 
-                                model.Description = "شارژ کیف پول";
-                                break;
-                            case TransactionFor.Order:
-                                break;
-                            default:
-                                break;
+                                    model.Description = "شارژ کیف پول";
+                                    break;
+                                case TransactionFor.Order:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            //throw new HttpRequestException($"Error: {httpResponse.StatusCode}, {await httpResponse.Content.ReadAsStringAsync()}");
                         }
-                    }
-                }
 
+                    }
+
+                });
                 return View(model);
             }
         }

@@ -1,0 +1,45 @@
+﻿@model List<Site.Application.Contract.MenuApplication.Query.MenuForUi>
+@if(Model.Count() > 0)
+{
+    <ul class="navbar-nav default">
+        @foreach (var item in Model.OrderBy(m => m.Number)){
+            @if (item.Status == Shared.Domain.Enum.MenuStatus.منوی_اصلی){
+                <li>
+                    <a href="@item.Url">@item.Title</a>
+                </li>
+            }
+            @if (item.Status == Shared.Domain.Enum.MenuStatus.منوی_اصلی_با_زیر_منو){
+                <li class="sub-menu">
+                    <a href="#">@item.Title</a>
+                    @if (item.Childs.Count() > 0)
+                    {
+                        <ul>
+                            @foreach (var sub in item.Childs.OrderBy(s => s.Number)){
+                                @if (sub.Childs.Count() > 0)
+                                {
+                                    <li class="sub-menu">
+                                        <a href=" @sub.Url"> @sub.Title</a>
+                                        <ul>
+                                            @foreach (var x in sub.Childs.OrderBy(c => c.Number))
+                                            {
+                                                <li>
+                                                    <a href="@x.Url">@x.Title</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else{
+                                    <li>
+                                        <a href=" @sub.Url"> @sub.Title</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        }
+    </ul>
+
+}

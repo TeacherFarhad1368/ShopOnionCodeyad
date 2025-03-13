@@ -9,6 +9,7 @@ using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.ProductSellApplication.Command;
 using Shop.Domain.OrderAgg;
 using Stores.Application.Contract.StoreApplication.Command;
+using Users.Application.Contract.WalletApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers.Seller;
 
@@ -22,7 +23,8 @@ public class OrderSellerController : Controller
     private readonly IOrderApplication _orderApplication;
     private readonly IStoreApplication _storeApplication;
     private readonly IProductSellApplication _productSellApplication;
-    public OrderSellerController(IAuthService authService, IOrderSellerUserPanelQuery orderSellerUserPanelQuery,
+    private readonly IWalletApplication _walletApplication;
+    public OrderSellerController(IAuthService authService, IOrderSellerUserPanelQuery orderSellerUserPanelQuery, IWalletApplication walletApplication,
         IOrderApplication orderApplication, IStoreApplication storeApplication, IProductSellApplication productSellApplication)
     {
         _authService = authService;
@@ -30,6 +32,7 @@ public class OrderSellerController : Controller
         _orderApplication = orderApplication;
         _storeApplication = storeApplication;
         _productSellApplication = productSellApplication;   
+        _walletApplication = walletApplication;
     }
 
     public IActionResult Index(int pageId = 1)
@@ -48,9 +51,18 @@ public class OrderSellerController : Controller
     public async Task<bool> ChangeStatus(int id,OrderSellerStatus status)
     {
         _userId = _authService.GetLoginUserId();
+        var model = _orderSellerUserPanelQuery.GetOrderSellerDetailForSellerPanel(id, _userId);
         var ok = await _orderApplication.ChnageOrderSellerStatusBySellerAsync(id,status,_userId);
         if(status == OrderSellerStatus.لغو_شده_توسط_فروشنده)
+        {
             await CheckProductAmoutsAfterPaymentAsync(id, _userId);
+            await _walletApplication.DepositForReportOrderSellerAsync(new CreateWallet()
+            {
+                Description = $"لغو ریز فاکتور شماره f_{model.Id}",
+                Price = model.PaymentPrice + model.PostPrice,
+                UserId = model.UserCustomerId
+            });
+        }
         return ok;
     }
     public async Task CheckProductAmoutsAfterPaymentAsync(int orderSellerId,int userId)

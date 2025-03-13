@@ -33,6 +33,7 @@ public class OrderSellerQueryModel
 public class OrderSellerDetailForSellerPanelQueryModel
 {
     public int Id { get; set; }
+    public int UserCustomerId { get; set; }
     public int OrderId { get; set; }
     public int SellerId { get; set; }
     public string SellerAddress { get; set; }

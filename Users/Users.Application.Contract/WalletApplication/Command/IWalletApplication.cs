@@ -11,6 +11,7 @@ public interface IWalletApplication
 {
     Task<OperationResultWithKey> DepositByUserAsync(CreateWalletWithWhy command);
     Task<OperationResult> DepositByAdminAsync(CreateWallet command);
+    Task<OperationResult> DepositForReportOrderSellerAsync(CreateWallet command);
     Task<OperationResult> WithdrawalAsync(CreateWalletWithWhy command);
     Task<bool> SuccessPaymentAsync(int id);
     Task<WalletForCheckPayemntQueryModel> GetWalletForCheckPaymentAsync(int id);

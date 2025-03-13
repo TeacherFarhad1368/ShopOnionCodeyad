@@ -61,6 +61,16 @@
                                 </tr>
                             }
                             <tr>
+                                <td colspan="5" class="text-center py-2"> جمع کل : @Model.PaymentPrice.ToString("#,0")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-2">
+                                    آدرس : @Model.OrderAddress.State - @Model.OrderAddress.City =
+                                    @Model.OrderAddress.AddressDetail - @Model.OrderAddress.PostalCode  - @Model.OrderAddress.Phone -
+                                    @Model.OrderAddress.FullName - @Model.OrderAddress.IranCode
+                                </td>
+                            </tr>
+                            <tr>
                                 @if (!string.IsNullOrEmpty(Model.PostTitle))
                                 {
                                     <td colspan="2" style="align-content: center;" class="text-center py-2"> پست : @Model.PostTitle</td>
@@ -68,7 +78,7 @@
                                 }
                             </tr>
                             <tr>
-                                <td colspan="5" class="text-center py-2"> مبلغ پرداختی : @Model.PaymentPrice.ToString("#,0")</td>
+                                <td colspan="5" class="text-center py-2"> مبلغ پرداختی : @((Model.PaymentPrice + Model.PostPrice).ToString("#,0"))</td>
                             </tr>
                             <tr>
                                 <td colspan="5" class="text-center py-2"> وضعیت : @Model.Status.ToString().Replace("_", " ")</td>
