@@ -362,3 +362,30 @@ function CheckWishLists() {
         $("span#count-wish").text(res);
     });
 }
+function SearchAjax() {
+    var filterInput = $("input#gsearchsimple").val();
+    var img = ` <li class="list-group-item contsearch">
+                    <img class="image-loader-search" src="/Images/icegif-1262.gif" />
+                </li>`;
+    var parent = $("ul#ul-parent-serach");
+    parent.html("");
+    parent.append(img);
+    if (filterInput !== null && filterInput !== "") {
+        $.ajax({
+            type: "Post",
+            url: "/Home/AjaxSearch",
+            data: { filter: filterInput }
+        }).done(function (res) {
+            var model = JSON.parse(res);
+            if (model.length > 0) {
+                parent.html("");
+                model.forEach(x => {
+
+                });
+            }
+            else {
+
+            }
+        });
+    }
+}

@@ -10,4 +10,12 @@ public interface IProductUiQuery
     List<WishListProductQueryModel> GetWishListForUserFromCppkie(List<int> productIds);
     List<AmazingSliderQueryModel> GetAmazingSliderData();
     List<WishListForUserPanelQueryModel> GetLastWishListForUserPanel(int userId);
+    List<AjaxSearchModel> SearchAjax(string filter);
+}
+public class AjaxSearchModel
+{
+    public string ImageAddress { get; set; }
+    public string Title { get; set; }
+    public string Slug { get; set; }
+    public int id { get; set; }
 }

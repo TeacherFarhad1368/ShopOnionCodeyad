@@ -609,4 +609,14 @@ internal class ProductUiQuery : IProductUiQuery
                 Slug = w.Product.Slug,
                 Title = w.Product.Slug
             }).ToList();
+
+    public List<AjaxSearchModel> SearchAjax(string filter) =>
+        _shopContext.Products.Where(p => p.Title.ToLower().Contains(filter.Trim().ToLower()))
+        .Select(p => new AjaxSearchModel
+        {
+            ImageAddress = FileDirectories.ProductImageDirectory100 + p.ImageName,
+            id = p.Id,
+            Slug = p.Slug,
+            Title = p.Title
+        }).ToList();
 }

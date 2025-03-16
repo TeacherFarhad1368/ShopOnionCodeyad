@@ -15,4 +15,5 @@ public interface IOrderUserPanelQuery
     Task<OperationResultWithKey> HaveUserOpenOrderSellerAsyncByOrderSellerIdAsync(int userId, int id);
     Task<bool> IsOpenOrderSellerForUser(int id, int userId);
     OrderUserPanelPaging GetOrdersForUserPanel(int userId, int pageId, int take);
+    Task<int> GetUserIdOfSeller(int sellerId);
 }

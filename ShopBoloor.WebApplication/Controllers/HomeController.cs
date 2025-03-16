@@ -11,6 +11,7 @@ using Shared.Application.Validations;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.WishListApplication.Command;
 using Shop.Application.Contract.WishListApplication.Query;
+using ShopBoloor.WebApplication.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -241,5 +242,26 @@ public class HomeController : Controller
             model = _productUiQuery.GetWishListForUserLoggedIn(userId);
         }
         return View(model);  
+    }
+    [HttpPost]
+    public JsonResult AjaxSearch(string filter)
+    {
+        List<SearchAjaxQueryModel> model = new();
+        if (!string.IsNullOrEmpty(filter))
+        {
+            var product = _productUiQuery.SearchAjax(filter);
+            if (product.Count() > 0)
+                model.AddRange(product.Select(p => new SearchAjaxQueryModel
+                {
+                    ImageAddress = p.ImageAddress,
+                    Url = $"/Product/{p.id}/{p.Slug}",
+                    Title = p.Title,    
+                }).ToList());
+            if(model.Count() < 10)
+            {
+
+            }
+        }
+        return Json(JsonConvert.SerializeObject(model));    
     }
 }

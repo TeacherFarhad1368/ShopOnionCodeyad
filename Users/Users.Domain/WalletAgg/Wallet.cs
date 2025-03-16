@@ -52,4 +52,14 @@ public class Wallet : BaseEntityCreate<int>
     {
         return new Wallet(userId, price, WalletType.برداشت, walletWhy, true, description);
     }
+
+    public static Wallet DepositForPaymentOrderSeller(int userId, int price, string description)
+    {
+        return new Wallet(userId, price, WalletType.واریز, WalletWhy.پرداخت_ریز_فاکتور, true, description);
+    }
+
+    public static Wallet WithdrawForReportOrderSeller(int userId, int price, string description)
+    {
+        return new Wallet(userId, price, WalletType.برداشت, WalletWhy.بازگشت_ریز_فاکتور, true, description);
+    }
 }

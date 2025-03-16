@@ -1,4 +1,5 @@
 ﻿@inject Shared.Application.Services.Auth.IAuthService _auth;
+
 <header class="main-header default">
     <div class="container">
         <div class="row">
@@ -8,9 +9,12 @@
             <div class="col-lg-6 col-md-5 col-sm-8 col-7 d-flex align-items-center">
                 <div class="search-area default w-75">
                     <form action="" class="search">
-                        <input type="text" id="gsearchsimple"
+                        <input type="text" id="gsearchsimple" onkeyup="SearchAjax()"
                         placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
-                        <ul class="list-group search-box-list">
+                        <ul class="list-group search-box-list" id="ul-parent-serach">
+                            <li class="list-group-item contsearch">
+                                <img class="image-loader-search" src="/Images/icegif-1262.gif" />
+                            </li>
                             <li class="list-group-item contsearch">
                                 <a href="#" class="gsearch">
                                     <i class="fad fa-search"></i>
@@ -33,6 +37,18 @@
                                 <a href="#" class="gsearch">
                                     <i class="fad fa-search"></i>
                                     مانتو
+                                </a>
+                            </li>
+                            <li class="list-group-item contsearch">
+                                <a href="#" class="gsearch">
+                                    <i class="fad fa-search"></i>
+                                    لباس ورزشی
+                                </a>
+                            </li>
+                            <li class="list-group-item contsearch">
+                                <a href="#" class="gsearch">
+                                    <i class="fad fa-search"></i>
+                                    لباس ورزشی
                                 </a>
                             </li>
                             <li class="list-group-item contsearch">

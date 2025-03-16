@@ -7885,3 +7885,8 @@ main.profile-user-page .table-order td.order-code {
 }
 
 /* responsive */
+
+.image-loader-search {
+    margin-right: auto !important;
+    width: 100% !important;
+}

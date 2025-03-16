@@ -20,7 +20,11 @@ internal class OrderUserPanelQuery : IOrderUserPanelQuery
         _discountContext = discountContext;
         _post_Context = post_Context;
     }
-
+    public async Task<int> GetUserIdOfSeller(int sellerId)
+    {
+        var seleer = await _shopContext.Sellers.FindAsync(sellerId);
+        return seleer.UserId;
+    }
     public async Task<int> CalculateOrdersellerWeight(int id)
     {
         var seller = await _shopContext.OrderSellers.Include(s=>s.OrderItems).ThenInclude(i=>i.ProductSell)

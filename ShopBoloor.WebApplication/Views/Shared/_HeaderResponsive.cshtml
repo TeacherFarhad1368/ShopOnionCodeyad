@@ -11,8 +11,8 @@
                 <span class="navbar-toggler-bar bar3"></span>
             </button>
             <div class="search-nav default">
-                <form action="">
-                    <input type="text" placeholder="جستجو ..." />
+                <form action="/shop">
+                    <input type="text" name="filter" placeholder="جستجو ..." />
                     <button type="submit"><img src="/Assets/img/search.png" alt=""></button>
                 </form>
                 <ul>
@@ -28,7 +28,6 @@
                 @await Component.InvokeAsync("LogoResponsiveMenuHeader")
             </div>
             @await Component.InvokeAsync("MenuResponsiveIndex")
-            
         </div>
     </div>
 </nav>

@@ -103,6 +103,17 @@ namespace ShopBoloor.WebApplication.Controllers
                                     case TransactionFor.Order:
                                         var orderId = await _orderApplication.PaymentSuccessOrderAsync(transactiom.UserId, transactiom.Price);
                                         await CheckProductAmoutsAfterPaymentAsync(orderId);
+                                        var detail = _orderUserPanelQuery.GetOrderDetailForUserPanel(orderId, transactiom.UserId);
+                                        foreach (var item in detail.OrderSellers)
+                                        {
+                                            int userSellerId = await _orderUserPanelQuery.GetUserIdOfSeller(item.SellerId);
+                                             await _walletApplication.DepositForPaymentOrderSellerAsync(new CreateWallet()
+                                            {
+                                                Description = $"پرداخت ریز فاکتور شماره f_{item.Id}",
+                                                Price = item.PaymentPrice + item.PostPrice,
+                                                UserId = userSellerId
+                                             });
+                                        }
                                         model.Description = $"فاکتور شماره f_{orderId} با موفقیت پرداخت شد .";
                                         break;
                                     case TransactionFor.PostOrder:

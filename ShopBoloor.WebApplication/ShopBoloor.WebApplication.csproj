@@ -7642,7 +7642,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="wwwroot\Images\Product\100\" />
     <Folder Include="wwwroot\Images\Product\500\" />
     <Folder Include="wwwroot\MagAssets\" />

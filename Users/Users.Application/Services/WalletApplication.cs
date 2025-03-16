@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Contract.WalletApplication.Command;
 using Users.Domain.WalletAgg;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Users.Application.Services;
 
@@ -31,6 +32,23 @@ internal class WalletApplication : IWalletApplication
 
     }
 
+    public async Task<OperationResult> DepositForPaymentOrderSellerAsync(CreateWallet command)
+    {
+        Wallet wallet = Wallet.DepositForPaymentOrderSeller(command.UserId, command.Price, command.Description);
+        if (await _walletRepository.CreateAsync(wallet))
+            return new(true);
+
+        return new(false, ValidationMessages.SystemErrorMessage);
+    }
+
+    public async Task<OperationResult> WithdrawForReportOrderSellerAsync(CreateWallet createWallet)
+    {
+        Wallet wallet = Wallet.WithdrawForReportOrderSeller(createWallet.UserId, createWallet.Price, createWallet.Description);
+        if (await _walletRepository.CreateAsync(wallet))
+            return new(true);
+
+        return new(false, ValidationMessages.SystemErrorMessage);
+    }
     public async Task<OperationResult> DepositForReportOrderSellerAsync(CreateWallet command)
     {
         Wallet wallet = Wallet.DepositForReportOrderSeller(command.UserId, command.Price, command.Description);
@@ -61,4 +79,5 @@ internal class WalletApplication : IWalletApplication
 
         return new(false, ValidationMessages.SystemErrorMessage);
     }
+
 }

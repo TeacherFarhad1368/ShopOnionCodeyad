@@ -1,18 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Query.Contract.UserPanel.Order;
 using Query.Contract.UserPanel.Order.Seller;
-using Query.Contract.UserPanel.Seller;
 using Shared.Application.Services.Auth;
 using Shared.Domain.Enum;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.ProductSellApplication.Command;
-using Shop.Domain.OrderAgg;
 using Stores.Application.Contract.StoreApplication.Command;
 using Users.Application.Contract.WalletApplication.Command;
-
 namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers.Seller;
-
 [Area("UserPanel")]
 [Authorize]
 public class OrderSellerController : Controller
@@ -34,7 +29,6 @@ public class OrderSellerController : Controller
         _productSellApplication = productSellApplication;   
         _walletApplication = walletApplication;
     }
-
     public IActionResult Index(int pageId = 1)
     {
         _userId = _authService.GetLoginUserId();    
@@ -61,6 +55,12 @@ public class OrderSellerController : Controller
                 Description = $"لغو ریز فاکتور شماره f_{model.Id}",
                 Price = model.PaymentPrice + model.PostPrice,
                 UserId = model.UserCustomerId
+            });
+            await _walletApplication.WithdrawForReportOrderSellerAsync(new CreateWallet()
+            {
+                Description = $"لغو ریز فاکتور شماره f_{model.Id}",
+                Price = model.PaymentPrice + model.PostPrice,
+                UserId = _userId
             });
         }
         return ok;

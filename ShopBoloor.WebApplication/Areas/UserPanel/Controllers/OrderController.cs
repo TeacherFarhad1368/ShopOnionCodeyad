@@ -461,6 +461,16 @@ namespace ShopBoloor.WebApplication.Areas.UserPanel.Controllers
                                 if (orderId > 0)
                                 {
                                     await CheckProductAmoutsAfterPaymentAsync(orderId);
+                                    foreach(var item in model.Ordersellers)
+                                    {
+                                        int userSellerId = await _orderUserPanelQuery.GetUserIdOfSeller(item.SellerId);
+                                        await _walletApplication.DepositForPaymentOrderSellerAsync(new CreateWallet()
+                                        {
+                                            Description = $"پرداخت ریز فاکتور شماره f_{item.Id}",
+                                            Price = item.PaymentPrice + item.PostPrice,
+                                            UserId = userSellerId
+                                        });
+                                    }
                                     res.Success = true;
                                     res.Message = "فاکتور با موفقیت از کیف پول شما پرداخت شد ";
                                     res.Url = $"/UserPanel/Order/Detail/{model.OrderId}";
