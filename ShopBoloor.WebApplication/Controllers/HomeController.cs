@@ -4,6 +4,7 @@ using Emails.Application.Contract.MessageUserApplication.Command;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
+using Query.Contract.UI.Blog;
 using Query.Contract.UI.Product;
 using Query.Contract.UI.Site;
 using Shared.Application.Services.Auth;
@@ -27,8 +28,9 @@ public class HomeController : Controller
     private readonly IWishListQuery _wishListQuery;
     private readonly IWishListApplication _wishListApplication;
     private readonly IProductUiQuery _productUiQuery;
+    private readonly IBlogUiQuery _blogUiQuery; 
     public HomeController(IEmailUserApplication emailUserApplication, IAuthService authService, IWishListApplication wishListApplication,
-        ISiteUiQuery siteUiQuery, IMessageUserApplication messageUserApplication, IWishListQuery wishListQuery,
+        ISiteUiQuery siteUiQuery, IMessageUserApplication messageUserApplication, IWishListQuery wishListQuery, IBlogUiQuery blogUiQuery,
         IProductUiQuery productUiQuery)
     {
         _emailUserApplication = emailUserApplication;
@@ -38,6 +40,7 @@ public class HomeController : Controller
         _messageUserApplication = messageUserApplication;
         _wishListQuery = wishListQuery;
         _wishListApplication = wishListApplication;
+        _blogUiQuery = blogUiQuery;
     }
     public IActionResult Index() => View(); 
     [Route("/Page/{slug}")]
@@ -259,7 +262,15 @@ public class HomeController : Controller
                 }).ToList());
             if(model.Count() < 10)
             {
-
+                int count = 10 - model.Count;
+                var blogs = _blogUiQuery.SearchAjax(filter,count);
+                if (blogs.Count() > 0)
+                    model.AddRange(blogs.Select(p => new SearchAjaxQueryModel
+                    {
+                        ImageAddress = p.ImageAddress,
+                        Url = $"/Blog/{p.Slug}",
+                        Title = p.Title,
+                    }).ToList());
             }
         }
         return Json(JsonConvert.SerializeObject(model));    

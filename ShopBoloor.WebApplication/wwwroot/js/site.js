@@ -380,11 +380,26 @@ function SearchAjax() {
             if (model.length > 0) {
                 parent.html("");
                 model.forEach(x => {
-
+                    debugger;
+                    var data = `
+                     <li class="list-group-item contsearch">
+                                <a href="${x.Url}" class="gsearch">
+                                    <i>
+                                    <img src="${x.ImageAddress}" height="30" />
+                                    </i>
+                                   ${x.Title}
+                                </a>
+                            </li>
+                               `;
+                    parent.append(data);
                 });
             }
             else {
-
+                parent.html(`
+                     <li class="list-group-item contsearch">
+                                <p>موردی یافت نشد .</p>
+                            </li>
+                               `);
             }
         });
     }

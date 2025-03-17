@@ -180,4 +180,16 @@ internal class BlogUiQuery : IBlogUiQuery
         model.Add(new() { Number = number, Title = blog.Title, Url = "" });
         return model;
     }
+
+    public List<BlogSearchAjaxModel> SearchAjax(string filter,int count)
+    {
+        var res = _blogRepository.GetAllByQuery(b => b.Title.ToLower().Contains(filter.ToLower().Trim()));
+        return res.Take(count).Select(b => new BlogSearchAjaxModel
+        {
+            ImageAddress = FileDirectories.BlogImageDirectory100 + b.ImageName,
+            id = b.Id,
+            Slug = b.Slug,
+            Title = b.Title
+        }).ToList();
+    }
 }
