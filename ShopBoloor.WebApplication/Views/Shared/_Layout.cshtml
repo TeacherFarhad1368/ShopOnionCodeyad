@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @await Component.InvokeAsync("Fav")
+    @RenderSection("SEO", false)
     <title>@ViewData["Title"]</title>
     <partial name="_Css" />
 </head>

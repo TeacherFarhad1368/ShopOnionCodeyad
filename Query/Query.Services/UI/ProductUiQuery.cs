@@ -268,14 +268,11 @@ internal class ProductUiQuery : IProductUiQuery
                 Weight = s.Weight,
                 Id = s.Id,
             }).ToList(),
-            Seo = null,
             Slug = product.Slug,
             Title = product.Title,
             Weight= product.Weight
         };
         model.BreadCrumb = GetProductBreadCrumb(null, product.Slug);
-        var seo = _seoRepository.GetSeoForUi(product.Id, WhereSeo.Product, product.Title);
-        model.Seo = new(seo.MetaTitle, seo.MetaDescription, seo.MetaKeyWords, seo.IndexPage, seo.Canonical, seo.Schema);
         model.ProductSells.ForEach(x =>
         {
             var seller = _shopContext.Sellers.Find(x.SellerId);

@@ -1,5 +1,9 @@
-﻿@{
+﻿@using Shared.Domain.Enum;
+@{
     ViewData["Title"] = "Home Page";
+}
+@section Seo{
+    @await Component.InvokeAsync("Seo", new { ownerId = 0, where  = WhereSeo.Home ,title = "فروشگاه ساز"})
 }
  <main class="main default">
      <div class="container">

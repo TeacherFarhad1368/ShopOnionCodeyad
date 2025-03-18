@@ -4,9 +4,12 @@
 @using Shared.Domain.Enum;
 @inject Shared.Application.Services.Auth.IAuthService _authService;
 @{
-    ViewData["Title"] = Model.Seo.MetaTitle;
+    ViewData["Title"] = Model.Title;
     var SuccessCreateComment = TempData["SuccessCreateComment"] != null;
     var FaildCreateComment = TempData["FaildCreateComment"] != null;
+}
+@section Seo {
+    @await Component.InvokeAsync("Seo", new { ownerId = Model.Id, where = WhereSeo.Product, title = Model.Title })
 }
 <style>
 

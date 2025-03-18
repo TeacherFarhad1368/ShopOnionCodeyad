@@ -14,5 +14,4 @@ public class SingleProductUIQueryModel
     public List<CategoryForProductSingleQueryModel> Categories { get; set; }
     public List<ProductSellForProductSingleQueryModel> ProductSells { get; set; }
     public List<BreadCrumbQueryModel> BreadCrumb { get; set; }
-    public SeoUiQueryModel Seo { get; set; }
 }

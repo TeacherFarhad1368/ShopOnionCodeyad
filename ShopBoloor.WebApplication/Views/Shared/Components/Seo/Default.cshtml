@@ -1,0 +1,29 @@
+﻿@model Seos.Application.Contract.SeoQueryModel;
+@if (!string.IsNullOrEmpty(Model.MetaTitle))
+{
+    <meta name="title" content="@Model.MetaTitle">
+}
+@if (!string.IsNullOrEmpty(Model.Canonical))
+{
+    <link rel="canonical" href="@Model.Canonical">
+}
+@if (!string.IsNullOrEmpty(Model.MetaDescription))
+{
+    <meta name="description" content="@Model.MetaDescription">
+}
+@if (Model.IndexPage)
+{
+    <meta content="index , follow" name="robots">
+}
+else
+{
+    <meta content="noindex , unfollow" name="robots">
+}
+@if (!string.IsNullOrEmpty(Model.MetaKeyWords))
+{
+    <meta name="keywords" content="@Model.MetaKeyWords">
+}
+@if (!string.IsNullOrEmpty(Model.Schema))
+{
+    <meta content="@Model.MetaKeyWords" name="og:description">
+}
