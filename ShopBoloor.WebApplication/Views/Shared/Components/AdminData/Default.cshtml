@@ -1,0 +1,243 @@
+﻿@model Query.Contract.Admin.AdminDataQueryModel
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box" id="deleteddd">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-android-person"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد کاربران</span>
+                <span class="info-box-number">@Model.UserCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="ion ion-person-add"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">ثبت نام در روز گذشته</span>
+                <span class="info-box-number">@Model.UserCountDay</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="ion ion-android-people"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">ثبت نام در هفته گذشته</span>
+                <span class="info-box-number">@Model.UserCountWeek</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">ثبت نام در ماه گذشته</span>
+                <span class="info-box-number">@Model.UserCountMounth</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box" id="deleteddd">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-paypal"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد تراکنش</span>
+                <span class="info-box-number">@Model.TransactionCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-dollar"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">جمع تراکنش ها</span>
+                <span class="info-box-number">@Model.TransactionSum.ToString("#,0")</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-shopping-basket"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد فاکتور</span>
+                <span class="info-box-number">@Model.OrderCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-ship"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد فاکتور پست</span>
+                <span class="info-box-number">@Model.OrderPostCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box" id="deleteddd">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-product-hunt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد محصول</span>
+                <span class="info-box-number">@Model.ProductCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-product-hunt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد محصولات فروشندگان</span>
+                <span class="info-box-number">@Model.ProductCountSell</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-eye"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد بازدید محصول</span>
+                <span class="info-box-number">@Model.ProductCountVisit</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-comment"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد نظرات محصول</span>
+                <span class="info-box-number">@Model.ProductCountComment</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box" id="deleteddd">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-reorder"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد فاکتور فروشنده</span>
+                <span class="info-box-number">@Model.OrderSellerCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-reorder"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد ریز فاکتور</span>
+                <span class="info-box-number">@Model.OrderItemCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-newspaper-o"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد مقاله</span>
+                <span class="info-box-number">@Model.BlogCount</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-eye"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">بازدید مقاله</span>
+                <span class="info-box-number">@Model.BlogCountVisit</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box" id="deleteddd">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-comment"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">نظرات مقالات</span>
+                <span class="info-box-number">@Model.BlogCountComment</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>
