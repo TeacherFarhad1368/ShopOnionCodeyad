@@ -2,4 +2,5 @@
 public interface IAdminQuery
 {
     AdminDataQueryModel GetAdminData();
+    TransactionChartQueryModel GetTransactionChartData(string Year);
 }

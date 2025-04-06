@@ -6,6 +6,7 @@ using Shop.Infrastructure;
 using Transactions.Infrastructure;
 using Users.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Shared.Application;
 namespace Query.Services.Admin;
 class AdminQuery : IAdminQuery
 {
@@ -69,5 +70,113 @@ class AdminQuery : IAdminQuery
             UserCountWeek = userCountWeek
         };
         return model;   
+    }
+
+    public TransactionChartQueryModel GetTransactionChartData(string Year)
+    {
+        TransactionChartQueryModel model = new()
+        {
+            Years = new List<string>(),
+            Prices = new List<int>()
+        };
+        DateTime startDate;
+        DateTime endDate;
+        var transactionFirst = _transactionContext.Transactions.Where(t=>t.Status == Shared.Domain.Enum.TransactionStatus.موفق).OrderBy(b => b.CreateDate).FirstOrDefault();
+        var transactionLast = _transactionContext.Transactions.Where(t => t.Status == Shared.Domain.Enum.TransactionStatus.موفق).OrderBy(b => b.CreateDate).LastOrDefault();
+        if(transactionFirst != null)
+        {
+            startDate = transactionFirst.CreateDate;
+            endDate = transactionLast.CreateDate;
+        }
+        else
+        {
+            startDate = DateTime.Now;
+            endDate = DateTime.Now;
+        }
+        var startYear = Convert.ToInt32(startDate.ToPersainDate().Split(" ").ToList().First());
+        var endYear = Convert.ToInt32(endDate.ToPersainDate().Split(" ").ToList().First());
+        model.Years.Add(startYear.ToString());
+        if(endYear > startYear)
+        {
+            int year = startYear + 1;
+            while(year <= endYear)
+            {
+                model.Years.Add(year.ToString());
+                year++;
+            }
+        }
+        if (Year == "0")
+            Year = endYear.ToString();
+        var  prices = GetMonthTransactionForYear(Year);
+        model.Prices = prices;
+        model.Year = Year;  
+        return model;
+    }
+    private List<int> GetMonthTransactionForYear(string year)
+    {
+        try
+        {
+            List<int> model = new();
+            for (int i = 0; i < 12; i++)
+            {
+                if (i < 6)
+                {
+                    DateTime start = $"{year}/{i + 1}/1".ToEnglishDateTime();
+                    DateTime end = $"{year}/{i + 1}/31".ToEnglishDateTime();
+                    var price = _transactionContext.Transactions.Where(t => t.Status == Shared.Domain.Enum.TransactionStatus.موفق
+                    && (t.CreateDate >= start && t.CreateDate <= end))
+                        .Sum(t => t.Price);
+                    model.Add(price);
+                }
+                else if(i < 11)
+                {
+                    DateTime start = $"{year}/{i + 1}/1".ToEnglishDateTime();
+                    DateTime end = $"{year}/{i + 1}/30".ToEnglishDateTime();
+                    if (i == 11)
+                    {
+                        var x = 4;
+                    }
+                    var price = _transactionContext.Transactions.Where(t => t.Status == Shared.Domain.Enum.TransactionStatus.موفق
+                    && (t.CreateDate >= start && t.CreateDate <= end))
+                        .Sum(t => t.Price);
+                    model.Add(price);
+                }
+                else
+                {
+                    try
+                    {
+                        DateTime start = $"{year}/{i + 1}/1".ToEnglishDateTime();
+                        DateTime end = $"{year}/{i + 1}/30".ToEnglishDateTime();
+                        if (i == 11)
+                        {
+                            var x = 4;
+                        }
+                        var price = _transactionContext.Transactions.Where(t => t.Status == Shared.Domain.Enum.TransactionStatus.موفق
+                        && (t.CreateDate >= start && t.CreateDate <= end))
+                            .Sum(t => t.Price);
+                        model.Add(price);
+                    }
+                    catch (Exception)
+                    {
+                        DateTime start = $"{year}/{i + 1}/1".ToEnglishDateTime();
+                        DateTime end = $"{year}/{i + 1}/29".ToEnglishDateTime();
+                        if (i == 11)
+                        {
+                            var x = 4;
+                        }
+                        var price = _transactionContext.Transactions.Where(t => t.Status == Shared.Domain.Enum.TransactionStatus.موفق
+                        && (t.CreateDate >= start && t.CreateDate <= end))
+                            .Sum(t => t.Price);
+                        model.Add(price);
+                    }
+                }
+            }
+            return model;
+        }
+        catch (Exception x)
+        {
+
+            throw new Exception(x.Message);
+        }
     }
 }

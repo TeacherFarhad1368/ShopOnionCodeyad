@@ -5036,3 +5036,10 @@ table.text-center th {
         color: black;
         border-radius: 100px;
     }
+
+.display-chart-block {
+    display: block !important;
+}
+.display-chart-none{
+    display:none !important;
+}
