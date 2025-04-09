@@ -1,0 +1,84 @@
+﻿@model List<Query.Contract.Admin.LastOrderAdminQueryModel>
+@using Shared.Domain.Enum;
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">آخرین سفارشات</h3>
+
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table no-margin">
+                <thead>
+                    <tr>
+                        <th>شماره</th>
+                        <th>کاربر</th>
+                        <th>وضعیت</th>
+                        <th>مبلغ پرداختی</th>
+                        <th>تاریخ </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(Model.Count() > 0)
+                    {
+                        foreach(var item in Model)
+                        {
+                            <tr>
+                                <td><a asp-controller="Order" asp-action="Detail" asp-route-id="@item.OrderId">f_@item.OrderId</a></td>
+                                <td> @item.UserName</td>
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case Shared.Domain.Enum.OrderStatus.پرداخت_نشده:
+                                        <span class="label label-warning">@item.Status.ToString().Replace("_"," ")</span>
+                                            break;
+                                        case Shared.Domain.Enum.OrderStatus.پرداخت_شده:
+                                            <span class="label label-success">@item.Status.ToString().Replace("_", " ")</span>
+                                            break;
+                                        case Shared.Domain.Enum.OrderStatus.لغو_شده_توسط_مشتری:
+                                            <span class="label label-danger">@item.Status.ToString().Replace("_", " ")</span>
+                                            break;
+                                        case Shared.Domain.Enum.OrderStatus.لغو_شده_توسط_ادمین:
+                                            <span class="label label-danger">@item.Status.ToString().Replace("_", " ")</span>
+                                            break;
+                                        case Shared.Domain.Enum.OrderStatus.ارسال_شده:
+                                            <span class="label label-info">@item.Status.ToString().Replace("_", " ")</span>
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <div class="sparkbar">@item.PaymentPrice.ToString("#,0")</div>
+                                </td>
+                                <td>
+                                    @item.CreationDate
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">فاکتوری برای نمایش موجود نیست</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+        <a asp-controller="Order" asp-action="Index" class="btn btn-sm btn-default btn-flat pull-right">نمایش همه</a>
+    </div>
+    <!-- /.box-footer -->
+</div>

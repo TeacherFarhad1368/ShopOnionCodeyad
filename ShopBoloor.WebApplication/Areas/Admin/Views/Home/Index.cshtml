@@ -32,7 +32,7 @@
                         <p class="text-center">
                             <strong id="title-chart-year"></strong>
                         </p>
-                        <div class="chart" style="height: 300px;">
+                        <div class="chart" style="height: 300px;" id="ParentChartDiv">
                             <!-- Sales Chart Canvas -->
                             <canvas id="salesChart" style="height: 300px;"></canvas>
                         </div>
@@ -85,178 +85,13 @@
             </div>
             <!-- /.box-footer -->
         </div>
-        <!-- /.box -->
     </div>
-    <!-- /.col -->
 </div>
 <div class="row">
-    <!-- Left col -->
     <div class="col-md-12">
-        <div class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title">آخرین کاربران</h3>
-
-                <div class="box-tools pull-right">
-                    <span class="label label-danger">۸ کاربر جدید</span>
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <ul class="users-list clearfix">
-                    <li>
-                        <img src="/AdminAssets/dist/img/user1-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">الکساندر گراهامبل</a>
-                        <span class="users-list-date">امروز</span>
-                    </li>
-                    <li>
-                        <img src="/AdminAssets/dist/img/user8-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">نیوتن</a>
-                        <span class="users-list-date">دیروز</span>
-                    </li>
-                    <li>
-                        <img src="/AdminAssets/dist/img/user7-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">جودی ابوت</a>
-                        <span class="users-list-date">۱۴ شهریور</span>
-                    </li>
-                    <li>
-                        <img src="/AdminAssets/dist/img/user6-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">اوباما</a>
-                        <span class="users-list-date">۱۵ شهریور</span>
-                    </li>
-                    <li>
-                        <img src="/AdminAssets/dist/img/user2-160x160.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">استیو جابز</a>
-                        <span class="users-list-date">۳۰ شهریور</span>
-                    </li>
-                    <li>
-                        <img src="/AdminAssets/dist/img/user5-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">ادیسون</a>
-                        <span class="users-list-date">۲ هفته پیش</span>
-                    </li>
-                    <li>
-                        <img src="/AdminAssets/dist/img/user4-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">شنل قرمزی</a>
-                        <span class="users-list-date">۲ ماه پیش</span>
-                    </li>
-                    <li>
-                        <img src="/AdminAssets/dist/img/user3-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">سرندیپیتی</a>
-                        <span class="users-list-date">۳ سال پیش</span>
-                    </li>
-                </ul>
-                <!-- /.users-list -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">نمایش همه کاربران</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
-        <!-- TABLE: LATEST ORDERS -->
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <h3 class="box-title">آخرین سفارشات</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th>شماره</th>
-                                <th>محصول</th>
-                                <th>وضعیت</th>
-                                <th>رضایت مشتری</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>آیفون ۵</td>
-                                <td><span class="label label-success">ارسال شده</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>سامسونگ ۶</td>
-                                <td><span class="label label-warning">در انتظار</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>آیفون ۶</td>
-                                <td><span class="label label-danger">پرداخت شده</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>لپ تاپ ایسوز</td>
-                                <td><span class="label label-info">در حال پردازش</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>مک بوک ایر</td>
-                                <td><span class="label label-warning">در انتظار</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>سونی اکسپریا</td>
-                                <td><span class="label label-danger">پرداخت شده</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>ماوس اپتیکال</td>
-                                <td><span class="label label-success">ارسال شده</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">سفارش جدید</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">نمایش همه</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
-        <!-- /.box -->
+        @await Component.InvokeAsync("AdminLastUser")
+        @await Component.InvokeAsync("AdminLastOrder")
     </div>
-   
-   
 </div>
 @section Scripts{
     <script src="/js/chart.js"></script>

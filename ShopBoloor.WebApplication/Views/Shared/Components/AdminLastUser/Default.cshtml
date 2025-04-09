@@ -1,0 +1,35 @@
+﻿@model List<Query.Contract.Admin.LastUserAdminQueryModel>
+<div class="box box-danger">
+    <div class="box-header with-border">
+        <h3 class="box-title">آخرین کاربران</h3>
+
+        <div class="box-tools pull-right">
+            <span class="label label-danger">@Model.Count() کاربر جدید</span>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+        <ul class="users-list clearfix">
+            @foreach(var item in Model)
+            {
+                <li>
+                    <img src="@item.ImageName" alt="@item.FullName">
+                    <a class="users-list-name" asp-controller="User" asp-action="Detail" asp-route-id="@item.UserId">@item.FullName</a>
+                    <span class="users-list-date">@item.RegisterDate</span>
+                </li>
+            }
+        </ul>
+        <!-- /.users-list -->
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-center">
+        <a asp-controller="User" asp-action="Index" class="uppercase">نمایش همه کاربران</a>
+    </div>
+    <!-- /.box-footer -->
+</div>

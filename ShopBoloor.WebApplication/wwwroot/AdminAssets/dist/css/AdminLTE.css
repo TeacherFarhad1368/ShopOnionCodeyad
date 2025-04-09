@@ -2919,11 +2919,12 @@ table.text-center th {
   padding: 10px;
   text-align: center;
 }
-.users-list > li img {
-  border-radius: 50%;
-  max-width: 100%;
-  height: auto;
-}
+    .users-list > li img {
+        border-radius: 50%;
+        max-width: 100%;
+        width: 100px;
+        height: 100px !important;
+    }
 .users-list > li > a:hover,
 .users-list > li > a:hover .users-list-name {
   color: #999;

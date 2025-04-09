@@ -72,6 +72,38 @@ class AdminQuery : IAdminQuery
         return model;   
     }
 
+    public List<LastOrderAdminQueryModel> GetLastOrdersForAdmin()
+    {
+        List<LastOrderAdminQueryModel> model = _shopContext.Orders.Include(o=>o.OrderSellers)
+            .ThenInclude(s=>s.OrderItems).OrderByDescending(o => o.UpdateDate)
+            .Select(o => new LastOrderAdminQueryModel
+            {
+                CreationDate = o.CreateDate.ToPersainDate(),
+                OrderId = o.Id,
+                PaymentPrice = o.PaymentPrice,
+                Status = o.OrderStatus,
+                UserId = o.UserId,
+                UserName = ""
+            }).Take(10).ToList();
+        model.ForEach(x =>
+        {
+            var user = _userContext.Users.Find(x.UserId);
+            x.UserName = string.IsNullOrEmpty(user.FullName) ? user.Mobile : user.FullName;
+            
+        });
+        return model;
+    }
+
+    public List<LastUserAdminQueryModel> GetLastUsersForAdmin() =>
+        _userContext.Users.OrderByDescending(u => u.CreateDate)
+        .Select(u => new LastUserAdminQueryModel
+        {
+            FullName =string.IsNullOrEmpty(u.FullName) ? u.Mobile : u.FullName,
+            ImageName = FileDirectories.UserImageDirectory100 + u.Avatar,
+            RegisterDate = u.CreateDate.ToPersainDate(),
+            UserId = u.Id
+        }).Take(8).ToList();
+
     public TransactionChartQueryModel GetTransactionChartData(string Year)
     {
         TransactionChartQueryModel model = new()

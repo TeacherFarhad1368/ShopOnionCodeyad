@@ -21,3 +21,33 @@ public class AdminDataViewComponent : ViewComponent
         return View(model);
     }
 }
+public class AdminLastUserViewComponent : ViewComponent
+{
+    private readonly IAdminQuery _adminQuery;
+
+    public AdminLastUserViewComponent(IAdminQuery adminQuery)
+    {
+        _adminQuery = adminQuery;
+    }
+
+    public IViewComponentResult Invoke()
+    {
+        var model = _adminQuery.GetLastUsersForAdmin();
+        return View(model);
+    }
+}
+public class AdminLastOrderViewComponent : ViewComponent
+{
+    private readonly IAdminQuery _adminQuery;
+
+    public AdminLastOrderViewComponent(IAdminQuery adminQuery)
+    {
+        _adminQuery = adminQuery;
+    }
+
+    public IViewComponentResult Invoke()
+    {
+        var model = _adminQuery.GetLastOrdersForAdmin();
+        return View(model);
+    }
+}

@@ -5,6 +5,9 @@ function ChangeYearChart(y) {
     
     var chartDiv = $("div#chartIndexDiv");
     var chartLoading = $("div#chartLoadingIndexDiv");
+    var parent = $("#ParentChartDiv");
+    parent.html("");
+    parent.append(`<canvas id="salesChart" style="height: 300px;"></canvas>`);
     chartDiv.addClass('display-chart-none');
     chartLoading.addClass('display-chart-block');
     $.ajax({
