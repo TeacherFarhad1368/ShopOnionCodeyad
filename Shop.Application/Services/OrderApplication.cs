@@ -200,5 +200,13 @@ internal class OrderApplication : IOrderApplication
     }
 
     public async Task<bool> ChnageOrderSellerStatusBySellerAsync(int orderSellerId, OrderSellerStatus status, int userId)=>
-        await _orderRepository.ChnageOrderSellerStatusBySellerAsync(orderSellerId, status, userId); 
+        await _orderRepository.ChnageOrderSellerStatusBySellerAsync(orderSellerId, status, userId);
+
+    public async Task<bool> CancelByAdminAsync(int id)
+    {
+        return await _orderRepository.CancelByAdminAsync(id);
+    }
+
+    public async Task<bool> CancelOrderSellersAsync(int id) =>
+        await _orderRepository.CancelOrderSellersAsync(id);
 }

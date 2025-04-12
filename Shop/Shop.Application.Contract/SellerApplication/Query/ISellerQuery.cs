@@ -8,5 +8,6 @@ namespace Shop.Application.Contract.SellerApplication.Query
 {
     public interface ISellerQuery
     {
+        int GetSellerUserId(int sellerId);
     }
 }

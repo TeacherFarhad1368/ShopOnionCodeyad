@@ -15,6 +15,28 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
         _context = context;
     }
 
+    public async Task<bool> CancelByAdminAsync(int id)
+    {
+        var order = await _context.Orders
+            .SingleOrDefaultAsync(s=>s.Id == id && s.OrderStatus == OrderStatus.پرداخت_شده);
+        if (order == null) return false;
+        order.ChamgeStatus(OrderStatus.لغو_شده_توسط_ادمین);
+        return await SaveAsync();
+    }
+
+    public async Task<bool> CancelOrderSellersAsync(int id)
+    {
+        var order = await _context.Orders.Include(o => o.OrderSellers)
+             .SingleOrDefaultAsync(s => s.Id == id && s.OrderStatus == OrderStatus.پرداخت_شده);
+        if (order == null || order.OrderStatus != OrderStatus.لغو_شده_توسط_ادمین) return false;
+        foreach (var item in order.OrderSellers)
+        {
+            if (item.Status != OrderSellerStatus.لغو_شده_توسط_فروشنده)
+                item.ChangeStatus(OrderSellerStatus.لغو_شده_توسط_ادمین);
+        }
+        return await SaveAsync();
+    }
+
     public async Task CheckOrderEmpty(int userId)
     {
         var order =

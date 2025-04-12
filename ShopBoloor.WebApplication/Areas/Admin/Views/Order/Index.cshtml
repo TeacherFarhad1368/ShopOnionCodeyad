@@ -1,6 +1,7 @@
 ﻿@model OrderAdminPaging
 @using Query.Contract.Admin.Order;
 @using Shared.Application;
+@using Shared.Domain.Enum;
 @{
     ViewData["Title"] = Model.PageTitle;
 }
@@ -115,6 +116,18 @@
                                     <td>@item.UpdateDate</td>
                                     <td>
                                         <a class="btn btn-info" asp-action="Detail" asp-route-id="@item.Id">جزییات</a>
+                                        @if(item.OrderStatus == OrderStatus.پرداخت_شده)
+                                        {
+                                            <a class="btn btn-danger" onclick="AjaxSweetRefresh(
+                                 'لغو فاکتور',
+                                 'فاکتور لغو شود ؟',
+                                 'question',
+                                 'لغو شود',
+                                  'انصراف',
+                                   '/Admin/Order/Cancel/@item.Id')">
+                                                لغو شود
+                                            </a>
+                                        }
                                     </td>
                                 </tr>
                             }

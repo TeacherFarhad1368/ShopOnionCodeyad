@@ -18,4 +18,6 @@ public interface IOrderApplication
     Task<bool> UbsertOpenOrderForUserAsync(int _userId,List<ShopCartViewModel> cart);
     Task<int> PaymentSuccessOrderAsync(int userId, int price);
     Task<bool> ChnageOrderSellerStatusBySellerAsync(int orderSellerId, OrderSellerStatus status, int userId);
+    Task<bool> CancelByAdminAsync(int id);
+    Task<bool> CancelOrderSellersAsync(int id);
 }
