@@ -20,4 +20,6 @@ public interface IOrderApplication
     Task<bool> ChnageOrderSellerStatusBySellerAsync(int orderSellerId, OrderSellerStatus status, int userId);
     Task<bool> CancelByAdminAsync(int id);
     Task<bool> CancelOrderSellersAsync(int id);
+    Task<bool> ImperfectOrderAsync(int id);
+    Task<bool> SendOrderAsync(int id);
 }

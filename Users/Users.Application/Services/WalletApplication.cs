@@ -10,7 +10,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Users.Application.Services;
 
-internal class WalletApplication : IWalletApplication
+internal class WalletApplication : IWalletApplication 
 {
     private readonly IWalletRepository _walletRepository;
     public WalletApplication(IWalletRepository walletRepository)

@@ -28,7 +28,7 @@ internal class OrderRepository : Repository<int, Order>, IOrderRepository
     {
         var order = await _context.Orders.Include(o => o.OrderSellers)
              .SingleOrDefaultAsync(s => s.Id == id && s.OrderStatus == OrderStatus.پرداخت_شده);
-        if (order == null || order.OrderStatus != OrderStatus.لغو_شده_توسط_ادمین) return false;
+        if (order == null || order.OrderStatus != OrderStatus.پرداخت_شده ) return false;
         foreach (var item in order.OrderSellers)
         {
             if (item.Status != OrderSellerStatus.لغو_شده_توسط_فروشنده)

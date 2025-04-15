@@ -1,4 +1,5 @@
 ﻿@model Query.Contract.Admin.Order.OrderDetailForAdminQueryModel
+@using Shared.Domain.Enum;
 
 @{
     ViewData["Title"] = "جزییات فاکتور";
@@ -13,6 +14,38 @@
                     <hr />
                     <div class="alert" style="color:white !important;background-color:#3a3a3a !important;border:none !important">
                         وضعیت سفارش = @Model.OrderStatus.ToString().Replace('_', ' ')
+                        <p>
+                            @if (Model.OrderStatus == OrderStatus.پرداخت_شده)
+                            {
+                                <a class="btn btn-danger" onclick="AjaxSweetRefresh(
+                                 'لغو فاکتور',
+                                 'فاکتور لغو شود ؟',
+                                 'question',
+                                 'لغو شود',
+                                  'انصراف',
+                                   '/Admin/Order/Cancel/@Model.Id')">
+                                    لغو شود
+                                </a>
+                                <a class="btn btn-success" onclick="AjaxSweetRefresh(
+                                 ' ارسال فاکتور ',
+                                 'فاکتور ارسال شد ؟',
+                                 'question',
+                                 'ارسال شود',
+                                  'انصراف',
+                                   '/Admin/Order/Send/@Model.Id')">
+                                    ارسال شود
+                                </a>
+                                <a class="btn btn-warning" onclick="AjaxSweetRefresh(
+                                 ' فاکتور ناقص',
+                                 'فاکتور ناقص است ؟',
+                                 'question',
+                                 'ناقص است',
+                                  'انصراف',
+                                   '/Admin/Order/Imperfect/@Model.Id')">
+                                    ناقص است
+                                </a>
+                            }
+                        </p>
                     </div>
                 </div>
                 <div class="box-body table-overflow">

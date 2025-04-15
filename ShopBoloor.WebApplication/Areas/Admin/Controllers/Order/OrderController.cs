@@ -57,13 +57,13 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Order
                         {
                             int userId = _sellerQuery.GetSellerUserId(item.SellerId);
                             await CheckProductAmoutsAfterPaymentAsync(item.Id, userId);
-                            await _walletApplication.DepositForReportOrderSellerAsync(new CreateWallet()
+                         var res1 =   await _walletApplication.DepositForReportOrderSellerAsync(new CreateWallet()
                             {
                                 Description = $"لغو فاکتور شماره f_{model.Id}",
                                 Price = item.PaymentPrice + item.PostPrice,
                                 UserId = model.User.UserId
                             });
-                            await _walletApplication.WithdrawForReportOrderSellerAsync(new CreateWallet()
+                          var res =  await _walletApplication.WithdrawForReportOrderSellerAsync(new CreateWallet()
                             {
                                 Description = $"لغو فاکتور شماره f_{model.Id}",
                                 Price = item.PaymentPrice + item.PostPrice,
@@ -71,7 +71,7 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Order
                             });
                         }
                     }
-                    await _orderApplication.CancelOrderSellersAsync(id);
+                   var res2 = await _orderApplication.CancelOrderSellersAsync(id);
                     return true;
                 }
                 else return false;
@@ -110,6 +110,14 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Order
                     Type = r.Type
                 }).ToList());
             }
+        }
+        public async Task<bool> Imperfect(int id)
+        {
+            return await _orderApplication.ImperfectOrderAsync(id);
+        }
+        public async Task<bool> Send(int id)
+        {
+            return await _orderApplication.SendOrderAsync(id);
         }
     }
 }

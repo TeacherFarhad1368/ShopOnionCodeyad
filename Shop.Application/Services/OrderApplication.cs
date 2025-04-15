@@ -209,4 +209,20 @@ internal class OrderApplication : IOrderApplication
 
     public async Task<bool> CancelOrderSellersAsync(int id) =>
         await _orderRepository.CancelOrderSellersAsync(id);
+
+    public async Task<bool> ImperfectOrderAsync(int id)
+    {
+        var order = await _orderRepository.GetByIdAsync(id);
+        if (order == null || order.OrderStatus != OrderStatus.پرداخت_شده) return false;
+        order.ChamgeStatus(OrderStatus.ناقص);
+        return await _orderRepository.SaveAsync();
+    }
+
+    public async Task<bool> SendOrderAsync(int id)
+    {
+        var order = await _orderRepository.GetByIdAsync(id);
+        if (order == null || order.OrderStatus != OrderStatus.پرداخت_شده) return false;
+        order.ChamgeStatus(OrderStatus.ارسال_شده);
+        return await _orderRepository.SaveAsync();
+    }
 }
