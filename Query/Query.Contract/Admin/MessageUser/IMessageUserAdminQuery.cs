@@ -11,4 +11,5 @@ public interface IMessageUserAdminQuery
 {
 	MessageUserAdminPaging GetMessagesForAdmin(int pageId, int take, string filter, MessageStatus status);
 	MessageUserDetailAdminQueryModel GetMessageDetailForAdmin(int id);
+	List<MessageUserNotificationAdminPageQueryModel> GetUnSeenUserMessagesFotNotifes();
 }

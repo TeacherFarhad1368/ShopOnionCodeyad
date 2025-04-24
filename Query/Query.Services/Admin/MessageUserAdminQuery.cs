@@ -87,5 +87,30 @@ namespace Query.Services.Admin
 			});
 			return model;
 		}
-	}
+
+        public List<MessageUserNotificationAdminPageQueryModel> GetUnSeenUserMessagesFotNotifes()
+        {
+            var result = _messageUserRepository.GetAllByQuery(c=>c.Status == MessageStatus.دیده_نشده).OrderByDescending(m => m.Id);
+			List<MessageUserNotificationAdminPageQueryModel> model = result.Select(m => new MessageUserNotificationAdminPageQueryModel
+			{
+				UserAvatar = "",
+				CreationDate = m.CreateDate.ToPersainDate(),
+				FullName = m.FullName,
+				Id = m.Id,
+				Message = m.Message,
+				UserId = m.UserId
+            }).ToList();
+			foreach(var item in model)
+                if (item.UserId > 0)
+                {
+                    var user = _userRepository.GetById(item.UserId);
+                    if (user != null)
+                        item.UserAvatar = FileDirectories.UserImageDirectory100 + user.Avatar;
+                    else
+                        item.UserAvatar = FileDirectories.UserImageDirectory100 + FileDirectories.UserDefaultAvatar;
+                }
+			else item.UserAvatar = FileDirectories.UserImageDirectory100 + FileDirectories.UserDefaultAvatar;
+            return model;
+        }
+    }
 }

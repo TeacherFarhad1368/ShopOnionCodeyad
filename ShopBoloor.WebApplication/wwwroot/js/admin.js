@@ -253,3 +253,34 @@ function ChangePagination(page) {
     $("input#inputPageId").val(page);
     $("form#formSearchAdmin").submit();
 }
+function GetAdminMessages() {
+    var parent = $("#UlMessageNotifications");
+    var header = $("#UlMessageNotificationsHeader");
+    var headerSpan = $("#UlMessageNotificationsHeaderspan");
+    parent.html("");
+    $.ajax({
+        type: "Post",
+        url: "/Admin/Message/GetMessageNotifications"
+    }).done(function (res) {
+        var model = [];
+        model = JSON.parse(res);
+        debugger;
+        model.forEach(x => {
+            var li = ` <li>
+                                    <a href="/Admin/Message/Detail/${x.Id}">
+                                        <div class="pull-right">
+                                            <img src="${x.UserAvatar}" class="img-circle" alt="${x.FullName}">
+                                        </div>
+                                        <h4>
+                                            ${x.FullName}
+                                            <small><i class="fa fa-clock-o"></i>${x.CreationDate}</small>
+                                        </h4>
+                                        <p>${x.Message}</p>
+                                    </a>
+                                </li>`;
+            parent.append(li);
+        });
+        header.text(`${model.length} پیام خوانده نشده`)
+        headerSpan.text(model.length);
+    });
+}

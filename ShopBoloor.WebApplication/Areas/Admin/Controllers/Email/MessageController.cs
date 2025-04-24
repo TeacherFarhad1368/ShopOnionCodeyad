@@ -1,5 +1,6 @@
 ﻿using Emails.Application.Contract.MessageUserApplication.Command;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Query.Contract.Admin.MessageUser;
 using Shared.Domain.Enum;
 
@@ -47,5 +48,12 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Email
 					return _messageUserApplication.AnswerByCall(id);
 			}
 		}
+		[HttpPost]
+		public JsonResult GetMessageNotifications()
+		{
+			var model = _messageUserAdminQuery.GetUnSeenUserMessagesFotNotifes();
+			var jsom = JsonConvert.SerializeObject(model);
+			return Json(jsom);
+        }
 	}
 }

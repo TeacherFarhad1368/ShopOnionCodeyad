@@ -38,7 +38,7 @@
                                     @switch (item.Status)
                                     {
                                         case Shared.Domain.Enum.OrderStatus.پرداخت_نشده:
-                                        <span class="label label-warning">@item.Status.ToString().Replace("_"," ")</span>
+                                            <span class="label label-warning">@item.Status.ToString().Replace("_"," ")</span>
                                             break;
                                         case Shared.Domain.Enum.OrderStatus.پرداخت_شده:
                                             <span class="label label-success">@item.Status.ToString().Replace("_", " ")</span>
@@ -51,6 +51,9 @@
                                             break;
                                         case Shared.Domain.Enum.OrderStatus.ارسال_شده:
                                             <span class="label label-info">@item.Status.ToString().Replace("_", " ")</span>
+                                            break;
+                                        case OrderStatus.ناقص:
+                                            <span class="label label-warning">@item.Status.ToString().Replace("_", " ")</span>
                                             break;
                                         default:
                                             break;
