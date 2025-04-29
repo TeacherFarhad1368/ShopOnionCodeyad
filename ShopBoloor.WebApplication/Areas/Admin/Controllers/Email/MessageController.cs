@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Query.Contract.Admin.MessageUser;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Email
 {
 	[Area("Admin")]
-	public class MessageController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_خبرنامه)]
+    public class MessageController : Controller
 	{
 		private readonly IMessageUserAdminQuery _messageUserAdminQuery;
 		private readonly IMessageUserApplication _messageUserApplication;
@@ -48,12 +50,5 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Email
 					return _messageUserApplication.AnswerByCall(id);
 			}
 		}
-		[HttpPost]
-		public JsonResult GetMessageNotifications()
-		{
-			var model = _messageUserAdminQuery.GetUnSeenUserMessagesFotNotifes();
-			var jsom = JsonConvert.SerializeObject(model);
-			return Json(jsom);
-        }
 	}
 }

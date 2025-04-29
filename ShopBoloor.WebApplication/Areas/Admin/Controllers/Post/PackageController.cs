@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PostModule.Application.Contract.UserPostApplication.Command;
 using PostModule.Application.Contract.UserPostApplication.Query;
+using ShopBoloor.WebApplication.Utility;
 using System.Diagnostics.Contracts;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Package
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_پست)]
     public class PackageController : Controller
     {
         private readonly IPackageQuery _PackageQuery;

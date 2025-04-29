@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 using Users.Application.Contract.RoleApplication.Command;
 using Users.Application.Contract.RoleApplication.Query;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.User
 {
     [Area("Admin")]
+    [PermissionChecker(UserPermission.مدیریت_نقش_ها)]
     public class RoleController : Controller
     {
         private readonly IRoleQuery _roleQuery;

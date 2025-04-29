@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Query.Contract.Admin.Comment;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Comment
 {
 	[Area("Admin")]
-	public class CommentController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_نظرات)]
+    public class CommentController : Controller
 	{
 		private readonly ICommentAdminQuery _commentAdminQuery;
 		private readonly ICommentApplication _commentApplication;

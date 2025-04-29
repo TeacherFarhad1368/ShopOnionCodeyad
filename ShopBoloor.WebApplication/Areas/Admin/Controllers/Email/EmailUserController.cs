@@ -1,11 +1,13 @@
 ﻿using Emails.Application.Contract.EmailUserApplication.Command;
 using Microsoft.AspNetCore.Mvc;
 using Query.Contract.Admin.Email;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Email
 {
 	[Area("Admin")]
-	public class EmailUserController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_خبرنامه)]
+    public class EmailUserController : Controller
 	{
 		private readonly IEmailAdminQuery _emailAdminQuery;
 		private readonly IEmailUserApplication _emailUserApplication;

@@ -2,10 +2,12 @@
 using Site.Application.Contract.BanerApplication.Query;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Application.Services.Auth;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 {
 	[Area("Admin")]
+	[PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_سایت)]
 	public class BanerController : Controller
 	{
 		private readonly IBanerQuery _BanerQuery;

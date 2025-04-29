@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Shared.Application.Services.Auth;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Blog
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_مقالات)]
     public class BlogController : Controller
     {
         private readonly IBlogQuery _BlogQuery;

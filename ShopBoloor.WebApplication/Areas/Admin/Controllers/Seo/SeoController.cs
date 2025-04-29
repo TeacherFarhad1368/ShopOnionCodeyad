@@ -2,10 +2,12 @@
 using Query.Contract.Admin.Seo;
 using Seos.Application.Contract;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Seo
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_Seo)]
     public class SeoController : Controller
     {
         private readonly ISeoApplication _seoApplication;

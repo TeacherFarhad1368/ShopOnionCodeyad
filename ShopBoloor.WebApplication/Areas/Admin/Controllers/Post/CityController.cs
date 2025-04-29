@@ -3,11 +3,13 @@ using PostModule.Application.Contract.CityApplication;
 using PostModule.Application.Contract.StateApplication;
 using PostModule.Application.Contract.StateQuery;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 {
 	[Area("Admin")]
-	public class CityController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_پست)]
+    public class CityController : Controller
 	{
 		private readonly IStateQuery _stateQuery;
 		private readonly ICityApplication _cityApplication;

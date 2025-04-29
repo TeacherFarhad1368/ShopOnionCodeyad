@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Query.Contract.Admin.User;
 using Shared.Application;
+using ShopBoloor.WebApplication.Utility;
 using Users.Application.Contract.UserApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.User
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_کاربران)]
     public class UserController : Controller
     {
         private readonly IAdminUserQuery _adminUserQuery;

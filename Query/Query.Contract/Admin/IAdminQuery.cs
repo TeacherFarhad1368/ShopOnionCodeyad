@@ -5,4 +5,5 @@ public interface IAdminQuery
     TransactionChartQueryModel GetTransactionChartData(string Year);
     List<LastUserAdminQueryModel> GetLastUsersForAdmin();
     List<LastOrderAdminQueryModel> GetLastOrdersForAdmin();
+    List<NotificationForAdminQueryModel> GetNotificationForAdmin();
 }

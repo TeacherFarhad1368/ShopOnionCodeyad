@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using PostModule.Application.Contract.StateApplication;
 using PostModule.Application.Contract.StateQuery;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 {
 	[Area("Admin")]
-	public class StateController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_پست)]
+    public class StateController : Controller
 	{
 		private readonly IStateApplication _stateApplication;
 		private readonly IStateQuery _stateQuery;

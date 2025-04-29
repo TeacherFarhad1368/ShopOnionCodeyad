@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Application;
+using ShopBoloor.WebApplication.Utility;
 using Site.Application.Contract.ImageSiteApplication.Command;
 using Site.Application.Contract.ImageSiteApplication.Query;
 using Site.Application.Contract.SiteSettingApplication.Command;
@@ -22,9 +23,11 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 			_imageSiteQuery = imageSiteQuery;
 		}
 
-		public IActionResult Index()=> View(_siteSettingApplication.GetForUbsert());
+        [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_سایت)]
+        public IActionResult Index()=> View(_siteSettingApplication.GetForUbsert());
 		[HttpPost]
-		public IActionResult Index(UbsertSiteSetting model)
+        [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_سایت)]
+        public IActionResult Index(UbsertSiteSetting model)
 		{
 			if (!ModelState.IsValid) return View(model);
 			var res = _siteSettingApplication.Ubsert(model);
@@ -37,10 +40,13 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 			return View(model);
 		}
 
-		public IActionResult Images(int pageId = 1, int take = 10, string filter = "") =>
+        [PermissionChecker(Shared.Domain.Enum.UserPermission.آپلود_تصویر)]
+        public IActionResult Images(int pageId = 1, int take = 10, string filter = "") =>
 			   View(_imageSiteQuery.GetAllForAdmin(pageId, take, filter));
-		public IActionResult CreateImage() => View();
-		[HttpPost]
+        [PermissionChecker(Shared.Domain.Enum.UserPermission.آپلود_تصویر)]
+        public IActionResult CreateImage() => View();
+        [PermissionChecker(Shared.Domain.Enum.UserPermission.آپلود_تصویر)]
+        [HttpPost]
 		public IActionResult CreateImage(CreateImageSite model)
 		{
 			if (!ModelState.IsValid) return View(model);
@@ -53,7 +59,8 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 			ModelState.AddModelError(res.ModelName, res.Message);
 			return View(model);
         }
-		public bool DeleteImage(int id) => _imageSiteApplication.DeleteFromDataBase(id);
+        [PermissionChecker(Shared.Domain.Enum.UserPermission.حذف_تصویر)]
+        public bool DeleteImage(int id) => _imageSiteApplication.DeleteFromDataBase(id);
 
     }
 }

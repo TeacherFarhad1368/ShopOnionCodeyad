@@ -284,3 +284,27 @@ function GetAdminMessages() {
         headerSpan.text(model.length);
     });
 }
+function GetAdminNotifess() {
+    var parent = $("#UlNotifications");
+    var header = $("#UlNotificationsHeader");
+    var headerSpan = $("#UlNotificationsHeaderspan");
+    parent.html("");
+    $.ajax({
+        type: "Post",
+        url: "/Admin/Home/GetNotification"
+    }).done(function (res) {
+        var model = [];
+        model = JSON.parse(res);
+        debugger;
+        model.forEach(x => {
+            var li = `  <li>
+                                    <a href="${x.Url}">
+                                        <i class="${x.Icon} text-danger"></i> ${x.Title}
+                                    </a>
+                                </li>`;
+            parent.append(li);
+        });
+        header.text(`${model.length} اعلان جدید`)
+        headerSpan.text(model.length);
+    });
+}

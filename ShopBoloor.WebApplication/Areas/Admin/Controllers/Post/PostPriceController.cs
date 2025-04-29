@@ -2,10 +2,12 @@
 using PostModule.Application.Contract.PostApplication;
 using PostModule.Application.Contract.PostPriceApplication;
 using PostModule.Application.Contract.PostQuery;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Post
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_پست)]
     public class PostPriceController : Controller
     {
         private readonly IPostQuery _postQuery;

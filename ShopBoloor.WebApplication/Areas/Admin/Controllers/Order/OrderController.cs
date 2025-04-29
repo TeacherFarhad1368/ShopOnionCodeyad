@@ -5,12 +5,14 @@ using Shared.Domain.Enum;
 using Shop.Application.Contract.OrderApplication.Command;
 using Shop.Application.Contract.ProductSellApplication.Command;
 using Shop.Application.Contract.SellerApplication.Query;
+using ShopBoloor.WebApplication.Utility;
 using Stores.Application.Contract.StoreApplication.Command;
 using Users.Application.Contract.WalletApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Order
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_فروش)]
     public class OrderController : Controller
     {
         private readonly IOrderAdminQuery _orderAdminQuery;

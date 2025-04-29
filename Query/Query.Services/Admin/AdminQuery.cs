@@ -7,6 +7,8 @@ using Transactions.Infrastructure;
 using Users.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Shared.Application;
+using Emails.Infrastructure;
+using System.Threading.Tasks;
 namespace Query.Services.Admin;
 class AdminQuery : IAdminQuery
 {
@@ -16,8 +18,9 @@ class AdminQuery : IAdminQuery
     private readonly UserContext _userContext;
     private readonly Post_Context _postContext;
     private readonly TransactionContext _transactionContext;
+    private readonly EmailContext _emailContext;
 
-    public AdminQuery(BlogContext blogContext, ShopContext shopContext,
+    public AdminQuery(BlogContext blogContext, ShopContext shopContext, EmailContext emailContext,
         CommentContext commentContext, UserContext userContext, Post_Context postContext, TransactionContext transactionContext)
     {
         _blogContext = blogContext;
@@ -26,6 +29,7 @@ class AdminQuery : IAdminQuery
         _userContext = userContext;
         _postContext = postContext;
         _transactionContext = transactionContext;
+        _emailContext = emailContext;   
     }
 
     public AdminDataQueryModel GetAdminData()
@@ -103,6 +107,36 @@ class AdminQuery : IAdminQuery
             RegisterDate = u.CreateDate.ToPersainDate(),
             UserId = u.Id
         }).Take(8).ToList();
+
+    public List<NotificationForAdminQueryModel> GetNotificationForAdmin()
+    {
+        List<NotificationForAdminQueryModel> model = new();
+        var messages = _emailContext.MessageUsers.Count(m => m.Status == Shared.Domain.Enum.MessageStatus.دیده_نشده);
+        if (messages > 0)
+            model.Add(new NotificationForAdminQueryModel
+            {
+                Url = "/Admin/Message/Index",
+                Title = $"{messages} پیام خوانده نشده",
+                Icon = "fa fa-send"
+            });
+        var comments = _commentContext.Comments.Count(c => c.Status == Shared.Domain.Enum.CommentStatus.خوانده_نشده);
+        if (comments > 0)
+            model.Add(new NotificationForAdminQueryModel
+            {
+                Url = "/Admin/Comment/UnSeen",
+                Title = $"{comments} کامنت خوانده نشده",
+                Icon = "fa fa-comments"
+            });
+        var shopRequests = _shopContext.Sellers.Count(s => s.Status == Shared.Domain.Enum.SellerStatus.درخواست_ارسال_شده);
+        if (shopRequests > 0)
+            model.Add(new NotificationForAdminQueryModel
+            {
+                Url = "/Admin/Seller/Requests",
+                Title = $"{shopRequests} درخواست فروشندگی",
+                Icon = "fa fa-shopping-bag"
+            });
+        return model;
+    }
 
     public TransactionChartQueryModel GetTransactionChartData(string Year)
     {

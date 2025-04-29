@@ -2,10 +2,12 @@
 using Blogs.Application.Contract.BlogCategoryApplication.Query;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Blog
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_مقالات)]
     public class BlogCategoryController : Controller
     {
         private readonly IBlogCategoryQuery _BlogCategoryQuery;

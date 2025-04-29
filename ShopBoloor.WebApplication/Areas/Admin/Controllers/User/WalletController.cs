@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Query.Contract.Admin.Wallet;
 using Shared.Application;
+using ShopBoloor.WebApplication.Utility;
 using Users.Application.Contract.WalletApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.User
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.کیف_پول)]
     public class WalletController : Controller
     {
         private readonly IAdminWalletQuery _adminWalletQuery;

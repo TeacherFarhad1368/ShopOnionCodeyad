@@ -1,11 +1,13 @@
 ﻿using Emails.Application.Contract.SensEmailApplication.Command;
 using Emails.Application.Contract.SensEmailApplication.Query;
 using Microsoft.AspNetCore.Mvc;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Email
 {
 	[Area("Admin")]
-	public class SendEmailController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_خبرنامه)]
+    public class SendEmailController : Controller
 	{
 		private readonly ISendEmailQuery _sendEmailQuery;
 		private readonly ISensEmailApplication _sensEmailApplication;

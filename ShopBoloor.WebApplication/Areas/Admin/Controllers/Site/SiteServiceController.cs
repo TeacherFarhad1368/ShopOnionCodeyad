@@ -2,11 +2,13 @@
 using Site.Application.Contract.SiteServiceApplication.Query;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Application.Services.Auth;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 {
 	[Area("Admin")]
-	public class SiteServiceController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_سایت)]
+    public class SiteServiceController : Controller
 	{
 		private readonly ISiteServiceQuery _SiteServiceQuery;
 		private readonly ISiteServiceApplication _SiteServiceApplication;

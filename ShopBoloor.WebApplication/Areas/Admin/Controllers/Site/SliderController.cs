@@ -2,11 +2,13 @@
 using Site.Application.Contract.SliderApplication.Query;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Application.Services.Auth;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 {
 	[Area("Admin")]
-	public class SliderController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_سایت)]
+    public class SliderController : Controller
 	{
 		private readonly ISliderQuery _SliderQuery;
 		private readonly ISliderApplication _SliderApplication;

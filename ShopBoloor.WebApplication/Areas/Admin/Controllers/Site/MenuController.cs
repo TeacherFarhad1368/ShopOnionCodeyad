@@ -2,11 +2,13 @@
 using Site.Application.Contract.MenuApplication.Query;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Application.Services.Auth;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 {
 	[Area("Admin")]
-	public class MenuController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_سایت)]
+    public class MenuController : Controller
 	{
 		private readonly IMenuQuery _MenuQuery;
 		private readonly IMenuApplication _MenuApplication;

@@ -4,11 +4,13 @@ using Shared.Application;
 using Shared.Domain.Enum;
 using Shop.Application.Contract.SellerApplication.Command;
 using Shop.Application.Contract.SellerApplication.Query;
+using ShopBoloor.WebApplication.Utility;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Seller
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_فروشگاه_ها)]
     public class SellerController : Controller
     {
         private readonly ISellerAdminQuery _sellerAdminQuery;

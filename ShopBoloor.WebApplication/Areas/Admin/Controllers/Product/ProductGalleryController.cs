@@ -2,8 +2,10 @@
 using Shared.Application;
 using Shop.Application.Contract.ProductGalleryApplication.Command;
 using Shop.Application.Contract.ProductGalleryApplication.Query;
+using ShopBoloor.WebApplication.Utility;
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Product;
 [Area("Admin")]
+[PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_محصولات)]
 public class ProductGalleryController : Controller
 {
     private readonly IProductGalleryApplication _productGalleryApplication;

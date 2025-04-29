@@ -2,11 +2,13 @@
 using Shared.Application;
 using Shop.Application.Contract.ProductFeautreApplication.Command;
 using Shop.Application.Contract.ProductFeautreApplication.Query;
+using ShopBoloor.WebApplication.Utility;
 using Users.Application.Contract.WalletApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Product;
 
 [Area("Admin")]
+[PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_محصولات)]
 public class ProductFeatureController : Controller
 {
     private readonly IProductFeautreApplication _productFeautreApplication;

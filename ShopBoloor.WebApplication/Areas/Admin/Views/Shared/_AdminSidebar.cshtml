@@ -1,4 +1,5 @@
 ﻿@inject IHttpContextAccessor _accessor;
+@inject Shared.Application.Services.Auth.IAuthService _auth;
 @{
     var route = _accessor.HttpContext.Request.Path;
 }
@@ -6,11 +7,11 @@
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-right image">
-                <img src="/AdminAssets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="/Images//User//100/@_auth.GetLoginUserAvatar()" class="img-circle" alt="User Image">
             </div>
             <div class="pull-right info">
-                <p>علیرضا حسینی زاده</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> آنلاین</a>
+                <p>@_auth.GetLoginUserFullName()</p>
+                <a><i class="fa fa-circle text-success"></i> آنلاین</a>
             </div>
         </div>
         <ul class="sidebar-menu" data-widget="tree">

@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Shared.Application;
 using Shop.Application.Contract.ProductApplication;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Discount
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_تخفیفات)]
     public class ProductDiscountController : Controller
     {
         private readonly IProductDiscountApplication _productDiscountApplication;

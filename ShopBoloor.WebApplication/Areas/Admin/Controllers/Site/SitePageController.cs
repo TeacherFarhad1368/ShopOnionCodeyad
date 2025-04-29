@@ -2,11 +2,13 @@
 using Site.Application.Contract.SitePageApplication.Query;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Application.Services.Auth;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 {
 	[Area("Admin")]
-	public class SitePageController : Controller
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_صفحات)]
+    public class SitePageController : Controller
 	{
 		private readonly ISitePageQuery _SitePageQuery;
 		private readonly ISitePageApplication _SitePageApplication;

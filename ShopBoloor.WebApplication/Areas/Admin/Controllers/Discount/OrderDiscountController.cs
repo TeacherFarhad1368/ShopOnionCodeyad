@@ -4,11 +4,13 @@ using Newtonsoft.Json;
 using Query.Contract.OrderDiscount;
 using Shared.Application;
 using Shared.Domain.Enum;
+using ShopBoloor.WebApplication.Utility;
 using Users.Application.Contract.WalletApplication.Command;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Discount
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_تخفیفات)]
     public class OrderDiscountController : Controller
     {
         private readonly IOrderDiscountApplication _orderDiscountApplication;

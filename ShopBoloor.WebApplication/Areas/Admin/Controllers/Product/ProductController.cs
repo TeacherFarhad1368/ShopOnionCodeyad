@@ -5,10 +5,12 @@ using Newtonsoft.Json;
 using Shared.Application.Services.Auth;
 using Shop.Application.Contract.ProductApplication;
 using Query.Contract.Admin.Product;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Product
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_محصولات)]
     public class ProductController : Controller
     {
         private readonly IProductAdminQuery _productAdminQuery;

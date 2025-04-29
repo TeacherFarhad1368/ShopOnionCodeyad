@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Contract.ProductCategoryApplication.Command;
 using Shop.Application.Contract.ProductCategoryApplication.Query;
+using ShopBoloor.WebApplication.Utility;
 
 namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Product
 {
     [Area("Admin")]
+    [PermissionChecker(Shared.Domain.Enum.UserPermission.مدیریت_محصولات)]
     public class ProductCategoryController : Controller
     {
         private readonly IProductCategoryQuery _ProductCategoryQuery;
