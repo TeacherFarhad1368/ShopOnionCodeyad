@@ -35,7 +35,10 @@ namespace ShopBoloor.WebApplication.Utility
                 });
 
             services1.AddControllersWithViews();
-
+            services1.AddMemoryCache(x =>
+            {
+                x.SizeLimit = 100;
+            });
             Modules_Bootstrapper.Config(services1, connection);
 
 
