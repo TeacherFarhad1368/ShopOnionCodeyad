@@ -39,6 +39,14 @@ namespace ShopBoloor.WebApplication.Utility
             {
                 x.SizeLimit = 100;
             });
+            services1.AddDistributedSqlServerCache(x =>
+            {
+                x.ConnectionString = connection;
+                x.SchemaName = "dbo";
+                x.TableName = "DistributedCaches";
+                x.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
+                x.DefaultSlidingExpiration = TimeSpan.FromMinutes(5);   
+            });
             Modules_Bootstrapper.Config(services1, connection);
 
 
