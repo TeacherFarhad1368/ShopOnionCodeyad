@@ -42,7 +42,8 @@ public class HomeController : Controller
         _wishListApplication = wishListApplication;
         _blogUiQuery = blogUiQuery;
     }
-    public IActionResult Index() => View(); 
+    public IActionResult Index() => View();
+    [ResponseCache(CacheProfileName = "Third")]
     [Route("/Page/{slug}")]
     public IActionResult Page(string slug)
     {
@@ -51,6 +52,7 @@ public class HomeController : Controller
         if(model == null) return NotFound();
         return View(model);
     }
+    [ResponseCache(CacheProfileName = "First")]
     [Route("/About")]
     public IActionResult About()
     {
@@ -58,6 +60,7 @@ public class HomeController : Controller
         var model = _siteUiQuery.GetAboutUsModelForUi();
         return View(model);
     }
+    [ResponseCache(CacheProfileName = "Second")]
     [Route("/Contact")]
     public IActionResult Contact()
     {
