@@ -11,6 +11,7 @@ public interface IProductUiQuery
     List<AmazingSliderQueryModel> GetAmazingSliderData();
     List<WishListForUserPanelQueryModel> GetLastWishListForUserPanel(int userId);
     List<AjaxSearchModel> SearchAjax(string filter);
+    public List<GalleryForProductSingleQueryModel> GetProductSingleGallery(int productId);
 }
 public class AjaxSearchModel
 {

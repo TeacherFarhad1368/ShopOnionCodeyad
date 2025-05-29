@@ -10,7 +10,6 @@ public class SingleProductUIQueryModel
     public string Description { get; set; }
     public int Weight { get; set; }
     public List<FeatureForProductSingleQueryModel> Features { get; set; }
-    public List<GalleryForProductSingleQueryModel> Galleries { get; set; }
     public List<CategoryForProductSingleQueryModel> Categories { get; set; }
     public List<ProductSellForProductSingleQueryModel> ProductSells { get; set; }
     public List<BreadCrumbQueryModel> BreadCrumb { get; set; }

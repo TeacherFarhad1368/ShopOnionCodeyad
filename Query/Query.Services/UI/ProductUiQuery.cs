@@ -248,11 +248,6 @@ internal class ProductUiQuery : IProductUiQuery
                 Title = f.Title,
                 Value = f.Value,
             }).ToList(),
-            Galleries = product.ProductGalleries.Select(g=> new GalleryForProductSingleQueryModel
-            {
-                ImageAlt= g.ImageAlt,
-                ImageName= g.ImageName,
-            }).ToList(),
             Id = product.Id,
             ImageName = product.ImageName,
             ProductSells = product.ProductSells.Select(s=> new ProductSellForProductSingleQueryModel
@@ -615,5 +610,13 @@ internal class ProductUiQuery : IProductUiQuery
             id = p.Id,
             Slug = p.Slug,
             Title = p.Title
+        }).ToList();
+
+    public List<GalleryForProductSingleQueryModel> GetProductSingleGallery(int productId) =>
+        _shopContext.ProductGalleries.Where(c => c.ProductId == productId)
+        .Select(p => new GalleryForProductSingleQueryModel
+        {
+            ImageAlt = p.ImageAlt,
+            ImageName = p.ImageName
         }).ToList();
 }

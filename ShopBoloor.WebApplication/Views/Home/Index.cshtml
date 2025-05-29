@@ -7,7 +7,9 @@
 }
  <main class="main default">
      <div class="container">
-        @await Component.InvokeAsync("TopBaner")
+        <cache expires-after="@TimeSpan.FromMinutes(2)">
+            @await Component.InvokeAsync("TopBaner")
+         </cache>
         @await Component.InvokeAsync("Slider")
         @await Component.InvokeAsync("AmazingSlider")
         @await Component.InvokeAsync("CenterBaner4")

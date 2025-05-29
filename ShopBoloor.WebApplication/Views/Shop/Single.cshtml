@@ -168,18 +168,9 @@
                                                 <img src="@FileDirectories.ProductImageDirectory100@Model.ImageName" width="100" />
                                             </a>
                                         </li>
-                                        @if(Model.Galleries.Count() > 0)
-                                        {
-                                            foreach(var item in Model.Galleries){
-                                                <li class="item">
-                                                    <a href="tester" class="elevatezoom-gallery"
-                                                    data-image="@FileDirectories.ProductGalleryImageDirectory500@item.ImageName"
-                                                    data-zoom-image="@FileDirectories.ProductGalleryImageDirectory@item.ImageName">
-                                                        <img src="@FileDirectories.ProductGalleryImageDirectory100@item.ImageName" width="100" />
-                                                    </a>
-                                                </li>
-                                            }
-                                        }
+                                        <cache expires-after="@TimeSpan.FromMinutes(3)" vary-by="@Model.Id" >
+                                            @await Component.InvokeAsync("ProductSingleGallery", new { productId = Model.Id })
+                                        </cache>
                                     </ul>
                                 </div>
                             </div>

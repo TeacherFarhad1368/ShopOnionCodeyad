@@ -40,7 +40,6 @@ namespace ShopBoloor.WebApplication.Areas.Admin.Controllers.Site
 		}
 		public IActionResult Edit(int id)
 		{
-			if (id == 2) return NotFound();
 			var model = _BanerApplication.GetForEdit(id);
 			return View(model);
 		}
